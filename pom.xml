@@ -5,4 +5,26 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Perfclipse</name>
   <description>Eclipse plugin which integrates PerfCake scenario creation and its run.</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.sun.xsom</groupId>
+  		<artifactId>xsom</artifactId>
+  		<version>20110809</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.slf4j</groupId>
+  		<artifactId>slf4j-api</artifactId>
+  		<version>1.7.5</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>4.11</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>ch.qos.logback</groupId>
+  		<artifactId>logback-classic</artifactId>
+  		<version>1.0.13</version>
+  	</dependency>
+  </dependencies>
 </project>
