@@ -20,8 +20,10 @@
 package org.perfclipse.schema;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,7 +49,9 @@ public class SchemaManager {
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(SchemaManager.class);
 
 	private XSSchemaSet schema;
-	private Map<String, XSElementDecl> elementMap;
+	private Map<String, XSParticle> elementPathMap;
+
+	private Map<String, XSElementDecl> elementDeclMap;
 	
 	/**
 	 * Uses XSOM parser to parse XML schema given by URL.
@@ -63,7 +67,9 @@ public class SchemaManager {
 			log.error("Cannot parse schema file: " + schemaFile.getPath());
 			throw e;
 		}
-		elementMap = findElements(schema);
+		elementPathMap = new HashMap<String, XSParticle>();
+		elementDeclMap = new HashMap<String, XSElementDecl>();
+		findElements();
 	}
 	
 	/**
@@ -72,35 +78,43 @@ public class SchemaManager {
 	 * @return Set of all element names contained int parsed XML schema.
 	 */
 	public Set<String> getElementNames(){
-		return elementMap.keySet();
+		return elementDeclMap.keySet();
 	}
 	
+	/**
+	 * Returns all element paths defined by XML schema. 
+	 * 
+	 * @return Set of all element paths contained int parsed XML schema.
+	 */
+	public Set<String> getElementPaths(){
+		return elementPathMap.keySet();
+	}
 	/**
 	 * Recursively goes through parsed xml schema and builds
 	 * map<ElementName, ElementType>
 	 * @param schemaSet
 	 * @return Map of element names and type declaration.
 	 */
-	private Map<String, XSElementDecl> findElements(XSSchemaSet schemaSet){
-		Map<String, XSElementDecl> elements = new HashMap<String, XSElementDecl>();
-		Iterator<XSElementDecl> it = schemaSet.iterateElementDecls();
+	private void findElements(){
+		Iterator<XSElementDecl> it = schema.iterateElementDecls();
+		String path= "/";
 		while(it.hasNext()){
 			XSElementDecl elementDecl = (XSElementDecl) it.next();
 			XSType type = elementDecl.getType();
 			if (type.isComplexType()){
-				elements.put(elementDecl.getName(), elementDecl);
+				elementDeclMap.put(elementDecl.getName(), elementDecl);
 				XSContentType contentType = type.asComplexType().getContentType();
 				XSParticle particle = contentType.asParticle();
-				findElements(elements, particle);
+
+				String tmpPath = path + elementDecl.getName();
+				elementPathMap.put(tmpPath, particle);
+				findElements(particle, tmpPath);
 			}
 			
 		}
-		
-		return elements;
 	}
 
-	private void findElements(Map<String, XSElementDecl> elements,
-			XSParticle particle) {
+	private void findElements(XSParticle particle, String path) {
 
 		if (particle == null)
 			return;
@@ -110,16 +124,19 @@ public class SchemaManager {
 			XSElementDecl elementDecl = pTerm.asElementDecl();
 			XSType type = elementDecl.getType();
 			if (type.isComplexType()){
-				elements.put(elementDecl.getName(), elementDecl);
+				elementDeclMap.put(elementDecl.getName(), elementDecl);
 				XSContentType contentType = type.asComplexType().getContentType();
+
+				String tmpPath = path + "/" + elementDecl.getName();
 				XSParticle particleChild = contentType.asParticle();
-				findElements(elements, particleChild);
+				elementPathMap.put(tmpPath, particleChild);
+				findElements(particleChild, tmpPath);
 			}
 		} else if (pTerm.isModelGroup()){
 			XSModelGroup modelGroup = pTerm.asModelGroup();
 			XSParticle[] particleArray = modelGroup.getChildren();
 			for(XSParticle p: particleArray){
-				findElements(elements, p);
+				findElements(p, path);
 			}
 			
 		}

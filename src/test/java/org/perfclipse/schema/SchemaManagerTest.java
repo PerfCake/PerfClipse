@@ -60,6 +60,23 @@ public class SchemaManagerTest {
 		expectedNames.add("sender");
 		
 		assertEquals(elementNames, expectedNames);
+		
+		Set<String> elementPaths = manager.getElementPaths();
+		
+		Set<String> expectedPaths = new HashSet<String>();
+		expectedPaths.add("/header");
+		expectedPaths.add("/property");
+		expectedPaths.add("/scenario");
+		expectedPaths.add("/scenario/properties");
+		expectedPaths.add("/scenario/properties/property");
+		expectedPaths.add("/scenario/generator");
+		expectedPaths.add("/scenario/generator/run");
+		expectedPaths.add("/scenario/generator/property");
+		expectedPaths.add("/scenario/sender");
+		expectedPaths.add("/scenario/sender/property");
+
+		
+		assertEquals(expectedPaths, elementPaths);
 	}
 
 
