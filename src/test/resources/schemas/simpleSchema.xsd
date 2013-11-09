@@ -22,10 +22,10 @@
                   </xsd:sequence>
                </xsd:complexType>
             </xsd:element>
-            <xsd:element name="generator" minOccurs="1" maxOccurs="1">
+            <xsd:element name="generator" minOccurs="3" maxOccurs="4">
                <xsd:complexType>
                   <xsd:sequence>
-                     <xsd:element name="run" minOccurs="1" maxOccurs="1">
+                     <xsd:element name="run" minOccurs="2" maxOccurs="5">
                         <xsd:complexType>
                            <xsd:attribute name="type" type="xsd:string"/>
                            <xsd:attribute name="value" type="xsd:string"/>
@@ -39,7 +39,7 @@
                   <xsd:attribute name="threads" type="xsd:string"/>
                </xsd:complexType>
             </xsd:element>
-            <xsd:element name="sender" minOccurs="1" maxOccurs="1">
+            <xsd:element name="sender">
                <xsd:complexType>
                   <xsd:sequence>
                      <xsd:element maxOccurs="unbounded" minOccurs="0" ref="pc:property"/>

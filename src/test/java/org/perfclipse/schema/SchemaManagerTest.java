@@ -21,6 +21,7 @@ package org.perfclipse.schema;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
@@ -64,9 +65,6 @@ public class SchemaManagerTest {
 		Set<String> elementPaths = manager.getElementPaths();
 		
 		Set<String> expectedPaths = new HashSet<String>();
-		expectedPaths.add("/header");
-		expectedPaths.add("/property");
-		expectedPaths.add("/scenario");
 		expectedPaths.add("/scenario/properties");
 		expectedPaths.add("/scenario/properties/property");
 		expectedPaths.add("/scenario/generator");
@@ -77,6 +75,45 @@ public class SchemaManagerTest {
 
 		
 		assertEquals(expectedPaths, elementPaths);
+	}
+	
+	@Test
+	public void getMinOccurs() throws XMLSchemaException{
+		BigInteger minOccurs;
+		BigInteger expected;
+		
+		expected = BigInteger.valueOf(1);
+		minOccurs = manager.getMinOccurs("/scenario/sender");
+		assertEquals(minOccurs, minOccurs);
+
+		
+		expected = BigInteger.valueOf(2);
+		minOccurs = manager.getMinOccurs("/scenario/generator/run");
+		assertEquals(minOccurs, minOccurs);
+		
+		expected = BigInteger.ZERO;
+		minOccurs = manager.getMinOccurs("/scenario/properties/property");
+		assertEquals(expected, minOccurs);
+	}
+	
+	
+	@Test
+	public void getMaxOccurs() throws XMLSchemaException{
+		BigInteger minOccurs;
+		BigInteger expected;
+		
+		expected = BigInteger.valueOf(1);
+		minOccurs = manager.getMaxOccurs("/scenario/sender");
+		assertEquals(minOccurs, minOccurs);
+
+		
+		expected = BigInteger.valueOf(5);
+		minOccurs = manager.getMaxOccurs("/scenario/generator/run");
+		assertEquals(minOccurs, minOccurs);
+		
+		expected = SchemaManager.INFINITY;
+		minOccurs = manager.getMaxOccurs("/scenario/generator/property");
+		assertEquals(expected, minOccurs);
 	}
 
 

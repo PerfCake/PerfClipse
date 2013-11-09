@@ -19,11 +19,10 @@
 
 package org.perfclipse.schema;
 
+import java.math.BigInteger;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,6 +45,13 @@ import com.sun.xml.xsom.parser.XSOMParser;
  * @author Jakub Knetl
  */
 public class SchemaManager {
+	
+	/**
+	 * Represents infinity for values which can be from 0 to infinity.
+	 * e. g. maxOccurs attribute in XML Schema.
+	 */
+	public static final BigInteger INFINITY = BigInteger.valueOf(-1);
+	
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(SchemaManager.class);
 
 	private XSSchemaSet schema;
@@ -59,6 +65,9 @@ public class SchemaManager {
 	 * @throws SAXException
 	 */
 	public SchemaManager(URL schemaFile) throws SAXException {
+		if (schemaFile == null){
+			throw new IllegalArgumentException("URL to XML Schema is null");
+		}
 		XSOMParser parser = new XSOMParser();
 		try{
 			parser.parse(schemaFile);
@@ -89,6 +98,52 @@ public class SchemaManager {
 	public Set<String> getElementPaths(){
 		return elementPathMap.keySet();
 	}
+	/*
+	 * Returns minOccurs of element defined in XMLSchema.
+	 * @param elementName name of the element
+	 * @return minOccurs value from XMLSchema
+	 * @throws XMLSchemaException if elementName not found in schema
+	 */
+	public BigInteger getMinOccurs(String elementPath) throws XMLSchemaException{
+		if (elementPath == null){
+			throw new IllegalArgumentException("Element name is null");
+		}
+		
+		XSParticle particle = elementPathMap.get(elementPath); 
+
+		if (particle == null)
+			throw new XMLSchemaException("Element: " + elementPath + " not found in XML Schema.");
+		
+		
+		return particle.getMinOccurs();
+	}
+	
+	/**
+	 * Returns minOccurs of element defined in XMLSchema.
+	 * @param elementName name of the element
+	 * @return minOccurs value from XMLSchema
+	 * @throws XMLSchemaException if elementName not found in schema
+	 */
+	public BigInteger getMaxOccurs(String elementPath) throws XMLSchemaException{
+		if (elementPath == null){
+			throw new IllegalArgumentException("Element name is null");
+		}
+		
+		XSParticle particle = elementPathMap.get(elementPath); 
+
+		if (particle == null)
+			throw new XMLSchemaException("Element: " + elementPath + " not found in XML Schema.");
+		
+		BigInteger maxOccurs = particle.getMaxOccurs();
+		if(maxOccurs.compareTo(BigInteger.ZERO) == -1){
+			return INFINITY;
+		}
+		else{
+			return maxOccurs;
+		}
+	}
+	
+	
 	/**
 	 * Recursively goes through parsed xml schema and builds
 	 * map<ElementName, ElementType>
@@ -107,8 +162,10 @@ public class SchemaManager {
 				XSParticle particle = contentType.asParticle();
 
 				String tmpPath = path + elementDecl.getName();
-				elementPathMap.put(tmpPath, particle);
-				findElements(particle, tmpPath);
+				if (particle != null){
+					//elementPathMap.put(tmpPath, particle);
+					findElements(particle, tmpPath);
+				}
 			}
 			
 		}
@@ -116,9 +173,6 @@ public class SchemaManager {
 
 	private void findElements(XSParticle particle, String path) {
 
-		if (particle == null)
-			return;
-		
 		XSTerm pTerm = particle.getTerm();
 		if (pTerm.isElementDecl()){
 			XSElementDecl elementDecl = pTerm.asElementDecl();
@@ -128,19 +182,21 @@ public class SchemaManager {
 				XSContentType contentType = type.asComplexType().getContentType();
 
 				String tmpPath = path + "/" + elementDecl.getName();
+				elementPathMap.put(tmpPath, particle);
 				XSParticle particleChild = contentType.asParticle();
-				elementPathMap.put(tmpPath, particleChild);
-				findElements(particleChild, tmpPath);
+				if (particleChild != null){
+					findElements(particleChild, tmpPath);
+				}
 			}
 		} else if (pTerm.isModelGroup()){
 			XSModelGroup modelGroup = pTerm.asModelGroup();
 			XSParticle[] particleArray = modelGroup.getChildren();
 			for(XSParticle p: particleArray){
-				findElements(p, path);
+				if (particle != null){
+					findElements(p, path);
+				}
 			}
 			
 		}
 	}
-	
-
 }
