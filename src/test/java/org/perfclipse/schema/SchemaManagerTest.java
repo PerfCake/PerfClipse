@@ -21,6 +21,7 @@ package org.perfclipse.schema;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
@@ -60,6 +61,45 @@ public class SchemaManagerTest {
 		expectedNames.add("sender");
 		
 		assertEquals(elementNames, expectedNames);
+	}
+	
+	@Test
+	public void getMinOccurs() throws XMLSchemaException{
+		BigInteger minOccurs;
+		BigInteger expected;
+		
+		expected = BigInteger.valueOf(1);
+		minOccurs = manager.getMinOccurs("sender");
+		assertEquals(minOccurs, minOccurs);
+
+		
+		expected = BigInteger.valueOf(1);
+		minOccurs = manager.getMinOccurs("run");
+		assertEquals(minOccurs, minOccurs);
+		
+		expected = BigInteger.ZERO;
+		minOccurs = manager.getMinOccurs("property");
+		assertEquals(expected, minOccurs);
+	}
+	
+	
+	@Test
+	public void getMaxOccurs() throws XMLSchemaException{
+		BigInteger minOccurs;
+		BigInteger expected;
+		
+		expected = BigInteger.valueOf(1);
+		minOccurs = manager.getMinOccurs("sender");
+		assertEquals(minOccurs, minOccurs);
+
+		
+		expected = BigInteger.valueOf(1);
+		minOccurs = manager.getMinOccurs("run");
+		assertEquals(minOccurs, minOccurs);
+		
+		expected = SchemaManager.INFINITY;
+		minOccurs = manager.getMinOccurs("property");
+		assertEquals(expected, minOccurs);
 	}
 
 

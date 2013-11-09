@@ -19,6 +19,7 @@
 
 package org.perfclipse.schema;
 
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,6 +45,13 @@ import com.sun.xml.xsom.parser.XSOMParser;
  * @author Jakub Knetl
  */
 public class SchemaManager {
+	
+	/**
+	 * Represents infinity for values which can be from 0 to infinity.
+	 * e. g. maxOccurs attribute in XML Schema.
+	 */
+	public static final BigInteger INFINITY = BigInteger.valueOf(-1);
+	
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(SchemaManager.class);
 
 	private XSSchemaSet schema;
@@ -55,6 +63,9 @@ public class SchemaManager {
 	 * @throws SAXException
 	 */
 	public SchemaManager(URL schemaFile) throws SAXException {
+		if (schemaFile == null){
+			throw new IllegalArgumentException("URL to XML Schema is null");
+		}
 		XSOMParser parser = new XSOMParser();
 		try{
 			parser.parse(schemaFile);
@@ -74,6 +85,55 @@ public class SchemaManager {
 	public Set<String> getElementNames(){
 		return elementMap.keySet();
 	}
+	
+	/**
+	 * Returns minOccurs of element defined in XMLSchema.
+	 * @param elementName name of the element
+	 * @return minOccurs value from XMLSchema
+	 * @throws XMLSchemaException if elementName not found in schema
+	 */
+	public BigInteger getMinOccurs(String elementName) throws XMLSchemaException{
+		if (elementName == null){
+			throw new IllegalArgumentException("Element name is null");
+		}
+		
+		XSElementDecl element = elementMap.get(elementName);
+
+		if (element == null)
+			throw new XMLSchemaException("Element: " + elementName + " not found in XML Schema.");
+		
+		XSParticle particle = elementDeclToParticle(element);
+		
+		return particle.getMinOccurs();
+	}
+	
+	/**
+	 * Returns minOccurs of element defined in XMLSchema.
+	 * @param elementName name of the element
+	 * @return minOccurs value from XMLSchema
+	 * @throws XMLSchemaException if elementName not found in schema
+	 */
+	public BigInteger getMaxOccurs(String elementName) throws XMLSchemaException{
+		if (elementName == null){
+			throw new IllegalArgumentException("Element name is null");
+		}
+		
+		XSElementDecl element = elementMap.get(elementName);
+
+		if (element == null)
+			throw new XMLSchemaException("Element: " + elementName + " not found in XML Schema.");
+		
+		XSParticle particle = elementDeclToParticle(element);
+		
+		BigInteger maxOccurs = particle.getMaxOccurs();
+		if(maxOccurs.compareTo(BigInteger.ZERO) == -1){
+			return INFINITY;
+		}
+		else{
+			return maxOccurs;
+		}
+	}
+	
 	
 	/**
 	 * Recursively goes through parsed xml schema and builds
@@ -123,6 +183,16 @@ public class SchemaManager {
 			}
 			
 		}
+	}
+	
+	/**
+	 * Converts XSElementDecl elementDecl to XSParticle. ElementDecl must be 
+	 * definition of complex type or NullPointerException will be thrown.
+	 * @param elementDecl declaration of element (has to be complexType)
+	 * @return elementDecl casted to XSParticle
+	 */
+	private XSParticle elementDeclToParticle(XSElementDecl  elementDecl){
+		return elementDecl.getType().asComplexType().getContentType().asParticle();
 	}
 	
 
