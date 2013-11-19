@@ -28,6 +28,8 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.perfclipse.schema.SchemaManager;
+import org.perfclipse.schema.XMLSchemaException;
 import org.xml.sax.SAXException;
 
 
@@ -38,7 +40,7 @@ import org.xml.sax.SAXException;
  *
  */
 public class SchemaManagerTest {
-	private static final String XSD_PATH = "/simpleSchema.xsd";
+	private static final String XSD_PATH = "simpleSchema.xsd";
 	SchemaManager manager;
 	
 	@Before

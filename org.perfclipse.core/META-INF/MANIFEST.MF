@@ -6,5 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.slf4j.api;bundle-version="1.7.2"
 Bundle-ClassPath: lib/xsom-20110101-SNAPSHOT.jar,
- .
+ .,
+ lib/slf4j-simple-1.7.5.jar,
+ lib/relaxngDatatype-20020414.jar
 Export-Package: org.perfclipse.schema
