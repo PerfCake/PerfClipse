@@ -29,6 +29,8 @@ package org.perfclipse.scenario;
  */
 public class ScenarioException extends Exception {
 
+	private static final long serialVersionUID = -1845858271949880851L;
+
 	public ScenarioException() {
 		// TODO Automaticky generovaný stub konstruktoru
 	}

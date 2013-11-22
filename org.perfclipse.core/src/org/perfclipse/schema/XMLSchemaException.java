@@ -26,6 +26,8 @@ package org.perfclipse.schema;
  */
 public class XMLSchemaException extends Exception {
 
+	private static final long serialVersionUID = 8929989321839987530L;
+
 	/**
 	 * Create XMLSchemaException without any information
 	 */
