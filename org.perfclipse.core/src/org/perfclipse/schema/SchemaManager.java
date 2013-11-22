@@ -63,8 +63,9 @@ public class SchemaManager {
 	 * Uses XSOM parser to parse XML schema given by URL.
 	 * @param schemaFile location of XML schema
 	 * @throws SAXException
+	 * @throws XMLSchemaException 
 	 */
-	public SchemaManager(URL schemaFile) throws SAXException {
+	public SchemaManager(URL schemaFile) throws XMLSchemaException {
 		if (schemaFile == null){
 			throw new IllegalArgumentException("URL to XML Schema is null");
 		}
@@ -73,9 +74,10 @@ public class SchemaManager {
 			parser.parse(schemaFile);
 			schema = parser.getResult();
 		} catch (SAXException e){
-			log.error("Cannot parse schema file: " + schemaFile.getPath());
-			throw e;
+			log.error("Cannot parse schema file: " + schemaFile.getPath(), e);
+			throw new XMLSchemaException("Cannot parse schema file: " + schemaFile.getPath(), e);
 		}
+		log.debug("XML schema parsed.");
 		elementPathMap = new HashMap<String, XSParticle>();
 		elementDeclMap = new HashMap<String, XSElementDecl>();
 		findElements();
@@ -151,6 +153,7 @@ public class SchemaManager {
 	 * @return Map of element names and type declaration.
 	 */
 	private void findElements(){
+		log.debug("Finding elements in schema");
 		Iterator<XSElementDecl> it = schema.iterateElementDecls();
 		String path= "/";
 		while(it.hasNext()){

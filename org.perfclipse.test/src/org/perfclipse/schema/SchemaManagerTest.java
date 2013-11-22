@@ -30,7 +30,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.perfclipse.schema.SchemaManager;
 import org.perfclipse.schema.XMLSchemaException;
-import org.xml.sax.SAXException;
 
 
 /**
@@ -44,7 +43,7 @@ public class SchemaManagerTest {
 	SchemaManager manager;
 	
 	@Before
-	public void setUp() throws IOException, SAXException{
+	public void setUp() throws IOException, XMLSchemaException {
 		URL xsd = this.getClass().getResource(XSD_PATH);
 		manager = new SchemaManager(xsd);
 	}
