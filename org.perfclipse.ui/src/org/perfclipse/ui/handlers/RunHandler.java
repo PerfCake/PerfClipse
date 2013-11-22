@@ -19,9 +19,7 @@
 
 package org.perfclipse.ui.handlers;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.logging.Logger;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -31,47 +29,42 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.perfclipse.scenario.*;
+import org.perfclipse.scenario.ScenarioException;
+import org.perfclipse.scenario.ScenarioManager;
 
 
-public class LoadHandler extends AbstractHandler {
-
-	private final static Logger LOGGER = Logger.getLogger(LoadHandler.class .getName()); 
+public class RunHandler extends AbstractHandler {
 	
+	private final static Logger LOGGER = Logger.getLogger(LoadHandler.class .getName()); 
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		
 		Shell shell = HandlerUtil.getActiveShell(event);
 		IFile file = Utils.getFirstSelectedFile(event);
 		if (file != null){
-			writeFile(file, shell);
+			runScenario(file, shell);
 		}
 		else{
 			MessageDialog.openError(shell, "Cannot open scenario", "Scenario has to be xml file which is valid"
 					+ " according to given xml schema");
 		}
 		return null;
+		
 	}
 
-	private void writeFile(IFile file, Shell shell) {
-		URL scenarioUrl = null;
-		ScenarioManager scenarioManager = null;
+	private void runScenario(IFile file, Shell shell) {
+		ScenarioManager scenarioManager = new ScenarioManager();
+		
 		try {
-			scenarioUrl = file.getLocationURI().toURL();
+			scenarioManager.runScenario(file.getLocationURI().toURL());
+		} catch (ScenarioException e) {
+			LOGGER.warning("Cannot run scenario");
+			MessageDialog.openError(shell, "Scenario error", e.getMessage());
 		} catch (MalformedURLException e) {
-			LOGGER.warning("Cannot open resource IFile: " + file.getFullPath());
-			MessageDialog.openError(shell, "Error", "Cannot read selected file!");
-			return;
+			LOGGER.warning("Wrong url to scenario.");
+			MessageDialog.openError(shell, "Scenario URL error", e.getMessage());
 		}
-		try {
-			scenarioManager = new ScenarioManager();
-			scenarioManager.load(scenarioUrl);
-			scenarioManager.save(System.out);
-		} catch (ScenarioException | IOException e) {
-			LOGGER.warning("Cannot parse sceanrio");
-			MessageDialog.openError(shell, "Error", "Cannot parse selected file as scenario!");
-		}
-		
-		
 	}
 
 }

@@ -8,7 +8,12 @@
             locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
          <command
                commandId="org.perfclipse.ui.loadScenario"
-               label="Load Perfcake scenario"
+               label="Load PerfCake scenario"
+               style="push">
+         </command>
+         <command
+               commandId="org.perfclipse.ui.runScenario"
+               label="Run PerfCake Sceanrio"
                style="push">
          </command>
       </menuContribution>
@@ -19,6 +24,11 @@
             defaultHandler="org.perfclipse.ui.handlers.LoadHandler"
             id="org.perfclipse.ui.loadScenario"
             name="LoadScenario">
+      </command>
+      <command
+            defaultHandler="org.perfclipse.ui.handlers.RunHandler"
+            id="org.perfclipse.ui.runScenario"
+            name="RunScenario">
       </command>
    </extension>
 
