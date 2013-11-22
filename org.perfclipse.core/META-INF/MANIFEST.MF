@@ -9,4 +9,5 @@ Bundle-ClassPath: lib/xsom-20110101-SNAPSHOT.jar,
  .,
  lib/slf4j-simple-1.7.5.jar,
  lib/relaxngDatatype-20020414.jar
-Export-Package: org.perfclipse.schema
+Export-Package: org.perfclipse.scenario,
+ org.perfclipse.schema
