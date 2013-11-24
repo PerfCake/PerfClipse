@@ -19,6 +19,9 @@
 
 package org.perfclipse.ui.handlers;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.util.logging.Logger;
 
@@ -28,6 +31,15 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.console.IConsoleConstants;
+import org.eclipse.ui.console.IConsoleView;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
@@ -53,7 +65,37 @@ public class RunHandler extends AbstractHandler {
 		
 	}
 
+	/* TODO: The part of the method which runs PerfCake should run in
+	 *  different thread because it does  freezes Eclipse UI. Not whole method 
+	 *  can run in other thread since parts of it contributes to UI.
+	 *  IE showing console view methods for obtaining activeWorkbenchWindow
+	 *  would return null if it would be running in another thread.
+	 */
 	private void runScenario(IFile file, Shell shell) {
+		//redirect System.out to Eclipse console
+		MessageConsole perfclipseConsole = Utils.findConsole(Utils.PERFCLIPSE_STDOUT_CONSOLE);
+		OutputStream out = perfclipseConsole.newOutputStream();
+		PrintStream standardOut = System.out;
+		System.setOut(new PrintStream(out));
+		
+		//show console view
+		try{
+		IWorkbench wb = PlatformUI.getWorkbench();
+		IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+	    IWorkbenchPage page = win.getActivePage();
+	    String id = IConsoleConstants.ID_CONSOLE_VIEW;
+		    try {
+				IConsoleView view = (IConsoleView) page.showView(id);
+				view.display(perfclipseConsole);
+			} catch (PartInitException e1) {
+				LOGGER.warning("Cannot show console view.");
+			}
+		} catch (NullPointerException e){
+			LOGGER.warning("Cannot show console view since "
+					+ "getActiveWorkbenchWindow() is null.");
+		}
+	    
+	    //run scenario
 		ScenarioManager scenarioManager = new ScenarioManager();
 		
 		try {
@@ -64,6 +106,13 @@ public class RunHandler extends AbstractHandler {
 		} catch (MalformedURLException e) {
 			LOGGER.warning("Wrong url to scenario.");
 			MessageDialog.openError(shell, "Scenario URL error", e.getMessage());
+		} finally {
+			try {
+				System.setOut(standardOut); //set System.out to standard output
+				out.close();
+			} catch (IOException e) {
+				LOGGER.warning("Cannot close stream to eclipse consolse!");
+			}
 		}
 	}
 

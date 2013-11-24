@@ -23,9 +23,15 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 public class Utils {
+
+	public static final String PERFCLIPSE_STDOUT_CONSOLE = "Perfclipse standard output:";
 
 	/**
 	 * Return first selected File and returns it as IFile Instance.
@@ -43,5 +49,28 @@ public class Utils {
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Find eclipse console with given name. If not found then create new
+	 * console with given name and append it to console view.
+	 * @param name name of console
+	 * @return console with given name
+	 */
+	public static MessageConsole findConsole(String name){
+		ConsolePlugin plugin = ConsolePlugin.getDefault();
+		IConsoleManager consoleManager = plugin.getConsoleManager();
+		IConsole[] existing = consoleManager.getConsoles();
+		for (IConsole console: existing){
+			if (name.equals(console.getName())){
+				return (MessageConsole) console;
+			}
+		}
+		
+		//Console was not found. Create new one.
+		MessageConsole newConsole = new MessageConsole(PERFCLIPSE_STDOUT_CONSOLE, null);
+		consoleManager.addConsoles(new IConsole[]{newConsole});
+		return newConsole;
+		
 	}
 }
