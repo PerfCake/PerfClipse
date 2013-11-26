@@ -4,15 +4,15 @@ Bundle-Name: Core
 Bundle-SymbolicName: org.perfclipse.core
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Require-Bundle: org.slf4j.api;bundle-version="1.7.2",
- org.apache.log4j;bundle-version="1.2.17",
- org.apache.commons.logging;bundle-version="1.1.2"
+Require-Bundle: org.slf4j.api;bundle-version="1.7.2"
 Bundle-ClassPath: lib/xsom-20110101-SNAPSHOT.jar,
  .,
  lib/slf4j-simple-1.7.5.jar,
  lib/relaxngDatatype-20020414.jar,
  lib/perfcake-1.0.jar,
  lib/jdom-2.0.5.jar,
- lib/commons-beanutils-1.8.3.jar
+ lib/commons-beanutils-1.8.3.jar,
+ lib/commons-logging-1.1.3.jar,
+ lib/log4j-1.2.17.jar
 Export-Package: org.perfclipse.scenario,
  org.perfclipse.schema

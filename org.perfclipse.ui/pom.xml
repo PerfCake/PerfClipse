@@ -9,7 +9,7 @@
 		<artifactId>PerfClipse</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>org.perfclipse.core</artifactId>
+	<artifactId>org.perfclipse.ui</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 </project>
