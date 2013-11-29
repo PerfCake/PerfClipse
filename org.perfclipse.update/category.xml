@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
    <feature url="features/org.perfclipse.feature_1.0.0.qualifier.jar" id="org.perfclipse.feature" version="1.0.0.qualifier">
-      <category name="perfcake"/>
+      <category name="org.perfcake"/>
    </feature>
-   <category-def name="perfcake" label="PerfCake">
+   <category-def name="org.perfcake" label="PerfCake tools">
       <description>
          Tools for integration PefCake into Eclipse.
       </description>

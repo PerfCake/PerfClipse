@@ -17,6 +17,7 @@
 		<module>org.perfclipse.test</module>
 		<module>org.perfclipse.ui</module>
 		<module>org.perfclipse.feature</module>
+		<module>org.perfclipse.update</module>
 	</modules>
 	<properties>
 		<tycho.version>0.19.0</tycho.version>
