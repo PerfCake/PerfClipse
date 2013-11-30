@@ -32,6 +32,11 @@
 			<layout>p2</layout>
 			<url>http://download.eclipse.org/releases/kepler</url>
 		</repository>
+	    <repository>
+			<id>perfclipse</id>
+			<layout>p2</layout>
+			<url>http://www.fi.muni.cz/~xknetl/perfclipse-p2-dependencies/</url>
+		</repository>
 	</repositories>
 
 	<build>
@@ -59,7 +64,6 @@
 				<version>${tycho.version}</version>
 				<configuration>
 
-					<pomDependencies>consider</pomDependencies>
 					<environments>
 						<environment>
 							<os>linux</os>
