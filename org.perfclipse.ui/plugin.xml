@@ -21,5 +21,20 @@
             name="RunScenario">
       </command>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.perfclipse.ui.perfcakecategory"
+            name="PerfCake">
+      </category>
+      <wizard
+            category="org.perfclipse.ui.perfcakecategory"
+            class="org.perfclipse.ui.wizards.PerfcakeProjectWizard"
+            icon="icons/perfcake.ico"
+            id="org.perfclipse.ui.perfcakeproject"
+            name="PerfCake project"
+            project="true">
+      </wizard>
+   </extension>
 
 </plugin>
