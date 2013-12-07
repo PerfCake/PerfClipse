@@ -51,7 +51,7 @@ import org.perfclipse.scenario.ScenarioManager;
 
 public class RunHandler extends AbstractHandler {
 	
-	private final static Logger LOGGER = Logger.getLogger(LoadHandler.class .getName()); 
+	private final static Logger LOGGER = Logger.getLogger(RunHandler.class .getName()); 
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
