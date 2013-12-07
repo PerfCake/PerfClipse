@@ -32,28 +32,23 @@ public class ScenarioException extends Exception {
 	private static final long serialVersionUID = -1845858271949880851L;
 
 	public ScenarioException() {
-		// TODO Automaticky generovaný stub konstruktoru
 	}
 
 	public ScenarioException(String message) {
 		super(message);
-		// TODO Automaticky generovaný stub konstruktoru
 	}
 
 	public ScenarioException(Throwable cause) {
 		super(cause);
-		// TODO Automaticky generovaný stub konstruktoru
 	}
 
 	public ScenarioException(String message, Throwable cause) {
 		super(message, cause);
-		// TODO Automaticky generovaný stub konstruktoru
 	}
 
 	public ScenarioException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Automaticky generovaný stub konstruktoru
 	}
 
 }

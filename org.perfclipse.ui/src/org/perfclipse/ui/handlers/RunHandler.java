@@ -69,12 +69,6 @@ public class RunHandler extends AbstractHandler {
 		
 	}
 
-	/* TODO: The part of the method which runs PerfCake should run in
-	 *  different thread because it does  freezes Eclipse UI. Not whole method 
-	 *  can run in other thread since parts of it contributes to UI.
-	 *  IE showing console view methods for obtaining activeWorkbenchWindow
-	 *  would return null if it would be running in another thread.
-	 */
 	private void runScenario(IFile file, Shell shell) {
 		//redirect System.out to Eclipse console
 		MessageConsole perfclipseConsole = Utils.findConsole(Utils.PERFCLIPSE_STDOUT_CONSOLE);
