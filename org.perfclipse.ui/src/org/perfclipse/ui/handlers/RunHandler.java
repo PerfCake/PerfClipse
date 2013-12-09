@@ -29,6 +29,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -45,8 +46,11 @@ import org.eclipse.ui.console.IConsoleConstants;
 import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.perfcake.PerfCakeConst;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
+
+
 
 
 public class RunHandler extends AbstractHandler {
@@ -122,33 +126,42 @@ public class RunHandler extends AbstractHandler {
 
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
-		OutputStream out = console.newOutputStream();
-		PrintStream standardOut = System.out;
-		System.setOut(new PrintStream(out));
-				ScenarioManager scenarioManager = new ScenarioManager();
-				
+
+			//redirect System.out to eclipse console
+			OutputStream out = console.newOutputStream();
+			PrintStream standardOut = System.out;
+			System.setOut(new PrintStream(out));
+
+			//set message and scenario paths for PerfCake 
+			IFolder messageDir = file.getProject().getFolder("messages");
+			IFolder scenarioDir = file.getProject().getFolder("scenarios");
+			System.setProperty(PerfCakeConst.MESSAGES_DIR_PROPERTY, messageDir.getRawLocation().toString());
+			System.setProperty(PerfCakeConst.SCENARIOS_DIR_PROPERTY, scenarioDir.getRawLocation().toString());
+			ScenarioManager scenarioManager = new ScenarioManager();
+
+
+			try {
+				scenarioManager.runScenario(file.getLocationURI().toURL());
+			} catch (ScenarioException e) {
+				LOGGER.warning("Cannot run scenario");
+				Display.getDefault().asyncExec(new ErrorDialog(shell, "Scenario error", e.getMessage()));
+			} catch (MalformedURLException e) {
+				LOGGER.warning("Wrong url to scenario.");
+				Display.getDefault().asyncExec(new ErrorDialog(shell, "Scenario URL error", e.getMessage()));
+			} finally {
+				System.setOut(standardOut); //set System.out to standard output
 				try {
-					scenarioManager.runScenario(file.getLocationURI().toURL());
-				} catch (ScenarioException e) {
-					LOGGER.warning("Cannot run scenario");
-					Display.getDefault().asyncExec(new ErrorDialog(shell, "Scenario error", e.getMessage()));
-				} catch (MalformedURLException e) {
-					LOGGER.warning("Wrong url to scenario.");
-					Display.getDefault().asyncExec(new ErrorDialog(shell, "Scenario URL error", e.getMessage()));
-				} finally {
-					try {
-						System.setOut(standardOut); //set System.out to standard output
-						out.close();
-					} catch (IOException e) {
-						LOGGER.warning("Cannot close stream to eclipse consolse!");
-					}
+					out.close();
+				} catch (IOException e) {
+					LOGGER.warning("Cannot close stream to eclipse consolse!");
 				}
+			}
 			return Status.OK_STATUS;
 		}
-		
+
 	}
-	
-	
+
+
 	final class ErrorDialog implements Runnable{
 		
 		private Shell parent;
