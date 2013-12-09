@@ -36,5 +36,15 @@
             project="true">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.perfclipse.editors.ScenarioMultiPageEditor"
+            default="false"
+            extensions="xml"
+            id="org.perfclipse.ui.scenarioeditor"
+            name="Scenario editor">
+      </editor>
+   </extension>
 
 </plugin>
