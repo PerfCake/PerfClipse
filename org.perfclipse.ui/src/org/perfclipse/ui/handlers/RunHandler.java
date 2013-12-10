@@ -141,7 +141,9 @@ public class RunHandler extends AbstractHandler {
 
 
 			try {
+				monitor.beginTask("PerfCake task", 100);
 				scenarioManager.runScenario(file.getLocationURI().toURL());
+				monitor.done();
 			} catch (ScenarioException e) {
 				LOGGER.warning("Cannot run scenario");
 				Display.getDefault().asyncExec(new ErrorDialog(shell, "Scenario error", e.getMessage()));
