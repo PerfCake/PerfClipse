@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
-import java.util.logging.Logger;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -49,14 +48,14 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.perfcake.PerfCakeConst;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
+import org.slf4j.LoggerFactory;
 
 
 
 
 public class RunHandler extends AbstractHandler {
 	
-	private final static Logger LOGGER = Logger.getLogger(RunHandler.class .getName()); 
-
+	final static org.slf4j.Logger log = LoggerFactory.getLogger(RunHandler.class);
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
@@ -87,11 +86,11 @@ public class RunHandler extends AbstractHandler {
 				IConsoleView view = (IConsoleView) page.showView(id);
 				view.display(perfclipseConsole);
 			} catch (PartInitException e1) {
-				LOGGER.warning("Cannot show console view.");
+				log.warn("Cannot show console view." + e1);
 			}
 		} catch (NullPointerException e){
-			LOGGER.warning("Cannot show console view since "
-					+ "getActiveWorkbenchWindow() is null.");
+			log.warn("Cannot show console view since "
+					+ "getActiveWorkbenchWindow() is null." + e);
 		}
 		
 		PerfCakeRunJob job = new PerfCakeRunJob("PerfCake run job", file, perfclipseConsole, shell);
@@ -109,13 +108,13 @@ public class RunHandler extends AbstractHandler {
 		public PerfCakeRunJob(String name, IFile file, MessageConsole console, Shell shell) {
 			super(name);
 			if (file == null){
-				LOGGER.warning("File with scenario is null.");
+				log.warn("File with scenario is null.");
 				throw new IllegalArgumentException("File with scenario is null.");
 			}
 			if (console == null){
-				LOGGER.warning("Console for scenario run  output is null.");
+				log.warn("Console for scenario run  output is null.");
 				throw new IllegalArgumentException("Console for scenario run output is null."); } if (shell == null){
-				LOGGER.warning("Parent shell is null.");
+				log.warn("Parent shell is null.");
 				throw new IllegalArgumentException("Parent shell is null.");
 			}
 			this.file = file;
@@ -145,17 +144,17 @@ public class RunHandler extends AbstractHandler {
 				scenarioManager.runScenario(file.getLocationURI().toURL());
 				monitor.done();
 			} catch (ScenarioException e) {
-				LOGGER.warning("Cannot run scenario");
+				log.warn("Cannot run scenario" + e);
 				Display.getDefault().asyncExec(new ErrorDialog(shell, "Scenario error", e.getMessage()));
 			} catch (MalformedURLException e) {
-				LOGGER.warning("Wrong url to scenario.");
+				log.warn("Wrong url to scenario." + e);
 				Display.getDefault().asyncExec(new ErrorDialog(shell, "Scenario URL error", e.getMessage()));
 			} finally {
 				System.setOut(standardOut); //set System.out to standard output
 				try {
 					out.close();
 				} catch (IOException e) {
-					LOGGER.warning("Cannot close stream to eclipse consolse!");
+					log.warn("Cannot close stream to eclipse consolse!" + e);
 				}
 			}
 			return Status.OK_STATUS;

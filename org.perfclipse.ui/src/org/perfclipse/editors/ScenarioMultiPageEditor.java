@@ -19,7 +19,6 @@
 
 package org.perfclipse.editors;
 
-import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -32,11 +31,13 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
+import org.slf4j.LoggerFactory;
 
 public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IResourceChangeListener{
 	
 	
-	private final static Logger LOGGER = Logger.getLogger(ScenarioMultiPageEditor.class .getName()); 
+
+	final static org.slf4j.Logger log = LoggerFactory.getLogger(ScenarioMultiPageEditor.class);
 
 	private StructuredTextEditor textEditor;
 
@@ -79,7 +80,7 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 		textEditorIndex = addPage(textEditor, getEditorInput());
 		setPageText(textEditorIndex, "XML editor");
 		} catch (PartInitException e){
-			LOGGER.warning("Cannot create Scenario text editor: " + e.toString());
+			log.warn("Cannot create Scenario text editor: " + e);
 			ErrorDialog.openError(getSite().getShell(), "Error",
 					"Error creating scenario text editor.", e.getStatus());
 			

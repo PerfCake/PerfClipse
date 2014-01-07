@@ -19,8 +19,6 @@
 
 package org.perfclipse.ui.wizards;
 
-import java.util.logging.Logger;
-
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -32,12 +30,13 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.slf4j.LoggerFactory;
 
 public class PerfcakeProjectWizard extends Wizard implements INewWizard {
 	
 	private static final String[] defaultFolders = {"scenarios", "messages", "schemas"};
 	
-	private final static Logger LOGGER = Logger.getLogger(PerfcakeProjectWizard.class.getName()); 
+	final static org.slf4j.Logger log = LoggerFactory.getLogger(PerfcakeProjectWizard.class);
 
 	private PerfcakeProjectFirstPage firstPage;
 	private IWorkbench workbench;
@@ -72,12 +71,12 @@ public class PerfcakeProjectWizard extends Wizard implements INewWizard {
 				try {
 					project.delete(true, true, null); //TODO: progress monitor
 				} catch (CoreException e1) {
-					LOGGER.warning("Cannot delete resources: " + project.getProjectRelativePath());
+					log.warn("Cannot delete resources: " + project.getProjectRelativePath());
 					MessageDialog.openError(shell, "Cannot delete resources", project.getProjectRelativePath().toString());
 				}
 					
 				MessageDialog.openError(shell, "Error", "Project cannot be created.");
-				LOGGER.warning("Cannot create project due to CoreException: " + e.toString());}
+				log.warn("Cannot create project due to CoreException: " + e.toString());}
 				return false;
 			}
 
