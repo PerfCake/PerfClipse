@@ -19,7 +19,14 @@
                         <id>default-cli</id>
                         <configuration>
                             <artifacts>
-                                <artifact><id>org.perfcake:perfcake:1.0</id></artifact>
+                                <artifact>
+                                	<id>org.perfcake:perfcake:1.0</id>
+                                	<instructions>
+                                	<Require-Bundle>
+                                		log4j, org.apache.commons.beanutils 
+                                	</Require-Bundle>
+                                	</instructions>
+                                </artifact>
                                 <artifact><id>com.sun.xsom:xsom:20110809</id></artifact>
                                 <artifact><id>org.slf4j:slf4j-api:1.7.5</id></artifact>
                                 <artifact><id>org.slf4j:slf4j-simple:1.7.5</id></artifact>
