@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package org.perfclipse.editors;
+package org.perfclipse.ui.editors;
 
 
 import org.eclipse.core.resources.IResourceChangeEvent;

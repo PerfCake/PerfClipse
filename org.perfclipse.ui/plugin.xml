@@ -39,7 +39,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="org.perfclipse.editors.ScenarioMultiPageEditor"
+            class="org.perfclipse.ui.editors.ScenarioMultiPageEditor"
             default="false"
             extensions="xml"
             id="org.perfclipse.ui.scenarioeditor"
