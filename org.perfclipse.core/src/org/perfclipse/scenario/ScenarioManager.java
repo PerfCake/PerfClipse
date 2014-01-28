@@ -76,13 +76,18 @@ public class ScenarioManager {
 	}
 	
 	public void runScenario(URL scenarioURL) throws ScenarioException{
+
 		if (scenarioURL == null){
 			log.error("URL to scenario is null");
 			throw new IllegalArgumentException("URL to scenario is null.");
 		}
+
 		Scenario scenario;
+		org.perfcake.model.Scenario model;
+
+		model = createModel(scenarioURL);
+
 		try {
-			org.perfcake.model.Scenario model = new ScenarioParser(scenarioURL).parse();
 			scenario = new ScenarioBuilder().load(model).build();
 		} catch (PerfCakeException e) {
 			log.error("Cannot load scenario", e);
@@ -91,7 +96,7 @@ public class ScenarioManager {
 			log.error("Cannot build scenario.", e);
 			throw new ScenarioException("Cannot build scenario.", e);
 		}
-		
+
 		try {
 			log.debug("Trying to execute scenario");
 			scenario.init();
@@ -108,4 +113,23 @@ public class ScenarioManager {
 			throw new ScenarioException("Error during finishing scenario.", e);
 		}
 	}
+
+	public org.perfcake.model.Scenario createModel(URL scenarioURL) throws ScenarioException {
+
+		org.perfcake.model.Scenario model;
+
+		if (scenarioURL == null){
+			log.error("URL to scenario is null");
+			throw new IllegalArgumentException("URL to scenario is null.");
+		}
+
+		try {
+			model = new ScenarioParser(scenarioURL).parse();
+		} catch (PerfCakeException e) {
+			log.error("Cannot load scenario", e);
+			throw new ScenarioException("Cannot load scenario", e);
+		}
+		return model;
+	}
+
 }
