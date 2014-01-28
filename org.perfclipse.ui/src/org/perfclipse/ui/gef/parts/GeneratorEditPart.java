@@ -1,22 +1,17 @@
 package org.perfclipse.ui.gef.parts;
 
-import org.eclipse.draw2d.FlowLayout;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.RoundedRectangle;
-import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.EditPart;
 import org.perfcake.model.Scenario;
+import org.perfclipse.ui.gef.figures.PerfCakeRoundedRectangle;
 
 public class GeneratorEditPart extends AbstractPerfCakeNodeEditPart {
 
-	private final Label label = new Label();
-	
-	private static final org.eclipse.draw2d.geometry.Insets CLIENT_AREA_INSETS = new org.eclipse.draw2d.geometry.Insets(10, 10, 21, 21);
-
 	public GeneratorEditPart(Scenario.Generator generatorModel) {
 		setModel(generatorModel);
-		label.setText(generatorModel.getClazz());
 	}
 	
 	public Scenario.Generator getGenerator(){
@@ -24,22 +19,13 @@ public class GeneratorEditPart extends AbstractPerfCakeNodeEditPart {
 	}
 
 	@Override
+	protected void addChild(EditPart child, int index){
+		super.addChild(child, index);
+	}
+	@Override
 	protected IFigure createFigure() {
-		RoundedRectangle figure = new RoundedRectangle(){
-			@Override
-			public Rectangle getClientArea(Rectangle rect){
-				Rectangle clientArea = super.getClientArea(rect);
-				clientArea.shrink(CLIENT_AREA_INSETS);
-				return clientArea;
-			}
-		};
-		figure.setSize(200, 40);
-		FlowLayout layout = new FlowLayout();
-		layout.setMajorAlignment(FlowLayout.ALIGN_CENTER);
-		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
-		figure.setLayoutManager(layout);
-		label.setTextAlignment(PositionConstants.LEFT);
-		figure.add(label);
+		PerfCakeRoundedRectangle figure = new PerfCakeRoundedRectangle(getGenerator().getClazz());
+		figure.setPreferredSize(300, 50);
 		return figure;
 	}
 
@@ -47,6 +33,18 @@ public class GeneratorEditPart extends AbstractPerfCakeNodeEditPart {
 	protected void createEditPolicies() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	protected List<Object> getModelChildren(){
+		List<Object> modelChildren = new ArrayList<>();
+		modelChildren.add(getGenerator().getClazz());
+		if (getGenerator().getThreads() != null)
+			modelChildren.add("(" + getGenerator().getThreads() + ")");
+		if (getGenerator().getRun() != null)
+			modelChildren.add(getGenerator().getRun());
+
+		return modelChildren;
 	}
 
 }
