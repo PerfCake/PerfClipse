@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.perfcake.model.Scenario;
+import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.PerfCakeRoundedRectangle;
 
 public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart {
 
-	public ValidatorEditPart(Scenario.Validation.Validator validatorModel){
+	public ValidatorEditPart(ScenarioModel.Validation.Validator validatorModel){
 		setModel(validatorModel);
 	}
 	
-	public Scenario.Validation.Validator getValidator(){
-		return (Scenario.Validation.Validator) getModel();
+	public ScenarioModel.Validation.Validator getValidator(){
+		return (ScenarioModel.Validation.Validator) getModel();
 	}
 	@Override
 	protected IFigure createFigure() {

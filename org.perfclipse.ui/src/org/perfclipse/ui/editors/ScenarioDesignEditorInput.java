@@ -4,18 +4,17 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.part.FileEditorInput;
-import org.perfcake.model.Scenario;
+import org.perfclipse.model.ScenarioModel;
 
 public class ScenarioDesignEditorInput extends FileEditorInput {
 
-	private final Scenario model;
+	private final ScenarioModel model;
 
 	
 	public ScenarioDesignEditorInput(IFile file) {
 		super(file);
-		//parse file here !!!
-		Scenario model = new Scenario();
-		this.model = model;
+		// TODO parse file here !!!
+		model = new ScenarioModel();
 	}
 
 	@Override
@@ -48,7 +47,7 @@ public class ScenarioDesignEditorInput extends FileEditorInput {
 		return null;
 	}
 
-	public Scenario getModel() {
+	public ScenarioModel getModel() {
 		return model;
 	}
 

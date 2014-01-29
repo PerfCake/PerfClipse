@@ -5,8 +5,9 @@ Bundle-SymbolicName: org.perfclipse.core
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.slf4j.api,
- org.perfcake;visibility:=reexport,
+ org.perfcake,
  com.sun.xsom,
  org.jdom
-Export-Package: org.perfclipse.scenario,
+Export-Package: org.perfclipse.model,
+ org.perfclipse.scenario,
  org.perfclipse.schema

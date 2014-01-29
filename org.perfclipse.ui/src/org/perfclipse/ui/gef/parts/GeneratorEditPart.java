@@ -5,17 +5,17 @@ import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
-import org.perfcake.model.Scenario;
+import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.PerfCakeRoundedRectangle;
 
 public class GeneratorEditPart extends AbstractPerfCakeNodeEditPart {
 
-	public GeneratorEditPart(Scenario.Generator generatorModel) {
+	public GeneratorEditPart(ScenarioModel.Generator generatorModel) {
 		setModel(generatorModel);
 	}
 	
-	public Scenario.Generator getGenerator(){
-		return (Scenario.Generator) getModel();
+	public ScenarioModel.Generator getGenerator(){
+		return (ScenarioModel.Generator) getModel();
 	}
 
 	@Override

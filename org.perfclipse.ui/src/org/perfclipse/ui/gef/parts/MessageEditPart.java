@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.perfcake.model.Scenario;
+import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.PerfCakeRoundedRectangle;
 
 public class MessageEditPart extends AbstractPerfCakeNodeEditPart {
 
 	
-	public MessageEditPart(Scenario.Messages.Message modelMessage){
+	public MessageEditPart(ScenarioModel.Messages.Message modelMessage){
 		setModel(modelMessage);
 	}
 	
-	public Scenario.Messages.Message getMessage(){
-		return (Scenario.Messages.Message) getModel();
+	public ScenarioModel.Messages.Message getMessage(){
+		return (ScenarioModel.Messages.Message) getModel();
 	}
 	@Override
 	protected IFigure createFigure() {

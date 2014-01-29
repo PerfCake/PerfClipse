@@ -14,6 +14,7 @@ import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IEditorInput;
 import org.perfcake.model.Scenario;
+import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
@@ -24,7 +25,7 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(ScenarioDesignEditor.class);
 
-	private Scenario model;
+	private ScenarioModel model;
 
 	public ScenarioDesignEditor() {
 		setEditDomain(new DefaultEditDomain(this));
@@ -42,6 +43,7 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	protected void setInput(IEditorInput input){
 		super.setInput(input);
 		ScenarioDesignEditorInput editorInput = (ScenarioDesignEditorInput) input;
+		//TODO move parsing into editorInput object!
 		ScenarioManager manager = new ScenarioManager();
 		try {
 			model = manager.createModel(editorInput.getURI().toURL());

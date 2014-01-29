@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.perfcake.model.Scenario;
+import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.PerfCakeRoundedRectangle;
 
 public class ReportingEditPart extends AbstractPerfCakeNodeEditPart {
 
 	
-	public ReportingEditPart(Scenario.Reporting reportingModel){
+	public ReportingEditPart(ScenarioModel.Reporting reportingModel){
 		setModel(reportingModel);
 	}
 	
-	public Scenario.Reporting getReporting(){
-		return (Scenario.Reporting) getModel(); 
+	public ScenarioModel.Reporting getReporting(){
+		return (ScenarioModel.Reporting) getModel(); 
 	}
 	@Override
 	protected IFigure createFigure() {

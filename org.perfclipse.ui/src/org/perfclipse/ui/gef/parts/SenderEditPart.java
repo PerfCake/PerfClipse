@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.perfcake.model.Scenario;
+import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.PerfCakeRoundedRectangle;
 
 public class SenderEditPart extends AbstractPerfCakeNodeEditPart {
 
-	public SenderEditPart(Scenario.Sender senderModel){
+	public SenderEditPart(ScenarioModel.Sender senderModel){
 		setModel(senderModel);
 	}
 
-	public Scenario.Sender getSender(){
-		return (Scenario.Sender) getModel();
+	public ScenarioModel.Sender getSender(){
+		return (ScenarioModel.Sender) getModel();
 	}
 	
 	@Override

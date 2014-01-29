@@ -2,18 +2,18 @@ package org.perfclipse.ui.gef.parts;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
-import org.perfcake.model.Scenario;
+import org.perfclipse.model.ScenarioModel;
 
 public class RunEditPart extends AbstractPerfCakeEditPart {
 
 	Label label;
 	
-	public RunEditPart(Scenario.Generator.Run runModel){
+	public RunEditPart(ScenarioModel.Generator.Run runModel){
 		setModel(runModel);
 	}
 	
-	public Scenario.Generator.Run getRun(){
-		return (Scenario.Generator.Run) getModel(); 
+	public ScenarioModel.Generator.Run getRun(){
+		return (ScenarioModel.Generator.Run) getModel(); 
 	}
 	@Override
 	protected IFigure createFigure() {

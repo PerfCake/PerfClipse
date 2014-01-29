@@ -5,18 +5,17 @@ import java.util.List;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
-import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
-import org.perfcake.model.Scenario;
+import org.perfclipse.model.ScenarioModel;
 
 public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 
 	private static final int BORDER_PADDING = 1;
 
 	
-	public ScenarioEditPart(Scenario scenarioModel){
+	public ScenarioEditPart(ScenarioModel scenarioModel){
 		setModel(scenarioModel);
 	}
 	@Override
@@ -40,19 +39,19 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<>();
-		modelChildren.add(getScenario().getGenerator());
-		modelChildren.add(getScenario().getSender());
-		if (getScenario().getMessages() != null)
-			modelChildren.add(getScenario().getMessages());
-		if (getScenario().getValidation() != null)
-			modelChildren.add(getScenario().getValidation());
-		if (getScenario().getReporting() != null)
-			modelChildren.add(getScenario().getReporting());
+		modelChildren.add(getScenarioModel().getGenerator());
+		modelChildren.add(getScenarioModel().getSender());
+		if (getScenarioModel().getMessages() != null)
+			modelChildren.add(getScenarioModel().getMessages());
+		if (getScenarioModel().getValidation() != null)
+			modelChildren.add(getScenarioModel().getValidation());
+		if (getScenarioModel().getReporting() != null)
+			modelChildren.add(getScenarioModel().getReporting());
 		return modelChildren;
 	}
 	
-	public Scenario getScenario(){
-		return (Scenario) getModel();
+	public ScenarioModel getScenarioModel(){
+		return (ScenarioModel) getModel();
 	}
 	
 

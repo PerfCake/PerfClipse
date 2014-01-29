@@ -6,17 +6,17 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
-import org.perfcake.model.Scenario;
+import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.PerfCakeRoundedRectangle;
 
 public class MessagesEditPart extends AbstractPerfCakeNodeEditPart {
 
-	public MessagesEditPart(Scenario.Messages messagesModel){
+	public MessagesEditPart(ScenarioModel.Messages messagesModel){
 		setModel(messagesModel);
 	}
 	
-	public Scenario.Messages getMessages(){
-		return (Scenario.Messages) getModel();
+	public ScenarioModel.Messages getMessages(){
+		return (ScenarioModel.Messages) getModel();
 	}
 	
 	@Override
