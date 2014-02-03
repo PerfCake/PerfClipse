@@ -17,25 +17,19 @@
  * limitations under the License.
  */
 
-package org.perfclipse.model;
+package org.perfclipse.ui.gef.figures;
 
-import org.perfcake.model.Scenario;
+import org.eclipse.draw2d.Label;
 
-public class ScenarioModel extends Scenario {
+public class LabeledRoundedRectangle extends PerfCakeRoundedRectangle {
 	
-	public ScenarioModel() {
-		super();
-	}
-	
-	public ScenarioModel(Scenario model){
-		super();
-		// TODO rewrite initialization using reflection!!!
-		this.generator = model.getGenerator();
-		this.messages = model.getMessages();
-		this.properties = model.getProperties();
-		this.sender = model.getSender();
-		this.reporting = model.getReporting();
-		this.validation = model.getValidation();
+	Label label;
+
+	public LabeledRoundedRectangle(String name) {
+		super(name);
+		label = new Label();
+		label.setText(name);
+		add(label);
 	}
 
 }
