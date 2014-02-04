@@ -17,27 +17,27 @@
          point="org.eclipse.ui.commands">
       <command
             defaultHandler="org.perfclipse.ui.handlers.RunHandler"
-            id="org.perfclipse.ui.runScenario"
+            id="org.perfclipse.ui.command.runScenario"
             name="RunScenario">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            id="org.perfclipse.ui.perfcakecategory"
+            id="org.perfclipse.ui.wizards.category.perfcake"
             name="PerfCake">
       </category>
       <wizard
-            category="org.perfclipse.ui.perfcakecategory"
+            category="org.perfclipse.ui.wizards.category.perfcake"
             class="org.perfclipse.ui.wizards.PerfcakeProjectWizard"
             icon="icons/perfcake.ico"
-            id="org.perfclipse.ui.perfcakeproject"
+            id="org.perfclipse.ui.wizards.perfcakeproject"
             name="PerfCake project"
             project="true">
       </wizard>
       <wizard
             canFinishEarly="true"
-            category="org.perfclipse.ui.perfcakecategory"
+            category="org.perfclipse.ui.wizards.category.perfcake"
             class="org.perfclipse.ui.wizards.ScenarioWizard"
             id="org.perfclipse.ui.wizards.scenario"
             name="PerfCake scenario">
@@ -49,7 +49,7 @@
             class="org.perfclipse.ui.editors.ScenarioMultiPageEditor"
             default="false"
             extensions="xml"
-            id="org.perfclipse.ui.scenarioeditor"
+            id="org.perfclipse.ui.editors.scenario"
             name="Scenario editor">
       </editor>
    </extension>
