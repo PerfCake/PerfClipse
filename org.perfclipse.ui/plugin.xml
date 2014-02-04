@@ -35,6 +35,13 @@
             name="PerfCake project"
             project="true">
       </wizard>
+      <wizard
+            canFinishEarly="true"
+            category="org.perfclipse.ui.perfcakecategory"
+            class="org.perfclipse.ui.wizards.ScenarioWizard"
+            id="org.perfclipse.ui.wizards.scenario"
+            name="PerfCake scenario">
+      </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
