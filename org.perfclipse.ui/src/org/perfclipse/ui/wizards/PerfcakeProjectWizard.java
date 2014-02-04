@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 
 public class PerfcakeProjectWizard extends Wizard implements INewWizard {
 	
-	private static final String[] defaultFolders = {"scenarios", "messages", "schemas"};
+	private static final String[] defaultFolders = {"scenarios", "messages"};
 	
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(PerfcakeProjectWizard.class);
 
