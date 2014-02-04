@@ -21,7 +21,15 @@ package org.perfclipse.scenario;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
@@ -33,6 +41,7 @@ import org.perfcake.ScenarioBuilder;
 import org.perfcake.parser.ScenarioParser;
 import org.perfclipse.model.ScenarioModel;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 /**
  * ScenarioManger class provides methods for manipulating scenario.
@@ -131,6 +140,28 @@ public class ScenarioManager {
 			throw new ScenarioException("Cannot load scenario", e);
 		}
 		return new ScenarioModel(model);
+	}
+	
+	public void createXML(org.perfcake.model.Scenario scenario, OutputStream out) throws ScenarioException{
+		try {
+			JAXBContext context = JAXBContext.newInstance(org.perfcake.model.Scenario.class);
+			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			Schema schema = schemaFactory.newSchema(new URL("http://schema.perfcake.org/perfcake-scenario-" + Scenario.VERSION + ".xsd"));
+			Marshaller marshaller = context.createMarshaller();
+			marshaller.setSchema(schema);
+			//add line breaks and indentation into output
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, new Boolean(true));
+			marshaller.marshal(scenario, out);
+		} catch (JAXBException e) {
+			log.error("JAXB error", e);
+			throw new ScenarioException(e.getMessage(),e.getCause());
+		} catch (MalformedURLException e) {
+			log.error("Malformed url", e);
+			throw new ScenarioException(e.getMessage(), e.getCause());
+		} catch (SAXException e) {
+			log.error("Cannot obtain schema definition", e);
+			throw new ScenarioException(e.getMessage(), e.getCause());
+		}
 	}
 
 }
