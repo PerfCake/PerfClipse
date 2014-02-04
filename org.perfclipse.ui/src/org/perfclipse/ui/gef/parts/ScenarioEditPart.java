@@ -28,6 +28,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.perfclipse.model.ScenarioChangeListener;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.layout.ScenarioFreeformLayout;
 
@@ -93,4 +94,12 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 		}
 		
 	}
+	
+	private final ScenarioChangeListener modelListener = new ScenarioChangeListener() {
+		
+		@Override
+		public void ScenarioChanged() {
+			refresh();
+		}
+	};
 }

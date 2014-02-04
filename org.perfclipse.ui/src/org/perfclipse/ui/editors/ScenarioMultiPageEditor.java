@@ -24,6 +24,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -76,8 +77,18 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		getEditor(textEditorIndex).doSave(monitor);
+		IEditorSite site = designEditor.getEditorSite();
+		IEditorInput input = designEditor.getEditorInput();
+		((ScenarioDesignEditorInput) input).createModel();
+		try {
+			designEditor.init(site, input);
+			designEditor.initializeGraphicalViewer();
+		} catch (PartInitException e) {
+			MessageDialog.openError(site.getShell(), "Cannot reload model", "Wrong input for model");
+		}
 	}
 
+	//TODO: reload model
 	@Override
 	public void doSaveAs() {
 		IEditorPart editor = getEditor(textEditorIndex);

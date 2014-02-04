@@ -19,9 +19,14 @@
 
 package org.perfclipse.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.perfcake.model.Scenario;
 
 public class ScenarioModel extends Scenario {
+	
+	private List<ScenarioChangeListener> listeners = new ArrayList<>();
 	
 	public ScenarioModel() {
 		super();
@@ -38,4 +43,19 @@ public class ScenarioModel extends Scenario {
 		this.validation = model.getValidation();
 	}
 
+	public void addScenarioListener(ScenarioChangeListener l){
+		if (! listeners.contains(l)){
+			listeners.add(l);
+		}
+	}
+	
+	public void removeScenarioListener(ScenarioChangeListener l){
+		listeners.remove(l);
+	}
+	
+	public void fireScenarioChanged(){
+		for (ScenarioChangeListener l : listeners){
+			l.ScenarioChanged();
+		}
+	}
 }

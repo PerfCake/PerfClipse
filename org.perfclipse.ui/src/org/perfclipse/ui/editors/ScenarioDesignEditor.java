@@ -19,7 +19,6 @@
 
 package org.perfclipse.ui.editors;
 
-import java.net.MalformedURLException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ConnectionLayer;
@@ -30,12 +29,9 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IEditorInput;
 import org.perfcake.model.Scenario;
 import org.perfclipse.model.ScenarioModel;
-import org.perfclipse.scenario.ScenarioException;
-import org.perfclipse.scenario.ScenarioManager;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 import org.perfclipse.ui.gef.parts.ScenarioEditPart;
 import org.slf4j.LoggerFactory;
@@ -60,25 +56,7 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	@Override
 	protected void setInput(IEditorInput input){
 		super.setInput(input);
-		ScenarioDesignEditorInput editorInput = (ScenarioDesignEditorInput) input;
-		//TODO move parsing into editorInput object!
-		ScenarioManager manager = new ScenarioManager();
-		try {
-			model = manager.createModel(editorInput.getURI().toURL());
-		} catch (MalformedURLException e) {
-			// TODO Show error dialog 
-			MessageDialog.openError(getSite().getShell(), "Wrong URL to scenario",
-					"Scenario cannot be opened.");
-
-			log.warn("Scenario cannot be opened.", e);
-		} catch (ScenarioException e) {
-
-			// TODO Show error dialog 
-			MessageDialog.openError(getSite().getShell(), "Scenario error",
-					"Cannot parse scenario. Probabily there is error in scenario definition.");
-
-			log.warn("Cannot parse scenario.", e);
-		}
+		model = ((ScenarioDesignEditorInput) input).getModel();
 	}
 
 	
