@@ -48,6 +48,7 @@ import org.perfclipse.ui.editors.ScenarioDesignEditorInput;
 public class ScenarioWizard extends Wizard implements INewWizard {
 
 	private ScenarioFirstPage firstPage;
+	IStructuredSelection selection;
 	
 
 	public ScenarioWizard() {
@@ -56,6 +57,8 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
+		this.selection = selection;
+		
 
 	}
 
@@ -87,7 +90,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 			IContainer[] container = workspaceRoot.findContainersForLocationURI(uri);
 			if (container[0] instanceof IFolder){
 				IFolder folder = (IFolder) container[0];
-				IFile scenarioFile = folder.getFile(firstPage.getScenarioName());
+				IFile scenarioFile = folder.getFile(firstPage.getScenarioName() + ".xml");
 				
 				ScenarioManager manager = new ScenarioManager();
 				PipedOutputStream out = new PipedOutputStream();
@@ -118,7 +121,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 	
 	@Override
 	public void addPages(){
-		firstPage = new ScenarioFirstPage();
+		firstPage = new ScenarioFirstPage(selection);
 		addPage(firstPage);
 	}
 

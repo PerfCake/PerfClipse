@@ -19,6 +19,18 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -33,9 +45,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.slf4j.LoggerFactory;
 
 public class ScenarioFirstPage extends WizardPage {
-
+	
+	final static org.slf4j.Logger log = LoggerFactory.getLogger(ScenarioFirstPage.class);
+	
 	private Composite container;
 	private Label scenarioNameLabel;
 	private Text scenarioNameText;
@@ -46,16 +61,23 @@ public class ScenarioFirstPage extends WizardPage {
 	private Button scenarioDirectoryBrowseButton;
 	private Label scenarioDirectoryLabel;
 	private Text scenarioDirectoryText;
+	
+	String defaultDirectoryPath;
 
-	public ScenarioFirstPage(){
-		this("Scenario first page");
+	public ScenarioFirstPage(IStructuredSelection selection){
+		this("Scenario first page", selection);
 	}
 	
-	public ScenarioFirstPage(String pageName) {
+	public ScenarioFirstPage(String pageName, IStructuredSelection selection) {
 		super(pageName);
 		setTitle("Create new PerfCake scenario");
 		setDescription("Fill neccessary information on this page");
+		
+		//TODO : check if the path is correctly resolved on the windows machine
+		defaultDirectoryPath = getDefaultDirectoryPath(selection).getPath();
 	}
+
+
 
 	@Override
 	public void createControl(Composite parent) {
@@ -72,6 +94,7 @@ public class ScenarioFirstPage extends WizardPage {
 
 		scenarioDirectoryText = new Text(container, SWT.NONE);
 		scenarioDirectoryText.setEditable(false);
+		scenarioDirectoryText.setText(defaultDirectoryPath);
 		scenarioDirectoryText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		
@@ -82,6 +105,7 @@ public class ScenarioFirstPage extends WizardPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				DirectoryDialog dialog = new DirectoryDialog(getShell());
+				dialog.setFilterPath(defaultDirectoryPath);
 				String result = dialog.open();
 				scenarioDirectoryText.setText(result);
 				setPageComplete(isPageComplete());
@@ -186,8 +210,24 @@ public class ScenarioFirstPage extends WizardPage {
 			setDescription("Select sender type!");
 			return false;
 		}
-		setDescription("Complete!");
+		//if file with given name already exists
+		String path = scenarioDirectoryText.getText() + File.separator + scenarioNameText.getText() + ".xml";
+		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		URI uri;
+		try {
+			uri = new URI("file://" + path);
+			IFile[] file = workspaceRoot.findFilesForLocationURI(uri);
+			if (file.length > 0 && file[0].exists()){
+				setDescription("File already exits! Choose another file name.");
+				return false;
+			}
+		} catch (URISyntaxException e) {
+			log.error("Wrong URI syntax", e);
+			MessageDialog.openError(getShell(), "Wrong URI syntax", "Filename URI is invalid");
+		}
 		
+
+		setDescription("Complete!");
 		return true;
 	}
 	
@@ -205,6 +245,26 @@ public class ScenarioFirstPage extends WizardPage {
 	
 	public String getGeneratorName(){
 		return generatorCombo.getText();
+	}
+	
+	
+	private URI getDefaultDirectoryPath(IStructuredSelection selection) {
+		if (selection != null && selection.getFirstElement() instanceof IResource){
+			if (selection.getFirstElement() instanceof IProject){
+				IProject project = (IProject) selection.getFirstElement();
+				IResource scenarioDir = project.findMember("scenarios");
+				if (scenarioDir instanceof IFolder){
+					return scenarioDir.getLocationURI();
+				}
+			}
+			if (selection.getFirstElement() instanceof IFolder){
+				return ((IFolder) selection.getFirstElement()).getLocationURI();
+			}
+			if (selection.getFirstElement() instanceof IFile){
+				return ((IFile) selection.getFirstElement()).getParent().getLocationURI();
+			}
+		}
+		return ResourcesPlugin.getWorkspace().getRoot().getLocationURI();
 	}
 
 }
