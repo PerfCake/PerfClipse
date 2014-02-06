@@ -73,7 +73,7 @@ public class LayoutUtils {
 		if (child instanceof ReportingEditPart){
 			x = horizontalGap + componentWidth;
 			y = 2*verticalGap + 2*componentHeight;
-			width = componentWidth;
+			width = componentWidth - horizontalGap;
 			height = 2*componentHeight;
 		}
 			
