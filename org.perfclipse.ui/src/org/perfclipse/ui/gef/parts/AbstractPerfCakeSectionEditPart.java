@@ -51,11 +51,16 @@ public abstract class AbstractPerfCakeSectionEditPart extends
 				new Rectangle(constraint.x, constraint.y, constraint.width, requiredHeight));
 		scenarioLayout.resizeSiblings(this);
 	
+
+		/* This code was used to resize content pane when the preferred size of content pane was set
+		 * at createFigure() to maximum possible. Due to the intervention to the figure the layout 
+		 * manager stopped resizing child figures automatically. The default preferred size used to
+		 *  be set in the PerfCakeTwoPartRectangle.createFigure() 
 		Dimension d = getContentPane().getPreferredSize().getCopy();
 		d.height = requiredHeight;
 		getContentPane().setPreferredSize(d);
 		getFigure().validate();
-		
+		*/
 	}
 
 

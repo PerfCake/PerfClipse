@@ -40,7 +40,12 @@ public class PerfCakeTwoPartRectangle extends PerfCakeRoundedRectangle {
 		headerLayer = new Figure();
 		contentLayer = new Figure();
 		
+		/* This code was used to set maximum width of content layer, but this
+		 * intervention to layout manager caused that layout manager stopped
+		 * resizing component automatically. So manual resizing for content 
+		 * layer needs to be implemented when the setPreferredSize is used.
 		contentLayer.setPreferredSize(defaultSize.width - PerfCakeRoundedRectangle.getClientAreaInsets().getWidth(), 0);
+		 */
 
 		FlowLayout headerLayout = new FlowLayout();
 		headerLayout.setMajorAlignment(FlowLayout.ALIGN_CENTER);
