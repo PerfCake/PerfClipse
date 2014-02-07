@@ -26,6 +26,13 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.perfclipse.ui.gef.RectanglePositionComparator;
 
+/**
+ * 
+ * Layout whose children default bounds are given by rectangle constrains.
+ * 
+ * @author Jakub Knetl
+ * 
+ */
 public class ScenarioFreeformLayout extends FreeformLayout {
 	
 	private LayoutUtils utils;
@@ -43,6 +50,13 @@ public class ScenarioFreeformLayout extends FreeformLayout {
 		super.setConstraint(figure, newConstraint);
 	}
 
+	/**
+	 * This method should be called when some children of this layout change its bounds.
+	 * It checks whether this change of bounds causes intersection with other figure.
+	 * If it does then it moves other figure in the way that they are not intersecting each other.
+	 * 
+	 * @param part EditPart whose bounds was changed
+	 */
 	public void resizeSiblings(EditPart part) {
 		if (!(part instanceof AbstractGraphicalEditPart))
 			return;
@@ -72,14 +86,14 @@ public class ScenarioFreeformLayout extends FreeformLayout {
 				Rectangle siblingDefaultConstraint = getDefaultConstraint(siblingPart);
 				RectanglePositionComparator cmp = new RectanglePositionComparator();
 
-				if (cmp.compare(defaultConstraint, siblingDefaultConstraint) > 0){
-					//move sibling
+				if (cmp.compare(defaultConstraint, siblingDefaultConstraint) < 0){
+					//move figure
 					Rectangle old = (Rectangle) getConstraint(figure);
 					Rectangle newIntersectedFigureConstraint = new Rectangle(old.x, old.y + intersection.height + SizeConstants.TOP_LEVEL_VERTICAL_GAP, old.width, old.height);
 					setConstraint(figure, newIntersectedFigureConstraint);
 					resizeSiblings(part);
 				} else{
-					//move the figure
+					//move sibling figure
 					Rectangle old = (Rectangle) getConstraint(siblingFigure);
 					Rectangle newIntersectedFigureConstraint = new Rectangle(old.x, old.y + intersection.height + SizeConstants.TOP_LEVEL_VERTICAL_GAP, old.width, old.height);
 					setConstraint(siblingFigure, newIntersectedFigureConstraint);

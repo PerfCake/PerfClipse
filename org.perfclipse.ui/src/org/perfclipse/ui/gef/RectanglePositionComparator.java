@@ -26,6 +26,13 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 public class RectanglePositionComparator implements Comparator<Rectangle> {
 
+	/**
+	 * Compares two rectangle and returns which is positioned more top on the screen.
+	 * 
+	 * @return Returns positive if first rectangle should be more top,
+	 * zero if the y coordinate is same and negative if the first rectangle
+	 * is positioned more bottom than second.
+	 */
 	@Override
 	public int compare(Rectangle r1, Rectangle r2) {
 		if (r1 == null){
@@ -42,13 +49,7 @@ public class RectanglePositionComparator implements Comparator<Rectangle> {
 			return (p2.y - p1.y);
 		}
 		if (p1.y > p2.y){
-			return (p1.y - p2.y);
-		}
-		if (p1.x < p2.x){
-			return (p2.x - p1.x);
-		}
-		if (p1.y > p2.y){
-			return (p1.x - p2.x);
+			return (p2.y - p1.y);
 		}
 		return 0;
 	}
