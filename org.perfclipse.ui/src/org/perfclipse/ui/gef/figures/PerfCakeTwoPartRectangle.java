@@ -30,6 +30,7 @@ public class PerfCakeTwoPartRectangle extends PerfCakeRoundedRectangle {
 	
 	private Figure headerLayer;
 	private Figure contentLayer;
+	private Label headerLabel;
 
 	public PerfCakeTwoPartRectangle(String name, Dimension defaultSize) {
 		super(name);
@@ -57,9 +58,9 @@ public class PerfCakeTwoPartRectangle extends PerfCakeRoundedRectangle {
 		add(headerLayer);
 		add(contentLayer);
 		
-		Label nameLabel = new Label();
-		nameLabel.setText(name);
-		headerLayer.add(nameLabel);
+		headerLabel = new Label();
+		headerLabel.setText(name);
+		headerLayer.add(headerLabel);
 		
 	}
 
@@ -69,5 +70,13 @@ public class PerfCakeTwoPartRectangle extends PerfCakeRoundedRectangle {
 
 	public Figure getContentLayer() {
 		return contentLayer;
+	}
+	
+	public String getHeaderLabelText(){
+		return headerLabel.getText();
+	}
+	
+	public void setHeaderLabelText(String text){
+		headerLabel.setText(text);
 	}
 }
