@@ -19,6 +19,8 @@
 
 package org.perfclipse.ui.gef.parts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,13 +29,34 @@ import org.eclipse.draw2d.Label;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
 
-public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart {
+//TODO : move implements to the superclass
+public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
 	Label label;
 	public GeneratorEditPart(ScenarioModel.Generator generatorModel) {
 		setModel(generatorModel);
 	}
 	
+	
+	
+	@Override
+	public void activate() {
+		if (!isActive()){
+			getGenerator().addPropertyChangeListener(this);
+		}
+		super.activate();
+	}
+
+
+
+	@Override
+	public void deactivate() {
+		getGenerator().removePropertyChangeListener(this);
+		super.deactivate();
+	}
+
+
+
 	public ScenarioModel.Generator getGenerator(){
 		return (ScenarioModel.Generator) getModel();
 	}
@@ -58,6 +81,14 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart {
 			modelChildren.add(getGenerator().getRun());
 
 		return modelChildren;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent e) {
+		if (e.getPropertyName().equals(ScenarioModel.Generator.PROPERTY_THREADS)){
+			((PerfCakeTwoPartRectangle) getFigure()).setHeaderLabelText("changed by listener ;-)");
+		}
+		
 	}
 
 }
