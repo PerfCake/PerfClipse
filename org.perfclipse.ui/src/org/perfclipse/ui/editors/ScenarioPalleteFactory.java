@@ -19,22 +19,46 @@
 
 package org.perfclipse.ui.editors;
 
+import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
+import org.eclipse.gef.palette.PaletteDrawer;
+import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
+import org.eclipse.gef.requests.SimpleFactory;
+import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.model.ScenarioModel.Messages.Message;
 
 public class ScenarioPalleteFactory {
 
 	 public static PaletteRoot createPalette() {
 	      PaletteRoot palette = new PaletteRoot();
 	      palette.add(createToolsGroup(palette));
+	      palette.add(createElementsDrawer());
 	      return palette;
 	   }
 
-	   private static PaletteContainer createToolsGroup(PaletteRoot palette) {
+	   private static PaletteEntry createElementsDrawer() {
+		   PaletteDrawer componentDrawer = new PaletteDrawer("Elemnts drawer");
+
+		   SimpleFactory factory = new SimpleFactory(ScenarioModel.Messages.Message.class){
+			   public Object getNewObject(){
+				   ScenarioModel.Messages.Message m = new Message();
+				   m.setUri("Added_by_GEF");
+				   return m;
+			   }
+		   };
+		   
+		   CombinedTemplateCreationEntry messageComponent = new CombinedTemplateCreationEntry("Create message", "Add new message", factory, null, null);
+		   componentDrawer.add(messageComponent);
+		   
+		   return componentDrawer;
+	}
+
+	private static PaletteContainer createToolsGroup(PaletteRoot palette) {
 	      PaletteGroup toolGroup = new PaletteGroup("Tools");
 
 	      ToolEntry tool = new PanningSelectionToolEntry();
@@ -45,4 +69,5 @@ public class ScenarioPalleteFactory {
 
 	      return toolGroup;
 	   }
+	   
 }
