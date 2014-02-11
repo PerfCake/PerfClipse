@@ -23,6 +23,7 @@ package org.perfclipse.ui.editors;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.util.EventObject;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -39,6 +40,7 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.scenario.ScenarioException;
@@ -57,7 +59,15 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 		setEditDomain(new DefaultEditDomain(this));
 	}
 
-	
+	/*
+	 * Notify editor that command stack change to update dirty flag
+	 */
+	@Override
+	public void commandStackChanged(EventObject event) {
+		firePropertyChange(IEditorPart.PROP_DIRTY);
+		super.commandStackChanged(event);
+	}
+
 	@Override
 	protected PaletteRoot getPaletteRoot() {
 		return ScenarioPalleteFactory.createPalette();
@@ -113,14 +123,29 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		ScenarioManager manager = new ScenarioManager();
-		
+
 		IFile file = ((FileEditorInput) getEditorInput()).getFile();
 
 		PipedOutputStream out = new PipedOutputStream();
 		PipedInputStream in = null;
 		try {
 			in = new PipedInputStream(out);
-			manager.createXML(model, out);
+			manager.createXML( model, out);
+			try {
+				file.setContents(in, false, true, monitor);
+				getEditDomain().getCommandStack().markSaveLocation();
+			} catch (CoreException e) {
+				MessageDialog.openError(getSite().getShell(), "Write error", "Cannot write data into file.");
+				log.error("Write error", "Cannot write data into file", e);
+			} finally {
+				try {
+					if (in != null){
+						in.close();
+					}
+				} catch (IOException e) {
+					log.error("Cannot close piped input stream for scenario xml", e);
+				}
+			}
 		} catch (ScenarioException e) {
 			MessageDialog.openError(getSite().getShell(), "Error", "Cannot create xml representation of the model.");
 			log.error("Cannot create xml representation of the model.", e);
@@ -135,20 +160,6 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 			}
 		}
 
-		try {
-			file.setContents(in, false, true, monitor);
-			getEditDomain().getCommandStack().markSaveLocation();
-		} catch (CoreException e) {
-			MessageDialog.openError(getSite().getShell(), "Write error", "Cannot write data into file.");
-			log.error("Write error", "Cannot write data into file", e);
-		} finally {
-			try {
-				if (in != null){
-					in.close();
-				}
-			} catch (IOException e) {
-				log.error("Cannot close piped input stream for scenario xml", e);
-			}
-		}
+		
 	}
 }
