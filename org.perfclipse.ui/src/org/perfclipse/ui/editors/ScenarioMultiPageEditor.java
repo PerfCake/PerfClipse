@@ -76,15 +76,22 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		getEditor(textEditorIndex).doSave(monitor);
-		IEditorSite site = designEditor.getEditorSite();
-		IEditorInput input = designEditor.getEditorInput();
-		((ScenarioDesignEditorInput) input).createModel();
-		try {
-			designEditor.init(site, input);
-			designEditor.initializeGraphicalViewer();
-		} catch (PartInitException e) {
-			MessageDialog.openError(site.getShell(), "Cannot reload model", "Wrong input for model");
+		if (getActivePage() == textEditorIndex){
+			//parse xml and create new scenario model
+			IEditorSite site = designEditor.getEditorSite();
+			IEditorInput input = designEditor.getEditorInput();
+			((ScenarioDesignEditorInput) input).createModel();
+			try {
+				designEditor.init(site, input);
+				designEditor.initializeGraphicalViewer();
+			} catch (PartInitException e) {
+				MessageDialog.openError(site.getShell(), "Cannot reload model", "Wrong input for model");
+			}
+			getEditor(textEditorIndex).doSave(monitor);
+		} else {
+			
+			getEditor(designEditorIndex).doSave(monitor);
+			//generate xml and write it into file
 		}
 	}
 
@@ -104,6 +111,17 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 		return true;
 	}
 	
+	
+	
+	@Override
+	public boolean isDirty() {
+		if (getActivePage() == textEditorIndex){
+			return textEditor.isDirty();
+		} else{
+			return designEditor.isDirty();
+		}
+	}
+
 	private void createDesignEditorPage() {
 		try {
 			designEditor = new ScenarioDesignEditor();
