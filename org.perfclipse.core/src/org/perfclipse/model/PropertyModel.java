@@ -37,8 +37,10 @@ public class PropertyModel extends Property {
 	
 	public PropertyModel(Property property){
 		this();
-		this.name = property.getName();
-		this.value = property.getValue();
+		if (property != null){
+			this.name = property.getName();
+			this.value = property.getValue();
+		}
 	}
 
 	@Override

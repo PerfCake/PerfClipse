@@ -45,16 +45,18 @@ public class ScenarioModel extends Scenario {
 	
 	public ScenarioModel(Scenario model){
 		super();
-		if (model == null){
-			throw new IllegalArgumentException("Scenario model must not be null.");
+//		if (model == null){
+//			throw new IllegalArgumentException("Scenario model must not be null.");
+//		}
+		if (model != null){
+			listeners = new PropertyChangeSupport(this);
+			this.generator = new Generator(model.getGenerator());
+			this.messages = new Messages(model.getMessages());
+			this.properties = new Properties(model.getProperties());
+			this.sender = new Sender(model.getSender());
+			this.reporting = new Reporting(model.getReporting());
+			this.validation = new Validation(model.getValidation());
 		}
-		listeners = new PropertyChangeSupport(this);
-		this.generator = new Generator(model.getGenerator());
-		this.messages = new Messages(model.getMessages());
-		this.properties = new Properties(model.getProperties());
-		this.sender = new Sender(model.getSender());
-		this.reporting = new Reporting(model.getReporting());
-		this.validation = new Validation(model.getValidation());
 	}
 	
 
@@ -127,19 +129,21 @@ public class ScenarioModel extends Scenario {
 		
 		public Generator(Scenario.Generator generator){
 			this();
-			if (generator == null){
-				throw new IllegalArgumentException("Generator must not be null.");
-			}
-			this.clazz = generator.getClazz();
-			this.threads = generator.getThreads();
-			this.property = generator.getProperty();
-			if (generator.getProperty() != null){
-				property = new ArrayList<>();
-				for (Property p : generator.getProperty()){
-					property.add(new PropertyModel(p));
+//			if (generator == null){
+//				throw new IllegalArgumentException("Generator must not be null.");
+//			}
+			if (generator != null){
+				this.clazz = generator.getClazz();
+				this.threads = generator.getThreads();
+				this.property = generator.getProperty();
+				if (generator.getProperty() != null){
+					property = new ArrayList<>();
+					for (Property p : generator.getProperty()){
+						property.add(new PropertyModel(p));
+					}
 				}
+				this.run = new Run(generator.getRun());
 			}
-			this.run = new Run(generator.getRun());
 		}
 
 		public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -196,11 +200,13 @@ public class ScenarioModel extends Scenario {
 			
 			public Run(Scenario.Generator.Run run){
 				this();
-				if (run == null){
-					throw new IllegalArgumentException("Run must not be null.");
+//				if (run == null){
+//					throw new IllegalArgumentException("Run must not be null.");
+//				}
+				if (run != null){
+					this.type = run.getType();
+					this.value = run.getValue();
 				}
-				this.type = run.getType();
-				this.value = run.getValue();
 			}
 
 			public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -241,13 +247,15 @@ public class ScenarioModel extends Scenario {
 		
 		public Messages(Scenario.Messages messages){
 			this();
-			if (messages == null){
-				throw new IllegalArgumentException("Messages must not be null.");
-			}
-			if (messages.getMessage() != null){
-				this.message = new ArrayList<>();
-				for (Scenario.Messages.Message m : messages.getMessage()){
-					this.message.add(new Message(m));
+//			if (messages == null){
+//				throw new IllegalArgumentException("Messages must not be null.");
+//			}
+			if (messages != null){
+				if (messages.getMessage() != null){
+					this.message = new ArrayList<>();
+					for (Scenario.Messages.Message m : messages.getMessage()){
+						this.message.add(new Message(m));
+					}
 				}
 			}
 		}
@@ -288,28 +296,30 @@ public class ScenarioModel extends Scenario {
 			}
 			public Message(Scenario.Messages.Message message){
 				this();
-				if (message == null){
-					throw new IllegalArgumentException("Message must not be null");
-				}
-				if (message.getHeader() != null){
-					this.header = new ArrayList<>();
-					for (Header h : message.getHeader()){
-						this.header.add(new HeaderModel(h));
+//				if (message == null){
+//					throw new IllegalArgumentException("Message must not be null");
+//				}
+				if (message != null){
+					if (message.getHeader() != null){
+						this.header = new ArrayList<>();
+						for (Header h : message.getHeader()){
+							this.header.add(new HeaderModel(h));
+						}
 					}
-				}
-				this.multiplicity = message.getMultiplicity();
-				if (message.getProperty() != null){
-					this.property = new ArrayList<>();
-					for (Property p : message.getProperty()){
-						this.property.add(new PropertyModel(p));
+					this.multiplicity = message.getMultiplicity();
+					if (message.getProperty() != null){
+						this.property = new ArrayList<>();
+						for (Property p : message.getProperty()){
+							this.property.add(new PropertyModel(p));
+						}
 					}
-				}
-				this.uri = message.getUri();
-				
-				if (message.getValidatorRef() != null){
-					this.validatorRef = new ArrayList<>();
-					for (org.perfcake.model.Scenario.Messages.Message.ValidatorRef ref : message.getValidatorRef()){
-						validatorRef.add(new ValidatorRef(ref));
+					this.uri = message.getUri();
+
+					if (message.getValidatorRef() != null){
+						this.validatorRef = new ArrayList<>();
+						for (org.perfcake.model.Scenario.Messages.Message.ValidatorRef ref : message.getValidatorRef()){
+							validatorRef.add(new ValidatorRef(ref));
+						}
 					}
 				}
 			}
@@ -381,10 +391,12 @@ public class ScenarioModel extends Scenario {
 				}
 				
 				public ValidatorRef(org.perfcake.model.Scenario.Messages.Message.ValidatorRef validatorRef){
-					if (validatorRef == null){
-						throw new IllegalArgumentException("ValidatorRef must not be null");
+//					if (validatorRef == null){
+//						throw new IllegalArgumentException("ValidatorRef must not be null");
+//					}
+					if (validatorRef != null){
+						this.id = validatorRef.getId();
 					}
-					this.id = validatorRef.getId();
 				}
 				
 				public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -419,16 +431,18 @@ public class ScenarioModel extends Scenario {
 
 		public Sender(Scenario.Sender sender){
 			this();
-			if (sender == null){
-				throw new IllegalArgumentException("Sender must not be null.");
-			}
-			if (sender.getProperty() != null){
-				property = new ArrayList<>();
-				for (Property p : sender.getProperty()){
-					property.add(new PropertyModel(p));
+//			if (sender == null){
+//				throw new IllegalArgumentException("Sender must not be null.");
+//			}
+			if (sender != null){
+				if (sender.getProperty() != null){
+					property = new ArrayList<>();
+					for (Property p : sender.getProperty()){
+						property.add(new PropertyModel(p));
+					}
 				}
+				clazz = sender.getClazz();
 			}
-			clazz = sender.getClazz();
 		}
 		
 		public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -471,13 +485,15 @@ public class ScenarioModel extends Scenario {
 
 		public Validation(org.perfcake.model.Scenario.Validation validation){
 			this();
-			if (validation == null){
-				throw new IllegalArgumentException("Validation must not be null.");
-			}
-			if (validation.getValidator() != null){
-				validator = new ArrayList<>();
-				for (org.perfcake.model.Scenario.Validation.Validator validator : validation.getValidator()){
-					this.validator.add(new Validator(validator));
+//			if (validation == null){
+//				throw new IllegalArgumentException("Validation must not be null.");
+//			}
+			if (validation != null){
+				if (validation.getValidator() != null){
+					validator = new ArrayList<>();
+					for (org.perfcake.model.Scenario.Validation.Validator validator : validation.getValidator()){
+						this.validator.add(new Validator(validator));
+					}
 				}
 			}
 		}
@@ -517,12 +533,14 @@ public class ScenarioModel extends Scenario {
 			public Validator(Scenario.Validation.Validator validator){
 				this();
 				
-				if (validator == null){
-					throw new IllegalArgumentException("Validator must not be null");
+//				if (validator == null){
+//					throw new IllegalArgumentException("Validator must not be null");
+//				}
+				if (validator != null){
+					this.clazz = validator.getClazz();
+					this.id = validator.getId();
+					this.value = validator.getValue();
 				}
-				this.clazz = validator.getClazz();
-				this.id = validator.getId();
-				this.value = validator.getValue();
 			}
 			
 			public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -571,14 +589,16 @@ public class ScenarioModel extends Scenario {
 
 		public Properties(Scenario.Properties properties) {
 			this();
-			if (properties == null){
-				throw new IllegalArgumentException("Properties must not be null.");
-			}
-			if (properties.getProperty() != null){
-				property = new ArrayList<>();
-				
-				for (Property p : properties.getProperty()){
-					property.add(new PropertyModel(p));
+//			if (properties == null){
+//				throw new IllegalArgumentException("Properties must not be null.");
+//			}
+			if (properties != null){
+				if (properties.getProperty() != null){
+					property = new ArrayList<>();
+
+					for (Property p : properties.getProperty()){
+						property.add(new PropertyModel(p));
+					}
 				}
 			}
 		}
@@ -616,19 +636,21 @@ public class ScenarioModel extends Scenario {
 		
 		public Reporting(Scenario.Reporting reporting){
 			this();
-			if (reporting == null){
-				throw new IllegalArgumentException("Reporting must not be null.");
-			}
-			if (reporting.getReporter() != null){
-				reporter = new ArrayList<>();
-				for (Scenario.Reporting.Reporter r : reporting.getReporter()){
-					reporter.add(new Reporter(r));
+//			if (reporting == null){
+//				throw new IllegalArgumentException("Reporting must not be null.");
+//			}
+			if (reporting != null){
+				if (reporting.getReporter() != null){
+					reporter = new ArrayList<>();
+					for (Scenario.Reporting.Reporter r : reporting.getReporter()){
+						reporter.add(new Reporter(r));
+					}
 				}
-			}
-			if (reporting.getProperty() != null){
-				property = new ArrayList<>();
-				for (Property p : reporting.getProperty()){
-					property.add(new PropertyModel(p));
+				if (reporting.getProperty() != null){
+					property = new ArrayList<>();
+					for (Property p : reporting.getProperty()){
+						property.add(new PropertyModel(p));
+					}
 				}
 			}
 		}
@@ -678,26 +700,28 @@ public class ScenarioModel extends Scenario {
 			public Reporter(Scenario.Reporting.Reporter reporter){
 				this();
 				
-				if (reporter == null){
-					throw new IllegalArgumentException("Reporter must not be null");
-				}
+//				if (reporter == null){
+//					throw new IllegalArgumentException("Reporter must not be null");
+//				}
 
-				if (reporter.getDestination() != null){
-					destination = new ArrayList<>();
-					for (Scenario.Reporting.Reporter.Destination d : reporter.getDestination()){
-						destination.add(new Destination(d));
+				if (reporter != null){
+					if (reporter.getDestination() != null){
+						destination = new ArrayList<>();
+						for (Scenario.Reporting.Reporter.Destination d : reporter.getDestination()){
+							destination.add(new Destination(d));
+						}
 					}
-				}
 
-				if (reporter.getProperty() != null){
-					property = new ArrayList<>();
-					for (Property p : reporter.getProperty()){
-						property.add(new PropertyModel(p));
+					if (reporter.getProperty() != null){
+						property = new ArrayList<>();
+						for (Property p : reporter.getProperty()){
+							property.add(new PropertyModel(p));
+						}
 					}
+
+					this.clazz = reporter.getClazz();
+					this.enabled = reporter.isEnabled();
 				}
-				
-				this.clazz = reporter.getClazz();
-				this.enabled = reporter.isEnabled();
 			}
 			
 			public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -757,25 +781,27 @@ public class ScenarioModel extends Scenario {
 				}
 				public Destination(Scenario.Reporting.Reporter.Destination destination) {
 					this();
-					if (destination == null){
-						throw new IllegalArgumentException("Destination must not be null");
-					}
+//					if (destination == null){
+//						throw new IllegalArgumentException("Destination must not be null");
+//					}
 					
-					if (destination.getProperty() != null){
-						property = new ArrayList<>();
-						for (Property p : destination.getProperty()){
-							property.add(new PropertyModel(p));
+					if (destination != null){
+						if (destination.getProperty() != null){
+							property = new ArrayList<>();
+							for (Property p : destination.getProperty()){
+								property.add(new PropertyModel(p));
+							}
 						}
-					}
 
-					if (destination.getPeriod() != null){
-						period = new ArrayList<>();
-						for (Scenario.Reporting.Reporter.Destination.Period p : destination.getPeriod()){
-							period.add(new Period(p));
+						if (destination.getPeriod() != null){
+							period = new ArrayList<>();
+							for (Scenario.Reporting.Reporter.Destination.Period p : destination.getPeriod()){
+								period.add(new Period(p));
+							}
 						}
+						this.clazz = destination.getClazz();
+						this.enabled = destination.isEnabled();
 					}
-					this.clazz = destination.getClazz();
-					this.enabled = destination.isEnabled();
 
 				}
 				
@@ -834,12 +860,14 @@ public class ScenarioModel extends Scenario {
 					}
 					public Period(Scenario.Reporting.Reporter.Destination.Period period) {
 						this();
-						if (period == null){
-							throw new IllegalArgumentException("Period must not be null.");
-						}
+//						if (period == null){
+//							throw new IllegalArgumentException("Period must not be null.");
+//						}
 						
-						this.type = period.getType();
-						this.value = period.getValue();
+						if (period != null){
+							this.type = period.getType();
+							this.value = period.getValue();
+						}
 					}
 
 					public void addPropertyChangeListener(PropertyChangeListener listener){

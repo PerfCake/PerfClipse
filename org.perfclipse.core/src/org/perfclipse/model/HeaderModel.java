@@ -37,8 +37,10 @@ public class HeaderModel extends Header {
 	
 	public HeaderModel(Header header){
 		this();
-		this.name = header.getName();
-		this.value = header.getValue();
+		if (header != null){
+			this.name = header.getName();
+			this.value = header.getValue();
+		}
 	}
 	
 	@Override
