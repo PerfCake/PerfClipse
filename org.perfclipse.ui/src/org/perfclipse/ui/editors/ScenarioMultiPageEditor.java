@@ -41,9 +41,9 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 	
 	
 
-	private static final String XML_EDITOR_TAB_LABEL = "XML editor";
+	private static final String XML_EDITOR_TAB_LABEL = "Source";
 
-	private static final String DESIGN_EDITOR_TAB_LABEL = "Design editor";
+	private static final String DESIGN_EDITOR_TAB_LABEL = "Designer";
 
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(ScenarioMultiPageEditor.class);
 
