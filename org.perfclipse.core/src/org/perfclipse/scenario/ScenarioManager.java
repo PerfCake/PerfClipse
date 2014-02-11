@@ -144,7 +144,12 @@ public class ScenarioManager {
 	
 	public void createXML(org.perfcake.model.Scenario scenario, OutputStream out) throws ScenarioException{
 		try {
-			JAXBContext context = JAXBContext.newInstance(org.perfcake.model.Scenario.class);
+			JAXBContext context;
+			if (scenario instanceof ScenarioModel){
+				context = JAXBContext.newInstance(ScenarioModel.class);
+			}else{
+				context = JAXBContext.newInstance(org.perfcake.model.Scenario.class);
+			}
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = schemaFactory.newSchema(new URL("http://schema.perfcake.org/perfcake-scenario-" + Scenario.VERSION + ".xsd"));
 			Marshaller marshaller = context.createMarshaller();
