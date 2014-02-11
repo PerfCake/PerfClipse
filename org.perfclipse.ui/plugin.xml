@@ -47,6 +47,7 @@
          point="org.eclipse.ui.editors">
       <editor
             class="org.perfclipse.ui.editors.ScenarioMultiPageEditor"
+            contributorClass="org.perfclipse.ui.editors.DesignEditorActionBarContributor"
             default="false"
             extensions="xml"
             id="org.perfclipse.ui.editors.scenario"
