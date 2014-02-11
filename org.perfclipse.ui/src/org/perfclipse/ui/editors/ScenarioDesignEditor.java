@@ -26,6 +26,8 @@ import org.eclipse.draw2d.ShortestPathConnectionRouter;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
+import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
@@ -66,6 +68,14 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	      GraphicalViewer viewer = getGraphicalViewer();
 	      viewer.setEditPartFactory(new PerfCakeEditPartFactory());
 	      viewer.setRootEditPart(new ScalableFreeformRootEditPart());
+	      
+	      // These two lines add support for drag and drop between palette and editor
+	      getGraphicalViewer().addDropTargetListener(
+	    		  new TemplateTransferDropTargetListener(getGraphicalViewer()));
+	      getEditDomain().getPaletteViewer().addDragSourceListener(
+	    		  new TemplateTransferDragSourceListener(getEditDomain().getPaletteViewer()));
+	      
+	      
 	   }
 
 	   /**
