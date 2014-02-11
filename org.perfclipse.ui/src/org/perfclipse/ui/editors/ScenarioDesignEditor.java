@@ -20,6 +20,12 @@
 package org.perfclipse.ui.editors;
 
 
+import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.ShortestPathConnectionRouter;
@@ -31,9 +37,12 @@ import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IEditorInput;
-import org.perfcake.model.Scenario;
+import org.eclipse.ui.part.FileEditorInput;
 import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.scenario.ScenarioException;
+import org.perfclipse.scenario.ScenarioManager;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 import org.perfclipse.ui.gef.parts.ScenarioEditPart;
 import org.slf4j.LoggerFactory;
@@ -103,15 +112,43 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
+		ScenarioManager manager = new ScenarioManager();
+		
+		IFile file = ((FileEditorInput) getEditorInput()).getFile();
 
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public Object getAdapter(Class type){
-		if (type == Scenario.class)
-			return model;
-		return super.getAdapter(type);
-	}
+		PipedOutputStream out = new PipedOutputStream();
+		PipedInputStream in = null;
+		try {
+			in = new PipedInputStream(out);
+			manager.createXML(model, out);
+		} catch (ScenarioException e) {
+			MessageDialog.openError(getSite().getShell(), "Error", "Cannot create xml representation of the model.");
+			log.error("Cannot create xml representation of the model.", e);
+		} catch (IOException e) {
+			MessageDialog.openError(getSite().getShell(), "IO Exception", "Cannot create stream to transfer data.");
+			log.error("Cannot create piped input stream from output stream", e);
+		} finally {
+			try {
+				out.close();
+			} catch (IOException e) {
+				log.error("Cannot close piped output stream for scenario xml output", e);
+			}
+		}
 
+		try {
+			file.setContents(in, false, true, monitor);
+			getEditDomain().getCommandStack().markSaveLocation();
+		} catch (CoreException e) {
+			MessageDialog.openError(getSite().getShell(), "Write error", "Cannot write data into file.");
+			log.error("Write error", "Cannot write data into file", e);
+		} finally {
+			try {
+				if (in != null){
+					in.close();
+				}
+			} catch (IOException e) {
+				log.error("Cannot close piped input stream for scenario xml", e);
+			}
+		}
+	}
 }
