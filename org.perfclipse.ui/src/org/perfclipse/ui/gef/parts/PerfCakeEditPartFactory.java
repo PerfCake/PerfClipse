@@ -21,7 +21,17 @@ package org.perfclipse.ui.gef.parts;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
+import org.perfclipse.model.DestinationModel;
+import org.perfclipse.model.GeneratorModel;
+import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ReporterModel;
+import org.perfclipse.model.ReportingModel;
+import org.perfclipse.model.RunModel;
 import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.model.SenderModel;
+import org.perfclipse.model.ValidationModel;
+import org.perfclipse.model.ValidatorModel;
 
 public class PerfCakeEditPartFactory implements EditPartFactory {
 
@@ -34,38 +44,38 @@ public class PerfCakeEditPartFactory implements EditPartFactory {
 		if (model instanceof ScenarioModel){
 			return new ScenarioEditPart((ScenarioModel) model);
 		}
-		if (model instanceof ScenarioModel.Generator){
-			return new GeneratorEditPart((ScenarioModel.Generator) model);
+		if (model instanceof GeneratorModel){
+			return new GeneratorEditPart((GeneratorModel) model);
 		}
-		if (model instanceof ScenarioModel.Sender){
-			return new SenderEditPart((ScenarioModel.Sender) model);
+		if (model instanceof SenderModel){
+			return new SenderEditPart((SenderModel) model);
 		}
-		if (model instanceof ScenarioModel.Reporting){
-			return new ReportingEditPart((ScenarioModel.Reporting) model);
+		if (model instanceof ReportingModel){
+			return new ReportingEditPart((ReportingModel) model);
 		}
-		if (model instanceof ScenarioModel.Validation){
-			return new ValidationEditPart((ScenarioModel.Validation) model);
+		if (model instanceof ValidationModel){
+			return new ValidationEditPart((ValidationModel) model);
 		}
-		if (model instanceof ScenarioModel.Validation.Validator){
-			return new ValidatorEditPart((ScenarioModel.Validation.Validator) model);
+		if (model instanceof ValidatorModel){
+			return new ValidatorEditPart((ValidatorModel) model);
 		}
-		if (model instanceof ScenarioModel.Messages){
-			return new MessagesEditPart((ScenarioModel.Messages) model);
+		if (model instanceof MessagesModel){
+			return new MessagesEditPart((MessagesModel) model);
 		}
-		if (model instanceof ScenarioModel.Generator.Run){
-			return new RunEditPart((ScenarioModel.Generator.Run) model);
+		if (model instanceof RunModel){
+			return new RunEditPart((RunModel) model);
 		}
-		if (model instanceof ScenarioModel.Messages.Message){
-			return new MessageEditPart((ScenarioModel.Messages.Message) model);
+		if (model instanceof MessageModel){
+			return new MessageEditPart((MessageModel) model);
 		}
 		if (model instanceof String){
 			return new StringEditPart((String) model);
 		}
-		if (model instanceof ScenarioModel.Reporting.Reporter){
-			return new ReporterEditPart((ScenarioModel.Reporting.Reporter) model);
+		if (model instanceof ReporterModel){
+			return new ReporterEditPart((ReporterModel) model);
 		}
-		if (model instanceof ScenarioModel.Reporting.Reporter.Destination){
-			return new DestinationEditPart((ScenarioModel.Reporting.Reporter.Destination) model);
+		if (model instanceof DestinationModel){
+			return new DestinationEditPart((DestinationModel) model);
 		}
 		return null;
 	}

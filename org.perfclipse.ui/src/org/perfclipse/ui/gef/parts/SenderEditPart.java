@@ -23,23 +23,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.model.SenderModel;
 import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
 
 public class SenderEditPart extends AbstractPerfCakeSectionEditPart {
 
 	
-	public SenderEditPart(ScenarioModel.Sender senderModel){
+	public SenderEditPart(SenderModel senderModel){
 		setModel(senderModel);
 	}
 
-	public ScenarioModel.Sender getSender(){
-		return (ScenarioModel.Sender) getModel();
+	public SenderModel getSenderModel(){
+		return (SenderModel) getModel();
 	}
 	
 	@Override
 	protected IFigure createFigure() {
-		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle(getSender().getClazz(), getDefaultSize());
+		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle(getSenderModel().getClazz(), getDefaultSize());
 		return figure;
 	}
 

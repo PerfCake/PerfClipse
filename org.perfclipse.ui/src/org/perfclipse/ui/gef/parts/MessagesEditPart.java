@@ -31,33 +31,33 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
-import org.perfclipse.model.ScenarioModel;
-import org.perfclipse.model.ScenarioModel.Messages.Message;
+import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.MessagesModel;
 import org.perfclipse.ui.gef.commands.AddMessageCommand;
 import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
 
 public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
-	public MessagesEditPart(ScenarioModel.Messages messagesModel){
+	public MessagesEditPart(MessagesModel messagesModel){
 		setModel(messagesModel);
 	}
 	
 	@Override
 	public void activate() {
 		if (!isActive()){
-			getMessages().addPropertyChangeListener(this);
+			getMessagesModel().addPropertyChangeListener(this);
 		}
 		super.activate();
 	}
 
 	@Override
 	public void deactivate() {
-		getMessages().removePropertyChangeListener(this);
+		getMessagesModel().removePropertyChangeListener(this);
 		super.deactivate();
 	}
 	
-	public ScenarioModel.Messages getMessages(){
-		return (ScenarioModel.Messages) getModel();
+	public MessagesModel getMessagesModel(){
+		return (MessagesModel) getModel();
 	}
 	
 	@Override
@@ -75,9 +75,9 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 			@Override
 			protected Command getCreateCommand(CreateRequest request) {
 				Object type = request.getNewObjectType();
-				if (type == ScenarioModel.Messages.Message.class){
-					ScenarioModel.Messages.Message message = (Message) request.getNewObject();
-					return new AddMessageCommand(message, getMessages());
+				if (type == MessageModel.class){
+					MessageModel message = (MessageModel) request.getNewObject();
+					return new AddMessageCommand(message, getMessagesModel());
 				}
 				return null;
 			}
@@ -104,13 +104,16 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 
 	@Override
 	protected List<Object> getModelChildren(){
-		List<Object> modelChildren = new ArrayList<Object>(getMessages().getMessage());
+		List<Object> modelChildren = new ArrayList<Object>();
+		if (getMessagesModel().getMessageModel() != null){
+			modelChildren.addAll(getMessagesModel().getMessageModel());
+		}
 		return modelChildren;
 	}
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent e) {
-		if (e.getPropertyName().equals(ScenarioModel.Messages.PROPERTY_MESSAGE)){
+		if (e.getPropertyName().equals(MessagesModel.PROPERTY_MESSAGE)){
 			/* TODO : refresh children takes linear time according to number of children
 			 * better solution will be to explicitly call addChild or remove child which
 			 * takes constant time only.

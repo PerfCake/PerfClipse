@@ -1,16 +1,15 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.ScenarioModel;
-import org.perfclipse.model.ScenarioModel.Messages;
-import org.perfclipse.model.ScenarioModel.Messages.Message;
+import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.MessagesModel;
 
 public class AddMessageCommand extends Command {
 
-	ScenarioModel.Messages.Message newMessage;
-	ScenarioModel.Messages messages;
+	MessageModel newMessage;
+	MessagesModel messages;
 
-	public AddMessageCommand(Message newMessage, Messages messages) {
+	public AddMessageCommand(MessageModel newMessage, MessagesModel messages) {
 		super("Add message");
 		this.newMessage = newMessage;
 		this.messages = messages;
@@ -18,7 +17,7 @@ public class AddMessageCommand extends Command {
 
 	@Override
 	public void execute() {
-		messages.addMessage(newMessage);
+		messages.addMessageModel(newMessage);
 	}
 
 	@Override
@@ -28,7 +27,7 @@ public class AddMessageCommand extends Command {
 
 	@Override
 	public void undo() {
-		messages.removeMessage(newMessage);
+		messages.removeMessageModel(newMessage);
 	}
 	
 	

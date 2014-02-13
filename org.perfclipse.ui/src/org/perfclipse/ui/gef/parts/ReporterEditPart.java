@@ -25,24 +25,24 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
 
 public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 
 	
-	public ReporterEditPart(ScenarioModel.Reporting.Reporter reporterModel){
+	public ReporterEditPart(ReporterModel reporterModel){
 		setModel(reporterModel);
 	}
 	
-	public ScenarioModel.Reporting.Reporter getReporter(){
-		return (ScenarioModel.Reporting.Reporter) getModel(); 
+	public ReporterModel getReporterModel(){
+		return (ReporterModel) getModel(); 
 	}
 	@Override
 	protected IFigure createFigure() {
 		Dimension d = ((AbstractGraphicalEditPart) getParent()).getFigure().getClientArea().getSize().getCopy();
 		d.setHeight(150);
-		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle(getReporter().getClazz(), d); 
+		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle(getReporterModel().getClazz(), d); 
 		return figure;
 	}
 
@@ -55,7 +55,9 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
-		modelChildren.addAll(getReporter().getDestination());
+		if (getReporterModel().getDestinationModel() != null){
+			modelChildren.addAll(getReporterModel().getDestinationModel());
+		}
 		return modelChildren;
 	}
 

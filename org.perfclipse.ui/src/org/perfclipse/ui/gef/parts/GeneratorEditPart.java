@@ -26,44 +26,39 @@ import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
-import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
 
 //TODO : move implements to the superclass
 public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
 	Label label;
-	public GeneratorEditPart(ScenarioModel.Generator generatorModel) {
+	public GeneratorEditPart(GeneratorModel generatorModel) {
 		setModel(generatorModel);
 	}
-	
-	
 	
 	@Override
 	public void activate() {
 		if (!isActive()){
-			getGenerator().addPropertyChangeListener(this);
+			getGeneratorModel().addPropertyChangeListener(this);
 		}
 		super.activate();
 	}
 
-
-
 	@Override
 	public void deactivate() {
-		getGenerator().removePropertyChangeListener(this);
+		getGeneratorModel().removePropertyChangeListener(this);
 		super.deactivate();
 	}
 
-
-
-	public ScenarioModel.Generator getGenerator(){
-		return (ScenarioModel.Generator) getModel();
+	public GeneratorModel getGeneratorModel(){
+		return (GeneratorModel) getModel();
 	}
 
 	@Override
 	protected IFigure createFigure() {
-		String header = getGenerator().getClazz() + " (" + getGenerator().getThreads() + ")";
+		String header = getGeneratorModel().getClazz() 
+				+ " (" + getGeneratorModel().getThreads() + ")";
 		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle(header, getDefaultSize());
 		return figure;
 	}
@@ -77,18 +72,16 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<>();
-		if (getGenerator().getRun() != null)
-			modelChildren.add(getGenerator().getRun());
+		if (getGeneratorModel().getRunModel() != null)
+			modelChildren.add(getGeneratorModel().getRunModel());
 
 		return modelChildren;
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent e) {
-		if (e.getPropertyName().equals(ScenarioModel.Generator.PROPERTY_THREADS)){
+		if (e.getPropertyName().equals(GeneratorModel.PROPERTY_THREADS)){
 			((PerfCakeTwoPartRectangle) getFigure()).setHeaderLabelText("changed by listener ;-)");
 		}
-		
 	}
-
 }

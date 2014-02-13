@@ -1,8 +1,8 @@
 /*
- * Perfclispe
+ * PerfClispe
  * 
- * 
- * Copyright (c) 2013 Jakub Knetl
+ *
+ * Copyright (c) 2014 Jakub Knetl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,37 +24,49 @@ import java.beans.PropertyChangeSupport;
 
 import org.perfcake.model.Property;
 
-public class PropertyModel extends Property {
-	
-	private PropertyChangeSupport listeners;
+public class PropertyModel {
+
 	public static final String PROPERTY_NAME = "property-name";
 	public static final String PROPERTY_VALUE = "property-value";
+	
+	private Property property;
+	private PropertyChangeSupport listeners;
 
-	public PropertyModel() {
-		super();
+	public PropertyModel(Property property) {
+		this.property = property;
 		listeners = new PropertyChangeSupport(this);
 	}
+
 	
-	public PropertyModel(Property property){
-		this();
-		if (property != null){
-			this.name = property.getName();
-			this.value = property.getValue();
-		}
+	/**
+	 * This method should not be used for modifying property (in a way getProperty().setName()))
+	 * since these changes would not fire PropertyChange listeners which implies that
+	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
+	 * 
+	 * @return PerfCake model of Property
+	 */
+	public Property getProperty() {
+		return property;
+	}
+	
+	public void setName(String name){
+		String oldName = getProperty().getName();
+		getProperty().setName(name);
+		listeners.firePropertyChange(PROPERTY_NAME, oldName, name);
+	}
+	
+	public String getName(){
+		return getProperty().getName();
 	}
 
-	@Override
-	public void setName(String value) {
-		String oldValue = getName();
-		super.setName(value);
+	public void setValue(String value){
+		String oldValue = getProperty().getValue();
+		getProperty().setValue(value);
 		listeners.firePropertyChange(PROPERTY_NAME, oldValue, value);
 	}
-
-	@Override
-	public void setValue(String value) {
-		String oldValue = getValue();
-		super.setValue(value);
-		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
+	
+	public String getValue(){
+		return getProperty().getValue();
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -64,8 +76,4 @@ public class PropertyModel extends Property {
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		listeners.removePropertyChangeListener(listener);
 	}
-
-	
-	
-
 }

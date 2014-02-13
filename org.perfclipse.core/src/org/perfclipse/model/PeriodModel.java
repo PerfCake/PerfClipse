@@ -22,51 +22,31 @@ package org.perfclipse.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import org.perfcake.model.Header;
+import org.perfcake.model.Scenario.Reporting.Reporter.Destination.Period;
 
-public class HeaderModel {
-
-	public static final String PROPERTY_NAME = "header-name";
-	public static final String PROPERTY_VALUE = "header-value";
+public class PeriodModel {
 	
-	private Header header;
-	private PropertyChangeSupport listeners;
+	public static final String PROPERTY_TYPE = "period-type";
+	public static final String PROPERTY_VALUE= "period-value";
 
-	public HeaderModel(Header header) {
-		this.header = header;
+	private PropertyChangeSupport listeners;
+	private Period period;
+
+	public PeriodModel(Period period) {
+		this.period = period;
 		listeners = new PropertyChangeSupport(this);
 	}
 
 	
 	/**
-	 * This method should not be used for modifying header (in a way getHeader().setName()))
+	 * This method should not be used for modifying Period(in a way getPeriod().setValue()))
 	 * since these changes would not fire PropertyChange listeners which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
-	 * @return PerfCake model of Header 
+	 * @return PerfCake model of Period
 	 */
-	public Header getHeader() {
-		return header;
-	}
-	
-	public void setName(String name){
-		String oldName = getHeader().getName();
-		getHeader().setName(name);
-		listeners.firePropertyChange(PROPERTY_NAME, oldName, name);
-	}
-	
-	public String getName(){
-		return getHeader().getName();
-	}
-
-	public void setValue(String value){
-		String oldValue = getHeader().getValue();
-		getHeader().setValue(value);
-		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
-	}
-	
-	public String getValue(){
-		return getHeader().getValue();
+	public Period getPeriod() {
+		return period;
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -76,4 +56,25 @@ public class HeaderModel {
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		listeners.removePropertyChangeListener(listener);
 	}
+	
+	public void setType(String type){
+		String oldType = getPeriod().getType();
+		getPeriod().setType(type);
+		listeners.firePropertyChange(PROPERTY_TYPE, oldType, type);
+	}
+	
+	public String getType(){
+		return getPeriod().getType();
+	}
+
+	public void setValue(String value){
+		String oldValue = getPeriod().getValue();
+		getPeriod().setValue(value);
+		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
+	}
+	
+	public String getValue(){
+		return getPeriod().getValue();
+	}
+	
 }

@@ -130,7 +130,7 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 		PipedInputStream in = null;
 		try {
 			in = new PipedInputStream(out);
-			manager.createXML( model, out);
+			manager.createXML(model.getScenario(), out);
 			try {
 				file.setContents(in, false, true, monitor);
 				getEditDomain().getCommandStack().markSaveLocation();

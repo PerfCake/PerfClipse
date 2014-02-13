@@ -95,7 +95,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 				ScenarioManager manager = new ScenarioManager();
 				PipedOutputStream out = new PipedOutputStream();
 				PipedInputStream in = new PipedInputStream(out);
-				manager.createXML(model, out);
+				manager.createXML(model.getScenario(), out);
 				out.close();
 				scenarioFile.create(in, false, null);
 				

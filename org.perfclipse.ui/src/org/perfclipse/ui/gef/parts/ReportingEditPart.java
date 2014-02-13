@@ -23,17 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.model.ReportingModel;
 import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
 
 public class ReportingEditPart extends AbstractPerfCakeSectionEditPart {
 
-	public ReportingEditPart(ScenarioModel.Reporting reportingModel){
+	public ReportingEditPart(ReportingModel reportingModel){
 		setModel(reportingModel);
 	}
 	
-	public ScenarioModel.Reporting getReporting(){
-		return (ScenarioModel.Reporting) getModel(); 
+	public ReportingModel getReportingModel(){
+		return (ReportingModel) getModel(); 
 	}
 	@Override
 	protected IFigure createFigure() {
@@ -50,7 +50,9 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart {
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
-		modelChildren.addAll(getReporting().getReporter());
+		if (getReportingModel().getReporterModel() != null){
+			modelChildren.addAll(getReportingModel().getReporterModel());
+		}
 		return modelChildren;
 	}
 

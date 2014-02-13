@@ -1,7 +1,7 @@
 /*
  * PerfClispe
  * 
- *
+ * 
  * Copyright (c) 2014 Jakub Knetl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,58 +22,58 @@ package org.perfclipse.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import org.perfcake.model.Header;
+import org.perfcake.model.Scenario.Generator.Run;
 
-public class HeaderModel {
-
-	public static final String PROPERTY_NAME = "header-name";
-	public static final String PROPERTY_VALUE = "header-value";
-	
-	private Header header;
+public class RunModel {
+	public static final String PROPERTY_TYPE = "run-type";
+	public static final String PROPERTY_VALUE = "run-value";
 	private PropertyChangeSupport listeners;
-
-	public HeaderModel(Header header) {
-		this.header = header;
+	private Run run;
+	
+	public RunModel(Run run){
+		this.run = run;
 		listeners = new PropertyChangeSupport(this);
-	}
-
-	
-	/**
-	 * This method should not be used for modifying header (in a way getHeader().setName()))
-	 * since these changes would not fire PropertyChange listeners which implies that
-	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
-	 * 
-	 * @return PerfCake model of Header 
-	 */
-	public Header getHeader() {
-		return header;
-	}
-	
-	public void setName(String name){
-		String oldName = getHeader().getName();
-		getHeader().setName(name);
-		listeners.firePropertyChange(PROPERTY_NAME, oldName, name);
-	}
-	
-	public String getName(){
-		return getHeader().getName();
-	}
-
-	public void setValue(String value){
-		String oldValue = getHeader().getValue();
-		getHeader().setValue(value);
-		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
-	}
-	
-	public String getValue(){
-		return getHeader().getValue();
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener){
 		listeners.addPropertyChangeListener(listener);
 	}
-	
+
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		listeners.removePropertyChangeListener(listener);
 	}
+	
+	/**
+	 * This method should not be used for modifying run (in a way getRun().setType(s))
+	 * since these changes would not fire PropertyChange listeners which implies that
+	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
+	 * 
+	 * @return PerfCake model of Run
+	 */
+	public Run getRun(){
+		return run;
+	}
+
+	public void setType(String value) {
+		String oldValue = getRun().getType();
+		getRun().setType(value);
+		listeners.firePropertyChange(PROPERTY_TYPE, oldValue, value);
+	}
+	
+	public String getType(){
+		return getRun().getType();
+	}
+
+	public void setValue(String value) {
+		String oldValue = getRun().getValue();
+		getRun().setValue(value);
+		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
+	}
+	
+	public String getValue(){
+		return getRun().getValue();
+	}
+
+
+
 }

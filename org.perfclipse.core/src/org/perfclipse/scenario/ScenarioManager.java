@@ -93,12 +93,12 @@ public class ScenarioManager {
 		}
 
 		Scenario scenario;
-		org.perfcake.model.Scenario model;
+		ScenarioModel model;
 
 		model = createModel(scenarioURL);
 
 		try {
-			scenario = new ScenarioBuilder().load(model).build();
+			scenario = new ScenarioBuilder().load(model.getScenario()).build();
 		} catch (PerfCakeException e) {
 			log.error("Cannot load scenario", e);
 			throw new ScenarioException("Cannot load scenario", e);
@@ -145,11 +145,7 @@ public class ScenarioManager {
 	public void createXML(org.perfcake.model.Scenario scenario, OutputStream out) throws ScenarioException{
 		try {
 			JAXBContext context;
-			if (scenario instanceof ScenarioModel){
-				context = JAXBContext.newInstance(ScenarioModel.class);
-			}else{
-				context = JAXBContext.newInstance(org.perfcake.model.Scenario.class);
-			}
+			context = JAXBContext.newInstance(org.perfcake.model.Scenario.class);
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = schemaFactory.newSchema(new URL("http://schema.perfcake.org/perfcake-scenario-" + Scenario.VERSION + ".xsd"));
 			Marshaller marshaller = context.createMarshaller();

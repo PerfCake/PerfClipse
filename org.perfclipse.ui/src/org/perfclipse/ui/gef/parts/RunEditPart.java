@@ -21,23 +21,23 @@ package org.perfclipse.ui.gef.parts;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
-import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.model.RunModel;
 
 public class RunEditPart extends AbstractPerfCakeEditPart {
 
 	Label label;
 	
-	public RunEditPart(ScenarioModel.Generator.Run runModel){
+	public RunEditPart(RunModel runModel){
 		setModel(runModel);
 	}
 	
-	public ScenarioModel.Generator.Run getRun(){
-		return (ScenarioModel.Generator.Run) getModel(); 
+	public RunModel getRunModel(){
+		return (RunModel) getModel(); 
 	}
 	@Override
 	protected IFigure createFigure() {
 		label = new Label();
-		label.setText(getRun().getType() + " : " + getRun().getValue());
+		label.setText(getRunModel().getType() + " : " + getRunModel().getValue());
 		return label;
 	}
 

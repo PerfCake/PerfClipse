@@ -23,17 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.model.ValidationModel;
 import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
 
 public class ValidationEditPart extends AbstractPerfCakeSectionEditPart {
 
-	public ValidationEditPart(ScenarioModel.Validation validationModel){
+	public ValidationEditPart(ValidationModel validationModel){
 		setModel(validationModel);
 	}
 	
-	public ScenarioModel.Validation getValidation(){
-		return (ScenarioModel.Validation) getModel();
+	public ValidationModel getValidationModel(){
+		return (ValidationModel) getModel();
 	}
 	@Override
 	protected IFigure createFigure() {
@@ -51,7 +51,9 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart {
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
-		modelChildren.addAll(getValidation().getValidator());
+		if (getValidationModel().getValidatorModel() != null){
+			modelChildren.addAll(getValidationModel().getValidatorModel());
+		}
 		return modelChildren;
 	}
 

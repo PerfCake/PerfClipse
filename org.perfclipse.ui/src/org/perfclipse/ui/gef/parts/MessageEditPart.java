@@ -23,21 +23,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.model.MessageModel;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 
 public class MessageEditPart extends AbstractPerfCakeNodeEditPart {
 
-	public MessageEditPart(ScenarioModel.Messages.Message modelMessage){
+	public MessageEditPart(MessageModel modelMessage){
 		setModel(modelMessage);
 	}
 	
-	public ScenarioModel.Messages.Message getMessage(){
-		return (ScenarioModel.Messages.Message) getModel();
+	public MessageModel getMessageModel(){
+		return (MessageModel) getModel();
 	}
 	@Override
 	protected IFigure createFigure() {
-		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getMessage().getUri().toString());
+		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getMessageModel().getUri());
 
 		return figure;
 	}
