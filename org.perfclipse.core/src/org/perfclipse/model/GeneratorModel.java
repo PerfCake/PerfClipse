@@ -45,10 +45,11 @@ public class GeneratorModel {
 		this.generator = generator;
 		listeners = new PropertyChangeSupport(this);
 		
+		propertyModel = new ArrayList<>();
+
 		if (generator != null){
 			this.runModel = new RunModel(generator.getRun());
 			if (generator.getProperty() != null){
-				propertyModel = new ArrayList<>();
 				for (Property p : generator.getProperty()){
 					propertyModel.add(new PropertyModel(p));
 				}

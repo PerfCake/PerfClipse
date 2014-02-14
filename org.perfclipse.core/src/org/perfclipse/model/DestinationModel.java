@@ -45,21 +45,20 @@ public class DestinationModel {
 		this.destination = destination;
 		listeners = new PropertyChangeSupport(this);
 		
+		periodModel = new ArrayList<>();
+		propertyModel = new ArrayList<>();
+
 		if (destination != null){
 			if (destination.getPeriod() != null){
-				periodModel = new ArrayList<>();
 				for (Period p : destination.getPeriod()){
 					periodModel.add(new PeriodModel(p));
 				}
 			}
-			
 			if (destination.getProperty() != null){
-				propertyModel = new ArrayList<>();
 				for (Property p : destination.getProperty()){
 					propertyModel.add(new PropertyModel(p));
 				}
 			}
-			
 		}
 	}
 	

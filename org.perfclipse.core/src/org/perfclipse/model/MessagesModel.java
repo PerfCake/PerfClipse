@@ -40,9 +40,10 @@ public class MessagesModel {
 		this.messages = messages;
 		listeners = new PropertyChangeSupport(this);
 		
+		messageModel = new ArrayList<>();
+
 		if (messages != null){
 			if (messages.getMessage() != null){
-				messageModel = new ArrayList<>();
 				for (Message m : messages.getMessage()){
 					messageModel.add(new MessageModel(m));
 				}

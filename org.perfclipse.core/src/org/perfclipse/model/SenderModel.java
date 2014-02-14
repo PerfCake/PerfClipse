@@ -41,9 +41,10 @@ public class SenderModel {
 		this.sender = sender;
 		listeners = new PropertyChangeSupport(this);
 		
+		propertyModel = new ArrayList<>();
+
 		if (sender != null){
 			if (sender.getProperty() != null){
-				propertyModel = new ArrayList<>();
 				for (Property p: sender.getProperty()){
 					propertyModel.add(new PropertyModel(p));
 				}

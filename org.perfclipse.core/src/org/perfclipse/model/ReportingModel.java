@@ -43,15 +43,16 @@ public class ReportingModel {
 		this.reporting = reporting;
 		listeners = new PropertyChangeSupport(this);
 		
+		propertyModel = new ArrayList<>();
+		reporterModel = new ArrayList<>();
+
 		if (reporting != null){
 			if (reporting.getProperty() != null){
-				propertyModel = new ArrayList<>();
 				for (Property p : reporting.getProperty()){
 					propertyModel.add(new PropertyModel(p));
 				}
 			}
 			if (reporting.getReporter() != null){
-				reporterModel = new ArrayList<>();
 				for (Reporter r : reporting.getReporter()){
 					reporterModel.add(new ReporterModel(r));
 				}

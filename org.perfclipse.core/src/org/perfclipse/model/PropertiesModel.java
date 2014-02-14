@@ -40,9 +40,11 @@ public class PropertiesModel {
 	public PropertiesModel(Properties properties) {
 		this.properties = properties;
 		listeners = new PropertyChangeSupport(this);
+
+		propertyModel = new ArrayList<>();
+
 		if (properties != null){
 			if (properties.getProperty() != null){
-				propertyModel = new ArrayList<>();
 				for (Property p : properties.getProperty()){
 					propertyModel.add(new PropertyModel(p));
 				}

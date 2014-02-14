@@ -40,9 +40,10 @@ public class ValidationModel {
 		this.validation = validation;
 		listeners = new PropertyChangeSupport(this);
 		
+		validatorModel = new ArrayList<>();
+
 		if (validation != null){
 			if (validation.getValidator() != null){
-				validatorModel = new ArrayList<>();
 				for (Validator v: validation.getValidator()){
 					validatorModel.add(new ValidatorModel(v));
 				}

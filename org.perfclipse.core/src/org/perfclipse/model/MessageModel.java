@@ -48,23 +48,24 @@ public class MessageModel {
 		this.message = message;
 		listeners = new PropertyChangeSupport(this);
 		
+		headerModel = new ArrayList<>();
+		propertyModel = new ArrayList<>();
+		validatorRefModel = new ArrayList<>();
+
 		if (message != null){
 			if (message.getHeader() != null){
-				headerModel = new ArrayList<>();
 				for (Header h: message.getHeader()){
 					headerModel.add(new HeaderModel(h));
 				}
 			}
 			
 			if (message.getProperty() != null){
-				propertyModel = new ArrayList<>();
 				for (Property p : message.getProperty()){
 					propertyModel.add(new PropertyModel(p));
 				}
 			}
 			
 			if (message.getValidatorRef() != null){
-				validatorRefModel = new ArrayList<>();
 				for (ValidatorRef v : message.getValidatorRef()){
 					validatorRefModel.add(new ValidatorRefModel(v));
 				}

@@ -45,15 +45,16 @@ public class ReporterModel {
 		this.reporter = reporter;
 		listeners = new PropertyChangeSupport(this);
 		
+		propertyModel = new ArrayList<>();
+		destinationModel = new ArrayList<>();
+
 		if (reporter != null){
 			if (reporter.getProperty() != null){
-				propertyModel = new ArrayList<>();
 				for (Property p : reporter.getProperty()){
 					propertyModel.add(new PropertyModel(p));
 				}
 			}
 			if (reporter.getDestination() != null){
-				destinationModel = new ArrayList<>();
 				for (Destination d: reporter.getDestination()){
 					destinationModel.add(new DestinationModel(d));
 				}
