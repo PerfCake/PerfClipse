@@ -24,7 +24,9 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Property;
+import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Properties;
 
 public class PropertiesModel {
@@ -84,6 +86,9 @@ public class PropertiesModel {
 	}
 	
 	protected void addProperty(Property property){
+		if (property == null){
+			properties = createProperties();
+		}
 		getProperties().getProperty().add(property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
@@ -100,5 +105,10 @@ public class PropertiesModel {
 	
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		listeners.removePropertyChangeListener(listener);
+	}
+	
+	private Scenario.Properties createProperties(){
+		ObjectFactory f = new ObjectFactory();
+		return f.createScenarioProperties();
 	}
 }

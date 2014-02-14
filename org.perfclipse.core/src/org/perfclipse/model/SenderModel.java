@@ -24,7 +24,9 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Property;
+import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Sender;
 
 public class SenderModel {
@@ -92,6 +94,9 @@ public class SenderModel {
 	}
 
 	public void setClazz(String clazz){
+		if (sender == null){
+			sender = createSender();
+		}
 		String oldClazz = getSender().getClazz();
 		getSender().setClazz(clazz);
 		listeners.firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
@@ -102,6 +107,9 @@ public class SenderModel {
 	}
 	
 	protected void addProperty(Property property){
+		if (sender == null){
+			sender = createSender();
+		}
 		getSender().getProperty().add(property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
@@ -110,5 +118,10 @@ public class SenderModel {
 		if (getSender().getProperty().remove(property)){
 			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
+	}
+	
+	private Scenario.Sender createSender(){
+		ObjectFactory f = new ObjectFactory();
+		return f.createScenarioSender();
 	}
 }

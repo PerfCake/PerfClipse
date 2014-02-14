@@ -24,7 +24,9 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Property;
+import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Generator;
 import org.perfcake.model.Scenario.Generator.Run;
 
@@ -108,6 +110,9 @@ public class GeneratorModel {
 	}
 
 	public void setThreads(String value) {
+		if (generator == null){
+			generator = createGenerator();
+		}
 		String oldValue = getGenerator().getThreads();
 		getGenerator().setThreads(value);
 		listeners.firePropertyChange(PROPERTY_THREADS, oldValue, value);
@@ -118,6 +123,9 @@ public class GeneratorModel {
 	}
 
 	public void setClazz(String value) {
+		if (generator == null){
+			generator = createGenerator();
+		}
 		String oldValue = getGenerator().getClazz();
 		getGenerator().setClazz(value);
 		listeners.firePropertyChange(PROPERTY_CLASS, oldValue, value);
@@ -128,12 +136,18 @@ public class GeneratorModel {
 	}
 
 	protected void setRun(Run value) {
+		if (generator == null){
+			generator = createGenerator();
+		}
 		Run oldValue = getGenerator().getRun();
 		getGenerator().setRun(value);
 		listeners.firePropertyChange(PROPERTY_RUN, oldValue, value);
 	}
 	
 	protected void addProperty(Property newProperty){
+		if (generator == null){
+			generator = createGenerator();
+		}
 		getGenerator().getProperty().add(newProperty);
 		listeners.firePropertyChange(PROPERTY_PROPERTY, null, newProperty);
 	}
@@ -143,6 +157,11 @@ public class GeneratorModel {
 			listeners.firePropertyChange(PROPERTY_PROPERTY, property, null);
 		}
 		
+	}
+	
+	private Scenario.Generator createGenerator(){
+		ObjectFactory f = new ObjectFactory();
+		return f.createScenarioGenerator();
 	}
 
 }

@@ -24,6 +24,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.perfcake.model.ObjectFactory;
+import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Validation;
 import org.perfcake.model.Scenario.Validation.Validator;
 
@@ -92,6 +94,9 @@ public class ValidationModel {
 	}
 	
 	protected void addValidator(Validator validator){
+		if (validation == null){
+			validation = createValidation();
+		}
 		getValidation().getValidator().add(validator);
 		listeners.firePropertyChange(PROPERTY_VALIDATORS, null, validator);
 	}
@@ -100,6 +105,11 @@ public class ValidationModel {
 		if (getValidation().getValidator().remove(validator)){
 			listeners.firePropertyChange(PROPERTY_VALIDATORS, validator, null);
 		}
+	}
+	
+	private Scenario.Validation createValidation(){
+		ObjectFactory f = new ObjectFactory();
+		return f.createScenarioValidation();
 	}
 
 }

@@ -24,7 +24,9 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Property;
+import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Reporting;
 import org.perfcake.model.Scenario.Reporting.Reporter;
 
@@ -131,6 +133,9 @@ public class ReportingModel {
 	}
 	
 	protected void addProperty(Property property){
+		if (reporting == null){
+			reporting = createReporting();
+		}
 		getReporting().getProperty().add(property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
@@ -139,5 +144,10 @@ public class ReportingModel {
 		if (getReporting().getProperty().remove(property)){
 			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
+	}
+	
+	private Scenario.Reporting createReporting(){
+		ObjectFactory f = new ObjectFactory();
+		return f.createScenarioReporting();
 	}
 }

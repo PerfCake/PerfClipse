@@ -24,6 +24,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.perfcake.model.ObjectFactory;
+import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Messages;
 import org.perfcake.model.Scenario.Messages.Message;
 
@@ -83,6 +85,9 @@ public class MessagesModel {
 	}
 	
 	protected void addMessage(Message m){
+		if (messages == null){
+			messages = createMessages();
+		}
 		getMessages().getMessage().add(m);
 		listeners.firePropertyChange(PROPERTY_MESSAGE, null, m);
 	}
@@ -99,6 +104,11 @@ public class MessagesModel {
 	
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		listeners.removePropertyChangeListener(listener);
+	}
+	
+	private Scenario.Messages createMessages(){
+		ObjectFactory f = new ObjectFactory();
+		return f.createScenarioMessages();
 	}
 
 }
