@@ -48,7 +48,9 @@ public class GeneratorModel {
 		propertyModel = new ArrayList<>();
 
 		if (generator != null){
-			this.runModel = new RunModel(generator.getRun());
+			if (generator.getRun() != null){
+				this.runModel = new RunModel(generator.getRun());
+			}
 			if (generator.getProperty() != null){
 				for (Property p : generator.getProperty()){
 					propertyModel.add(new PropertyModel(p));
