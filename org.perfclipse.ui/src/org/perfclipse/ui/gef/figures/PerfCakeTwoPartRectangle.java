@@ -23,19 +23,23 @@ package org.perfclipse.ui.gef.figures;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 
 
 public class PerfCakeTwoPartRectangle extends PerfCakeRoundedRectangle {
 	
+	private static final int SECTION_SPACING = 8;
+
 	private Figure headerLayer;
 	private Figure contentLayer;
 	private Label headerLabel;
 
 	public PerfCakeTwoPartRectangle(String name, Dimension defaultSize) {
 		super(name);
-		FlowLayout layout = new FlowLayout();
-		layout.setMajorAlignment(FlowLayout.ALIGN_CENTER);
+		ToolbarLayout layout = new ToolbarLayout();
+		layout.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);
+		layout.setSpacing(SECTION_SPACING);
 		setLayoutManager(layout);
 		
 		headerLayer = new Figure();
@@ -51,6 +55,7 @@ public class PerfCakeTwoPartRectangle extends PerfCakeRoundedRectangle {
 		FlowLayout headerLayout = new FlowLayout();
 		headerLayout.setMajorAlignment(FlowLayout.ALIGN_CENTER);
 		FlowLayout contentLayout = new FlowLayout();
+		contentLayout.setStretchMinorAxis(true);
 		
 		headerLayer.setLayoutManager(headerLayout);
 		contentLayer.setLayoutManager(contentLayout);
