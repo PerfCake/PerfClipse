@@ -131,6 +131,7 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 		try {
 			in = new PipedInputStream(out);
 			manager.createXML(model.getScenario(), out);
+			out.close();
 			try {
 				file.setContents(in, false, true, monitor);
 				getEditDomain().getCommandStack().markSaveLocation();
@@ -150,8 +151,8 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 			MessageDialog.openError(getSite().getShell(), "Error", "Cannot create xml representation of the model.");
 			log.error("Cannot create xml representation of the model.", e);
 		} catch (IOException e) {
-			MessageDialog.openError(getSite().getShell(), "IO Exception", "Cannot create stream to transfer data.");
-			log.error("Cannot create piped input stream from output stream", e);
+			MessageDialog.openError(getSite().getShell(), "IO Exception", "Cannot transfer data to file.");
+			log.error("Cannot handle piped stream connections.", e);
 		} finally {
 			try {
 				out.close();
