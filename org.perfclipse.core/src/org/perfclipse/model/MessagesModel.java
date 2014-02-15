@@ -35,10 +35,15 @@ public class MessagesModel {
 
 	private PropertyChangeSupport listeners;
 	private Messages messages;
+	private ScenarioModel scenario;
 	
 	protected List<MessageModel> messageModel;
 	
-	public MessagesModel(Messages messages){
+	public MessagesModel(Messages messages, ScenarioModel scenario){
+		if (scenario == null){
+			throw new IllegalArgumentException("Scenario model can't be null.");
+		}
+		this.scenario = scenario;
 		this.messages = messages;
 		listeners = new PropertyChangeSupport(this);
 		
@@ -86,7 +91,7 @@ public class MessagesModel {
 	
 	protected void addMessage(Message m){
 		if (messages == null){
-			messages = createMessages();
+			createMessages();
 		}
 		getMessages().getMessage().add(m);
 		listeners.firePropertyChange(PROPERTY_MESSAGE, null, m);
@@ -106,9 +111,15 @@ public class MessagesModel {
 		listeners.removePropertyChangeListener(listener);
 	}
 	
-	private Scenario.Messages createMessages(){
+	private void createMessages(){
 		ObjectFactory f = new ObjectFactory();
-		return f.createScenarioMessages();
+		messages = f.createScenarioMessages();
+		getScenario().setMessages(messages);
+
+	}
+	
+	private Scenario getScenario(){
+		return scenario.getScenario();
 	}
 
 }

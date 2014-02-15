@@ -48,12 +48,12 @@ public class ScenarioModel {
 		listeners = new PropertyChangeSupport(this);
 		
 		if (scenario != null){
-			propertiesModel = new PropertiesModel(scenario.getProperties());
-			generatorModel = new GeneratorModel(scenario.getGenerator());
-			senderModel = new SenderModel(scenario.getSender());
-			reportingModel = new ReportingModel(scenario.getReporting());
-			messagesModel = new MessagesModel(scenario.getMessages());
-			validationModel = new ValidationModel(scenario.getValidation());
+			propertiesModel = new PropertiesModel(scenario.getProperties(),this);
+			generatorModel = new GeneratorModel(scenario.getGenerator(), this);
+			senderModel = new SenderModel(scenario.getSender(), this);
+			reportingModel = new ReportingModel(scenario.getReporting(), this);
+			messagesModel = new MessagesModel(scenario.getMessages(), this);
+			validationModel = new ValidationModel(scenario.getValidation(), this);
 		}
 	}
 	

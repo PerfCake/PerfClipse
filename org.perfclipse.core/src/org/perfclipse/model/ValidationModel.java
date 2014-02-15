@@ -35,10 +35,15 @@ public class ValidationModel {
 	
 	private Validation validation;
 	private PropertyChangeSupport listeners;
+	private ScenarioModel scenario;
 	
 	protected List<ValidatorModel> validatorModel;
 	
-	public ValidationModel(Validation validation){
+	public ValidationModel(Validation validation, ScenarioModel scenario){
+		if (scenario == null){
+			throw new IllegalArgumentException("Scenario model can't be null.");
+		}
+		this.scenario = scenario;
 		this.validation = validation;
 		listeners = new PropertyChangeSupport(this);
 		
@@ -95,7 +100,7 @@ public class ValidationModel {
 	
 	protected void addValidator(Validator validator){
 		if (validation == null){
-			validation = createValidation();
+			createValidation();
 		}
 		getValidation().getValidator().add(validator);
 		listeners.firePropertyChange(PROPERTY_VALIDATORS, null, validator);
@@ -107,9 +112,13 @@ public class ValidationModel {
 		}
 	}
 	
-	private Scenario.Validation createValidation(){
+	private void createValidation(){
 		ObjectFactory f = new ObjectFactory();
-		return f.createScenarioValidation();
+		validation = f.createScenarioValidation();
+		getScenario().setValidation(validation);
 	}
 
+	private Scenario getScenario(){
+		return scenario.getScenario();
+	}
 }

@@ -37,11 +37,16 @@ public class ReportingModel {
 	
 	private PropertyChangeSupport listeners;
 	private Reporting reporting;
+	private ScenarioModel scenario;
 	
 	protected List<PropertyModel> propertyModel;
 	protected List<ReporterModel> reporterModel;
 	
-	public ReportingModel(Reporting reporting){
+	public ReportingModel(Reporting reporting, ScenarioModel scenario){
+		if (scenario == null){
+			throw new IllegalArgumentException("Scenario model can't be null.");
+		}
+		this.scenario = scenario;
 		this.reporting = reporting;
 		listeners = new PropertyChangeSupport(this);
 		
@@ -134,7 +139,7 @@ public class ReportingModel {
 	
 	protected void addProperty(Property property){
 		if (reporting == null){
-			reporting = createReporting();
+			createReporting();
 		}
 		getReporting().getProperty().add(property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
@@ -146,8 +151,13 @@ public class ReportingModel {
 		}
 	}
 	
-	private Scenario.Reporting createReporting(){
+	private void createReporting(){
 		ObjectFactory f = new ObjectFactory();
-		return f.createScenarioReporting();
+		reporting = f.createScenarioReporting();
+		getScenario().setReporting(reporting);
+	}
+	
+	private Scenario getScenario(){
+		return scenario.getScenario();
 	}
 }

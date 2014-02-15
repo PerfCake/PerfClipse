@@ -36,10 +36,15 @@ public class SenderModel {
 	
 	private Sender sender;
 	private PropertyChangeSupport listeners;
+	private ScenarioModel scenario;
 	
 	protected List<PropertyModel> propertyModel;
 	
-	public SenderModel(Sender sender){
+	public SenderModel(Sender sender, ScenarioModel scenario){
+		if (scenario == null){
+			throw new IllegalArgumentException("Scenario model can't be null.");
+		}
+		this.scenario = scenario;
 		this.sender = sender;
 		listeners = new PropertyChangeSupport(this);
 		
@@ -95,7 +100,7 @@ public class SenderModel {
 
 	public void setClazz(String clazz){
 		if (sender == null){
-			sender = createSender();
+			createSender();
 		}
 		String oldClazz = getSender().getClazz();
 		getSender().setClazz(clazz);
@@ -108,7 +113,7 @@ public class SenderModel {
 	
 	protected void addProperty(Property property){
 		if (sender == null){
-			sender = createSender();
+			createSender();
 		}
 		getSender().getProperty().add(property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
@@ -120,8 +125,13 @@ public class SenderModel {
 		}
 	}
 	
-	private Scenario.Sender createSender(){
+	private void createSender(){
 		ObjectFactory f = new ObjectFactory();
-		return f.createScenarioSender();
+		sender = f.createScenarioSender();
+		getScenario().setSender(sender);
+	}
+	
+	private Scenario getScenario(){
+		return scenario.getScenario();
 	}
 }

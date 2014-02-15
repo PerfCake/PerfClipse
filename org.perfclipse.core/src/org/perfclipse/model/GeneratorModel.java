@@ -39,11 +39,16 @@ public class GeneratorModel {
 	
 	private PropertyChangeSupport listeners;
 	private Generator generator;
+	private ScenarioModel scenario;
 	
 	protected RunModel runModel;
 	protected List<PropertyModel> propertyModel;
 	
-	public GeneratorModel(Generator generator){
+	public GeneratorModel(Generator generator, ScenarioModel scenario){
+		if (scenario == null){
+			throw new IllegalArgumentException("Scenario model can't be null.");
+		}
+		this.scenario = scenario;
 		this.generator = generator;
 		listeners = new PropertyChangeSupport(this);
 		
@@ -111,7 +116,7 @@ public class GeneratorModel {
 
 	public void setThreads(String value) {
 		if (generator == null){
-			generator = createGenerator();
+			createGenerator();
 		}
 		String oldValue = getGenerator().getThreads();
 		getGenerator().setThreads(value);
@@ -124,7 +129,7 @@ public class GeneratorModel {
 
 	public void setClazz(String value) {
 		if (generator == null){
-			generator = createGenerator();
+			createGenerator();
 		}
 		String oldValue = getGenerator().getClazz();
 		getGenerator().setClazz(value);
@@ -137,7 +142,7 @@ public class GeneratorModel {
 
 	protected void setRun(Run value) {
 		if (generator == null){
-			generator = createGenerator();
+			createGenerator();
 		}
 		Run oldValue = getGenerator().getRun();
 		getGenerator().setRun(value);
@@ -146,7 +151,7 @@ public class GeneratorModel {
 	
 	protected void addProperty(Property newProperty){
 		if (generator == null){
-			generator = createGenerator();
+			createGenerator();
 		}
 		getGenerator().getProperty().add(newProperty);
 		listeners.firePropertyChange(PROPERTY_PROPERTY, null, newProperty);
@@ -159,9 +164,14 @@ public class GeneratorModel {
 		
 	}
 	
-	private Scenario.Generator createGenerator(){
+	private void createGenerator(){
 		ObjectFactory f = new ObjectFactory();
-		return f.createScenarioGenerator();
+		generator =  f.createScenarioGenerator();
+		getScenario().setGenerator(generator);
+	}
+	
+	private Scenario getScenario(){
+		return scenario.getScenario();
 	}
 
 }

@@ -36,10 +36,15 @@ public class PropertiesModel {
 	
 	private Properties properties;
 	private PropertyChangeSupport listeners;
+	private ScenarioModel scenario;
 	
 	protected List<PropertyModel> propertyModel;
 
-	public PropertiesModel(Properties properties) {
+	public PropertiesModel(Properties properties, ScenarioModel scenario) {
+		if (scenario == null){
+			throw new IllegalArgumentException("Scenario model can't be null.");
+		}
+		this.scenario = scenario;
 		this.properties = properties;
 		listeners = new PropertyChangeSupport(this);
 
@@ -87,7 +92,7 @@ public class PropertiesModel {
 	
 	protected void addProperty(Property property){
 		if (property == null){
-			properties = createProperties();
+			createProperties();
 		}
 		getProperties().getProperty().add(property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
@@ -107,8 +112,13 @@ public class PropertiesModel {
 		listeners.removePropertyChangeListener(listener);
 	}
 	
-	private Scenario.Properties createProperties(){
+	private void createProperties(){
 		ObjectFactory f = new ObjectFactory();
-		return f.createScenarioProperties();
+		properties =  f.createScenarioProperties();
+		getScenario().setProperties(properties);
+	}
+	
+	private Scenario getScenario(){
+		return scenario.getScenario();
 	}
 }
