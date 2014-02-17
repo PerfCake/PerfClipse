@@ -30,85 +30,34 @@ import java.util.Set;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
-import org.perfcake.message.generator.AbstractMessageGenerator;
-import org.perfcake.message.sender.AbstractSender;
-import org.perfcake.reporting.destinations.Destination;
-import org.perfcake.reporting.reporters.Reporter;
-import org.perfcake.validation.MessageValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Singleton class which is able to parse PerfCake bundle installed in eclipse
- * and find implementation of components (Senders, Generators, ...)
+ * ComponentScanner class is able to parse  bundle installed in eclipse
+ * and find implementation of components (e. g. for PerfCake bundle it finds
+ * Senders, Generators, ...)
  * 
  * @author Jakub Knetl
  */
 public class ComponentScanner {
 	
 	final static Logger log = LoggerFactory.getLogger(ComponentScanner.class);
-	private static final String PERFCAKE_BUNDLE = "org.perfcake";
-	private static final String PERFCAKE_SENDER_PACKAGE = "org.perfcake.message.sender";
-	private static final String PERFCAKE_GENERATOR_PACKAGE = "org.perfcake.message.generator";
-	private static final String PERFCAKE_REPORTER_PACKAGE = "org.perfcake.reporting.reporters";
-	private static final String PERFCAKE_DESTINATION_PACKAGE = "org.perfcake.reporting.destinations";
-	private static final String PERFCAKE_VALIDATOR_PACKAGE = "org.perfcake.validation";
+	private String bundle;
+	
+	
+	public ComponentScanner(String bundle){
+		this.bundle = bundle;
+	}
+	
 
-
-	private static ComponentScanner instance;
-	
-	private Set<Class<? extends AbstractSender>> senders;
-	private Set<Class<? extends AbstractMessageGenerator>> generators;
-	private Set<Class<? extends Reporter>> reporters;
-	private Set<Class<? extends Destination>> destinations;
-	private Set<Class<? extends MessageValidator>> validators;
-	
-	private ComponentScanner() throws PerfClipseScannerException{
-		senders = scanForComponent(PERFCAKE_SENDER_PACKAGE, AbstractSender.class);
-		generators = scanForComponent(PERFCAKE_GENERATOR_PACKAGE, AbstractMessageGenerator.class);
-		reporters = scanForComponent(PERFCAKE_REPORTER_PACKAGE, Reporter.class);
-		destinations = scanForComponent(PERFCAKE_DESTINATION_PACKAGE, Destination.class);
-		validators = scanForComponent(PERFCAKE_VALIDATOR_PACKAGE, MessageValidator.class);
-		log.debug("Components included in PerfCake has been loaded.");
-	}
-	
-	public static ComponentScanner getInstance() throws PerfClipseScannerException{
-		if (instance == null){
-			instance = new ComponentScanner();
-		}
-		
-		return instance;
-	}
-	
-	
-	
-	
-	public Set<Class<? extends AbstractSender>> getSenders() {
-		return senders;
-	}
-
-	public Set<Class<? extends AbstractMessageGenerator>> getGenerators() {
-		return generators;
-	}
-
-	public Set<Class<? extends Reporter>> getReporters() {
-		return reporters;
-	}
-
-	public Set<Class<? extends Destination>> getDestinations() {
-		return destinations;
-	}
-
-	public Set<Class<? extends MessageValidator>> getValidators() {
-		return validators;
-	}
 
 	//TODO : remove duplicate information about type (both T and componentType)
-	private <T> Set<Class<? extends T>> scanForComponent(String packageName, Class<T> componentType) throws PerfClipseScannerException{
+	public <T> Set<Class<? extends T>> scanForComponent(String packageName, Class<T> componentType) throws PerfClipseScannerException{
 		Set<Class<? extends T>> classes = new HashSet<>();
 		String packagePath = File.separator + packageName.replace(".", File.separator);
 		
-		Bundle bundle = Platform.getBundle(PERFCAKE_BUNDLE);
+		Bundle bundle = Platform.getBundle(this.bundle);
 		URL bundleUrl = bundle.getEntry(packagePath);
 		URL pathUrl = null;
 		try {
