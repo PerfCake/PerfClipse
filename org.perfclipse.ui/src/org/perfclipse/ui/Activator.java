@@ -19,13 +19,20 @@
 
 package org.perfclipse.ui;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.perfclipse.reflect.PerfCakeComponents;
+import org.perfclipse.reflect.PerfClipseScannerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The activator class controls the plug-in life cycle
  */
 public class Activator extends AbstractUIPlugin {
+	
+	final static Logger log = LoggerFactory.getLogger(Activator.class);
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.perfclipse.ui"; //$NON-NLS-1$
@@ -37,6 +44,14 @@ public class Activator extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public Activator() {
+		// creates singleton of PerfCake components
+		try {
+			PerfCakeComponents.getInstance();
+		} catch (PerfClipseScannerException e) {
+			log.error("Cannot parse PerfCake components", e);
+			MessageDialog.openError(getWorkbench().getActiveWorkbenchWindow().getShell(),
+					"Cannot parse PerfCake components", "Automatically loaded components from PerfCake will not be available");
+		}
 	}
 
 	/*
