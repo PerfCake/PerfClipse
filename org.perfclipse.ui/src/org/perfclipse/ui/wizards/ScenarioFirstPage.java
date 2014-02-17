@@ -45,6 +45,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.perfclipse.reflect.PerfCakeComponents;
+import org.perfclipse.reflect.PerfClipseScannerException;
 import org.slf4j.LoggerFactory;
 
 public class ScenarioFirstPage extends WizardPage {
@@ -141,12 +143,23 @@ public class ScenarioFirstPage extends WizardPage {
 			}
 		});
 		
-		
+		PerfCakeComponents components = null;
+		try {
+			components = PerfCakeComponents.getInstance();
+		} catch (PerfClipseScannerException e) {
+			log.error("Cannot parse PerfCake components", e);
+			MessageDialog.openError(getShell(), "Cannot parse PerfCake components",
+					"Automatically loaded components from PerfCake will not be available");
+		}
 
 		generatorLabel = new Label(container, SWT.NONE);
 		generatorLabel.setText("Choose generator");
 		generatorCombo = new Combo(container, SWT.NONE);
-		generatorCombo.add("DefaultMessageGenerator");
+		if (components != null && components.getGenerators() != null){
+			for (Class<?> clazz : components.getGenerators()){
+				generatorCombo.add(clazz.getSimpleName());
+			}
+		}
 		generatorCombo.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -168,6 +181,11 @@ public class ScenarioFirstPage extends WizardPage {
 		senderLabel.setText("Choose sender");
 		
 		senderCombo = new Combo(container, SWT.NONE);
+		if (components != null && components.getSenders() != null){
+			for (Class<?> clazz : components.getSenders()){
+				senderCombo.add(clazz.getSimpleName());
+			}
+		}
 		senderCombo.add("DummySender");
 		senderCombo.addSelectionListener(new SelectionListener() {
 			
