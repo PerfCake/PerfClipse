@@ -17,40 +17,17 @@
  * limitations under the License.
  */
 
-package org.perfclipse.ui.handlers;
+package org.perfclipse.ui;
 
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.handlers.HandlerUtil;
 
 public class Utils {
 
 	public static final String PERFCLIPSE_STDOUT_CONSOLE = "Perfclipse standard output:";
 
-	/**
-	 * Return first selected File and returns it as IFile Instance.
-	 * @param event
-	 * @return IFile instance of selected file or null if the selected object is not IFile instance
-	 *
-	 */
-	public static IFile getFirstSelectedFile(ExecutionEvent event){
-		ISelection selected = HandlerUtil.getActiveMenuSelection(event);
-		IStructuredSelection structuredSelection = (IStructuredSelection) selected;
-		Object firstSelected = structuredSelection.getFirstElement();
-		if (firstSelected instanceof IFile){
-			IFile file = (IFile) firstSelected;
-			return file;
-		}
-		
-		return null;
-	}
-	
 	/**
 	 * Find eclipse console with given name. If not found then create new
 	 * console with given name and append it to console view.

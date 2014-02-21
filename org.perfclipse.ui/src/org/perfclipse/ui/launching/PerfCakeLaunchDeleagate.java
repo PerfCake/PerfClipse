@@ -60,7 +60,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.perfcake.PerfCakeConst;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
-import org.perfclipse.ui.handlers.Utils;
+import org.perfclipse.ui.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

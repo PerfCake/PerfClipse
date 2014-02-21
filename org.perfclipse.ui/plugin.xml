@@ -14,14 +14,6 @@
       </menuContribution>
    </extension>
    <extension
-         point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="org.perfclipse.ui.handlers.RunHandler"
-            id="org.perfclipse.ui.command.runScenario"
-            name="RunScenario">
-      </command>
-   </extension>
-   <extension
          point="org.eclipse.ui.newWizards">
       <category
             id="org.perfclipse.ui.wizards.category.perfcake"
