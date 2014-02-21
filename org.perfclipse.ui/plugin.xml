@@ -75,5 +75,49 @@
          </describer>
       </content-type>
    </extension>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="org.perfclipse.ui.launching.PerfCakeLaunchDeleagate"
+            id="org.perfclipse.ui.launching.perfcaketype"
+            modes="run"
+            name="PerfCake scenario">
+      </launchConfigurationType>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            configTypeID="org.perfclipse.ui.launching.perfcaketype"
+            icon="icons/perfcake.ico"
+            id="org.perfclipse.ui.launching.images.perfcake">
+      </launchConfigurationTypeImage>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="org.perfclipse.ui.launching.PerfCakeLaunchConfigurationTabGroups"
+            id="org.perfclipse.ui.launching.tabgroup.perfcake"
+            type="org.perfclipse.ui.launching.perfcaketype">
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut
+            class="org.perfclipse.ui.launching.PerfCakeLaunchDeleagate"
+            id="org.perfclipse.ui.launching.shortcut"
+            label="PerfCake Scenario"
+            modes="run">
+                    <contextualLaunch>
+           <enablement>
+             <with variable="selection">
+               <count value="1"/>
+               <iterate>
+                   <test property="org.eclipse.debug.ui.matchesPattern" value="*.xml"/>
+               </iterate>
+             </with>
+           </enablement>
+  		 </contextualLaunch>
+       </shortcut>
+   </extension>
 
 </plugin>

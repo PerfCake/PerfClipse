@@ -30,11 +30,12 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.perfclipse.ui.PerfClipseConstants;
 import org.slf4j.LoggerFactory;
 
 public class PerfcakeProjectWizard extends Wizard implements INewWizard {
 	
-	private static final String[] defaultFolders = {"scenarios", "messages"};
+	private static final String[] defaultFolders = {PerfClipseConstants.SCENARIO_DIR_NAME, PerfClipseConstants.MESSAGE_DIR_NAME};
 	
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(PerfcakeProjectWizard.class);
 
