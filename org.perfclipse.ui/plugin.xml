@@ -28,7 +28,6 @@
             project="true">
       </wizard>
       <wizard
-            canFinishEarly="true"
             category="org.perfclipse.ui.wizards.category.perfcake"
             class="org.perfclipse.ui.wizards.ScenarioWizard"
             id="org.perfclipse.ui.wizards.scenario"

@@ -22,14 +22,8 @@ package org.perfclipse.ui.wizards;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -38,6 +32,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario;
 import org.perfclipse.model.ScenarioModel;
@@ -49,7 +44,8 @@ import org.slf4j.LoggerFactory;
 
 public class ScenarioWizard extends Wizard implements INewWizard {
 
-	private ScenarioFirstPage firstPage;
+	private ScenarioFirstPage generatorAndSenderPage;
+	private WizardNewFileCreationPage fileCreationPage;
 	IStructuredSelection selection;
 	
 	static final Logger log = LoggerFactory.getLogger(ScenarioWizard.class);
@@ -75,32 +71,27 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 		Scenario.Generator.Run run = scenarioFactory.createScenarioGeneratorRun();
 		run.setType("time");
 		run.setValue("5000");
-		generator.setClazz(firstPage.getGeneratorName());
+		generator.setClazz(generatorAndSenderPage.getGeneratorName());
 		generator.setRun(run);
 		generator.setThreads("1");
 		scenario.setGenerator(generator);
 
 		//Sender section
 		Scenario.Sender sender = scenarioFactory.createScenarioSender();
-		sender.setClazz(firstPage.getSenderName());
+		sender.setClazz(generatorAndSenderPage.getSenderName());
 		scenario.setSender(sender);
 		
 		ScenarioModel model = new ScenarioModel(scenario);
 		
-		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		try {
-			URI uri = new URI("file://" + firstPage.getScenarioDirectory());
-			IContainer[] container = workspaceRoot.findContainersForLocationURI(uri);
-			if (container[0] instanceof IFolder){
-				IFolder folder = (IFolder) container[0];
-				IFile scenarioFile = folder.getFile(firstPage.getScenarioName() + ".xml");
+				IFile scenarioFile = fileCreationPage.createNewFile();;
 				
 				ScenarioManager manager = new ScenarioManager();
 				PipedOutputStream out = new PipedOutputStream();
 				PipedInputStream in = new PipedInputStream(out);
 				manager.createXML(model.getScenario(), out);
 				out.close();
-				scenarioFile.create(in, false, null);
+				scenarioFile.setContents(in, false, true, null);
 				
 				//open scenario editor
 				String scenarioEditorID = "org.perfclipse.ui.editors.scenario";
@@ -108,10 +99,6 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 				//TODO : editor cannot be initialized after Eclipse reload
 				page.openEditor(new ScenarioDesignEditorInput(scenarioFile), scenarioEditorID);
 				return true;
-			}
-		} catch (URISyntaxException e) {
-			MessageDialog.openError(getShell(), "URI syntax error", "Cannot locate selected folder for scenario.");
-			log.error("Cannot locate selected folder for scenario.", e);
 		} catch (CoreException e) {
 			MessageDialog.openError(getShell(), "Core exception", "Cannot create or open file with scenario." );
 			log.error("Cannot create or open file with scenario.", e);
@@ -128,8 +115,19 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 	
 	@Override
 	public void addPages(){
-		firstPage = new ScenarioFirstPage(selection);
-		addPage(firstPage);
+		fileCreationPage = new WizardNewFileCreationPage("Scenario file page", selection);
+		fileCreationPage.setFileExtension("xml");
+		fileCreationPage.setFileName("scenario");
+		generatorAndSenderPage = new ScenarioFirstPage(selection);
+		addPage(fileCreationPage);
+		addPage(generatorAndSenderPage);
 	}
+
+	@Override
+	public boolean canFinish() {
+		return super.canFinish();
+	}
+	
+	
 
 }
