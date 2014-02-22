@@ -44,12 +44,15 @@ import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
 import org.perfclipse.ui.editors.ScenarioDesignEditorInput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ScenarioWizard extends Wizard implements INewWizard {
 
 	private ScenarioFirstPage firstPage;
 	IStructuredSelection selection;
 	
+	static final Logger log = LoggerFactory.getLogger(ScenarioWizard.class);
 
 	public ScenarioWizard() {
 		super();
@@ -108,12 +111,16 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 			}
 		} catch (URISyntaxException e) {
 			MessageDialog.openError(getShell(), "URI syntax error", "Cannot locate selected folder for scenario.");
+			log.error("Cannot locate selected folder for scenario.", e);
 		} catch (CoreException e) {
 			MessageDialog.openError(getShell(), "Core exception", "Cannot create or open file with scenario." );
+			log.error("Cannot create or open file with scenario.", e);
 		} catch (IOException e) {
 			MessageDialog.openError(getShell(), "IO Exception", "Cannot create or read resource");
+			log.error("Cannot create or read resource", e);
 		} catch (ScenarioException e) {
 			MessageDialog.openError(getShell(), "XML conversion error", "Cannot convert given data into XML.");
+			log.error("Cannot convert given data into XML.", e);
 		}
 		
 		return false;
