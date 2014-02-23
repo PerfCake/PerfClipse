@@ -21,6 +21,7 @@ package org.perfclipse.ui.gef.parts;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.EditPart;
 import org.perfclipse.ui.gef.layout.LayoutUtils;
 import org.perfclipse.ui.gef.layout.ScenarioFreeformLayout;
 
@@ -36,7 +37,11 @@ public abstract class AbstractPerfCakeSectionEditPart extends
 		return defaultSize;
 	}
 
-
+	@Override
+	protected void addChild(EditPart child, int index) {
+		super.addChild(child, index);
+		refreshVisuals();
+	}
 
 	//TODO : is double validate necessary?
 	@Override
@@ -62,6 +67,4 @@ public abstract class AbstractPerfCakeSectionEditPart extends
 		getFigure().validate();
 		*/
 	}
-
-
 }

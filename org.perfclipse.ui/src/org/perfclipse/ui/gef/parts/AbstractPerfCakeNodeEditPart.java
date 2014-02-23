@@ -22,7 +22,6 @@ package org.perfclipse.ui.gef.parts;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
 
@@ -59,12 +58,6 @@ public abstract class AbstractPerfCakeNodeEditPart extends  AbstractGraphicalEdi
 	}
 
 	@Override
-	protected void addChild(EditPart child, int index) {
-		super.addChild(child, index);
-		refreshVisuals();
-	}
-	
-	@Override
 	public IFigure getContentPane() {
 		if (getFigure() instanceof PerfCakeTwoPartRectangle){
 			return ((PerfCakeTwoPartRectangle) getFigure()).getContentLayer();
@@ -100,10 +93,4 @@ public abstract class AbstractPerfCakeNodeEditPart extends  AbstractGraphicalEdi
 //		getFigure().validate();
 //		
 //	}
-	
-	
-
-	
-	
-
 }
