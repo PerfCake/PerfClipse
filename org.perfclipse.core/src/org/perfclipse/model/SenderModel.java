@@ -21,12 +21,8 @@ package org.perfclipse.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Property;
-import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Sender;
 
 public class SenderModel {
@@ -36,49 +32,15 @@ public class SenderModel {
 	
 	private Sender sender;
 	private PropertyChangeSupport listeners;
-	private ScenarioModel scenario;
 	
-	protected List<PropertyModel> propertyModel;
-	
-	public SenderModel(Sender sender, ScenarioModel scenario){
-		if (scenario == null){
-			throw new IllegalArgumentException("Scenario model can't be null.");
+	public SenderModel(Sender sender){
+		if (sender == null){
+			throw new IllegalArgumentException("Sender must not be null");
 		}
-		this.scenario = scenario;
 		this.sender = sender;
 		listeners = new PropertyChangeSupport(this);
-		
-		propertyModel = new ArrayList<>();
-
-		if (sender != null){
-			if (sender.getProperty() != null){
-				for (Property p: sender.getProperty()){
-					propertyModel.add(new PropertyModel(p));
-				}
-			}
-		}
 	}
 	
-	public void addPropertyModel(PropertyModel propertyModel){
-		this.propertyModel.add(propertyModel);
-		this.addProperty(propertyModel.getProperty());
-	}
-	
-	public void removePropertyModel(PropertyModel propertyModel){
-		this.propertyModel.remove(propertyModel);
-		this.removeProperty(propertyModel.getProperty());
-	}
-	
-	/**
-	 * Do not modify list using getList().add() since it will not fire
-	 * propertyChangeEvent and the view of the model won't be refreshed.
-	 * Use add* and remove* methods instead.
-	 * @return List of PerfClipse model
-	 */
-	public List<PropertyModel> getPropertyModel() {
-		return propertyModel;
-	}
-
 	/**
 	 * This method should not be used for modifying Sender (in a way getSender().setClass()))
 	 * since these changes would not fire PropertyChange listeners which implies that
@@ -98,40 +60,20 @@ public class SenderModel {
 		listeners.removePropertyChangeListener(listener);
 	}
 
-	public void setClazz(String clazz){
-		if (sender == null){
-			createSender();
-		}
+	public void setClass(String clazz){
 		String oldClazz = getSender().getClazz();
 		getSender().setClazz(clazz);
 		listeners.firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
 	}
 	
-	public String getClazz(){
-		return getSender().getClazz();
-	}
-	
-	protected void addProperty(Property property){
-		if (sender == null){
-			createSender();
-		}
+	public void addProperty(Property property){
 		getSender().getProperty().add(property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	
-	protected void removeProperty(Property property){
+	public void removeProperty(Property property){
 		if (getSender().getProperty().remove(property)){
 			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
-	}
-	
-	private void createSender(){
-		ObjectFactory f = new ObjectFactory();
-		sender = f.createScenarioSender();
-		getScenario().setSender(sender);
-	}
-	
-	private Scenario getScenario(){
-		return scenario.getScenario();
 	}
 }

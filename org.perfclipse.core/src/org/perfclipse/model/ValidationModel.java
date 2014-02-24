@@ -21,11 +21,7 @@ package org.perfclipse.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.perfcake.model.ObjectFactory;
-import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Validation;
 import org.perfcake.model.Scenario.Validation.Validator;
 
@@ -35,47 +31,13 @@ public class ValidationModel {
 	
 	private Validation validation;
 	private PropertyChangeSupport listeners;
-	private ScenarioModel scenario;
 	
-	protected List<ValidatorModel> validatorModel;
-	
-	public ValidationModel(Validation validation, ScenarioModel scenario){
-		if (scenario == null){
-			throw new IllegalArgumentException("Scenario model can't be null.");
+	public ValidationModel(Validation validation){
+		if (validation == null){
+			throw new IllegalArgumentException("Validation must not be null");
 		}
-		this.scenario = scenario;
 		this.validation = validation;
 		listeners = new PropertyChangeSupport(this);
-		
-		validatorModel = new ArrayList<>();
-
-		if (validation != null){
-			if (validation.getValidator() != null){
-				for (Validator v: validation.getValidator()){
-					validatorModel.add(new ValidatorModel(v));
-				}
-			}
-		}
-	}
-	
-	public void addValidatorModel(ValidatorModel validatorModel){
-		this.validatorModel.add(validatorModel);
-		this.addValidator(validatorModel.getValidator());
-	}
-	
-	public void removeValidatorModel(ValidatorModel validatorModel){
-		this.validatorModel.remove(validatorModel);
-		this.removeValidator(validatorModel.getValidator());
-	}
-
-	/**
-	 * Do not modify list using getList().add() since it will not fire
-	 * propertyChangeEvent and the view of the model won't be refreshed.
-	 * Use add* and remove* methods instead.
-	 * @return List of PerfClipse model
-	 */
-	public List<ValidatorModel> getValidatorModel() {
-		return validatorModel;
 	}
 
 	/**
@@ -98,27 +60,15 @@ public class ValidationModel {
 		listeners.removePropertyChangeListener(listener);
 	}
 	
-	protected void addValidator(Validator validator){
-		if (validation == null){
-			createValidation();
-		}
+	public void addValidator(Validator validator){
 		getValidation().getValidator().add(validator);
 		listeners.firePropertyChange(PROPERTY_VALIDATORS, null, validator);
 	}
 	
-	protected void removeValidator(Validator validator){
+	public void removeValidator(Validator validator){
 		if (getValidation().getValidator().remove(validator)){
 			listeners.firePropertyChange(PROPERTY_VALIDATORS, validator, null);
 		}
 	}
-	
-	private void createValidation(){
-		ObjectFactory f = new ObjectFactory();
-		validation = f.createScenarioValidation();
-		getScenario().setValidation(validation);
-	}
 
-	private Scenario getScenario(){
-		return scenario.getScenario();
-	}
 }

@@ -21,12 +21,8 @@ package org.perfclipse.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Property;
-import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Properties;
 
 public class PropertiesModel {
@@ -36,49 +32,16 @@ public class PropertiesModel {
 	
 	private Properties properties;
 	private PropertyChangeSupport listeners;
-	private ScenarioModel scenario;
-	
-	protected List<PropertyModel> propertyModel;
 
-	public PropertiesModel(Properties properties, ScenarioModel scenario) {
-		if (scenario == null){
-			throw new IllegalArgumentException("Scenario model can't be null.");
+	public PropertiesModel(Properties properties) {
+		if (properties == null){
+			throw new IllegalArgumentException("Properties must not be null");
 		}
-		this.scenario = scenario;
 		this.properties = properties;
 		listeners = new PropertyChangeSupport(this);
-
-		propertyModel = new ArrayList<>();
-
-		if (properties != null){
-			if (properties.getProperty() != null){
-				for (Property p : properties.getProperty()){
-					propertyModel.add(new PropertyModel(p));
-				}
-			}
-		}
 	}
 
-	public void addPropertyModel(PropertyModel propertyModel){
-		this.propertyModel.add(propertyModel);
-		this.addProperty(propertyModel.getProperty());
-	}
 	
-	public void removePropertyModel(PropertyModel propertyModel){
-		this.propertyModel.remove(propertyModel);
-		this.removeProperty(propertyModel.getProperty());
-	}
-	
-	/**
-	 * Do not modify list using getList().add() since it will not fire
-	 * propertyChangeEvent and the view of the model won't be refreshed.
-	 * Use add* and remove* methods instead.
-	 * @return List of PerfClipse model
-	 */
-	public List<PropertyModel> getPropertyModel() {
-		return propertyModel;
-	}
-
 	/**
 	 * This method should not be used for modifying properties (in a way getProperties().add()))
 	 * since these changes would not fire PropertyChange listeners which implies that
@@ -90,15 +53,12 @@ public class PropertiesModel {
 		return properties;
 	}
 	
-	protected void addProperty(Property property){
-		if (property == null){
-			createProperties();
-		}
+	public void addProperty(Property property){
 		getProperties().getProperty().add(property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	
-	protected void removeProperty(Property property){
+	public void removeProperty(Property property){
 		if (getProperties().getProperty().remove(property)){
 			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
@@ -110,15 +70,5 @@ public class PropertiesModel {
 	
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		listeners.removePropertyChangeListener(listener);
-	}
-	
-	private void createProperties(){
-		ObjectFactory f = new ObjectFactory();
-		properties =  f.createScenarioProperties();
-		getScenario().setProperties(properties);
-	}
-	
-	private Scenario getScenario(){
-		return scenario.getScenario();
 	}
 }

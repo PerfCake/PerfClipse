@@ -33,6 +33,9 @@ public class PropertyModel {
 	private PropertyChangeSupport listeners;
 
 	public PropertyModel(Property property) {
+		if (property == null){
+			throw new IllegalArgumentException("Property must not be null");
+		}
 		this.property = property;
 		listeners = new PropertyChangeSupport(this);
 	}
@@ -55,18 +58,11 @@ public class PropertyModel {
 		listeners.firePropertyChange(PROPERTY_NAME, oldName, name);
 	}
 	
-	public String getName(){
-		return getProperty().getName();
-	}
 
 	public void setValue(String value){
 		String oldValue = getProperty().getValue();
 		getProperty().setValue(value);
 		listeners.firePropertyChange(PROPERTY_NAME, oldValue, value);
-	}
-	
-	public String getValue(){
-		return getProperty().getValue();
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener){

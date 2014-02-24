@@ -59,14 +59,14 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<>();
-		modelChildren.add(getScenarioModel().getGeneratorModel());
-		modelChildren.add(getScenarioModel().getSenderModel());
-		if (getScenarioModel().getMessagesModel() != null)
-			modelChildren.add(getScenarioModel().getMessagesModel());
-		if (getScenarioModel().getValidationModel() != null)
-			modelChildren.add(getScenarioModel().getValidationModel());
-		if (getScenarioModel().getReportingModel() != null)
-			modelChildren.add(getScenarioModel().getReportingModel());
+		modelChildren.add(getScenarioModel().getScenario().getGenerator());
+		modelChildren.add(getScenarioModel().getScenario().getSender());
+		if (getScenarioModel().getScenario().getMessages() != null)
+			modelChildren.add(getScenarioModel().getScenario().getMessages());
+		if (getScenarioModel().getScenario().getValidation() != null)
+			modelChildren.add(getScenarioModel().getScenario().getValidation());
+		if (getScenarioModel().getScenario().getReporting() != null)
+			modelChildren.add(getScenarioModel().getScenario().getReporting());
 		return modelChildren;
 	}
 	

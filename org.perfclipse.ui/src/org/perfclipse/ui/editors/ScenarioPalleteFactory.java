@@ -30,7 +30,6 @@ import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.SimpleFactory;
 import org.perfcake.model.Scenario.Messages.Message;
-import org.perfclipse.model.MessageModel;
 
 public class ScenarioPalleteFactory {
 
@@ -44,11 +43,11 @@ public class ScenarioPalleteFactory {
 	   private static PaletteEntry createElementsDrawer() {
 		   PaletteDrawer componentDrawer = new PaletteDrawer("Elemnts drawer");
 
-		   SimpleFactory factory = new SimpleFactory(MessageModel.class){
+		   SimpleFactory factory = new SimpleFactory(Message.class){
 			   public Object getNewObject(){
 				   Message m = new Message();
 				   m.setUri("Added_by_GEF");
-				   return new MessageModel(m);
+				   return m;
 			   }
 		   };
 		   

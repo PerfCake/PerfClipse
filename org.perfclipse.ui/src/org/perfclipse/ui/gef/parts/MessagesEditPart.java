@@ -31,6 +31,8 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
+import org.perfcake.model.Scenario;
+import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.ui.gef.commands.AddMessageCommand;
@@ -75,8 +77,8 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 			@Override
 			protected Command getCreateCommand(CreateRequest request) {
 				Object type = request.getNewObjectType();
-				if (type == MessageModel.class){
-					MessageModel message = (MessageModel) request.getNewObject();
+				if (type == Message.class){
+					Message message = (Scenario.Messages.Message) request.getNewObject();
 					return new AddMessageCommand(message, getMessagesModel());
 				}
 				return null;
@@ -104,9 +106,10 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 
 	@Override
 	protected List<Object> getModelChildren(){
-		List<Object> modelChildren = new ArrayList<Object>();
-		if (getMessagesModel().getMessageModel() != null){
-			modelChildren.addAll(getMessagesModel().getMessageModel());
+		List<Object> modelChildren = new ArrayList<>();
+		if (getMessagesModel().getMessages() != null &&
+				getMessagesModel().getMessages().getMessage() != null){
+			modelChildren.addAll(getMessagesModel().getMessages().getMessage());
 		}
 		return modelChildren;
 	}
@@ -114,11 +117,12 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 	@Override
 	public void propertyChange(PropertyChangeEvent e) {
 		if (e.getPropertyName().equals(MessagesModel.PROPERTY_MESSAGE)){
-			/* TODO : refresh children takes linear time according to number of children
-			 * better solution will be to explicitly call addChild or remove child which
-			 * takes constant time only.
-			 */
-			refresh();
+			
+			//if message is added
+			if(e.getOldValue() == null && e.getNewValue() instanceof Message){
+				MessageModel messageModel = new MessageModel((Message) e.getNewValue());
+				addChild(new MessageEditPart(messageModel), getChildren().size());
+			}
 		}
 		
 	}

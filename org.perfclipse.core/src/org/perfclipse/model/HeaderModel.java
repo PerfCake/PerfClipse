@@ -33,6 +33,9 @@ public class HeaderModel {
 	private PropertyChangeSupport listeners;
 
 	public HeaderModel(Header header) {
+		if (header == null){
+			throw new IllegalArgumentException("Header must not be null");
+		}
 		this.header = header;
 		listeners = new PropertyChangeSupport(this);
 	}
@@ -55,18 +58,11 @@ public class HeaderModel {
 		listeners.firePropertyChange(PROPERTY_NAME, oldName, name);
 	}
 	
-	public String getName(){
-		return getHeader().getName();
-	}
 
 	public void setValue(String value){
 		String oldValue = getHeader().getValue();
 		getHeader().setValue(value);
 		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
-	}
-	
-	public String getValue(){
-		return getHeader().getValue();
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener){

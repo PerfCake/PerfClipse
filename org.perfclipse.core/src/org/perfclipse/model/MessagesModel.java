@@ -21,11 +21,7 @@ package org.perfclipse.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.perfcake.model.ObjectFactory;
-import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Messages;
 import org.perfcake.model.Scenario.Messages.Message;
 
@@ -35,49 +31,17 @@ public class MessagesModel {
 
 	private PropertyChangeSupport listeners;
 	private Messages messages;
-	private ScenarioModel scenario;
+
 	
-	protected List<MessageModel> messageModel;
 	
-	public MessagesModel(Messages messages, ScenarioModel scenario){
-		if (scenario == null){
-			throw new IllegalArgumentException("Scenario model can't be null.");
+	public MessagesModel(Messages messages){
+		if (messages == null){
+			throw new IllegalArgumentException("Messages must not be null");
 		}
-		this.scenario = scenario;
 		this.messages = messages;
 		listeners = new PropertyChangeSupport(this);
-		
-		messageModel = new ArrayList<>();
-
-		if (messages != null){
-			if (messages.getMessage() != null){
-				for (Message m : messages.getMessage()){
-					messageModel.add(new MessageModel(m));
-				}
-			}
-		}
 	}
 	
-	public void addMessageModel(MessageModel messageModel){
-		this.messageModel.add(messageModel);
-		this.addMessage(messageModel.getMessage());
-	}
-	
-	public void removeMessageModel(MessageModel messageModel){
-		this.messageModel.remove(messageModel);
-		this.removeMessage(messageModel.getMessage());
-	}
-
-	/**
-	 * Do not modify list using getList().add() since it will not fire
-	 * propertyChangeEvent and the view of the model won't be refreshed.
-	 * Use add* and remove* methods instead.
-	 * @return List of PerfClipse model
-	 */	
-	public List<MessageModel> getMessageModel() {
-		return messageModel;
-	}
-
 	/**
 	 * This method should not be used for modifying messages (in a way getMessages().add(message))
 	 * since these changes would not fire PropertyChange listeners which implies that
@@ -89,15 +53,12 @@ public class MessagesModel {
 		return messages;
 	}
 	
-	protected void addMessage(Message m){
-		if (messages == null){
-			createMessages();
-		}
+	public void addMessage(Message m){
 		getMessages().getMessage().add(m);
 		listeners.firePropertyChange(PROPERTY_MESSAGE, null, m);
 	}
 	
-	protected void removeMessage(Message m){
+	public void removeMessage(Message m){
 		if (getMessages().getMessage().remove(m)){
 			listeners.firePropertyChange(PROPERTY_MESSAGE, m, null);
 		}
@@ -109,17 +70,6 @@ public class MessagesModel {
 	
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		listeners.removePropertyChangeListener(listener);
-	}
-	
-	private void createMessages(){
-		ObjectFactory f = new ObjectFactory();
-		messages = f.createScenarioMessages();
-		getScenario().setMessages(messages);
-
-	}
-	
-	private Scenario getScenario(){
-		return scenario.getScenario();
 	}
 
 }

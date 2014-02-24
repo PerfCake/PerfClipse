@@ -21,6 +21,16 @@ package org.perfclipse.ui.gef.parts;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
+import org.perfcake.model.Scenario.Generator;
+import org.perfcake.model.Scenario.Generator.Run;
+import org.perfcake.model.Scenario.Messages;
+import org.perfcake.model.Scenario.Messages.Message;
+import org.perfcake.model.Scenario.Reporting;
+import org.perfcake.model.Scenario.Reporting.Reporter;
+import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
+import org.perfcake.model.Scenario.Sender;
+import org.perfcake.model.Scenario.Validation;
+import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.MessageModel;
@@ -44,38 +54,38 @@ public class PerfCakeEditPartFactory implements EditPartFactory {
 		if (model instanceof ScenarioModel){
 			return new ScenarioEditPart((ScenarioModel) model);
 		}
-		if (model instanceof GeneratorModel){
-			return new GeneratorEditPart((GeneratorModel) model);
+		if (model instanceof Generator){
+			return new GeneratorEditPart(new GeneratorModel((Generator) model));
 		}
-		if (model instanceof SenderModel){
-			return new SenderEditPart((SenderModel) model);
+		if (model instanceof Sender){
+			return new SenderEditPart(new SenderModel((Sender) model));
 		}
-		if (model instanceof ReportingModel){
-			return new ReportingEditPart((ReportingModel) model);
+		if (model instanceof Reporting){
+			return new ReportingEditPart(new ReportingModel((Reporting) model));
 		}
-		if (model instanceof ValidationModel){
-			return new ValidationEditPart((ValidationModel) model);
+		if (model instanceof Validation){
+			return new ValidationEditPart(new ValidationModel((Validation) model));
 		}
-		if (model instanceof ValidatorModel){
-			return new ValidatorEditPart((ValidatorModel) model);
+		if (model instanceof Validator){
+			return new ValidatorEditPart(new ValidatorModel((Validator) model));
 		}
-		if (model instanceof MessagesModel){
-			return new MessagesEditPart((MessagesModel) model);
+		if (model instanceof Messages){
+			return new MessagesEditPart(new MessagesModel((Messages) model));
 		}
-		if (model instanceof RunModel){
-			return new RunEditPart((RunModel) model);
+		if (model instanceof Run){
+			return new RunEditPart(new RunModel((Run) model));
 		}
-		if (model instanceof MessageModel){
-			return new MessageEditPart((MessageModel) model);
+		if (model instanceof Message){
+			return new MessageEditPart(new MessageModel((Message) model));
 		}
 		if (model instanceof String){
 			return new StringEditPart((String) model);
 		}
-		if (model instanceof ReporterModel){
-			return new ReporterEditPart((ReporterModel) model);
+		if (model instanceof Reporter){
+			return new ReporterEditPart(new ReporterModel((Reporter) model));
 		}
-		if (model instanceof DestinationModel){
-			return new DestinationEditPart((DestinationModel) model);
+		if (model instanceof Destination){
+			return new DestinationEditPart( new DestinationModel((Destination) model));
 		}
 		return null;
 	}

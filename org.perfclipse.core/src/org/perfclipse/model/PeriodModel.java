@@ -33,6 +33,9 @@ public class PeriodModel {
 	private Period period;
 
 	public PeriodModel(Period period) {
+		if (period == null){
+			throw new IllegalArgumentException("Period must not be null.");
+		}
 		this.period = period;
 		listeners = new PropertyChangeSupport(this);
 	}
@@ -63,18 +66,10 @@ public class PeriodModel {
 		listeners.firePropertyChange(PROPERTY_TYPE, oldType, type);
 	}
 	
-	public String getType(){
-		return getPeriod().getType();
-	}
-
 	public void setValue(String value){
 		String oldValue = getPeriod().getValue();
 		getPeriod().setValue(value);
 		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
-	}
-	
-	public String getValue(){
-		return getPeriod().getValue();
 	}
 	
 }

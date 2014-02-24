@@ -13,6 +13,10 @@ public class ValidatorRefModel {
 	private PropertyChangeSupport listeners;
 
 	public ValidatorRefModel(ValidatorRef validatorRef) {
+		if (validatorRef == null){
+			throw new IllegalArgumentException("ValidatorRef must not be null.");
+		}
+		
 		this.validatorRef = validatorRef;
 		listeners = new PropertyChangeSupport(this);
 	}
@@ -33,10 +37,6 @@ public class ValidatorRefModel {
 		String oldId = getValidatorRef().getId();
 		getValidatorRef().setId(id);
 		listeners.firePropertyChange(PROPERTY_ID, oldId, id);
-	}
-	
-	public String getId(){
-		return getValidatorRef().getId();
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener listener){

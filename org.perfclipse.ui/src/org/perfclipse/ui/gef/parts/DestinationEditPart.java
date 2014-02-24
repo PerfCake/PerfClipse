@@ -37,7 +37,7 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart {
 	}
 	@Override
 	protected IFigure createFigure() {
-		PerfCakeRoundedRectangle figure = new PerfCakeRoundedRectangle(getDestinationModel().getClazz());
+		PerfCakeRoundedRectangle figure = new PerfCakeRoundedRectangle(getDestinationModel().getDestination().getClazz());
 //		figure.setPreferredSize(EMPTY_WIDHT, EMPTY_HEIGHT);
 		return figure;
 	}
@@ -48,10 +48,11 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart {
 
 	}
 	
+	//TODO: remove string destination model
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
-		modelChildren.add(getDestinationModel().getClazz());
+		modelChildren.add(getDestinationModel().getDestination().getClazz());
 		return modelChildren;
 	}
 

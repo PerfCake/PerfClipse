@@ -54,11 +54,11 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	public GeneratorModel getGeneratorModel(){
 		return (GeneratorModel) getModel();
 	}
-
+	
 	@Override
 	protected IFigure createFigure() {
-		String header = getGeneratorModel().getClazz() 
-				+ " (" + getGeneratorModel().getThreads() + ")";
+		String header = getGeneratorModel().getGenerator().getClazz() 
+				+ " (" + getGeneratorModel().getGenerator().getThreads() + ")";
 		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle(header, getDefaultSize());
 		return figure;
 	}
@@ -72,8 +72,8 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<>();
-		if (getGeneratorModel().getRunModel() != null)
-			modelChildren.add(getGeneratorModel().getRunModel());
+		if (getGeneratorModel().getGenerator().getRun() != null)
+			modelChildren.add(getGeneratorModel().getGenerator().getRun());
 
 		return modelChildren;
 	}

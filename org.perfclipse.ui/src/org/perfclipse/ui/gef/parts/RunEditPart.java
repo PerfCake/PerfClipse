@@ -37,7 +37,7 @@ public class RunEditPart extends AbstractPerfCakeEditPart {
 	@Override
 	protected IFigure createFigure() {
 		label = new Label();
-		label.setText(getRunModel().getType() + " : " + getRunModel().getValue());
+		label.setText(getRunModel().getRun().getType() + " : " + getRunModel().getRun().getValue());
 		return label;
 	}
 

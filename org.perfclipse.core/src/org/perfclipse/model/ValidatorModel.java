@@ -34,6 +34,9 @@ public class ValidatorModel {
 	private PropertyChangeSupport listeners;
 	
 	public ValidatorModel(Validator validator){
+		if (validator == null){
+			throw new IllegalArgumentException("Validator must not be null.");
+		}
 		
 		this.validator = validator;
 		listeners = new PropertyChangeSupport(this);
@@ -59,14 +62,10 @@ public class ValidatorModel {
 		listeners.removePropertyChangeListener(listener);
 	}
 	
-	public void setClazz(String clazz){
+	public void setClass(String clazz){
 		String oldClazz = getValidator().getClazz();
 		getValidator().setClazz(clazz);
 		listeners.firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
-	}
-	
-	public String getClazz(){
-		return getValidator().getClazz();
 	}
 	
 	public void setId(String id){
@@ -75,18 +74,10 @@ public class ValidatorModel {
 		listeners.firePropertyChange(PROPERTY_ID, oldId, id);
 	}
 	
-	public String getId(){
-		return getValidator().getId();
-	}
-	
 	public void setValue(String value){
 		String oldValue = getValidator().getValue();
 		getValidator().setValue(value);
 		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
-	}
-	
-	public String getValue(){
-		return getValidator().getValue();
 	}
 
 

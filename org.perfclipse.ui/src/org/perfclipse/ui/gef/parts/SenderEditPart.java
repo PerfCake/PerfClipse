@@ -39,7 +39,7 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart {
 	
 	@Override
 	protected IFigure createFigure() {
-		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle(getSenderModel().getClazz(), getDefaultSize());
+		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle(getSenderModel().getSender().getClazz(), getDefaultSize());
 		return figure;
 	}
 

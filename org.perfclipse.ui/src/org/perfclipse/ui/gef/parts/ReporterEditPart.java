@@ -42,7 +42,7 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 	protected IFigure createFigure() {
 		Dimension d = ((AbstractGraphicalEditPart) getParent()).getFigure().getClientArea().getSize().getCopy();
 		d.setHeight(150);
-		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle(getReporterModel().getClazz(), d); 
+		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle(getReporterModel().getReporter().getClazz(), d); 
 		return figure;
 	}
 
@@ -55,8 +55,9 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
-		if (getReporterModel().getDestinationModel() != null){
-			modelChildren.addAll(getReporterModel().getDestinationModel());
+		if (getReporterModel().getReporter().getDestination() != null &&
+				getReporterModel().getReporter().getDestination() != null){
+			modelChildren.addAll(getReporterModel().getReporter().getDestination());
 		}
 		return modelChildren;
 	}

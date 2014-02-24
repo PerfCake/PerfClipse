@@ -33,28 +33,15 @@ public class ScenarioModel {
 	public static final String PROPERTY_REPORTING = "scenario-reporting";
 	public static final String PROPERTY_VALIDATION = "scenario-validation";
 	
-	protected PropertiesModel propertiesModel;
-	protected GeneratorModel generatorModel;
-	protected SenderModel senderModel;
-	protected ReportingModel reportingModel;
-	protected MessagesModel messagesModel;
-	protected ValidationModel validationModel;
-	
 	private PropertyChangeSupport listeners;
 	private Scenario scenario;
 
 	public ScenarioModel(Scenario scenario) {
+		if (scenario == null){
+			throw new IllegalArgumentException("Scenario must not be null");
+		}
 		this.scenario = scenario;
 		listeners = new PropertyChangeSupport(this);
-		
-		if (scenario != null){
-			propertiesModel = new PropertiesModel(scenario.getProperties(),this);
-			generatorModel = new GeneratorModel(scenario.getGenerator(), this);
-			senderModel = new SenderModel(scenario.getSender(), this);
-			reportingModel = new ReportingModel(scenario.getReporting(), this);
-			messagesModel = new MessagesModel(scenario.getMessages(), this);
-			validationModel = new ValidationModel(scenario.getValidation(), this);
-		}
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -63,61 +50,6 @@ public class ScenarioModel {
 	
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		listeners.removePropertyChangeListener(listener);
-	}
-	
-	
-	public PropertiesModel getPropertiesModel() {
-		return propertiesModel;
-	}
-
-	public void setPropertiesModel(PropertiesModel propertiesModel) {
-		this.propertiesModel = propertiesModel;
-		this.setProperties(propertiesModel.getProperties());
-	}
-
-	public GeneratorModel getGeneratorModel() {
-		return generatorModel;
-	}
-
-	public void setGeneratorModel(GeneratorModel generatorModel) {
-		this.generatorModel = generatorModel;
-		this.setGenerator(generatorModel.getGenerator());
-	}
-
-	public SenderModel getSenderModel() {
-		return senderModel;
-	}
-
-	public void setSenderModel(SenderModel senderModel) {
-		this.senderModel = senderModel;
-		this.setSender(senderModel.getSender());
-	}
-
-	public ReportingModel getReportingModel() {
-		return reportingModel;
-	}
-
-	public void setReportingModel(ReportingModel reportingModel) {
-		this.reportingModel = reportingModel;
-		this.setReporting(reportingModel.getReporting());
-	}
-
-	public MessagesModel getMessagesModel() {
-		return messagesModel;
-	}
-
-	public void setMessagesModel(MessagesModel messagesModel) {
-		this.messagesModel = messagesModel;
-		this.setMessages(messagesModel.getMessages());
-	}
-
-	public ValidationModel getValidationModel() {
-		return validationModel;
-	}
-
-	public void setValidationModel(ValidationModel validationModel) {
-		this.validationModel = validationModel;
-		this.setValidation(validationModel.getValidation());
 	}
 
 	/**
@@ -131,41 +63,40 @@ public class ScenarioModel {
 		return scenario;
 	}
 	
-	protected void setSender(Scenario.Sender sender){
+	public void setSender(Scenario.Sender sender){
 		Scenario.Sender oldSender = getScenario().getSender();
 		getScenario().setSender(sender);
 		listeners.firePropertyChange(PROPERTY_SENDER, oldSender, sender);
 	}
 	
-	protected void setGenerator(Scenario.Generator generator){
+	public void setGenerator(Scenario.Generator generator){
 		Scenario.Generator oldGenerator = getScenario().getGenerator();
 		getScenario().setGenerator(generator);
 		listeners.firePropertyChange(PROPERTY_GENERATOR, oldGenerator, generator);
 	}
 	
-	protected void setReporting(Scenario.Reporting reporting){
+	public void setReporting(Scenario.Reporting reporting){
 		Scenario.Reporting oldReporting = getScenario().getReporting();
 		getScenario().setReporting(reporting);
 		listeners.firePropertyChange(PROPERTY_REPORTING, oldReporting, reporting);
 	}
 	
-	protected void setMessages(Scenario.Messages messages){
+	public void setMessages(Scenario.Messages messages){
 		Scenario.Messages oldMessages = getScenario().getMessages();
 		getScenario().setMessages(messages);
 		listeners.firePropertyChange(PROPERTY_MESSAGES, oldMessages, messages);
 	}
 	
-	protected void setValidation(Scenario.Validation validatrion){
+	public void setValidation(Scenario.Validation validatrion){
 		Scenario.Validation oldValidation = getScenario().getValidation();
 		getScenario().setValidation(validatrion);
 		listeners.firePropertyChange(PROPERTY_VALIDATION, oldValidation, validatrion);
 	}
 	
-	protected void setProperties(Scenario.Properties properties){
+	public void setProperties(Scenario.Properties properties){
 		Scenario.Properties oldProperties = getScenario().getProperties();
 		getScenario().setProperties(properties);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, oldProperties, properties);
 	}
-	
 
 }

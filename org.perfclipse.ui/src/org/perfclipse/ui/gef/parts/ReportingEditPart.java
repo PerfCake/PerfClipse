@@ -50,8 +50,10 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart {
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
-		if (getReportingModel().getReporterModel() != null){
-			modelChildren.addAll(getReportingModel().getReporterModel());
+		if ( getReportingModel().getReporting() != null &&
+				getReportingModel().getReporting().getReporter() != null)
+		{
+			modelChildren.addAll(getReportingModel().getReporting().getReporter());
 		}
 		return modelChildren;
 	}

@@ -31,6 +31,9 @@ public class RunModel {
 	private Run run;
 	
 	public RunModel(Run run){
+		if (run == null){
+			throw new IllegalArgumentException("Run must not be null");
+		}
 		this.run = run;
 		listeners = new PropertyChangeSupport(this);
 	}
@@ -59,19 +62,11 @@ public class RunModel {
 		getRun().setType(value);
 		listeners.firePropertyChange(PROPERTY_TYPE, oldValue, value);
 	}
-	
-	public String getType(){
-		return getRun().getType();
-	}
 
 	public void setValue(String value) {
 		String oldValue = getRun().getValue();
 		getRun().setValue(value);
 		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
-	}
-	
-	public String getValue(){
-		return getRun().getValue();
 	}
 
 

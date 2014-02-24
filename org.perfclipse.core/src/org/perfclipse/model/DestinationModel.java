@@ -21,8 +21,6 @@ package org.perfclipse.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
@@ -37,71 +35,15 @@ public class DestinationModel {
 	
 	private Destination destination;
 	private PropertyChangeSupport listeners;
-	
-	protected List<PeriodModel> periodModel;
-	protected List<PropertyModel> propertyModel;
 
 	public DestinationModel(Destination destination) {
+		if (destination == null){
+			throw new IllegalArgumentException("Destination must not be null");
+		}
 		this.destination = destination;
 		listeners = new PropertyChangeSupport(this);
-		
-		periodModel = new ArrayList<>();
-		propertyModel = new ArrayList<>();
-
-		if (destination != null){
-			if (destination.getPeriod() != null){
-				for (Period p : destination.getPeriod()){
-					periodModel.add(new PeriodModel(p));
-				}
-			}
-			if (destination.getProperty() != null){
-				for (Property p : destination.getProperty()){
-					propertyModel.add(new PropertyModel(p));
-				}
-			}
-		}
 	}
 	
-	public void addPeriodModel(PeriodModel periodModel){
-		this.periodModel.add(periodModel);
-		this.addPeriod(periodModel.getPeriod());
-	}
-	
-	public void removePeriodModel(PeriodModel periodModel){
-		this.periodModel.remove(periodModel);
-		this.removePeriod(periodModel.getPeriod());
-	}
-	
-	public void addPropertyModel(PropertyModel propertyModel){
-		this.propertyModel.add(propertyModel);
-		this.addProperty(propertyModel.getProperty());
-	}
-	
-	public void removePropertyModel(PropertyModel propertyModel){
-		this.propertyModel.remove(propertyModel);
-		this.removeProperty(propertyModel.getProperty());
-	}
-	
-	/**
-	 * Do not modify list using getList().add() since it will not fire
-	 * propertyChangeEvent and the view of the model won't be refreshed.
-	 * Use add* and remove* methods instead.
-	 * @return List of PerfClipse model
-	 */
-	public List<PeriodModel> getPeriodModel() {
-		return periodModel;
-	}
-
-	/**
-	 * Do not modify list using getList().add() since it will not fire
-	 * propertyChangeEvent and the view of the model won't be refreshed.
-	 * Use add* and remove* methods instead.
-	 * @return List of PerfClipse model
-	 */
-	public List<PropertyModel> getPropertyModel() {
-		return propertyModel;
-	}
-
 	/**
 	 * This method should not be used for modifying Destination (in a way getDestination().setClass()))
 	 * since these changes would not fire PropertyChange listeners which implies that
@@ -121,33 +63,29 @@ public class DestinationModel {
 		listeners.removePropertyChangeListener(listener);
 	}
 	
-	public void setClazz(String clazz){
+	public void setClass(String clazz){
 		String oldClazz = getDestination().getClazz();
 		getDestination().setClazz(clazz);
 		listeners.firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
 	}
 	
-	public String getClazz(){
-		return getDestination().getClazz();
-	}
-	
-	protected void addPeriod(Period period){
+	public void addPeriod(Period period){
 		getDestination().getPeriod().add(period);
 		listeners.firePropertyChange(PROPERTY_PERIOD, null, period);
 	}
 	
-	protected void removePeriod(Period period){
+	public void removePeriod(Period period){
 		if (getDestination().getPeriod().remove(period)){
 			listeners.firePropertyChange(PROPERTY_PERIOD, period, null);
 		}
 	}
 	
-	protected void addProperty(Property property){
+	public void addProperty(Property property){
 		getDestination().getProperty().add(property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	
-	protected void removeProperty(Property property){
+	public void removeProperty(Property property){
 		if (getDestination().getProperty().remove(property)){
 			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
@@ -158,10 +96,6 @@ public class DestinationModel {
 			getDestination().setEnabled(enabled);
 			listeners.firePropertyChange(PROPERTY_ENABLED, !enabled, enabled);
 		}
-	}
-	
-	public boolean isEnabled(){
-		return getDestination().isEnabled();
 	}
 	
 }

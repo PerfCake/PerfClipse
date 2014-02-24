@@ -21,8 +21,6 @@ package org.perfclipse.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.perfcake.model.Header;
 import org.perfcake.model.Property;
@@ -39,39 +37,13 @@ public class MessageModel {
 
 	private Message message;
 	private PropertyChangeSupport listeners;
-	
-	protected List<HeaderModel> headerModel;
-	protected List<PropertyModel> propertyModel;
-	protected List<ValidatorRefModel> validatorRefModel;
 
 	public MessageModel(Message message) {
+		if (message == null){
+			throw new IllegalArgumentException("Message must not be null.");
+		}
 		this.message = message;
 		listeners = new PropertyChangeSupport(this);
-		
-		headerModel = new ArrayList<>();
-		propertyModel = new ArrayList<>();
-		validatorRefModel = new ArrayList<>();
-
-		if (message != null){
-			if (message.getHeader() != null){
-				for (Header h: message.getHeader()){
-					headerModel.add(new HeaderModel(h));
-				}
-			}
-			
-			if (message.getProperty() != null){
-				for (Property p : message.getProperty()){
-					propertyModel.add(new PropertyModel(p));
-				}
-			}
-			
-			if (message.getValidatorRef() != null){
-				for (ValidatorRef v : message.getValidatorRef()){
-					validatorRefModel.add(new ValidatorRefModel(v));
-				}
-			}
-			
-		}
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -82,66 +54,6 @@ public class MessageModel {
 		listeners.removePropertyChangeListener(listener);
 	}
 	
-	public void addPropertyModel(PropertyModel propertyModel){
-		this.addProperty(propertyModel.getProperty());
-		this.propertyModel.add(propertyModel);
-	}
-	
-	public void removePropertyModel(PropertyModel propertyModel){
-		this.removeProperty(propertyModel.getProperty());
-		this.propertyModel.remove(propertyModel);
-	}
-	
-	public void addHeaderModel(HeaderModel headerModel){
-		this.headerModel.add(headerModel);
-		this.addHeader(headerModel.getHeader());
-	}
-	
-	public void removeHeaderModel(HeaderModel headerModel){
-		this.headerModel.remove(headerModel);
-		this.removeHeader(headerModel.getHeader());
-	}
-	
-	public void addValidatorRefModel(ValidatorRefModel validatorRefModel){
-		this.validatorRefModel.add(validatorRefModel);
-		this.addValidatorRef(validatorRefModel.getValidatorRef());
-	}
-	
-	public void removeValidatorRefModel(ValidatorRefModel validatorRefModel){
-		this.validatorRefModel.remove(validatorRefModel);
-		this.removeValidatorRef(validatorRefModel.getValidatorRef());
-	}
-	
-	/**
-	 * Do not modify list using getList().add() since it will not fire
-	 * propertyChangeEvent and the view of the model won't be refreshed.
-	 * Use add* and remove* methods instead.
-	 * @return List of PerfClipse model
-	 */	
-	public List<HeaderModel> getHeaderModel() {
-		return headerModel;
-	}
-
-	/**
-	 * Do not modify list using getList().add() since it will not fire
-	 * propertyChangeEvent and the view of the model won't be refreshed.
-	 * Use add* and remove* methods instead.
-	 * @return List of PerfClipse model
-	 */
-	public List<PropertyModel> getPropertyModel() {
-		return propertyModel;
-	}
-
-	/**
-	 * Do not modify list using getList().add() since it will not fire
-	 * propertyChangeEvent and the view of the model won't be refreshed.
-	 * Use add* and remove* methods instead.
-	 * @return List of PerfClipse model
-	 */
-	public List<ValidatorRefModel> getValidatorRefModel() {
-		return validatorRefModel;
-	}
-
 	/**
 	 * This method should not be used for modifying message (in a way getMessage().setUri(uri))
 	 * since these changes would not fire PropertyChange listeners which implies that
@@ -153,34 +65,34 @@ public class MessageModel {
 		return message;
 	}
 	
-	protected void addProperty(Property property){
+	public void addProperty(Property property){
 		getMessage().getProperty().add(property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	
-	protected void removeProperty(Property property){
+	public void removeProperty(Property property){
 		if (getMessage().getProperty().remove(property)){
 			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
 	}
 	
-	protected void addHeader(Header header){
+	public void addHeader(Header header){
 		getMessage().getHeader().add(header);
 		listeners.firePropertyChange(PROPERTY_HEADERS, null, header);
 	}
 	
-	protected void removeHeader(Header header){
+	public void removeHeader(Header header){
 		if (getMessage().getHeader().remove(header)){
 			listeners.firePropertyChange(PROPERTY_HEADERS, header, null);
 		}
 	}
 	
-	protected void addValidatorRef(ValidatorRef ref){
+	public void addValidatorRef(ValidatorRef ref){
 		getMessage().getValidatorRef().add(ref);
 		listeners.firePropertyChange(PROPERTY_VALIDATOR_REFS, null, ref);
 	}
 	
-	protected void removeValidatorRef(ValidatorRef ref){
+	public void removeValidatorRef(ValidatorRef ref){
 		if(getMessage().getValidatorRef().remove(ref)){
 			listeners.firePropertyChange(PROPERTY_VALIDATOR_REFS, ref, null);
 		}
@@ -192,18 +104,12 @@ public class MessageModel {
 		listeners.firePropertyChange(PROPERTY_URI, oldUri, uri);
 	}
 	
-	public String getUri(){
-		return getMessage().getUri();
-	}
-	
 	public void setMultiplicity(String multiplicity){
 		String oldMultiplicity = getMessage().getMultiplicity();
 		getMessage().setMultiplicity(multiplicity);
 		listeners.firePropertyChange(PROPERTY_MULTIPLICITY, oldMultiplicity, multiplicity);
 	}
 	
-	public String getMultiplicity(){
-		return getMessage().getMultiplicity();
-	}
+	
 
 }
