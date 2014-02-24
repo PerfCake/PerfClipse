@@ -40,12 +40,16 @@ public abstract class AbstractPerfCakeSectionEditPart extends
 	@Override
 	protected void addChild(EditPart child, int index) {
 		super.addChild(child, index);
-		refreshVisuals();
+		resize();
+	}
+	
+	@Override
+	protected void refreshChildren(){
+		resize();
+		super.refreshChildren();
 	}
 
-	//TODO : is double validate necessary?
-	@Override
-	public void refreshVisuals() {
+	public void resize() {
 		getFigure().validate();
 		ScenarioFreeformLayout scenarioLayout = (ScenarioFreeformLayout) getFigure().getParent().getLayoutManager();
 		Rectangle constraint = (Rectangle) scenarioLayout.getConstraint(getFigure());
