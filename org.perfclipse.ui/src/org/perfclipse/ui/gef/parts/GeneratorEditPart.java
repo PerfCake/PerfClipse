@@ -27,6 +27,7 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.perfclipse.model.GeneratorModel;
+import org.perfclipse.model.RunModel;
 import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
 
 //TODO : move implements to the superclass
@@ -73,7 +74,7 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<>();
 		if (getGeneratorModel().getGenerator().getRun() != null)
-			modelChildren.add(getGeneratorModel().getGenerator().getRun());
+			modelChildren.add(new RunModel(getGeneratorModel().getGenerator().getRun()));
 
 		return modelChildren;
 	}

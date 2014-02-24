@@ -23,7 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
+import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ValidationModel;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
 
 public class ValidationEditPart extends AbstractPerfCakeSectionEditPart {
@@ -54,7 +56,9 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart {
 		if (getValidationModel().getValidation() != null &&
 				getValidationModel().getValidation().getValidator() != null)
 		{
-			modelChildren.addAll(getValidationModel().getValidation().getValidator());
+			for (Validator v : getValidationModel().getValidation().getValidator()){
+				modelChildren.add(new ValidatorModel(v));
+			}
 		}
 		return modelChildren;
 	}

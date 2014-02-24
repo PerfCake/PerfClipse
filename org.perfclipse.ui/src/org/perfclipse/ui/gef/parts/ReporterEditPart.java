@@ -25,6 +25,8 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
+import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
 
@@ -56,8 +58,11 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
 		if (getReporterModel().getReporter().getDestination() != null &&
-				getReporterModel().getReporter().getDestination() != null){
-			modelChildren.addAll(getReporterModel().getReporter().getDestination());
+				getReporterModel().getReporter().getDestination() != null)
+		{
+			for (Destination d: getReporterModel().getReporter().getDestination()){
+				modelChildren.add(new DestinationModel(d));
+			}
 		}
 		return modelChildren;
 	}

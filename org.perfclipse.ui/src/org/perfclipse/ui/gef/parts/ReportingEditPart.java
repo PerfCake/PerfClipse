@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
+import org.perfcake.model.Scenario.Reporting.Reporter;
+import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
 
@@ -53,7 +55,9 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart {
 		if ( getReportingModel().getReporting() != null &&
 				getReportingModel().getReporting().getReporter() != null)
 		{
-			modelChildren.addAll(getReportingModel().getReporting().getReporter());
+			for (Reporter r : getReportingModel().getReporting().getReporter()){
+				modelChildren.add(new ReporterModel(r));
+			}
 		}
 		return modelChildren;
 	}
