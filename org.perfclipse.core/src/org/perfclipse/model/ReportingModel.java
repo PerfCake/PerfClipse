@@ -22,6 +22,7 @@ package org.perfclipse.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Reporting;
 import org.perfcake.model.Scenario.Reporting.Reporter;
@@ -69,6 +70,14 @@ public class ReportingModel {
 	public void removeReporter(Reporter reporter){
 		if (getReporting().getReporter().remove(reporter)){
 			listeners.firePropertyChange(PROPERTY_REPORTERS, reporter, null);
+		}
+	}
+	
+	public void createReporting(){
+		//no need to fire property change since it will not change the view
+		if (reporting == null){
+			ObjectFactory f = new ObjectFactory();
+			reporting = f.createScenarioReporting();
 		}
 	}
 	

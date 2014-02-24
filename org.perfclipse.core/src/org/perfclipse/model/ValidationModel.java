@@ -22,6 +22,7 @@ package org.perfclipse.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Validation;
 import org.perfcake.model.Scenario.Validation.Validator;
 
@@ -58,6 +59,14 @@ public class ValidationModel {
 
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		listeners.removePropertyChangeListener(listener);
+	}
+	
+	public void createValidation(){
+		//no need to fire property change since it will not change the view
+		if (validation == null){
+			ObjectFactory f = new ObjectFactory();
+			validation = f.createScenarioValidation();
+		}
 	}
 	
 	public void addValidator(Validator validator){

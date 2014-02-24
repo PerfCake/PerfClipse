@@ -22,6 +22,7 @@ package org.perfclipse.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Messages;
 import org.perfcake.model.Scenario.Messages.Message;
 
@@ -61,6 +62,14 @@ public class MessagesModel {
 	public void removeMessage(Message m){
 		if (getMessages().getMessage().remove(m)){
 			listeners.firePropertyChange(PROPERTY_MESSAGE, m, null);
+		}
+	}
+	
+	public void createMessages(){
+		//no need to fire property change since it wont change the view
+		if (messages == null){
+			ObjectFactory f = new ObjectFactory();
+			messages = f.createScenarioMessages(); 
 		}
 	}
 	

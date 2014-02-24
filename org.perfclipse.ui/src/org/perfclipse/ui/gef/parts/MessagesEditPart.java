@@ -79,6 +79,10 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 				Object type = request.getNewObjectType();
 				if (type == Message.class){
 					Message message = (Scenario.Messages.Message) request.getNewObject();
+					if (getMessagesModel().getMessages() == null){
+						getMessagesModel().createMessages();
+						((ScenarioEditPart) getParent()).getScenarioModel().getScenario().setMessages(getMessagesModel().getMessages());
+					}
 					return new AddMessageCommand(message, getMessagesModel());
 				}
 				return null;
