@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
 import org.perfclipse.model.DestinationModel;
-import org.perfclipse.ui.gef.figures.PerfCakeRoundedRectangle;
+import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 
 public class DestinationEditPart extends AbstractPerfCakeNodeEditPart {
 
@@ -37,7 +37,7 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart {
 	}
 	@Override
 	protected IFigure createFigure() {
-		PerfCakeRoundedRectangle figure = new PerfCakeRoundedRectangle(getDestinationModel().getDestination().getClazz());
+		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getDestinationModel().getDestination().getClazz());
 //		figure.setPreferredSize(EMPTY_WIDHT, EMPTY_HEIGHT);
 		return figure;
 	}
@@ -48,11 +48,9 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart {
 
 	}
 	
-	//TODO: remove string destination model
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
-		modelChildren.add(getDestinationModel().getDestination().getClazz());
 		return modelChildren;
 	}
 
