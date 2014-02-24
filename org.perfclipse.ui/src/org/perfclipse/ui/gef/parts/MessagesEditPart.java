@@ -107,10 +107,11 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<>();
-		if (getMessagesModel().getMessages() != null &&
-				getMessagesModel().getMessages().getMessage() != null){
-			for (Message m : getMessagesModel().getMessages().getMessage()){
-				modelChildren.add(new MessageModel(m));
+		if (getMessagesModel().getMessages() != null){
+			if (getMessagesModel().getMessages().getMessage() != null){
+				for (Message m : getMessagesModel().getMessages().getMessage()){
+					modelChildren.add(new MessageModel(m));
+				}
 			}
 		}
 		return modelChildren;

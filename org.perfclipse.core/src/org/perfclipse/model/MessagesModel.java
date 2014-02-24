@@ -35,9 +35,9 @@ public class MessagesModel {
 	
 	
 	public MessagesModel(Messages messages){
-		if (messages == null){
-			throw new IllegalArgumentException("Messages must not be null");
-		}
+//		if (messages == null){
+//			throw new IllegalArgumentException("Messages must not be null");
+//		}
 		this.messages = messages;
 		listeners = new PropertyChangeSupport(this);
 	}

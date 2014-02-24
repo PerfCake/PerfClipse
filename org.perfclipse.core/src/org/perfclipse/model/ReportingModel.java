@@ -35,9 +35,9 @@ public class ReportingModel {
 	private Reporting reporting;
 	
 	public ReportingModel(Reporting reporting){
-		if (reporting == null){
-			throw new IllegalArgumentException("Reporting must not be null.");
-		}
+//		if (reporting == null){
+//			throw new IllegalArgumentException("Reporting must not be null.");
+//		}
 	this.reporting = reporting;
 	listeners = new PropertyChangeSupport(this);
 	}

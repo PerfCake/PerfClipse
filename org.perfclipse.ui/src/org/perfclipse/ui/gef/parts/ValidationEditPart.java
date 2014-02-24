@@ -53,14 +53,15 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart {
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
-		if (getValidationModel().getValidation() != null &&
-				getValidationModel().getValidation().getValidator() != null)
-		{
-			for (Validator v : getValidationModel().getValidation().getValidator()){
-				modelChildren.add(new ValidatorModel(v));
+		if (getValidationModel().getValidation() != null){
+			if(getValidationModel().getValidation().getValidator() != null)
+			{
+				for (Validator v : getValidationModel().getValidation().getValidator()){
+					modelChildren.add(new ValidatorModel(v));
+				}
 			}
 		}
-		return modelChildren;
+	return modelChildren;
 	}
 
 }

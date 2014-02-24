@@ -33,9 +33,9 @@ public class ValidationModel {
 	private PropertyChangeSupport listeners;
 	
 	public ValidationModel(Validation validation){
-		if (validation == null){
-			throw new IllegalArgumentException("Validation must not be null");
-		}
+//		if (validation == null){
+//			throw new IllegalArgumentException("Validation must not be null");
+//		}
 		this.validation = validation;
 		listeners = new PropertyChangeSupport(this);
 	}
