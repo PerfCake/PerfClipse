@@ -77,6 +77,7 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		if (getActivePage() == textEditorIndex){
+			getEditor(textEditorIndex).doSave(monitor);
 			//parse xml and create new scenario model
 			IEditorSite site = designEditor.getEditorSite();
 			IEditorInput input = designEditor.getEditorInput();
@@ -87,7 +88,6 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 			} catch (PartInitException e) {
 				MessageDialog.openError(site.getShell(), "Cannot reload model", "Wrong input for model");
 			}
-			getEditor(textEditorIndex).doSave(monitor);
 		} else {
 			
 			getEditor(designEditorIndex).doSave(monitor);
