@@ -19,17 +19,44 @@
 
 package org.perfclipse.ui.gef.parts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.perfclipse.model.MessageModel;
+import org.perfclipse.ui.gef.directedit.LabelCellEditorLocator;
+import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
+import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
+import org.perfclipse.ui.gef.policies.directedit.MessageDirectEditPolicy;
 
-public class MessageEditPart extends AbstractPerfCakeNodeEditPart {
+public class MessageEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener{
+
+	protected DirectEditManager manager;
 
 	public MessageEditPart(MessageModel modelMessage){
 		setModel(modelMessage);
+	}
+	
+	@Override
+	public void activate() {
+		if (!isActive()){
+			getMessageModel().addPropertyChangeListener(this);
+		}
+		super.activate();
+	}
+	
+	@Override
+	public void deactivate() {
+		getMessageModel().removePropertyChangeListener(this);
+		super.deactivate();
 	}
 	
 	public MessageModel getMessageModel(){
@@ -41,10 +68,26 @@ public class MessageEditPart extends AbstractPerfCakeNodeEditPart {
 
 		return figure;
 	}
+	
+	@Override
+	public void performRequest(Request request){
+		if (request.getType() == RequestConstants.REQ_OPEN ||
+				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
+		{
+			if (manager == null){
+				manager = new LabelDirectEditManager(this,
+						TextCellEditor.class,
+						new LabelCellEditorLocator(((LabeledRoundedRectangle) getFigure()).getLabel()));
+			}
+			manager.show();
+			
+		}
+	}
 
 	@Override
 	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+				new MessageDirectEditPolicy(getMessageModel(), (ILabeledFigure) getFigure()));
 	}
 
 	@Override
@@ -57,5 +100,12 @@ public class MessageEditPart extends AbstractPerfCakeNodeEditPart {
 		List<Object> modelChildren = new ArrayList<>();
 		return modelChildren;
 
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent e) {
+		if (e.getPropertyName().equals(MessageModel.PROPERTY_URI)){
+			refreshVisuals();
+		}
 	}
 }
