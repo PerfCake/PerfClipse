@@ -28,16 +28,14 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.DirectEditPolicy;
-import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.perfclipse.model.ValidatorModel;
-import org.perfclipse.ui.gef.commands.RenameValidatorCommand;
 import org.perfclipse.ui.gef.directedit.LabelCellEditorLocator;
 import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
+import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
+import org.perfclipse.ui.gef.policies.directedit.ValidatorDirectEditPolicy;
 
 public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
 
@@ -93,18 +91,8 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements P
 	@Override
 	protected void createEditPolicies() {
 		// TODO Auto-generated method stub
-		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new DirectEditPolicy() {
-			
-			@Override
-			protected void showCurrentEditValue(DirectEditRequest request) {
-				((LabeledRoundedRectangle) getFigure()).getLabel().setText((String) request.getCellEditor().getValue());
-			}
-			
-			@Override
-			protected Command getDirectEditCommand(DirectEditRequest request) {
-				return new RenameValidatorCommand(getValidatorModel(), (String) request.getCellEditor().getValue());
-			}
-		});
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+				new ValidatorDirectEditPolicy(getValidatorModel(), (ILabeledFigure) getFigure()));
 
 	}
 
