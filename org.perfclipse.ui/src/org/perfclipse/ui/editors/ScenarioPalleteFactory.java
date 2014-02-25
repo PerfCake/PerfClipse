@@ -33,7 +33,7 @@ import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
 import org.perfclipse.ui.editors.palettefactories.MessageFactory;
-import org.perfclipse.ui.editors.palettefactories.ParametrizedSimpleFactory;
+import org.perfclipse.ui.editors.palettefactories.ValidatorFactory;
 
 public class ScenarioPalleteFactory {
 
@@ -69,7 +69,7 @@ public class ScenarioPalleteFactory {
 		
 		for(Class<?> clazz : components.getValidators()){
 			String name = clazz.getSimpleName();
-			ParametrizedSimpleFactory factory = new ParametrizedSimpleFactory(Validator.class, name);
+			ValidatorFactory factory = new ValidatorFactory(Validator.class, name);
 			CombinedTemplateCreationEntry validatorComponent = new
 					CombinedTemplateCreationEntry(name, "Adds " + name + " to the scenario", factory, null, null);
 			validatorDrawer.add(validatorComponent);
