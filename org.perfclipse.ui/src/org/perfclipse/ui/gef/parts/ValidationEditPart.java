@@ -26,7 +26,7 @@ import org.eclipse.draw2d.IFigure;
 import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
-import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
+import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 
 public class ValidationEditPart extends AbstractPerfCakeSectionEditPart {
 
@@ -39,7 +39,7 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart {
 	}
 	@Override
 	protected IFigure createFigure() {
-		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle("Validation section", getDefaultSize());
+		TwoPartRectangle figure = new TwoPartRectangle("Validation section", getDefaultSize());
 //		figure.setPreferredSize(EMPTY_WIDTH, EMPTY_HEIGHT);
 		return figure;
 	}

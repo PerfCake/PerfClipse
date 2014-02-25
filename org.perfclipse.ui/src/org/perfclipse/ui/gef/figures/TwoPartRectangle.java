@@ -27,7 +27,7 @@ import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 
 
-public class PerfCakeTwoPartRectangle extends PerfCakeRoundedRectangle {
+public class TwoPartRectangle extends PerfCakeRoundedRectangle {
 	
 	private static final int SECTION_SPACING = 8;
 
@@ -35,7 +35,7 @@ public class PerfCakeTwoPartRectangle extends PerfCakeRoundedRectangle {
 	private Figure contentLayer;
 	private Label headerLabel;
 
-	public PerfCakeTwoPartRectangle(String name, Dimension defaultSize) {
+	public TwoPartRectangle(String name, Dimension defaultSize) {
 		super(name);
 		ToolbarLayout layout = new ToolbarLayout();
 		layout.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);

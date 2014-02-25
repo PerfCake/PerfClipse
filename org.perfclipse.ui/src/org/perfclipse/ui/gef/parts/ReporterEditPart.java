@@ -28,7 +28,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ReporterModel;
-import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
+import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 
 public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 
@@ -44,7 +44,7 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 	protected IFigure createFigure() {
 		Dimension d = ((AbstractGraphicalEditPart) getParent()).getFigure().getClientArea().getSize().getCopy();
 		d.setHeight(150);
-		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle(getReporterModel().getReporter().getClazz(), d); 
+		TwoPartRectangle figure = new TwoPartRectangle(getReporterModel().getReporter().getClazz(), d); 
 		return figure;
 	}
 

@@ -26,7 +26,7 @@ import org.eclipse.draw2d.IFigure;
 import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
-import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
+import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 
 public class ReportingEditPart extends AbstractPerfCakeSectionEditPart {
 
@@ -39,7 +39,7 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart {
 	}
 	@Override
 	protected IFigure createFigure() {
-		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle("Reporting section", getDefaultSize());
+		TwoPartRectangle figure = new TwoPartRectangle("Reporting section", getDefaultSize());
 		return figure;
 	}
 

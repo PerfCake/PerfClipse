@@ -28,7 +28,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.RunModel;
-import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
+import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 
 //TODO : move implements to the superclass
 public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
@@ -60,7 +60,7 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	protected IFigure createFigure() {
 		String header = getGeneratorModel().getGenerator().getClazz() 
 				+ " (" + getGeneratorModel().getGenerator().getThreads() + ")";
-		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle(header, getDefaultSize());
+		TwoPartRectangle figure = new TwoPartRectangle(header, getDefaultSize());
 		return figure;
 	}
 
@@ -82,7 +82,7 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	@Override
 	public void propertyChange(PropertyChangeEvent e) {
 		if (e.getPropertyName().equals(GeneratorModel.PROPERTY_THREADS)){
-			((PerfCakeTwoPartRectangle) getFigure()).setHeaderLabelText("changed by listener ;-)");
+			((TwoPartRectangle) getFigure()).setHeaderLabelText("changed by listener ;-)");
 		}
 	}
 }

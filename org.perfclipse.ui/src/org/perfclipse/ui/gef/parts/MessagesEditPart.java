@@ -36,7 +36,7 @@ import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.ui.gef.commands.AddMessageCommand;
-import org.perfclipse.ui.gef.figures.PerfCakeTwoPartRectangle;
+import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 
 public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
@@ -65,7 +65,7 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 	@Override
 	protected IFigure createFigure() {
 		
-		PerfCakeTwoPartRectangle figure = new PerfCakeTwoPartRectangle("Messeges section", getDefaultSize());
+		TwoPartRectangle figure = new TwoPartRectangle("Messeges section", getDefaultSize());
 //		setFigureDefaultSize(figure.getPreferredSize().getCopy());
 		return figure;
 	}
