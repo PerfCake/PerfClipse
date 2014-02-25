@@ -19,21 +19,40 @@
 
 package org.perfclipse.ui.gef.parts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
 import org.perfcake.model.Scenario.Validation.Validator;
+import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
+import org.perfclipse.ui.gef.policies.ValidatorListEditPolicy;
 
-public class ValidationEditPart extends AbstractPerfCakeSectionEditPart {
+public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
 	private static final String VALIDATION_SECTION_LABEL = "Validation section";
 
 	public ValidationEditPart(ValidationModel validationModel){
 		setModel(validationModel);
+	}
+	
+	@Override
+	public void activate() {
+		if (!isActive()){
+			getValidationModel().addPropertyChangeListener(this);
+		}
+		super.activate();
+	}
+
+	@Override
+	public void deactivate() {
+		getValidationModel().removePropertyChangeListener(this);
+		super.deactivate();
 	}
 	
 	public ValidationModel getValidationModel(){
@@ -53,7 +72,9 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart {
 
 	@Override
 	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
+		ScenarioModel scenarioModel = ((ScenarioEditPart) getParent()).getScenarioModel();
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ValidatorListEditPolicy(getValidationModel(), scenarioModel));
+
 
 	}
 	
@@ -69,6 +90,17 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart {
 			}
 		}
 	return modelChildren;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(ValidationModel.PROPERTY_VALIDATORS)){
+			if (evt.getOldValue() == null && evt.getNewValue() instanceof Validator){
+				ValidatorModel validatorModel = new ValidatorModel((Validator) evt.getNewValue());
+				addChild(new ValidatorEditPart(validatorModel), getChildren().size());
+			}
+		}
+		
 	}
 
 }
