@@ -39,8 +39,13 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart {
 	
 	@Override
 	protected IFigure createFigure() {
-		TwoPartRectangle figure = new TwoPartRectangle(getSenderModel().getSender().getClazz(), getDefaultSize());
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize());
 		return figure;
+	}
+
+	@Override
+	protected String getText() {
+		return getSenderModel().getSender().getClazz();
 	}
 
 	@Override
@@ -48,6 +53,7 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart {
 		// TODO Auto-generated method stub
 
 	}
+	
 
 	@Override
 	protected List<Object> getModelChildren(){

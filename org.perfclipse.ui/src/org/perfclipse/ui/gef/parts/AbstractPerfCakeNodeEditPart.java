@@ -23,6 +23,7 @@ import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 
 
@@ -74,6 +75,26 @@ public abstract class AbstractPerfCakeNodeEditPart extends  AbstractGraphicalEdi
 
 	protected void setFigureDefaultSize(Dimension figureDefaultSize) {
 		this.figureDefaultSize = figureDefaultSize;
+	}
+	
+	
+	
+	@Override
+	protected void refreshVisuals() {
+		// TODO Auto-generated method stub
+		super.refreshVisuals();
+
+		if (getFigure() instanceof ILabeledFigure){
+			((ILabeledFigure) getFigure()).getLabel().setText(getText());
+		}
+	}
+
+	/**
+	 * 
+	 * @return text displayed on the figure
+	 */
+	protected String getText(){
+		return "";
 	}
 
 //	@Override

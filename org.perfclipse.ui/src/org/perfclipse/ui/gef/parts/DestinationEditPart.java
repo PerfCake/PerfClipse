@@ -37,7 +37,7 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart {
 	}
 	@Override
 	protected IFigure createFigure() {
-		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getDestinationModel().getDestination().getClazz());
+		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText());
 //		figure.setPreferredSize(EMPTY_WIDHT, EMPTY_HEIGHT);
 		return figure;
 	}
@@ -47,7 +47,13 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart {
 		// TODO Auto-generated method stub
 
 	}
-	
+
+	@Override
+	protected String getText() {
+		// TODO Auto-generated method stub
+		return getDestinationModel().getDestination().getClazz();
+	}
+
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();

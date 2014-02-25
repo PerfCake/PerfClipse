@@ -27,7 +27,7 @@ import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 
 
-public class TwoPartRectangle extends PerfCakeRoundedRectangle {
+public class TwoPartRectangle extends PerfCakeRoundedRectangle implements ILabeledFigure {
 	
 	private static final int SECTION_SPACING = 8;
 
@@ -76,12 +76,11 @@ public class TwoPartRectangle extends PerfCakeRoundedRectangle {
 	public Figure getContentLayer() {
 		return contentLayer;
 	}
-	
-	public String getHeaderLabelText(){
-		return headerLabel.getText();
+
+	@Override
+	public final Label getLabel() {
+		return headerLabel;
 	}
 	
-	public void setHeaderLabelText(String text){
-		headerLabel.setText(text);
-	}
+	
 }

@@ -22,19 +22,16 @@ package org.perfclipse.ui.gef.parts;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 
-public class StringEditPart extends AbstractPerfCakeEditPart {
+public class StringEditPart extends AbstractPerfCakeNodeEditPart {
 
 	public StringEditPart(String name){
 		setModel(name);
 	}
 	
-	public String getName(){
-		return (String) getModel();
-	}
 	@Override
 	protected IFigure createFigure() {
 		Label label = new Label();
-		label.setText(getName());
+		label.setText(getText());
 		return label;
 	}
 
@@ -43,5 +40,15 @@ public class StringEditPart extends AbstractPerfCakeEditPart {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	protected String getText() {
+		// TODO Auto-generated method stub
+		return (String) getModel();
+	}
 
+	@Override
+	protected void refreshVisuals(){
+		super.refreshVisuals();
+	}
 }

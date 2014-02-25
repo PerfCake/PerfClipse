@@ -30,6 +30,10 @@ import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 
 public class ReportingEditPart extends AbstractPerfCakeSectionEditPart {
 
+	private static final String REPORTING_SECTION_LABEL = "Reporting";
+
+
+
 	public ReportingEditPart(ReportingModel reportingModel){
 		setModel(reportingModel);
 	}
@@ -39,7 +43,7 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart {
 	}
 	@Override
 	protected IFigure createFigure() {
-		TwoPartRectangle figure = new TwoPartRectangle("Reporting section", getDefaultSize());
+		TwoPartRectangle figure = new TwoPartRectangle(REPORTING_SECTION_LABEL, getDefaultSize());
 		return figure;
 	}
 
@@ -49,6 +53,11 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart {
 
 	}
 	
+	@Override
+	protected String getText() {
+		return REPORTING_SECTION_LABEL;
+	}
+
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();

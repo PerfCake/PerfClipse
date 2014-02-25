@@ -40,6 +40,8 @@ import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 
 public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
+	private static final String MESSAGES_SECTION_LABEL = "Messages";
+
 	public MessagesEditPart(MessagesModel messagesModel){
 		setModel(messagesModel);
 	}
@@ -65,7 +67,7 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 	@Override
 	protected IFigure createFigure() {
 		
-		TwoPartRectangle figure = new TwoPartRectangle("Messeges section", getDefaultSize());
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize());
 //		setFigureDefaultSize(figure.getPreferredSize().getCopy());
 		return figure;
 	}
@@ -106,6 +108,12 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 				return null;
 			}
 		});
+	}
+	
+	
+	@Override
+	protected String getText(){
+		return MESSAGES_SECTION_LABEL;
 	}
 
 	@Override

@@ -37,14 +37,24 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart {
 	}
 	@Override
 	protected IFigure createFigure() {
-		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getValidatorModel().getValidator().getClazz());
+		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText());
 		return figure;
+	}
+
+	@Override
+	protected String getText() {
+		return getValidatorModel().getValidator().getClazz();
 	}
 
 	@Override
 	protected void createEditPolicies() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void refreshVisuals(){
+		super.refreshVisuals();
 	}
 	
 	@Override

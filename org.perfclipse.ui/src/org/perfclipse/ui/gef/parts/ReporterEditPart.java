@@ -44,7 +44,7 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 	protected IFigure createFigure() {
 		Dimension d = ((AbstractGraphicalEditPart) getParent()).getFigure().getClientArea().getSize().getCopy();
 		d.setHeight(150);
-		TwoPartRectangle figure = new TwoPartRectangle(getReporterModel().getReporter().getClazz(), d); 
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), d); 
 		return figure;
 	}
 
@@ -54,6 +54,13 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 
 	}
 	
+	
+	
+	@Override
+	protected String getText() {
+		return getReporterModel().getReporter().getClazz();
+	}
+
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();

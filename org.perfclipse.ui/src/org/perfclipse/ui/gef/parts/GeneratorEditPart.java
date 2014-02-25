@@ -58,9 +58,8 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	
 	@Override
 	protected IFigure createFigure() {
-		String header = getGeneratorModel().getGenerator().getClazz() 
-				+ " (" + getGeneratorModel().getGenerator().getThreads() + ")";
-		TwoPartRectangle figure = new TwoPartRectangle(header, getDefaultSize());
+		
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize());
 		return figure;
 	}
 
@@ -68,6 +67,12 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	protected void createEditPolicies() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	protected String getText(){
+		return getGeneratorModel().getGenerator().getClazz() 
+				+ " (" + getGeneratorModel().getGenerator().getThreads() + ")";
 	}
 	
 	@Override
@@ -80,9 +85,8 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	}
 
 	@Override
-	public void propertyChange(PropertyChangeEvent e) {
-		if (e.getPropertyName().equals(GeneratorModel.PROPERTY_THREADS)){
-			((TwoPartRectangle) getFigure()).setHeaderLabelText("changed by listener ;-)");
-		}
+	public void propertyChange(PropertyChangeEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

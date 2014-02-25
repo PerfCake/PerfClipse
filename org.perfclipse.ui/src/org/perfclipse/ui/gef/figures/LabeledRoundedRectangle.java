@@ -21,7 +21,7 @@ package org.perfclipse.ui.gef.figures;
 
 import org.eclipse.draw2d.Label;
 
-public class LabeledRoundedRectangle extends PerfCakeRoundedRectangle {
+public class LabeledRoundedRectangle extends PerfCakeRoundedRectangle implements ILabeledFigure{
 	
 	Label label;
 
@@ -32,4 +32,9 @@ public class LabeledRoundedRectangle extends PerfCakeRoundedRectangle {
 		add(label);
 	}
 
+	@Override
+	public final Label getLabel() {
+		return label;
+	}
+	
 }

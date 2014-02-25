@@ -22,8 +22,9 @@ package org.perfclipse.ui.gef.parts;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.perfclipse.model.RunModel;
+import org.perfclipse.ui.gef.figures.EditableLabel;
 
-public class RunEditPart extends AbstractPerfCakeEditPart {
+public class RunEditPart extends AbstractPerfCakeNodeEditPart {
 
 	Label label;
 	
@@ -36,8 +37,8 @@ public class RunEditPart extends AbstractPerfCakeEditPart {
 	}
 	@Override
 	protected IFigure createFigure() {
-		label = new Label();
-		label.setText(getRunModel().getRun().getType() + " : " + getRunModel().getRun().getValue());
+		label = new EditableLabel();
+		label.setText(getText());
 		return label;
 	}
 
@@ -45,6 +46,16 @@ public class RunEditPart extends AbstractPerfCakeEditPart {
 	protected void createEditPolicies() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	protected String getText() {
+		return getRunModel().getRun().getType() + " : " + getRunModel().getRun().getValue();
+	}
+
+	@Override
+	protected void refreshVisuals(){
+		super.refreshVisuals();
 	}
 
 }

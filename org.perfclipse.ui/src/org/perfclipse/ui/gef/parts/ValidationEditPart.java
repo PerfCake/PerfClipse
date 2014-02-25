@@ -30,6 +30,8 @@ import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 
 public class ValidationEditPart extends AbstractPerfCakeSectionEditPart {
 
+	private static final String VALIDATION_SECTION_LABEL = "Validation section";
+
 	public ValidationEditPart(ValidationModel validationModel){
 		setModel(validationModel);
 	}
@@ -39,9 +41,14 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart {
 	}
 	@Override
 	protected IFigure createFigure() {
-		TwoPartRectangle figure = new TwoPartRectangle("Validation section", getDefaultSize());
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize());
 //		figure.setPreferredSize(EMPTY_WIDTH, EMPTY_HEIGHT);
 		return figure;
+	}
+
+	@Override
+	protected String getText() {
+		return VALIDATION_SECTION_LABEL;
 	}
 
 	@Override

@@ -37,7 +37,7 @@ public class MessageEditPart extends AbstractPerfCakeNodeEditPart {
 	}
 	@Override
 	protected IFigure createFigure() {
-		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getMessageModel().getMessage().getUri());
+		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText());
 
 		return figure;
 	}
@@ -45,6 +45,11 @@ public class MessageEditPart extends AbstractPerfCakeNodeEditPart {
 	@Override
 	protected void createEditPolicies() {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	protected String getText(){
+		return getMessageModel().getMessage().getUri();
 	}
 	
 	@Override
