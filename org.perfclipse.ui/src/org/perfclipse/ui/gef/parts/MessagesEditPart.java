@@ -25,18 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.Request;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy;
-import org.eclipse.gef.requests.CreateRequest;
-import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
-import org.perfclipse.ui.gef.commands.AddMessageCommand;
+import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
+import org.perfclipse.ui.gef.policies.MessagesListEditPolicy;
 
 public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
@@ -74,40 +69,9 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new OrderedLayoutEditPolicy() {
-			
-			@Override
-			protected Command getCreateCommand(CreateRequest request) {
-				Object type = request.getNewObjectType();
-				if (type == Message.class){
-					Message message = (Scenario.Messages.Message) request.getNewObject();
-					if (getMessagesModel().getMessages() == null){
-						getMessagesModel().createMessages();
-						((ScenarioEditPart) getParent()).getScenarioModel().getScenario().setMessages(getMessagesModel().getMessages());
-					}
-					return new AddMessageCommand(message, getMessagesModel());
-				}
-				return null;
-			}
-			
-			@Override
-			protected EditPart getInsertionReference(Request request) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			@Override
-			protected Command createMoveChildCommand(EditPart child, EditPart after) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			@Override
-			protected Command createAddCommand(EditPart child, EditPart after) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		});
+		ScenarioModel scenarioModel = ((ScenarioEditPart) getParent()).getScenarioModel();
+		installEditPolicy(EditPolicy.LAYOUT_ROLE,
+				new MessagesListEditPolicy(getMessagesModel(), scenarioModel));
 	}
 	
 	
