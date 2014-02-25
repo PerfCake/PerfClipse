@@ -28,45 +28,66 @@ import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
-import org.eclipse.gef.requests.SimpleFactory;
 import org.perfcake.model.Scenario.Messages.Message;
+import org.perfcake.model.Scenario.Validation.Validator;
+import org.perfclipse.reflect.PerfCakeComponents;
+import org.perfclipse.reflect.PerfClipseScannerException;
+import org.perfclipse.ui.editors.palettefactories.MessageFactory;
+import org.perfclipse.ui.editors.palettefactories.ParametrizedSimpleFactory;
 
 public class ScenarioPalleteFactory {
 
-	 public static PaletteRoot createPalette() {
-	      PaletteRoot palette = new PaletteRoot();
-	      palette.add(createToolsGroup(palette));
-	      palette.add(createElementsDrawer());
-	      return palette;
-	   }
+	private static PerfCakeComponents components;
 
-	   private static PaletteEntry createElementsDrawer() {
-		   PaletteDrawer componentDrawer = new PaletteDrawer("Elemnts drawer");
-
-		   SimpleFactory factory = new SimpleFactory(Message.class){
-			   public Object getNewObject(){
-				   Message m = new Message();
-				   m.setUri("Added_by_GEF");
-				   return m;
-			   }
-		   };
-		   
-		   CombinedTemplateCreationEntry messageComponent = new CombinedTemplateCreationEntry("Create message", "Add new message", factory, null, null);
-		   componentDrawer.add(messageComponent);
-		   
-		   return componentDrawer;
+	public static PaletteRoot createPalette() {
+		try {
+			components = PerfCakeComponents.getInstance();
+		} catch (PerfClipseScannerException e) {
+			// TODO handle exception 
+			e.printStackTrace();
+		}
+		PaletteRoot palette = new PaletteRoot();
+		palette.add(createToolsGroup(palette));
+		palette.add(createMessageDrawer());
+		palette.add(createValidatorDrawer());
+		return palette;
 	}
 
+	private static PaletteEntry createMessageDrawer() {
+		PaletteDrawer messageDrawer = new PaletteDrawer("Messages");
+
+		MessageFactory factory = new MessageFactory(Message.class);
+
+		CombinedTemplateCreationEntry messageComponent = new CombinedTemplateCreationEntry("Create message", "Add new message", factory, null, null);
+		messageDrawer.add(messageComponent);
+
+		return messageDrawer;
+	}
+	
+	private static PaletteEntry createValidatorDrawer(){
+		PaletteDrawer validatorDrawer = new PaletteDrawer("Validators");
+		
+		for(Class<?> clazz : components.getValidators()){
+			String name = clazz.getSimpleName();
+			ParametrizedSimpleFactory factory = new ParametrizedSimpleFactory(Validator.class, name);
+			CombinedTemplateCreationEntry validatorComponent = new
+					CombinedTemplateCreationEntry(name, "Adds " + name + " to the scenario", factory, null, null);
+			validatorDrawer.add(validatorComponent);
+		}
+		return validatorDrawer;
+	}
+	
+
 	private static PaletteContainer createToolsGroup(PaletteRoot palette) {
-	      PaletteGroup toolGroup = new PaletteGroup("Tools");
+		PaletteGroup toolGroup = new PaletteGroup("Tools");
 
-	      ToolEntry tool = new PanningSelectionToolEntry();
-	      toolGroup.add(tool);
-	      palette.setDefaultEntry(tool);
+		ToolEntry tool = new PanningSelectionToolEntry();
+		toolGroup.add(tool);
+		palette.setDefaultEntry(tool);
 
-	      toolGroup.add(new MarqueeToolEntry());
+		toolGroup.add(new MarqueeToolEntry());
 
-	      return toolGroup;
-	   }
+		return toolGroup;
+	}
 	   
 }
