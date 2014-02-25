@@ -13,13 +13,19 @@ public class ValidatorDirectEditPolicy extends LabelDirectEditPolicy {
 	public ValidatorDirectEditPolicy(ValidatorModel model, ILabeledFigure labeledFigure) {
 		super(labeledFigure);
 		if (model == null)
-			throw new IllegalArgumentException("model cannot be null");
+			throw new IllegalArgumentException("Model cannot be null");
 		this.model = model;
 	}
 
 	@Override
 	protected Command getDirectEditCommand(DirectEditRequest request) {
-		return new RenameValidatorCommand(model, (String) request.getCellEditor().getValue());
+		return new RenameValidatorCommand(model,
+				((Class<?>) request.getCellEditor().getValue()).getSimpleName());
+	}
+	
+	@Override
+	protected void showCurrentEditValue(DirectEditRequest request) {
+		labeledFigure.getLabel().setText((String) request.getCellEditor().getValue());
 	}
 
 }

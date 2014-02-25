@@ -29,8 +29,12 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jface.viewers.ComboBoxCellEditor;
+import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
+import org.perfclipse.ui.gef.directedit.ComboViewerDirectEditManager;
 import org.perfclipse.ui.gef.directedit.LabelCellEditorLocator;
 import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
@@ -79,9 +83,9 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements P
 				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
 		{
 			if (manager == null){
-				manager = new LabelDirectEditManager(this,
-						TextCellEditor.class,
-						new LabelCellEditorLocator(((LabeledRoundedRectangle) getFigure()).getLabel()));
+				manager = new ComboViewerDirectEditManager(this,
+						ComboBoxViewerCellEditor.class,
+						new ComboViewerCellEditorLocator(((LabeledRoundedRectangle) getFigure()).getLabel()));
 			}
 			manager.show();
 			
