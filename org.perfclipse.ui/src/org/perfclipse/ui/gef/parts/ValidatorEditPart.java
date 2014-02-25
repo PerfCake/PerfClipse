@@ -19,17 +19,46 @@
 
 package org.perfclipse.ui.gef.parts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.editpolicies.DirectEditPolicy;
+import org.eclipse.gef.requests.DirectEditRequest;
+import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.ui.gef.commands.RenameValidatorCommand;
+import org.perfclipse.ui.gef.directedit.LabelCellEditorLocator;
+import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 
-public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart {
+public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
+
+	protected DirectEditManager manager;
 
 	public ValidatorEditPart(ValidatorModel validatorModel){
 		setModel(validatorModel);
+	}
+	
+	@Override
+	public void activate() {
+		if (!isActive()){
+			getValidatorModel().addPropertyChangeListener(this);
+		}
+		super.activate();
+	}
+	
+	@Override
+	public void deactivate() {
+		getValidatorModel().removePropertyChangeListener(this);
+		super.deactivate();
 	}
 	
 	public ValidatorModel getValidatorModel(){
@@ -47,20 +76,49 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart {
 	}
 
 	@Override
-	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void refreshVisuals(){
-		super.refreshVisuals();
+	public void performRequest(Request request){
+		if (request.getType() == RequestConstants.REQ_OPEN ||
+				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
+		{
+			if (manager == null){
+				manager = new LabelDirectEditManager(this,
+						TextCellEditor.class,
+						new LabelCellEditorLocator(((LabeledRoundedRectangle) getFigure()).getLabel()));
+			}
+			manager.show();
+			
+		}
 	}
 	
+	@Override
+	protected void createEditPolicies() {
+		// TODO Auto-generated method stub
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new DirectEditPolicy() {
+			
+			@Override
+			protected void showCurrentEditValue(DirectEditRequest request) {
+				((LabeledRoundedRectangle) getFigure()).getLabel().setText((String) request.getCellEditor().getValue());
+			}
+			
+			@Override
+			protected Command getDirectEditCommand(DirectEditRequest request) {
+				return new RenameValidatorCommand(getValidatorModel(), (String) request.getCellEditor().getValue());
+			}
+		});
+
+	}
+
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
 		return modelChildren;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent e) {
+		if (e.getPropertyName().equals(ValidatorModel.PROPERTY_CLASS)){
+			refreshVisuals();
+		}
 	}
 
 }
