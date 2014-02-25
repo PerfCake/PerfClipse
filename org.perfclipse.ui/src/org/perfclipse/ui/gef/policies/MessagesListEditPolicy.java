@@ -23,7 +23,6 @@ package org.perfclipse.ui.gef.policies;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Messages.Message;
@@ -31,7 +30,7 @@ import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.commands.AddMessageCommand;
 
-public class MessagesListEditPolicy extends OrderedLayoutEditPolicy {
+public class MessagesListEditPolicy extends AbstractListEditPolicy {
 
 	private MessagesModel model;
 	private ScenarioModel parent;
