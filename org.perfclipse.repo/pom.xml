@@ -22,13 +22,19 @@
                                 <artifact>
                                 	<id>org.perfcake:perfcake:1.0</id>
                                 	<instructions>
-                                	<!-- TODO: Now is compiler ignored, but it needs to be resolved for some scenarios -->
-                                	<Import-Package>!org.drools.*,*</Import-Package>
+                                	<Import-Package>*</Import-Package>
                                 	<Export-Package>*</Export-Package>
                                 	</instructions>
                                 </artifact>
+		
+
                                 <artifact><id>org.slf4j:slf4j-api:1.7.5</id></artifact>
-                                <artifact><id>org.slf4j:slf4j-simple:1.7.5</id></artifact>
+                                <artifact><id>org.slf4j:slf4j-simple:1.7.5</id></artifact>,
+                                
+                                <!-- Drools dependencies (with scope provided, so they are not fetched) -->
+                                <artifact><id>org.apache.servicemix.bundles:org.apache.servicemix.bundles.jaxb-xjc:2.2.6_1</id></artifact>
+                                <artifact><id>org.jvnet.sorcerer:sorcerer-javac:0.8</id></artifact>
+                                <artifact><id>com.google.protobuf:protobuf-java:2.5.0</id></artifact>
                             </artifacts>
                         </configuration>
 
