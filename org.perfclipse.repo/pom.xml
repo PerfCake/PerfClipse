@@ -22,15 +22,13 @@
                                 <artifact>
                                 	<id>org.perfcake:perfcake:1.0</id>
                                 	<instructions>
-                                	<Require-Bundle>
-                                		log4j, org.apache.commons.beanutils 
-                                	</Require-Bundle>
+                                	<!-- TODO: Now is compiler ignored, but it needs to be resolved for some scenarios -->
+                                	<Import-Package>!org.drools.*,*</Import-Package>
+                                	<Export-Package>*</Export-Package>
                                 	</instructions>
                                 </artifact>
-                                <artifact><id>com.sun.xsom:xsom:20110809</id></artifact>
                                 <artifact><id>org.slf4j:slf4j-api:1.7.5</id></artifact>
                                 <artifact><id>org.slf4j:slf4j-simple:1.7.5</id></artifact>
-                                <artifact><id>org.jdom:jdom:2.0.2</id></artifact>
                             </artifacts>
                         </configuration>
 
