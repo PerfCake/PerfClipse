@@ -22,8 +22,11 @@
                                 <artifact>
                                 	<id>org.perfcake:perfcake:1.0</id>
                                 	<instructions>
-                                	<Import-Package>*</Import-Package>
-                                	<Export-Package>*</Export-Package>
+                                            <Require-Bundle>
+                                                log4j, org.apache.commons.beanutils 
+                                            </Require-Bundle>
+                                            <Import-Package>*</Import-Package>
+                                            <Export-Package>*</Export-Package>
                                 	</instructions>
                                 </artifact>
 		
