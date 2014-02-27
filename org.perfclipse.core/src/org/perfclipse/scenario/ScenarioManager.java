@@ -19,7 +19,6 @@
 
 package org.perfclipse.scenario;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,10 +30,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.jdom2.Document;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-import org.jdom2.output.XMLOutputter;
 import org.perfcake.PerfCakeException;
 import org.perfcake.Scenario;
 import org.perfcake.ScenarioBuilder;
@@ -50,40 +45,7 @@ import org.xml.sax.SAXException;
  */
 public class ScenarioManager {
 
-	private Document scenarioDoc;
-	
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(ScenarioManager.class);
-	/**
-	 * Load scenario from URL
-	 * @param scenarioUrl URL to scenario
-	 * @throws IOException 
-	 * @throws ScenarioException - when resource at given url cannot be parsed as XML scenario.
-	 */
-	public void load(URL scenarioUrl) throws IOException, ScenarioException{
-		if (scenarioUrl == null){
-			log.error("Url to scenario is null.");
-			throw new IllegalArgumentException("URL to scenario is null.");
-		}
-		SAXBuilder builder = new SAXBuilder();
-		try {
-			scenarioDoc = builder.build(scenarioUrl);
-		} catch (JDOMException e) {
-			log.error("Cannot parse given file as XML scenario." + scenarioUrl.toString(), e);
-			throw new ScenarioException("Cannot parse given file as XML scenario." + scenarioUrl.toString(), e);
-		}
-		log.debug("Sceanrio loaded: " + scenarioUrl.toString());
-	}
-	
-	/**
-	 * Output scenario to Output stream out.
-	 * @param out OutputStream used for output.
-	 * @throws IOException
-	 */
-	public void save(OutputStream out) throws IOException{
-		XMLOutputter outputter = new XMLOutputter();
-		outputter.output(scenarioDoc, out);
-		log.debug("Scenario saved.");
-	}
 	
 	public void runScenario(URL scenarioURL) throws ScenarioException{
 
