@@ -23,10 +23,9 @@
                                 	<id>org.perfcake:perfcake:1.0</id>
                                 	<instructions>
                                             <Require-Bundle>
-                                                log4j, org.apache.commons.beanutils 
+                                                log4j, org.apache.commons.beanutils, org.apache.commons.cli, org.apache.commons.collections, org.apache.commons.configuration, org.apache.commons.logging, javax.jms.api, org.apache.commons.math, org.testng
+                                                <!--, org.drools.compiler, org.drools.core -->
                                             </Require-Bundle>
-                                            <Import-Package>*</Import-Package>
-                                            <Export-Package>*</Export-Package>
                                 	</instructions>
                                 </artifact>
 		
@@ -38,6 +37,7 @@
                                 <artifact><id>org.apache.servicemix.bundles:org.apache.servicemix.bundles.jaxb-xjc:2.2.6_1</id></artifact>
                                 <artifact><id>org.jvnet.sorcerer:sorcerer-javac:0.8</id></artifact>
                                 <artifact><id>com.google.protobuf:protobuf-java:2.5.0</id></artifact>
+                                <artifact><id>javax.xml:jaxp-api:1.4</id></artifact>
                             </artifacts>
                         </configuration>
 
