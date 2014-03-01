@@ -115,7 +115,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 	
 	@Override
 	public void addPages(){
-		fileCreationPage = new ScenarioNewFilePage("Scenario file page", selection);
+		fileCreationPage = new ScenarioNewFilePage("New Scenario file", selection);
 		generatorAndSenderPage = new GeneratorSenderPage(selection);
 		addPage(fileCreationPage);
 		addPage(generatorAndSenderPage);

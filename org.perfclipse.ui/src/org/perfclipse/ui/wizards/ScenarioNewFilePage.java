@@ -8,12 +8,21 @@ import org.perfclipse.ui.PerfClipseConstants;
 
 public class ScenarioNewFilePage extends WizardNewFileCreationPage {
 
+	private static final String ACCEPTED_EXTENSION = "xml";
+	private static final String SCENARIO_DEFAULT_NAME = "scenario";
+	private static final String WIZARD_DESCRIPTION = "Create new Scenario file.";
+	private static final String WIZARD_TITLE = "PerfCake Scenario";
+	private static final String SCENARIO_NAME_LABEL = "Scenario name";
+
 	private IStructuredSelection selection;
+
 	public ScenarioNewFilePage(String pageName, IStructuredSelection selection) {
 		super(pageName, selection);
 		this.selection = selection;
-		setFileName("scenario");
-		setFileExtension("xml");
+		setFileName(SCENARIO_DEFAULT_NAME);
+		setFileExtension(ACCEPTED_EXTENSION);
+		setTitle(WIZARD_TITLE);
+		setDescription(WIZARD_DESCRIPTION);
 	}
 
 	@Override
@@ -31,4 +40,11 @@ public class ScenarioNewFilePage extends WizardNewFileCreationPage {
 
 		super.initialPopulateContainerNameField();
 	}
+
+	@Override
+	protected String getNewFileLabel() {
+		return SCENARIO_NAME_LABEL;
+	}
+	
+	
 }
