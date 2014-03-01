@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
 
 public class ScenarioWizard extends Wizard implements INewWizard {
 
-	private ScenarioFirstPage generatorAndSenderPage;
+	private GeneratorSenderPage generatorAndSenderPage;
 	private WizardNewFileCreationPage fileCreationPage;
 	IStructuredSelection selection;
 	
@@ -118,7 +118,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 		fileCreationPage = new WizardNewFileCreationPage("Scenario file page", selection);
 		fileCreationPage.setFileExtension("xml");
 		fileCreationPage.setFileName("scenario");
-		generatorAndSenderPage = new ScenarioFirstPage(selection);
+		generatorAndSenderPage = new GeneratorSenderPage(selection);
 		addPage(fileCreationPage);
 		addPage(generatorAndSenderPage);
 	}

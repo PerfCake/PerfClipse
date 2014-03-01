@@ -34,9 +34,9 @@ import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
 import org.slf4j.LoggerFactory;
 
-public class ScenarioFirstPage extends WizardPage {
+public class GeneratorSenderPage extends WizardPage {
 	
-	final static org.slf4j.Logger log = LoggerFactory.getLogger(ScenarioFirstPage.class);
+	final static org.slf4j.Logger log = LoggerFactory.getLogger(GeneratorSenderPage.class);
 	
 	private Composite container;
 	private Label senderLabel;
@@ -46,11 +46,11 @@ public class ScenarioFirstPage extends WizardPage {
 	
 	String defaultDirectoryPath;
 
-	public ScenarioFirstPage(IStructuredSelection selection){
+	public GeneratorSenderPage(IStructuredSelection selection){
 		this("Scenario genarator and sender", selection);
 	}
 	
-	public ScenarioFirstPage(String pageName, IStructuredSelection selection) {
+	public GeneratorSenderPage(String pageName, IStructuredSelection selection) {
 		super(pageName);
 		setTitle("Generator and sender");
 		setDescription("Fill in neccessary information on this page");
