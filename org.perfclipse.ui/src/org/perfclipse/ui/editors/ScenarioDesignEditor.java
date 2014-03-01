@@ -56,6 +56,7 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	private ScenarioModel model;
 
 	public ScenarioDesignEditor() {
+		super();
 		setEditDomain(new DefaultEditDomain(this));
 	}
 

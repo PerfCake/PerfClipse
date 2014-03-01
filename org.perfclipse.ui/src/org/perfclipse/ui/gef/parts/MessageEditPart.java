@@ -31,10 +31,12 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.MessagesModel;
 import org.perfclipse.ui.gef.directedit.LabelCellEditorLocator;
 import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
+import org.perfclipse.ui.gef.policies.DeleteMessageEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.MessageDirectEditPolicy;
 
 public class MessageEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener{
@@ -86,8 +88,11 @@ public class MessageEditPart extends AbstractPerfCakeNodeEditPart implements Pro
 
 	@Override
 	protected void createEditPolicies() {
+		MessagesModel messages = (MessagesModel) getParent().getModel();
+
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new MessageDirectEditPolicy(getMessageModel(), (ILabeledFigure) getFigure()));
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new DeleteMessageEditPolicy(messages, getMessageModel()));
 	}
 
 	@Override
