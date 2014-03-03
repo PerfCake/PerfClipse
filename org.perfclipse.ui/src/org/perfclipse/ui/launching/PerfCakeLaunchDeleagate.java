@@ -26,6 +26,8 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Appender;
+import org.apache.log4j.ConsoleAppender;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -241,6 +243,19 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 			OutputStream out = console.newOutputStream();
 			PrintStream standardOut = System.out;
 			System.setOut(new PrintStream(out));
+			
+			//Add appender for Log4j to eclipse console
+			org.apache.log4j.Logger rootLogger = org.apache.log4j.Logger.getRootLogger();
+
+			Appender appender = rootLogger.getAppender("CONSOLE");
+			if (appender instanceof ConsoleAppender){
+				ConsoleAppender consoleAppender = (ConsoleAppender) rootLogger.getAppender("CONSOLE");
+				consoleAppender.activateOptions();
+			} else{
+				log.warn("Cannot obtain PerfCake console logger. Output will not be redirected to Eclipse console");
+			}
+			
+
 
 			//set message and scenario paths for PerfCake 
 			IFolder messageDir = file.getProject().getFolder("messages");
@@ -248,7 +263,6 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 			System.setProperty(PerfCakeConst.MESSAGES_DIR_PROPERTY, messageDir.getRawLocation().toString());
 			System.setProperty(PerfCakeConst.SCENARIOS_DIR_PROPERTY, scenarioDir.getRawLocation().toString());
 			ScenarioManager scenarioManager = new ScenarioManager();
-
 
 			try {
 				monitor.beginTask("PerfCake task", 100);
