@@ -124,7 +124,7 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 
 	private void createDesignEditorPage() {
 		try {
-			designEditor = new ScenarioDesignEditor();
+			designEditor = new ScenarioDesignEditor(this);
 			IFileEditorInput input = (IFileEditorInput) getEditorInput();
 			ScenarioDesignEditorInput editorInput = new ScenarioDesignEditorInput(input.getFile());
 			designEditorIndex = addPage(designEditor, editorInput);
@@ -171,6 +171,9 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 			});
 		}
 	}
-	
+
+	public boolean isNestedEditorActive(IEditorPart editor){
+		return (getActiveEditor() == editor);
+	}
 
 }

@@ -39,8 +39,10 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.FileEditorInput;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.scenario.ScenarioException;
@@ -54,10 +56,22 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(ScenarioDesignEditor.class);
 
 	private ScenarioModel model;
+	private ScenarioMultiPageEditor parent;
 
-	public ScenarioDesignEditor() {
+	public ScenarioDesignEditor(ScenarioMultiPageEditor parent) {
 		super();
 		setEditDomain(new DefaultEditDomain(this));
+		this.parent = parent;
+	}
+	
+	@Override
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		super.selectionChanged(part, selection);
+
+		if (getSite().getWorkbenchWindow().getActivePage().getActiveEditor() == parent &&
+				parent.isNestedEditorActive(this)){
+			updateActions(getSelectionActions());
+		}
 	}
 
 	/*
