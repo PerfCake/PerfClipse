@@ -29,6 +29,11 @@ public class ColorPreferencePage extends FieldEditorPreferencePage implements
 		IWorkbenchPreferencePage {
 	
 	private ColorFieldEditor generatorColor;
+	private ColorFieldEditor senderColor;
+	private ColorFieldEditor messagesColor;
+	private ColorFieldEditor validationColor;
+	private ColorFieldEditor reportingColor;
+	private ColorFieldEditor propertiesColor;
 
 	public ColorPreferencePage(){
 		super(GRID);
@@ -43,8 +48,26 @@ public class ColorPreferencePage extends FieldEditorPreferencePage implements
 
 	@Override
 	protected void createFieldEditors() {
-//		generatorColor = new ColorFieldEditor("generator-color", "Generator: ", getFieldEditorParent());
-//		addField(generatorColor);
+		generatorColor = new ColorFieldEditor(PreferencesConstants.GENERATOR_COLOR_FOREGROUND,
+				"Generator: ", getFieldEditorParent());
+		senderColor = new ColorFieldEditor(PreferencesConstants.SENDER_COLOR_FOREGROUND,
+				"Sender: ", getFieldEditorParent());
+		messagesColor = new ColorFieldEditor(PreferencesConstants.MESSAGES_COLOR_FOREGROUND,
+				"Messages: ", getFieldEditorParent());
+		validationColor = new ColorFieldEditor(PreferencesConstants.VALIDATION_COLOR_FOREGROUND,
+				"Validation: ", getFieldEditorParent());
+		reportingColor = new ColorFieldEditor(PreferencesConstants.REPORTING_COLOR_FOREGROUND,
+				"Reporting: ", getFieldEditorParent());
+		propertiesColor = new ColorFieldEditor(PreferencesConstants.PROPERTIES_COLOR_FOREGROUND,
+				"Properties: ", getFieldEditorParent());
+
+		addField(generatorColor);
+		addField(senderColor);
+		addField(messagesColor);
+		addField(validationColor);
+		addField(reportingColor);
+		addField(propertiesColor);
+
 	}
 	
 	
