@@ -19,6 +19,8 @@
 
 package org.perfclipse.ui.editors;
 
+import javax.print.attribute.standard.Destination;
+
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
@@ -30,9 +32,12 @@ import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Validation.Validator;
+import org.perfcake.reporting.reporters.Reporter;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
+import org.perfclipse.ui.editors.palettefactories.DestinationFactory;
 import org.perfclipse.ui.editors.palettefactories.MessageFactory;
+import org.perfclipse.ui.editors.palettefactories.ReporterFactory;
 import org.perfclipse.ui.editors.palettefactories.ValidatorFactory;
 
 public class ScenarioPalleteFactory {
@@ -50,6 +55,8 @@ public class ScenarioPalleteFactory {
 		palette.add(createToolsGroup(palette));
 		palette.add(createMessageDrawer());
 		palette.add(createValidatorDrawer());
+		palette.add(createReporterDrawer());
+		palette.add(createDestinationDrawer());
 		return palette;
 	}
 
@@ -75,6 +82,36 @@ public class ScenarioPalleteFactory {
 			validatorDrawer.add(validatorComponent);
 		}
 		return validatorDrawer;
+	}
+	
+	private static PaletteEntry createReporterDrawer(){
+		PaletteDrawer reporterDrawer = new PaletteDrawer("Reporters");
+		
+		for (Class<?> clazz: components.getReporters()){
+			String name = clazz.getSimpleName();
+			ReporterFactory factory = new ReporterFactory(Reporter.class, name);
+			CombinedTemplateCreationEntry reporterComponent = new 
+					CombinedTemplateCreationEntry(name, "Adds " + name + " to the scenario", factory, null, null);
+			reporterDrawer.add(reporterComponent);
+		}
+		
+		return reporterDrawer;
+
+	}
+	
+	private static PaletteEntry createDestinationDrawer(){
+		PaletteDrawer destinationDrawer = new PaletteDrawer("Destinations");
+		
+		for (Class<?> clazz: components.getDestinations()){
+			String name = clazz.getSimpleName();
+			DestinationFactory factory = new DestinationFactory(Destination.class, name);
+			CombinedTemplateCreationEntry destinationComponent = new
+					CombinedTemplateCreationEntry(name, "Adds " + name + " to the scenario", factory, null, null);
+
+			destinationDrawer.add(destinationComponent);
+		}
+		
+		return destinationDrawer;
 	}
 	
 
