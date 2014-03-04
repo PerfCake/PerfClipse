@@ -1,16 +1,18 @@
 package org.perfclipse.ui.gef.layout.colors;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.EditPart;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.gef.parts.GeneratorEditPart;
 import org.perfclipse.ui.gef.parts.MessagesEditPart;
 import org.perfclipse.ui.gef.parts.ReportingEditPart;
 import org.perfclipse.ui.gef.parts.SenderEditPart;
 import org.perfclipse.ui.gef.parts.ValidationEditPart;
+import org.perfclipse.ui.preferences.PreferencesConstants;
 
 public class ColorUtils {
 
@@ -20,23 +22,20 @@ public class ColorUtils {
 	{}
 	
 	public Color getForegroundColor(EditPart part){
-		Display display = PlatformUI.getWorkbench().getDisplay();
 		if (part instanceof GeneratorEditPart){
-			return ColorConstants.blue;
+			return getColorFromPreference(PreferencesConstants.GENERATOR_COLOR_FOREGROUND);
 		}
-		
 		if (part instanceof SenderEditPart){
-			return ColorConstants.darkGreen;
+			return getColorFromPreference(PreferencesConstants.SENDER_COLOR_FOREGROUND);
 		}
-		
 		if (part instanceof ValidationEditPart){
-			return ColorConstants.red;
+			return getColorFromPreference(PreferencesConstants.VALIDATION_COLOR_FOREGROUND);
 		}
 		if (part instanceof MessagesEditPart){
-			return new Color(display, new RGB(138, 43, 226));
+			return getColorFromPreference(PreferencesConstants.MESSAGES_COLOR_FOREGROUND);
 		}
 		if (part instanceof ReportingEditPart){
-			return new Color(display, new RGB(107, 66, 38));
+			return getColorFromPreference(PreferencesConstants.REPORTING_COLOR_FOREGROUND);
 		}
 		return null;
 	}
@@ -52,6 +51,39 @@ public class ColorUtils {
 		}
 		
 		return instance;
+	}
+	
+	protected RGB parseRGB(String rgb){
+		if (rgb == null){
+			return null;
+		}
+		
+		String[] parts = rgb.split(",");
+		if (parts.length != 3){
+			return null;
+		}
+		
+		try{
+			int r = Integer.parseInt(parts[0]);
+			int g = Integer.parseInt(parts[1]);
+			int b = Integer.parseInt(parts[2]);
+			return new RGB(r, g, b); 
+		} catch (NumberFormatException e){
+		}
+		
+		return null;
+		
+	}
+	
+	private Color getColorFromPreference(String key){
+		Display display = PlatformUI.getWorkbench().getDisplay();
+		IPreferenceStore prefsStore = Activator.getDefault().getPreferenceStore();
+		String color = prefsStore.getString(key);
+		RGB rgb = parseRGB(color);
+		if (rgb != null)
+			return new Color(display, rgb);
+		
+		return null;
 	}
 	
 	
