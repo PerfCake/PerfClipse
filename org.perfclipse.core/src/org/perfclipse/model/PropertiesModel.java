@@ -22,6 +22,7 @@ package org.perfclipse.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Properties;
 
@@ -34,9 +35,9 @@ public class PropertiesModel {
 	private PropertyChangeSupport listeners;
 
 	public PropertiesModel(Properties properties) {
-		if (properties == null){
-			throw new IllegalArgumentException("Properties must not be null");
-		}
+//		if (properties == null){
+//			throw new IllegalArgumentException("Properties must not be null");
+//		}
 		this.properties = properties;
 		listeners = new PropertyChangeSupport(this);
 	}
@@ -70,5 +71,13 @@ public class PropertiesModel {
 	
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		listeners.removePropertyChangeListener(listener);
+	}
+	
+	public void createProperties(){
+		//no need to fire property change since it will not change the view
+		if (properties == null){
+			ObjectFactory f = new ObjectFactory();
+			properties = f.createScenarioProperties();
+		}
 	}
 }

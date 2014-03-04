@@ -30,6 +30,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.model.SenderModel;
@@ -69,6 +70,7 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 		modelChildren.add(new MessagesModel(getScenarioModel().getScenario().getMessages()));
 		modelChildren.add(new ValidationModel(getScenarioModel().getScenario().getValidation()));
 		modelChildren.add(new ReportingModel(getScenarioModel().getScenario().getReporting()));
+		modelChildren.add(new PropertiesModel(getScenarioModel().getScenario().getProperties()));
 		return modelChildren;
 	}
 	

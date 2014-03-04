@@ -9,6 +9,7 @@ import org.eclipse.ui.PlatformUI;
 import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.gef.parts.GeneratorEditPart;
 import org.perfclipse.ui.gef.parts.MessagesEditPart;
+import org.perfclipse.ui.gef.parts.PropertiesEditPart;
 import org.perfclipse.ui.gef.parts.ReportingEditPart;
 import org.perfclipse.ui.gef.parts.SenderEditPart;
 import org.perfclipse.ui.gef.parts.ValidationEditPart;
@@ -36,6 +37,9 @@ public class ColorUtils {
 		}
 		if (part instanceof ReportingEditPart){
 			return getColorFromPreference(PreferencesConstants.REPORTING_COLOR_FOREGROUND);
+		}
+		if (part instanceof PropertiesEditPart){
+			return getColorFromPreference(PreferencesConstants.PROPERTIES_COLOR_FOREGROUND);
 		}
 		return null;
 	}

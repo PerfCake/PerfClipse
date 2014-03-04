@@ -23,6 +23,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.perfclipse.ui.gef.parts.GeneratorEditPart;
 import org.perfclipse.ui.gef.parts.MessagesEditPart;
+import org.perfclipse.ui.gef.parts.PropertiesEditPart;
 import org.perfclipse.ui.gef.parts.ReportingEditPart;
 import org.perfclipse.ui.gef.parts.SenderEditPart;
 import org.perfclipse.ui.gef.parts.ValidationEditPart;
@@ -75,6 +76,13 @@ public class LayoutUtils {
 			y = 2*verticalGap + 2*componentHeight;
 			width = componentWidth - horizontalGap;
 			height = 2*componentHeight;
+		}
+		
+		if (child instanceof PropertiesEditPart){
+			x = 0;
+			y = 4*verticalGap + 4*componentHeight;
+			width = 2*componentWidth;
+			height = componentHeight;
 		}
 			
 		//if child rectangle is not known then return null
