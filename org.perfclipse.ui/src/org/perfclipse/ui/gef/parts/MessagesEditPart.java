@@ -24,7 +24,10 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.text.StyledEditorKit.ForegroundAction;
+
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessageModel;
@@ -107,7 +110,18 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 			}
 			//if message is deleted
 			if (e.getNewValue() == null && e.getOldValue() instanceof Message){
-				refreshChildren();
+				List<EditPart> toDelete = new ArrayList<>();
+				for (Object children : getChildren()){
+					EditPart child = (EditPart) children;
+					MessageModel model = (MessageModel) child.getModel();
+					if (model.getMessage() == e.getOldValue()){
+						toDelete.add(child);
+					}
+				}
+				
+				for (EditPart part : toDelete){
+					removeChild(part);
+				}
 			}
 		}
 		

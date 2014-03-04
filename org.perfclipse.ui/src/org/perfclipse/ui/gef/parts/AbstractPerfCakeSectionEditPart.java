@@ -44,6 +44,12 @@ public abstract class AbstractPerfCakeSectionEditPart extends
 	}
 	
 	@Override
+	protected void removeChild(EditPart child) {
+		super.removeChild(child);
+		resize();
+	}
+
+	@Override
 	protected void refreshChildren(){
 		resize();
 		super.refreshChildren();
