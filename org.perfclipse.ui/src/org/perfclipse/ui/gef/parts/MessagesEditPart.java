@@ -31,6 +31,7 @@ import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
+import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.MessagesListEditPolicy;
 
 public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
@@ -62,7 +63,9 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 	@Override
 	protected IFigure createFigure() {
 		
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize());
+		ColorUtils colorUtils = ColorUtils.getInstance();
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize(),
+				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
 //		setFigureDefaultSize(figure.getPreferredSize().getCopy());
 		return figure;
 	}

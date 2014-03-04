@@ -20,13 +20,14 @@
 package org.perfclipse.ui.gef.figures;
 
 import org.eclipse.draw2d.Label;
+import org.eclipse.swt.graphics.Color;
 
 public class LabeledRoundedRectangle extends PerfCakeRoundedRectangle implements ILabeledFigure{
 	
 	Label label;
 
-	public LabeledRoundedRectangle(String name) {
-		super(name);
+	public LabeledRoundedRectangle(String name, Color foregroundColor, Color backgroundColor) {
+		super(name, foregroundColor, backgroundColor);
 		label = new Label();
 		label.setText(name);
 		add(label);

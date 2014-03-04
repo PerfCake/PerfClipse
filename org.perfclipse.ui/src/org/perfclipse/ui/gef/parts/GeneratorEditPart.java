@@ -29,6 +29,7 @@ import org.eclipse.draw2d.Label;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.RunModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
+import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 
 //TODO : move implements to the superclass
 public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
@@ -59,7 +60,9 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	@Override
 	protected IFigure createFigure() {
 		
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize());
+		ColorUtils colorUtils = ColorUtils.getInstance();
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize(),
+				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
 		return figure;
 	}
 

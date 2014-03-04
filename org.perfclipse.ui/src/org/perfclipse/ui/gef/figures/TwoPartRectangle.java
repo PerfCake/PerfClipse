@@ -25,7 +25,7 @@ import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Dimension;
-
+import org.eclipse.swt.graphics.Color;
 
 public class TwoPartRectangle extends PerfCakeRoundedRectangle implements ILabeledFigure {
 	
@@ -35,8 +35,10 @@ public class TwoPartRectangle extends PerfCakeRoundedRectangle implements ILabel
 	private Figure contentLayer;
 	private Label headerLabel;
 
-	public TwoPartRectangle(String name, Dimension defaultSize) {
-		super(name);
+	public TwoPartRectangle(String name, Dimension defaultSize,
+			Color foregroundColor, Color backgroundColor)
+	{
+		super(name, foregroundColor, backgroundColor);
 		ToolbarLayout layout = new ToolbarLayout();
 		layout.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);
 		layout.setSpacing(SECTION_SPACING);
@@ -81,6 +83,4 @@ public class TwoPartRectangle extends PerfCakeRoundedRectangle implements ILabel
 	public final Label getLabel() {
 		return headerLabel;
 	}
-	
-	
 }

@@ -35,6 +35,7 @@ import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
 import org.perfclipse.ui.gef.directedit.ComboViewerDirectEditManager;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
+import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.directedit.ValidatorDirectEditPolicy;
 
 public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
@@ -64,7 +65,9 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements P
 	}
 	@Override
 	protected IFigure createFigure() {
-		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText());
+		ColorUtils colorUtils = ColorUtils.getInstance();
+		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText(),
+				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
 		return figure;
 	}
 

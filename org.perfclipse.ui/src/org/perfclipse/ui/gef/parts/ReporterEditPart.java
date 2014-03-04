@@ -29,6 +29,7 @@ import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
+import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 
 public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 
@@ -44,7 +45,9 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 	protected IFigure createFigure() {
 		Dimension d = ((AbstractGraphicalEditPart) getParent()).getFigure().getClientArea().getSize().getCopy();
 		d.setHeight(150);
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), d); 
+		ColorUtils colorUtils = ColorUtils.getInstance();
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), d,
+				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
 		return figure;
 	}
 

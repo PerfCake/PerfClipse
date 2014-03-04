@@ -23,6 +23,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.perfclipse.model.RunModel;
 import org.perfclipse.ui.gef.figures.EditableLabel;
+import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 
 public class RunEditPart extends AbstractPerfCakeNodeEditPart {
 
@@ -37,7 +38,9 @@ public class RunEditPart extends AbstractPerfCakeNodeEditPart {
 	}
 	@Override
 	protected IFigure createFigure() {
-		label = new EditableLabel();
+		ColorUtils colorUtils = ColorUtils.getInstance();
+		label = new EditableLabel("Run", colorUtils.getForegroundColor(this),
+				colorUtils.getBackgroundColor(this));
 		label.setText(getText());
 		return label;
 	}

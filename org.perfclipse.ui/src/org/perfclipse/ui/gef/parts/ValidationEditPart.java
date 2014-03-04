@@ -31,6 +31,7 @@ import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
+import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.ValidatorListEditPolicy;
 
 public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
@@ -60,7 +61,9 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 	}
 	@Override
 	protected IFigure createFigure() {
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize());
+		ColorUtils colorUtils = ColorUtils.getInstance();
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize(),
+				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
 //		figure.setPreferredSize(EMPTY_WIDTH, EMPTY_HEIGHT);
 		return figure;
 	}

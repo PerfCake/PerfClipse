@@ -23,6 +23,7 @@ import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 
 public class PerfCakeRoundedRectangle extends RoundedRectangle{
 
@@ -34,8 +35,12 @@ public class PerfCakeRoundedRectangle extends RoundedRectangle{
 	private static final org.eclipse.draw2d.geometry.Insets CLIENT_AREA_INSETS = new org.eclipse.draw2d.geometry.Insets(TOP_PADDING, LEFT_PADDING, BOTTOM_PADDING, RIGHT_PADDING);
 	
 
-	public PerfCakeRoundedRectangle(String name){
+	public PerfCakeRoundedRectangle(String name, Color foregroundColor, Color backgroundColor){
 		super();
+		if (foregroundColor != null)
+			setForegroundColor(foregroundColor);
+		if (backgroundColor != null)
+			setBackgroundColor(backgroundColor);
 		FlowLayout layout = new FlowLayout(true);
 		setLayoutManager(layout);
 	}
@@ -56,4 +61,5 @@ public class PerfCakeRoundedRectangle extends RoundedRectangle{
 	protected static org.eclipse.draw2d.geometry.Insets getClientAreaInsets() {
 		return CLIENT_AREA_INSETS;
 	}
+	
 }

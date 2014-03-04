@@ -25,6 +25,7 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
+import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 
 public class DestinationEditPart extends AbstractPerfCakeNodeEditPart {
 
@@ -37,7 +38,9 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart {
 	}
 	@Override
 	protected IFigure createFigure() {
-		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText());
+		ColorUtils colorUtils = ColorUtils.getInstance();
+		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText(),
+				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
 //		figure.setPreferredSize(EMPTY_WIDHT, EMPTY_HEIGHT);
 		return figure;
 	}

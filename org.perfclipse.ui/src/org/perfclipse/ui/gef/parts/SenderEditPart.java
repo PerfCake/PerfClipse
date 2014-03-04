@@ -25,6 +25,7 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
+import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 
 public class SenderEditPart extends AbstractPerfCakeSectionEditPart {
 
@@ -39,7 +40,9 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart {
 	
 	@Override
 	protected IFigure createFigure() {
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize());
+		ColorUtils colorUtils = ColorUtils.getInstance();
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize(),
+				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
 		return figure;
 	}
 
