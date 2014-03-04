@@ -32,7 +32,6 @@ public class MessageFactory extends SimpleFactory {
 	public Object getNewObject(){
 		ObjectFactory f = new ObjectFactory();
 		Message m = f.createScenarioMessagesMessage();
-		m.setUri("Added_by_GEF");
 		return m;
 	}
 }

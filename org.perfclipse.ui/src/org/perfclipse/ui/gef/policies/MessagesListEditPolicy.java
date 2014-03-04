@@ -20,10 +20,17 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessagesModel;
@@ -42,13 +49,15 @@ public class MessagesListEditPolicy extends AbstractListEditPolicy {
 
 	@Override
 	protected Command getCreateCommand(CreateRequest request) {
+		String pathToMessage = getMessagePath();
 		Object type = request.getNewObjectType();
-		if (type == Message.class){
+		if (type == Message.class && pathToMessage != null){
 			Message message = (Scenario.Messages.Message) request.getNewObject();
 			if (model.getMessages() == null){
 				model.createMessages();
 				parent.setMessages(model.getMessages());
 			}
+			message.setUri(pathToMessage);
 			return new AddMessageCommand(message, model);
 		}
 		return null;
@@ -72,4 +81,14 @@ public class MessagesListEditPolicy extends AbstractListEditPolicy {
 		return null;
 	}
 
+	private String getMessagePath() {
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		//TODO: validator
+		InputDialog dialog = new InputDialog(shell, "Add Message", "Enter message URL: ", "", null);
+		dialog.open();
+		if (dialog.getReturnCode() == InputDialog.OK)
+			return dialog.getValue();
+		
+		return null;
+	}
 }
