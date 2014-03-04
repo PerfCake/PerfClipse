@@ -39,6 +39,8 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -47,6 +49,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 import org.perfclipse.ui.gef.parts.ScenarioEditPart;
 import org.slf4j.LoggerFactory;
@@ -57,11 +60,19 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 
 	private ScenarioModel model;
 	private ScenarioMultiPageEditor parent;
+	
+	private final IPropertyChangeListener preferencesChangeListener = new IPropertyChangeListener() {
+		public void propertyChange(PropertyChangeEvent event) {
+			getGraphicalViewer().setContents(model);
+		}
+	};
+
 
 	public ScenarioDesignEditor(ScenarioMultiPageEditor parent) {
 		super();
 		setEditDomain(new DefaultEditDomain(this));
 		this.parent = parent;
+		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(preferencesChangeListener);
 	}
 	
 	@Override
@@ -178,4 +189,12 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 
 		
 	}
+
+	@Override
+	public void dispose() {
+		Activator.getDefault().getPreferenceStore().removePropertyChangeListener(preferencesChangeListener);
+		super.dispose();
+	}
+	
+	
 }
