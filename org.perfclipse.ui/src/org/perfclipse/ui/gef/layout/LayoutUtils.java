@@ -75,7 +75,7 @@ public class LayoutUtils {
 			x = horizontalGap + componentWidth;
 			y = 2*verticalGap + 2*componentHeight;
 			width = componentWidth - horizontalGap;
-			height = 2*componentHeight;
+			height = 2*componentHeight + verticalGap;
 		}
 		
 		if (child instanceof PropertiesEditPart){
