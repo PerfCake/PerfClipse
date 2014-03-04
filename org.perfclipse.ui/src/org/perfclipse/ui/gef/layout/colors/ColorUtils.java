@@ -58,6 +58,7 @@ public class ColorUtils {
 			return null;
 		}
 		
+		rgb = rgb.trim();
 		String[] parts = rgb.split(",");
 		if (parts.length != 3){
 			return null;
