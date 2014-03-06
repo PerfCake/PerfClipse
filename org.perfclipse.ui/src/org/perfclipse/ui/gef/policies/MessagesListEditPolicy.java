@@ -20,14 +20,11 @@
 
 package org.perfclipse.ui.gef.policies;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -49,9 +46,12 @@ public class MessagesListEditPolicy extends AbstractListEditPolicy {
 
 	@Override
 	protected Command getCreateCommand(CreateRequest request) {
-		String pathToMessage = getMessagePath();
 		Object type = request.getNewObjectType();
-		if (type == Message.class && pathToMessage != null){
+		if (type == Message.class){
+			String pathToMessage = getMessagePath();
+			if (pathToMessage == null){
+				return null;
+			}
 			Message message = (Scenario.Messages.Message) request.getNewObject();
 			if (model.getMessages() == null){
 				model.createMessages();
