@@ -19,7 +19,6 @@
 
 package org.perfclipse.ui.editors;
 
-import javax.print.attribute.standard.Destination;
 
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
@@ -32,6 +31,7 @@ import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Reporting.Reporter;
+import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
 import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
