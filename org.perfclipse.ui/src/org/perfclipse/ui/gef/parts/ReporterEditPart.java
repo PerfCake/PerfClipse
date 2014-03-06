@@ -19,24 +19,44 @@
 
 package org.perfclipse.ui.gef.parts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
+import org.perfclipse.ui.gef.policies.DestinationListEditPolicy;
 
-public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
+public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
 
 	
 	public ReporterEditPart(ReporterModel reporterModel){
 		setModel(reporterModel);
 	}
+	
+	
+	@Override
+	public void activate() {
+		if (!isActive()){
+			getReporterModel().addPropertyChangeListener(this);
+		}
+		super.activate();
+	}
+
+	@Override
+	public void deactivate() {
+		getReporterModel().removePropertyChangeListener(this);
+		super.deactivate();
+	}
+	
 	
 	public ReporterModel getReporterModel(){
 		return (ReporterModel) getModel(); 
@@ -53,11 +73,9 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 
 	@Override
 	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new DestinationListEditPolicy(getReporterModel()));
 
 	}
-	
-	
 	
 	@Override
 	protected String getText() {
@@ -75,6 +93,17 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart {
 			}
 		}
 		return modelChildren;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(ReporterModel.PROPERTY_DESTINATIONS)){
+			if (evt.getOldValue() == null && evt.getNewValue() instanceof Destination){
+				DestinationModel destinationModel = new DestinationModel((Destination) evt.getNewValue());
+				addChild(new DestinationEditPart(destinationModel), getChildren().size());
+			}
+		}
+		
 	}
 
 }
