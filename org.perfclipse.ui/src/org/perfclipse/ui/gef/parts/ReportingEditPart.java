@@ -19,24 +19,47 @@
 
 package org.perfclipse.ui.gef.parts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
 import org.perfcake.model.Scenario.Reporting.Reporter;
+import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
+import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
+import org.perfclipse.ui.gef.policies.ReporterListEditPolicy;
 
-public class ReportingEditPart extends AbstractPerfCakeSectionEditPart {
+public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener{
 
 	private static final String REPORTING_SECTION_LABEL = "Reporting";
 
 
-
 	public ReportingEditPart(ReportingModel reportingModel){
 		setModel(reportingModel);
+	}
+	
+	@Override
+	public void activate() {
+		if (!isActive()){
+			getReportingModel().addPropertyChangeListener(this);
+		}
+		super.activate();
+	}
+
+	@Override
+	public void deactivate() {
+		getReportingModel().removePropertyChangeListener(this);
+		super.deactivate();
+	}
+	
+	public MessagesModel getMessagesModel(){
+		return (MessagesModel) getModel();
 	}
 	
 	public ReportingModel getReportingModel(){
@@ -52,8 +75,9 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart {
 
 	@Override
 	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
 
+		ScenarioModel scenario = (ScenarioModel) getParent().getModel();
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ReporterListEditPolicy(getReportingModel(), scenario));
 	}
 	
 	@Override
@@ -73,6 +97,17 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart {
 			}
 		}
 		return modelChildren;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(ReportingModel.PROPERTY_REPORTERS)){
+			if (evt.getOldValue() == null && evt.getNewValue() instanceof Reporter){
+				ReporterModel reporterModel = new ReporterModel((Reporter) evt.getNewValue());
+				addChild(new ReporterEditPart(reporterModel), getChildren().size());
+			}
+		}
+		
 	}
 
 }
