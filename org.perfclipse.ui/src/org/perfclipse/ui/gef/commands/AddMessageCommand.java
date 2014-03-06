@@ -6,8 +6,8 @@ import org.perfclipse.model.MessagesModel;
 
 public class AddMessageCommand extends Command {
 
-	Scenario.Messages.Message newMessage;
-	MessagesModel messages;
+	private Scenario.Messages.Message newMessage;
+	private MessagesModel messages;
 
 	public AddMessageCommand(Scenario.Messages.Message newMessage, MessagesModel messages) {
 		super("Add message");
