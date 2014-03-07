@@ -32,8 +32,10 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ReporterModel;
+import org.perfclipse.model.ReportingModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
+import org.perfclipse.ui.gef.policies.DeleteReporterEditPolicy;
 import org.perfclipse.ui.gef.policies.DestinationListEditPolicy;
 
 public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
@@ -74,7 +76,9 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 
 	@Override
 	protected void createEditPolicies() {
+		ReportingModel reporting = (ReportingModel) getParent().getModel();
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new DestinationListEditPolicy(getReporterModel()));
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new DeleteReporterEditPolicy(reporting, getReporterModel()));
 
 	}
 	

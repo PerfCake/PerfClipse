@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfclipse.model.MessagesModel;
@@ -104,7 +105,22 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 		if (evt.getPropertyName().equals(ReportingModel.PROPERTY_REPORTERS)){
 			if (evt.getOldValue() == null && evt.getNewValue() instanceof Reporter){
 				ReporterModel reporterModel = new ReporterModel((Reporter) evt.getNewValue());
-				addChild(new ReporterEditPart(reporterModel), getChildren().size());
+				int index = getReportingModel().getReporting().getReporter().indexOf(reporterModel.getReporter());
+				addChild(new ReporterEditPart(reporterModel), index);
+			}
+			if (evt.getNewValue() == null && evt.getOldValue() instanceof Reporter){
+				List<EditPart> toDelete = new ArrayList<>();
+				for (Object child : getChildren()){
+					EditPart part = (EditPart) child;
+					ReporterModel model = (ReporterModel) part.getModel();
+					if (model.getReporter() == evt.getOldValue()){
+						toDelete.add(part);
+					}
+				}
+
+				for (EditPart part : toDelete){
+					removeChild(part);
+				}
 			}
 		}
 		
