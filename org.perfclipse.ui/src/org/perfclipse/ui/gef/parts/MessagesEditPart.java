@@ -110,11 +110,11 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 			//if message is deleted
 			if (e.getNewValue() == null && e.getOldValue() instanceof Message){
 				List<EditPart> toDelete = new ArrayList<>();
-				for (Object children : getChildren()){
-					EditPart child = (EditPart) children;
-					MessageModel model = (MessageModel) child.getModel();
+				for (Object child : getChildren()){
+					EditPart part = (EditPart) child;
+					MessageModel model = (MessageModel) part.getModel();
 					if (model.getMessage() == e.getOldValue()){
-						toDelete.add(child);
+						toDelete.add(part);
 					}
 				}
 				
