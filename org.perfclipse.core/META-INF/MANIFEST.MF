@@ -6,7 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: slf4j.api;bundle-version="1.7.5",
  org.eclipse.core.runtime;bundle-version="3.9.0",
- org.perfcake;visibility:=reexport
+ org.perfcake;bundle-version="2.0.0";visibility:=reexport
 Export-Package: org.perfclipse.model,
  org.perfclipse.reflect,
  org.perfclipse.scenario
