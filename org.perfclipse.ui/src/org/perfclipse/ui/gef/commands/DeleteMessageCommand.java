@@ -20,7 +20,7 @@ public class DeleteMessageCommand extends Command {
 
 	@Override
 	public void execute() {
-		index = messages.getMessages().getMessage().indexOf(message);
+		index = messages.getMessages().getMessage().indexOf(message.getMessage());
 		messages.removeMessage(message.getMessage());
 	}
 
@@ -31,8 +31,7 @@ public class DeleteMessageCommand extends Command {
 
 	@Override
 	public void undo() {
-		//TODO : add message on the correct index
-		messages.addMessage(message.getMessage());
+		messages.addMessage(index, message.getMessage());
 	}
 	
 	

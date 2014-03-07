@@ -104,7 +104,8 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 			//if message is added
 			if(e.getOldValue() == null && e.getNewValue() instanceof Message){
 				MessageModel messageModel = new MessageModel((Message) e.getNewValue());
-				addChild(new MessageEditPart(messageModel), getChildren().size());
+				int index = getMessagesModel().getMessages().getMessage().indexOf(messageModel.getMessage());
+				addChild(new MessageEditPart(messageModel), index);
 			}
 			//if message is deleted
 			if (e.getNewValue() == null && e.getOldValue() instanceof Message){
