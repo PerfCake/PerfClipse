@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.ConsoleAppender;
@@ -72,11 +73,15 @@ final class PerfCakeRunJob extends Job{
 
 		try {
 			monitor.beginTask("PerfCake task", 100);
-			scenarioManager.runScenario(file.getLocationURI().toURL());
+			Thread perfCakeThread = new Thread(new PerfCakeRun(scenarioManager, file.getLocationURI().toURL()));
+			perfCakeThread.start();
+			while(perfCakeThread.isAlive()){
+				//TODO: get RunInfo and set progress
+				if (monitor.isCanceled()){
+					//TODO: call stop scenario
+				}
+			}
 			monitor.done();
-		} catch (ScenarioException e) {
-			PerfCakeLaunchDeleagate.log.warn("Cannot run scenario" + e);
-			Display.getDefault().asyncExec(new ErrorDialog("Scenario error", e.getMessage()));
 		} catch (MalformedURLException e) {
 			PerfCakeLaunchDeleagate.log.warn("Wrong url to scenario." + e);
 			Display.getDefault().asyncExec(new ErrorDialog("Scenario URL error", e.getMessage()));
@@ -105,6 +110,28 @@ final class PerfCakeRunJob extends Job{
 		public void run() {
 			MessageDialog.openError(shell, title, message);
 			
+		}
+	}
+	
+	final class PerfCakeRun implements Runnable{
+
+		private ScenarioManager manager;
+		private URL scenarioURL;
+		
+		public PerfCakeRun(ScenarioManager manager, URL scenarioURL) {
+			super();
+			this.manager = manager;
+			this.scenarioURL = scenarioURL;
+		}
+
+		@Override
+		public void run() {
+			try {
+				manager.runScenario(scenarioURL);
+			} catch (ScenarioException e) {
+				PerfCakeLaunchDeleagate.log.warn("Cannot run scenario" + e);
+				Display.getDefault().asyncExec(new ErrorDialog("Scenario error", e.getMessage()));
+			}
 		}
 	}
 }
