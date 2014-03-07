@@ -19,24 +19,14 @@
 
 package org.perfclipse.ui.launching;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Appender;
-import org.apache.log4j.ConsoleAppender;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -45,10 +35,8 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.ILaunchConfigurationDelegate;
 import org.eclipse.debug.ui.ILaunchShortcut;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -59,9 +47,6 @@ import org.eclipse.ui.console.IConsoleConstants;
 import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.part.FileEditorInput;
-import org.perfcake.PerfCakeConst;
-import org.perfclipse.scenario.ScenarioException;
-import org.perfclipse.scenario.ScenarioManager;
 import org.perfclipse.ui.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -213,94 +198,10 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 		});
 
 		
-		PerfCakeRunJob job = new PerfCakeRunJob("PerfCake run job", file, perfclipseConsole);
+		PerfCakeRunJob job = new PerfCakeRunJob("PerfCake run job", file, perfclipseConsole, wb.getActiveWorkbenchWindow().getShell());
 		job.schedule();
 	}
 	
-	final class PerfCakeRunJob extends Job{
-		
-		private IFile file;
-		private MessageConsole console;
 
-		public PerfCakeRunJob(String name, IFile file, MessageConsole console) {
-			super(name);
-			if (file == null){
-				log.warn("File with scenario is null.");
-				throw new IllegalArgumentException("File with scenario is null.");
-			}
-			if (console == null){
-				log.warn("Console for scenario run  output is null.");
-				throw new IllegalArgumentException("Console for scenario run output is null."); 
-				} 
-			this.file = file;
-			this.console = console;
-		}
-
-		@Override
-		protected IStatus run(IProgressMonitor monitor) {
-
-			//redirect System.out to eclipse console
-			OutputStream out = console.newOutputStream();
-			PrintStream standardOut = System.out;
-			System.setOut(new PrintStream(out));
-			
-			//Add appender for Log4j to eclipse console
-			org.apache.log4j.Logger rootLogger = org.apache.log4j.Logger.getRootLogger();
-
-			Appender appender = rootLogger.getAppender("CONSOLE");
-			if (appender instanceof ConsoleAppender){
-				ConsoleAppender consoleAppender = (ConsoleAppender) rootLogger.getAppender("CONSOLE");
-				consoleAppender.activateOptions();
-			} else{
-				log.warn("Cannot obtain PerfCake console logger. Output will not be redirected to Eclipse console");
-			}
-			
-
-
-			//set message and scenario paths for PerfCake 
-			IFolder messageDir = file.getProject().getFolder("messages");
-			IFolder scenarioDir = file.getProject().getFolder("scenarios");
-			System.setProperty(PerfCakeConst.MESSAGES_DIR_PROPERTY, messageDir.getRawLocation().toString());
-			System.setProperty(PerfCakeConst.SCENARIOS_DIR_PROPERTY, scenarioDir.getRawLocation().toString());
-			ScenarioManager scenarioManager = new ScenarioManager();
-
-			try {
-				monitor.beginTask("PerfCake task", 100);
-				scenarioManager.runScenario(file.getLocationURI().toURL());
-				monitor.done();
-			} catch (ScenarioException e) {
-				log.warn("Cannot run scenario" + e);
-				Display.getDefault().asyncExec(new ErrorDialog("Scenario error", e.getMessage()));
-			} catch (MalformedURLException e) {
-				log.warn("Wrong url to scenario." + e);
-				Display.getDefault().asyncExec(new ErrorDialog("Scenario URL error", e.getMessage()));
-			} finally {
-				System.setOut(standardOut); //set System.out to standard output
-				try {
-					out.close();
-				} catch (IOException e) {
-					log.warn("Cannot close stream to eclipse consolse!" + e);
-				}
-			}
-			return Status.OK_STATUS;
-		}
-	}
-
-	final class ErrorDialog implements Runnable{
-		
-		private String title;
-		private String message;
-
-		public ErrorDialog(String title, String message){
-			this.title = title;
-			this.message = message;
-		}
-
-		@Override
-		public void run() {
-			MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, message);
-			
-		}
-	}
 
 }
