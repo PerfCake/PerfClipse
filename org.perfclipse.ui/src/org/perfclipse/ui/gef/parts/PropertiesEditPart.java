@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.perfcake.model.Property;
 import org.perfclipse.model.PropertiesModel;
@@ -78,7 +79,23 @@ public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implemen
 		if (evt.getPropertyName().equals(PropertiesModel.PROPERTY_PROPERTIES)){
 			if (evt.getOldValue() == null && evt.getNewValue() instanceof Property){
 				PropertyModel propertyModel = new PropertyModel((Property) evt.getNewValue());
-				addChild(new PropertyEditPart(propertyModel), getChildren().size());
+				int index = getPropertiesModel().getProperties().getProperty().indexOf(propertyModel.getProperty());
+				addChild(new PropertyEditPart(propertyModel), index);
+			}
+			
+			if (evt.getNewValue() == null && evt.getOldValue() instanceof Property){
+				List<EditPart> toDelete = new ArrayList<>();
+				for (Object child : getChildren()){
+					EditPart part = (EditPart) child;
+					PropertyModel model = (PropertyModel) part.getModel();
+					if (model.getProperty() == evt.getOldValue()){
+						toDelete.add(part);
+					}
+				}
+				
+				for (EditPart part : toDelete){
+					removeChild(part);
+				}
 			}
 		}
 		
