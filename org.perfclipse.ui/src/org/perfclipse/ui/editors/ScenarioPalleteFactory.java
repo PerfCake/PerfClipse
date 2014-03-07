@@ -29,6 +29,7 @@ import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
+import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
@@ -37,6 +38,7 @@ import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
 import org.perfclipse.ui.editors.palettefactories.DestinationFactory;
 import org.perfclipse.ui.editors.palettefactories.MessageFactory;
+import org.perfclipse.ui.editors.palettefactories.PropertyFactory;
 import org.perfclipse.ui.editors.palettefactories.ReporterFactory;
 import org.perfclipse.ui.editors.palettefactories.ValidatorFactory;
 
@@ -57,6 +59,7 @@ public class ScenarioPalleteFactory {
 		palette.add(createValidatorDrawer());
 		palette.add(createReporterDrawer());
 		palette.add(createDestinationDrawer());
+		palette.add(createPropertyDrawer());
 		return palette;
 	}
 
@@ -125,6 +128,19 @@ public class ScenarioPalleteFactory {
 		toolGroup.add(new MarqueeToolEntry());
 
 		return toolGroup;
+	}
+	
+	private static PaletteContainer createPropertyDrawer(){
+		PaletteDrawer propertyDrawer = new PaletteDrawer("Properties");
+		
+		PropertyFactory factory = new PropertyFactory(Property.class);
+		
+		CombinedTemplateCreationEntry propertyComponent = new
+				CombinedTemplateCreationEntry("Property", "Add property to scenario", factory, null, null);
+		
+		propertyDrawer.add(propertyComponent);
+		
+		return propertyDrawer;
 	}
 	   
 }
