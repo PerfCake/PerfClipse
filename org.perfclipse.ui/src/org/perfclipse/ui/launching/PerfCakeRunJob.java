@@ -21,9 +21,14 @@ import org.eclipse.ui.console.MessageConsole;
 import org.perfcake.PerfCakeConst;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 final class PerfCakeRunJob extends Job{
 	
+	static final Logger log = LoggerFactory.getLogger(PerfCakeRunJob.class); 
+
+	private static final long CHECK_INTERVAL = 500;
 	private IFile file;
 	private MessageConsole console;
 	private Shell shell;
@@ -31,11 +36,11 @@ final class PerfCakeRunJob extends Job{
 	public PerfCakeRunJob(String name, IFile file, MessageConsole console, Shell shell) {
 		super(name);
 		if (file == null){
-			PerfCakeLaunchDeleagate.log.warn("File with scenario is null.");
+			log.warn("File with scenario is null.");
 			throw new IllegalArgumentException("File with scenario is null.");
 		}
 		if (console == null){
-			PerfCakeLaunchDeleagate.log.warn("Console for scenario run  output is null.");
+			log.warn("Console for scenario run  output is null.");
 			throw new IllegalArgumentException("Console for scenario run output is null."); 
 			} 
 		this.file = file;
@@ -59,7 +64,7 @@ final class PerfCakeRunJob extends Job{
 			ConsoleAppender consoleAppender = (ConsoleAppender) rootLogger.getAppender("CONSOLE");
 			consoleAppender.activateOptions();
 		} else{
-			PerfCakeLaunchDeleagate.log.warn("Cannot obtain PerfCake console logger. Output will not be redirected to Eclipse console");
+			log.warn("Cannot obtain PerfCake console logger. Output will not be redirected to Eclipse console");
 		}
 		
 
@@ -80,17 +85,22 @@ final class PerfCakeRunJob extends Job{
 				if (monitor.isCanceled()){
 					//TODO: call stop scenario
 				}
+				try {
+					Thread.sleep(CHECK_INTERVAL);
+				} catch (InterruptedException e) {
+					log.warn("Sleep exception. Doing busy waiting.", e);
+				}
 			}
 			monitor.done();
 		} catch (MalformedURLException e) {
-			PerfCakeLaunchDeleagate.log.warn("Wrong url to scenario." + e);
+			log.warn("Wrong url to scenario." + e);
 			Display.getDefault().asyncExec(new ErrorDialog("Scenario URL error", e.getMessage()));
 		} finally {
 			System.setOut(standardOut); //set System.out to standard output
 			try {
 				out.close();
 			} catch (IOException e) {
-				PerfCakeLaunchDeleagate.log.warn("Cannot close stream to eclipse consolse!" + e);
+				log.warn("Cannot close stream to eclipse consolse!" + e);
 			}
 		}
 		return Status.OK_STATUS;
@@ -129,8 +139,8 @@ final class PerfCakeRunJob extends Job{
 			try {
 				manager.runScenario(scenarioURL);
 			} catch (ScenarioException e) {
-				PerfCakeLaunchDeleagate.log.warn("Cannot run scenario" + e);
 				Display.getDefault().asyncExec(new ErrorDialog("Scenario error", e.getMessage()));
+				log.error("Cannot run scenario", e);
 			}
 		}
 	}
