@@ -66,8 +66,12 @@ public class SenderModel {
 		listeners.firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
 	}
 	
-	public void addProperty(Property property){
-		getSender().getProperty().add(property);
+	public void addProperty(Property Property){
+		addProperty(getSender().getProperty().size(), Property);
+	}
+	
+	public void addProperty(int index, Property property){
+		getSender().getProperty().add(index, property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	

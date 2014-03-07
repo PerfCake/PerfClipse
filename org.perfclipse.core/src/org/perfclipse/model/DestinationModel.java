@@ -70,7 +70,11 @@ public class DestinationModel {
 	}
 	
 	public void addPeriod(Period period){
-		getDestination().getPeriod().add(period);
+		addPeriod(getDestination().getPeriod().size(), period);
+	}
+
+	public void addPeriod(int index, Period period){
+		getDestination().getPeriod().add(index, period);
 		listeners.firePropertyChange(PROPERTY_PERIOD, null, period);
 	}
 	
@@ -81,7 +85,11 @@ public class DestinationModel {
 	}
 	
 	public void addProperty(Property property){
-		getDestination().getProperty().add(property);
+		addProperty(getDestination().getProperty().size(), property);
+	}
+	
+	public void addProperty(int index, Property property){
+		getDestination().getProperty().add(index, property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	

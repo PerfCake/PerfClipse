@@ -82,7 +82,10 @@ public class GeneratorModel {
 	}
 	
 	public void addProperty(Property newProperty){
-		getGenerator().getProperty().add(newProperty);
+		addProperty(getGenerator().getProperty().size(), newProperty);
+	}
+	public void addProperty(int index, Property newProperty){
+		getGenerator().getProperty().add(index, newProperty);
 		listeners.firePropertyChange(PROPERTY_PROPERTY, null, newProperty);
 	}
 	

@@ -54,8 +54,12 @@ public class PropertiesModel {
 		return properties;
 	}
 	
-	public void addProperty(Property property){
-		getProperties().getProperty().add(property);
+	public void addProperty(Property Property){
+		addProperty(getProperties().getProperty().size(), Property);
+	}
+	
+	public void addProperty(int index, Property property){
+		getProperties().getProperty().add(index, property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	

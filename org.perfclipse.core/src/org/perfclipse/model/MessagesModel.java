@@ -55,7 +55,10 @@ public class MessagesModel {
 	}
 	
 	public void addMessage(Message m){
-		getMessages().getMessage().add(m);
+		addMessage(getMessages().getMessage().size(), m);
+	}
+	public void addMessage(int index, Message m){
+		getMessages().getMessage().add(index, m);
 		listeners.firePropertyChange(PROPERTY_MESSAGE, null, m);
 	}
 	

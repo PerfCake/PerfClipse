@@ -70,7 +70,10 @@ public class ReporterModel {
 	}
 	
 	public void addDestination(Destination destination){
-		getReporter().getDestination().add(destination);
+		addDestination(getReporter().getDestination().size(), destination);
+	}
+	public void addDestination(int index, Destination destination){
+		getReporter().getDestination().add(index, destination);
 		listeners.firePropertyChange(PROPERTY_DESTINATIONS, null, destination);
 	}
 	
@@ -80,8 +83,12 @@ public class ReporterModel {
 		}
 	}
 	
-	public void addProperty(Property property){
-		getReporter().getProperty().add(property);
+	public void addProperty(Property Property){
+		addProperty(getReporter().getProperty().size(), Property);
+	}
+	
+	public void addProperty(int index, Property property){
+		getReporter().getProperty().add(index, property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	

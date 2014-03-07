@@ -63,7 +63,10 @@ public class ReportingModel {
 	}
 	
 	public void addReporter(Reporter reporter){
-		getReporting().getReporter().add(reporter);
+		addReporter(getReporting().getReporter().size(), reporter);
+	}
+	public void addReporter(int index, Reporter reporter){
+		getReporting().getReporter().add(index, reporter);
 		listeners.firePropertyChange(PROPERTY_REPORTERS, null, reporter);
 	}
 	
@@ -81,8 +84,12 @@ public class ReportingModel {
 		}
 	}
 	
-	public void addProperty(Property property){
-		getReporting().getProperty().add(property);
+	public void addProperty(Property Property){
+		addProperty(getReporting().getProperty().size(), Property);
+	}
+	
+	public void addProperty(int index, Property property){
+		getReporting().getProperty().add(index, property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	

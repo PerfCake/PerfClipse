@@ -70,7 +70,10 @@ public class ValidationModel {
 	}
 	
 	public void addValidator(Validator validator){
-		getValidation().getValidator().add(validator);
+		addValidator(getValidation().getValidator().size(), validator);
+	}
+	public void addValidator(int index, Validator validator){
+		getValidation().getValidator().add(index, validator);
 		listeners.firePropertyChange(PROPERTY_VALIDATORS, null, validator);
 	}
 	

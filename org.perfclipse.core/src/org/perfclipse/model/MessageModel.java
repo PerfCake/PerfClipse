@@ -65,8 +65,12 @@ public class MessageModel {
 		return message;
 	}
 	
-	public void addProperty(Property property){
-		getMessage().getProperty().add(property);
+	public void addProperty(Property Property){
+		addProperty(getMessage().getProperty().size(), Property);
+	}
+	
+	public void addProperty(int index, Property property){
+		getMessage().getProperty().add(index, property);
 		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	
@@ -77,7 +81,10 @@ public class MessageModel {
 	}
 	
 	public void addHeader(Header header){
-		getMessage().getHeader().add(header);
+		addHeader(getMessage().getHeader().size(), header);
+	}
+	public void addHeader(int index, Header header){
+		getMessage().getHeader().add(index, header);
 		listeners.firePropertyChange(PROPERTY_HEADERS, null, header);
 	}
 	
@@ -88,7 +95,10 @@ public class MessageModel {
 	}
 	
 	public void addValidatorRef(ValidatorRef ref){
-		getMessage().getValidatorRef().add(ref);
+		addValidatorRef(getMessage().getValidatorRef().size(), ref);
+	}
+	public void addValidatorRef(int index, ValidatorRef ref){
+		getMessage().getValidatorRef().add(index, ref);
 		listeners.firePropertyChange(PROPERTY_VALIDATOR_REFS, null, ref);
 	}
 	
