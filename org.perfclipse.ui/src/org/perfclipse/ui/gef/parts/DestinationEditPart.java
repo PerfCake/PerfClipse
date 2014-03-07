@@ -19,20 +19,39 @@
 
 package org.perfclipse.ui.gef.parts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
 import org.perfclipse.model.DestinationModel;
+import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
+import org.perfclipse.ui.gef.policies.DeleteDestionationEditPolicy;
 
-public class DestinationEditPart extends AbstractPerfCakeNodeEditPart {
+public class DestinationEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
 
 	public DestinationEditPart(DestinationModel destinationModel){
 		setModel(destinationModel);
 	}
 	
+	@Override
+	public void activate() {
+		if (!isActive()){
+			getDestinationModel().addPropertyChangeListener(this);
+		}
+		super.activate();
+	}
+
+	@Override
+	public void deactivate() {
+		getDestinationModel().removePropertyChangeListener(this);
+		super.deactivate();
+	}
+
 	public DestinationModel getDestinationModel(){
 		return (DestinationModel) getModel(); 
 	}
@@ -47,7 +66,9 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart {
 
 	@Override
 	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
+		ReporterModel reporter = (ReporterModel) getParent().getModel();
+		installEditPolicy(EditPolicy.COMPONENT_ROLE,
+				new DeleteDestionationEditPolicy(reporter, getDestinationModel()));
 
 	}
 
@@ -61,6 +82,11 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart {
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
 		return modelChildren;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		
 	}
 
 }

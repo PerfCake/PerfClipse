@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
@@ -100,7 +101,22 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 		if (evt.getPropertyName().equals(ReporterModel.PROPERTY_DESTINATIONS)){
 			if (evt.getOldValue() == null && evt.getNewValue() instanceof Destination){
 				DestinationModel destinationModel = new DestinationModel((Destination) evt.getNewValue());
-				addChild(new DestinationEditPart(destinationModel), getChildren().size());
+				int index = getReporterModel().getReporter().getDestination().indexOf(destinationModel.getDestination());
+				addChild(new DestinationEditPart(destinationModel), index);
+			}
+			if (evt.getNewValue() == null && evt.getOldValue() instanceof Destination){
+				List<EditPart> toDelete = new ArrayList<>();
+				for (Object child : getChildren()){
+					EditPart part = (EditPart) child;
+					DestinationModel model = (DestinationModel) part.getModel();
+					if (model.getDestination() == evt.getOldValue()){
+						toDelete.add(part);
+					}
+				}
+				
+				for (EditPart part: toDelete){
+					removeChild(part);
+				}
 			}
 		}
 		
