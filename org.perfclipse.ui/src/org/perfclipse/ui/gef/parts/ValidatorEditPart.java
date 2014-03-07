@@ -30,12 +30,14 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
+import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
 import org.perfclipse.ui.gef.directedit.ComboViewerDirectEditManager;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
+import org.perfclipse.ui.gef.policies.DeleteValidatorEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.ValidatorDirectEditPolicy;
 
 public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
@@ -93,9 +95,10 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements P
 	
 	@Override
 	protected void createEditPolicies() {
-		// TODO Auto-generated method stub
+		ValidationModel validation = (ValidationModel) getParent().getModel();
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new ValidatorDirectEditPolicy(getValidatorModel(), (ILabeledFigure) getFigure()));
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new DeleteValidatorEditPolicy(validation, getValidatorModel()));
 
 	}
 

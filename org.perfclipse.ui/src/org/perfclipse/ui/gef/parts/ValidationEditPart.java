@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ScenarioModel;
@@ -100,7 +101,22 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 		if (evt.getPropertyName().equals(ValidationModel.PROPERTY_VALIDATORS)){
 			if (evt.getOldValue() == null && evt.getNewValue() instanceof Validator){
 				ValidatorModel validatorModel = new ValidatorModel((Validator) evt.getNewValue());
-				addChild(new ValidatorEditPart(validatorModel), getChildren().size());
+				int index = getValidationModel().getValidation().getValidator().indexOf(validatorModel.getValidator());
+				addChild(new ValidatorEditPart(validatorModel), index);
+			}
+			if (evt.getNewValue() == null && evt.getOldValue() instanceof Validator){
+				List<EditPart> toDelete = new ArrayList<>();
+				for (Object child : getChildren()){
+					EditPart part = (EditPart) child;
+					ValidatorModel model = (ValidatorModel) part.getModel();
+					if (model.getValidator() == evt.getOldValue()){
+						toDelete.add(part);
+					}
+				}
+				
+				for (EditPart part : toDelete){
+					removeChild(part);
+				}
 			}
 		}
 		
