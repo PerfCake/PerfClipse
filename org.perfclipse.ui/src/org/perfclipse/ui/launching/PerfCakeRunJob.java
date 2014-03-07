@@ -83,7 +83,7 @@ final class PerfCakeRunJob extends Job{
 			while(perfCakeThread.isAlive()){
 				//TODO: get RunInfo and set progress
 				if (monitor.isCanceled()){
-					//TODO: call stop scenario
+					scenarioManager.stopScenario();
 				}
 				try {
 					Thread.sleep(CHECK_INTERVAL);

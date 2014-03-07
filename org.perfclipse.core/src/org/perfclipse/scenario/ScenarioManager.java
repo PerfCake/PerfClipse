@@ -47,6 +47,11 @@ public class ScenarioManager {
 
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(ScenarioManager.class);
 	
+	//TODO : scenario is initialized in runScenario method and used for
+	// stop in stopSceanario method which will be called from different threads
+	// so this class should be revisited and maybe fixed for thread safe.
+	private Scenario scenario;
+	
 	public void runScenario(URL scenarioURL) throws ScenarioException{
 
 		if (scenarioURL == null){
@@ -54,7 +59,6 @@ public class ScenarioManager {
 			throw new IllegalArgumentException("URL to scenario is null.");
 		}
 
-		Scenario scenario;
 		ScenarioModel model;
 
 		model = createModel(scenarioURL);
@@ -85,6 +89,14 @@ public class ScenarioManager {
 			throw new ScenarioException("Error during finishing scenario.", e);
 		}
 	}
+	
+	public void stopScenario(){
+		if (scenario != null){
+			scenario.stop();
+		} else{
+			log.warn("Trying to stop null scenario");
+		}
+	}
 
 	public ScenarioModel createModel(URL scenarioURL) throws ScenarioException {
 
@@ -104,7 +116,7 @@ public class ScenarioManager {
 		return new ScenarioModel(model);
 	}
 	
-	public void createXML(org.perfcake.model.Scenario scenario, OutputStream out) throws ScenarioException{
+	public void createXML(org.perfcake.model.Scenario model, OutputStream out) throws ScenarioException{
 		try {
 			JAXBContext context;
 			context = JAXBContext.newInstance(org.perfcake.model.Scenario.class);
@@ -114,7 +126,7 @@ public class ScenarioManager {
 			marshaller.setSchema(schema);
 			//add line breaks and indentation into output
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, new Boolean(true));
-			marshaller.marshal(scenario, out);
+			marshaller.marshal(model, out);
 		} catch (JAXBException e) {
 			log.error("JAXB error", e);
 			throw new ScenarioException(e.getMessage(),e.getCause());
