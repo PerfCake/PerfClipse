@@ -30,22 +30,22 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ComboViewerDirectEditManager extends DirectEditManager {
+public class ClassDirectEditManager extends DirectEditManager {
 
-	static final Logger log = LoggerFactory.getLogger(ComboViewerDirectEditManager.class);
+	static final Logger log = LoggerFactory.getLogger(ClassDirectEditManager.class);
 
 	private Label label;
 	
 	private Object comboInput;
 	
 	@SuppressWarnings("rawtypes")
-	public ComboViewerDirectEditManager(GraphicalEditPart source, Class editorType,
+	public ClassDirectEditManager(GraphicalEditPart source, Class editorType,
 			CellEditorLocator locator, Object comboInput) {
 		this(source, editorType, locator, null, comboInput);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public ComboViewerDirectEditManager(GraphicalEditPart source, Class editorType,
+	public ClassDirectEditManager(GraphicalEditPart source, Class editorType,
 			CellEditorLocator locator, Object feature, Object comboInput) {
 		super(source, editorType, locator, feature);
 		this.label = ((ComboViewerCellEditorLocator) locator).getLabel();

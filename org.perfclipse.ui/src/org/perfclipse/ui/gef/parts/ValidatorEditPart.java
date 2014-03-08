@@ -37,7 +37,7 @@ import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
 import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
-import org.perfclipse.ui.gef.directedit.ComboViewerDirectEditManager;
+import org.perfclipse.ui.gef.directedit.ClassDirectEditManager;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
@@ -95,7 +95,7 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements P
 			try {
 				components = PerfCakeComponents.getInstance();
 				if (manager == null){
-					manager = new ComboViewerDirectEditManager(this,
+					manager = new ClassDirectEditManager(this,
 							ComboBoxViewerCellEditor.class,
 							new ComboViewerCellEditorLocator(((LabeledRoundedRectangle) getFigure()).getLabel()),
 							components.getValidators());
