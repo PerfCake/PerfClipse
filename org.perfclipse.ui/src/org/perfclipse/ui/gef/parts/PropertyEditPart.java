@@ -47,7 +47,7 @@ public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 	@Override
 	protected String getText(){
 		return getPropertyModel().getProperty().getName() +
-				"=" + getPropertyModel().getProperty().getValue();
+				" : " + getPropertyModel().getProperty().getValue();
 	}
 
 	@Override
