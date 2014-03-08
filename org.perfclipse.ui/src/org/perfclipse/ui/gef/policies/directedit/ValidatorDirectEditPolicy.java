@@ -45,10 +45,4 @@ public class ValidatorDirectEditPolicy extends ClassDirectEditPolicy {
 		
 		return null;
 	}
-	
-	@Override
-	protected void showCurrentEditValue(DirectEditRequest request) {
-		labeledFigure.getLabel().setText((String) request.getCellEditor().getValue());
-	}
-
 }

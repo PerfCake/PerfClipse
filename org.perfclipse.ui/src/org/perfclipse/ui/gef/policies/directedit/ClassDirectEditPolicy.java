@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.gef.policies.directedit;
 
+import org.eclipse.gef.requests.DirectEditRequest;
 import org.perfclipse.ui.gef.directedit.ClassLabelProvider;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 
@@ -41,4 +42,12 @@ public abstract class ClassDirectEditPolicy extends LabelDirectEditPolicy {
 		ClassLabelProvider labelProvider = new ClassLabelProvider();
 		return labelProvider.getText(input);
 	}
+
+	@Override
+	protected void showCurrentEditValue(DirectEditRequest request) {
+		Object input = request.getCellEditor().getValue();
+		labeledFigure.getLabel().setText(asString(input));
+	}
+	
+	
 }

@@ -52,6 +52,4 @@ public class DestinationDirectEditPolicy extends ClassDirectEditPolicy
 		}
 		return null;
 	}
-	
-
 }
