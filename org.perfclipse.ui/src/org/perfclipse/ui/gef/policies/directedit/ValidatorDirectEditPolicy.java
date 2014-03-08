@@ -25,7 +25,7 @@ import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.gef.commands.RenameValidatorCommand;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 
-public class ValidatorDirectEditPolicy extends LabelDirectEditPolicy {
+public class ValidatorDirectEditPolicy extends ClassDirectEditPolicy {
 
 	protected ValidatorModel model;
 
@@ -38,8 +38,12 @@ public class ValidatorDirectEditPolicy extends LabelDirectEditPolicy {
 
 	@Override
 	protected Command getDirectEditCommand(DirectEditRequest request) {
-		return new RenameValidatorCommand(model,
-				((Class<?>) request.getCellEditor().getValue()).getSimpleName());
+		String newName = asString(request.getCellEditor().getValue());
+		if (newName != null){
+			return new RenameValidatorCommand(model, newName);
+		}
+		
+		return null;
 	}
 	
 	@Override

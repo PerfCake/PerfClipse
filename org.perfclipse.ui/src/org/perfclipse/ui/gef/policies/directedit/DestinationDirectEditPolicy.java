@@ -30,7 +30,7 @@ import org.perfclipse.ui.gef.figures.ILabeledFigure;
  * @author Jakub Knetl
  *
  */
-public class DestinationDirectEditPolicy extends LabelDirectEditPolicy
+public class DestinationDirectEditPolicy extends ClassDirectEditPolicy
 		implements EditPolicy {
 	
 	DestinationModel model;
@@ -38,13 +38,19 @@ public class DestinationDirectEditPolicy extends LabelDirectEditPolicy
 	public DestinationDirectEditPolicy(DestinationModel model,
 			ILabeledFigure labeledFigure) {
 		super(labeledFigure);
+		if (model == null){
+			throw new IllegalArgumentException("Model cannot be null");
+		}
 		this.model = model;
 	}
 
 	@Override
 	protected Command getDirectEditCommand(DirectEditRequest request) {
-		String newName = ((Class<?>) request.getCellEditor().getValue()).getSimpleName();
-		return new RenameDestinationCommand(model, newName);
+		String newName = asString(request.getCellEditor().getValue());
+		if (newName != null){
+			return new RenameDestinationCommand(model, newName);
+		}
+		return null;
 	}
 	
 

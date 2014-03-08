@@ -25,6 +25,8 @@ public class ClassLabelProvider extends LabelProvider {
 	@Override 
 	public String getText(Object element){
 		if (element instanceof Class){
+			//TODO : check if it is component from perfcake.
+			// If it is not then return full path		}
 			Class<?> clazz = (Class<?>) element;
 			return clazz.getSimpleName();
 		}
