@@ -27,6 +27,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Spinner;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.slf4j.LoggerFactory;
 
@@ -35,8 +36,15 @@ public class GeneratorPage extends PerfCakePage {
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(GeneratorPage.class);
 	
 	private Composite container;
+
 	private Label generatorLabel;
 	private Combo generatorCombo;
+
+	private Spinner threadsSpinner;
+	private Label threadsLabel;
+
+	private Label runLabel;
+	private Combo runCombo;
 	
 	public GeneratorPage(){
 		this("Scenario genarator and sender");
@@ -44,7 +52,7 @@ public class GeneratorPage extends PerfCakePage {
 	
 	public GeneratorPage(String pageName) {
 		super(pageName);
-		setTitle("Generator and sender");
+		setTitle("Generator");
 		setDescription("Fill in neccessary information on this page");
 	}
 
@@ -76,8 +84,23 @@ public class GeneratorPage extends PerfCakePage {
 			}
 		});
 		
-		GridData gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
-		generatorCombo.setLayoutData(gridData);
+		generatorCombo.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
+		
+		threadsLabel = new Label(container, SWT.NONE);
+		threadsLabel.setText("Number of threads: ");
+
+		threadsSpinner = new Spinner(container, SWT.NONE);
+		//TODO: set size of spinner
+		
+		runLabel = new Label(container, SWT.NONE);
+		runLabel.setText("Run type: ");
+		
+		runCombo = new Combo(container, SWT.NONE);
+
+		//TODO: read possible values from perfcake
+		runCombo.add("iteration");
+		runCombo.add("time");
+		runCombo.add("percentage");
 		
 		setControl(container);
 		setPageComplete(false);
