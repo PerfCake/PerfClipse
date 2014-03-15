@@ -47,11 +47,6 @@ public class DeletePropertyCommand extends Command {
 	}
 
 	@Override
-	public void redo() {
-		execute();
-	}
-
-	@Override
 	public void undo() {
 		properties.addProperty(index, property.getProperty());
 	}

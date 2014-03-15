@@ -44,11 +44,6 @@ public class AddPropertyCommand extends Command {
 	}
 
 	@Override
-	public void redo() {
-		execute();
-	}
-
-	@Override
 	public void undo() {
 		properties.removeProperty(newProperty);
 	}

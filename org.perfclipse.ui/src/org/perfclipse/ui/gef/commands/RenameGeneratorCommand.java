@@ -37,6 +37,8 @@ public class RenameGeneratorCommand extends Command {
 		this.model = model;
 		this.oldClazz = model.getGenerator().getClazz();
 	}
+	
+	
 
 	@Override
 	public void execute() {

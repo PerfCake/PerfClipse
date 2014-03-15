@@ -47,11 +47,6 @@ public class DeleteReporterCommand extends Command {
 	}
 
 	@Override
-	public void redo() {
-		execute();
-	}
-
-	@Override
 	public void undo() {
 		reporting.addReporter(index, reporter.getReporter());
 	}

@@ -46,11 +46,6 @@ public class DeleteDestinationCommand extends Command {
 	}
 
 	@Override
-	public void redo() {
-		execute();
-	}
-
-	@Override
 	public void undo() {
 		reporter.addDestination(index, destination.getDestination());
 	}
