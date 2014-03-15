@@ -113,7 +113,8 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	      GraphicalViewer viewer = getGraphicalViewer();
 	      viewer.setEditPartFactory(new PerfCakeEditPartFactory());
 	      viewer.setRootEditPart(new ScalableFreeformRootEditPart());
-	      
+	      viewer.setContextMenu(new DesignEditorContextMenuProvider(getGraphicalViewer(), getActionRegistry()));
+
 	      // These two lines add support for drag and drop between palette and editor
 	      getGraphicalViewer().addDropTargetListener(
 	    		  new TemplateTransferDropTargetListener(getGraphicalViewer()));
