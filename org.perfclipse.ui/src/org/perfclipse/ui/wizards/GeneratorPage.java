@@ -33,26 +33,22 @@ import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
 import org.slf4j.LoggerFactory;
 
-public class GeneratorSenderPage extends WizardPage {
+public class GeneratorPage extends WizardPage {
 	
-	final static org.slf4j.Logger log = LoggerFactory.getLogger(GeneratorSenderPage.class);
+	final static org.slf4j.Logger log = LoggerFactory.getLogger(GeneratorPage.class);
 	
 	private Composite container;
-	private Label senderLabel;
-	private Combo senderCombo;
 	private Label generatorLabel;
 	private Combo generatorCombo;
 	
-	public GeneratorSenderPage(){
+	public GeneratorPage(){
 		this("Scenario genarator and sender");
 	}
 	
-	public GeneratorSenderPage(String pageName) {
+	public GeneratorPage(String pageName) {
 		super(pageName);
 		setTitle("Generator and sender");
 		setDescription("Fill in neccessary information on this page");
-		
-		//TODO : check if the path is correctly resolved on the windows machine
 	}
 
 	@Override
@@ -101,34 +97,6 @@ public class GeneratorSenderPage extends WizardPage {
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		generatorCombo.setLayoutData(gridData);
 		
-
-		senderLabel = new Label(container, SWT.NONE);
-		senderLabel.setText("Choose sender");
-		
-		senderCombo = new Combo(container, SWT.NONE);
-		if (components != null && components.getSenders() != null){
-			for (Class<?> clazz : components.getSenders()){
-				senderCombo.add(clazz.getSimpleName());
-			}
-		}
-		senderCombo.add("DummySender");
-		senderCombo.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				setPageComplete(isPageComplete());
-				
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		senderCombo.setLayoutData(gridData);
-
-		
 		setControl(container);
 		setPageComplete(false);
 		
@@ -141,18 +109,11 @@ public class GeneratorSenderPage extends WizardPage {
 			setDescription("Select generator type!");
 			return false;
 		}
-		if (senderCombo.getText() == null || "".equals(senderCombo.getText())){
-			setDescription("Select sender type!");
-			return false;
-		}
 
 		setDescription("Complete!");
 		return true;
 	}
-	
-	public String getSenderName(){
-		return senderCombo.getText();
-	}
+
 	
 	public String getGeneratorName(){
 		return generatorCombo.getText();

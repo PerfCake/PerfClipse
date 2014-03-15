@@ -44,11 +44,12 @@ import org.slf4j.LoggerFactory;
 
 public class ScenarioWizard extends Wizard implements INewWizard {
 
-	private GeneratorSenderPage generatorAndSenderPage;
+	private GeneratorPage generatorAndSenderPage;
 	private WizardNewFileCreationPage fileCreationPage;
 	IStructuredSelection selection;
 	
 	static final Logger log = LoggerFactory.getLogger(ScenarioWizard.class);
+	private SenderPage senderPage;
 
 	public ScenarioWizard() {
 		super();
@@ -78,7 +79,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 
 		//Sender section
 		Scenario.Sender sender = scenarioFactory.createScenarioSender();
-		sender.setClazz(generatorAndSenderPage.getSenderName());
+		sender.setClazz(senderPage.getSenderName());
 		scenario.setSender(sender);
 		
 		ScenarioModel model = new ScenarioModel(scenario);
@@ -116,9 +117,12 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 	@Override
 	public void addPages(){
 		fileCreationPage = new ScenarioNewFilePage("New Scenario file", selection);
-		generatorAndSenderPage = new GeneratorSenderPage();
+		generatorAndSenderPage = new GeneratorPage();
+		senderPage = new SenderPage();
+
 		addPage(fileCreationPage);
 		addPage(generatorAndSenderPage);
+		addPage(senderPage);
 	}
 
 	@Override
