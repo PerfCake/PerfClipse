@@ -37,12 +37,12 @@ public class RenameValidatorCommand extends Command {
 	
 	@Override
 	public void execute() {
-		validator.setClass(newClazz);
+		validator.setClazz(newClazz);
 	}
 
 	@Override
 	public void undo() {
-		validator.setClass(oldClazz);
+		validator.setClazz(oldClazz);
 	}
 
 }

@@ -44,12 +44,12 @@ public class RenameSenderCommand extends Command {
 
 	@Override
 	public void execute() {
-		sender.setClass(newClazz);
+		sender.setClazz(newClazz);
 	}
 
 	@Override
 	public void undo() {
-		sender.setClass(oldClazz);
+		sender.setClazz(oldClazz);
 	}
 	
 }

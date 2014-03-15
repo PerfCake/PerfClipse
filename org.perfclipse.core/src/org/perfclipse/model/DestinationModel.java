@@ -63,7 +63,7 @@ public class DestinationModel {
 		listeners.removePropertyChangeListener(listener);
 	}
 	
-	public void setClass(String clazz){
+	public void setClazz(String clazz){
 		String oldClazz = getDestination().getClazz();
 		getDestination().setClazz(clazz);
 		listeners.firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);

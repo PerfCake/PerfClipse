@@ -63,7 +63,7 @@ public class ReporterModel {
 		listeners.removePropertyChangeListener(listener);
 	}
 	
-	public void setClass(String clazz){
+	public void setClazz(String clazz){
 		String oldClazz = getReporter().getClazz();
 		getReporter().setClazz(clazz);
 		listeners.firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);

@@ -41,11 +41,11 @@ public class RenameReporterCommand extends Command {
 
 	@Override
 	public void execute() {
-		reporter.setClass(newClazz);
+		reporter.setClazz(newClazz);
 	}
 
 	@Override
 	public void undo() {
-		reporter.setClass(oldClazz);
+		reporter.setClazz(oldClazz);
 	}
 }

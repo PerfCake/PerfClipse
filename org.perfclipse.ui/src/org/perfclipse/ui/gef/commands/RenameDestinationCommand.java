@@ -41,7 +41,7 @@ public class RenameDestinationCommand extends Command {
 
 	@Override
 	public void execute() {
-		destination.setClass(newClazz);
+		destination.setClazz(newClazz);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class RenameDestinationCommand extends Command {
 
 	@Override
 	public void undo() {
-		destination.setClass(oldClazz);
+		destination.setClazz(oldClazz);
 	}
 	
 	
