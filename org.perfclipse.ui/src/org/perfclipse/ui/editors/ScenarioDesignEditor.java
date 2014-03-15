@@ -20,9 +20,9 @@
 package org.perfclipse.ui.editors;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.util.EventObject;
 
 import org.eclipse.core.resources.IFile;
@@ -152,12 +152,12 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 
 		IFile file = ((FileEditorInput) getEditorInput()).getFile();
 
-		PipedOutputStream out = new PipedOutputStream();
-		PipedInputStream in = null;
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		try {
-			in = new PipedInputStream(out);
 			manager.createXML(model.getScenario(), out);
+			ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
 			out.close();
+
 			try {
 				file.setContents(in, false, true, monitor);
 				getEditDomain().getCommandStack().markSaveLocation();
