@@ -33,7 +33,7 @@ import org.perfclipse.ui.gef.figures.ILabeledFigure;
 public class DestinationDirectEditPolicy extends ClassDirectEditPolicy
 		implements EditPolicy {
 	
-	DestinationModel model;
+	private DestinationModel model;
 
 	public DestinationDirectEditPolicy(DestinationModel model,
 			ILabeledFigure labeledFigure) {
