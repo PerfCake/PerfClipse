@@ -19,6 +19,7 @@
 
 package org.perfclipse.scenario;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -35,6 +36,7 @@ import org.perfcake.Scenario;
 import org.perfcake.ScenarioBuilder;
 import org.perfcake.parser.ScenarioParser;
 import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.reflect.SchemaScanner;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
@@ -121,21 +123,26 @@ public class ScenarioManager {
 			JAXBContext context;
 			context = JAXBContext.newInstance(org.perfcake.model.Scenario.class);
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Schema schema = schemaFactory.newSchema(new URL("http://schema.perfcake.org/perfcake-scenario-" + Scenario.VERSION + ".xsd"));
+			URL schemaUrl = SchemaScanner.getSchema();
+			Schema schema = schemaFactory.newSchema(schemaUrl);
 			Marshaller marshaller = context.createMarshaller();
 			marshaller.setSchema(schema);
+
 			//add line breaks and indentation into output
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, new Boolean(true));
 			marshaller.marshal(model, out);
 		} catch (JAXBException e) {
 			log.error("JAXB error", e);
-			throw new ScenarioException(e.getMessage(),e.getCause());
+			throw new ScenarioException("JAXB error" ,e.getCause());
 		} catch (MalformedURLException e) {
 			log.error("Malformed url", e);
-			throw new ScenarioException(e.getMessage(), e.getCause());
+			throw new ScenarioException("Malformed url", e.getCause());
 		} catch (SAXException e) {
 			log.error("Cannot obtain schema definition", e);
-			throw new ScenarioException(e.getMessage(), e.getCause());
+			throw new ScenarioException("Cannot obtain schema definition", e.getCause());
+		} catch (IOException e) {
+			log.error("Cannot obtain XML schema file", e);
+			throw new ScenarioException("Cannot obtain XML schema file", e.getCause());
 		}
 	}
 
