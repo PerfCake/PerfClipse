@@ -40,6 +40,7 @@ import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
+import org.perfclipse.ui.gef.policies.GeneratorEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.GeneratorDirectEditPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,7 +105,9 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new GeneratorDirectEditPolicy(getGeneratorModel(), (ILabeledFigure) getFigure()));
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+				new GeneratorDirectEditPolicy(getGeneratorModel(), (ILabeledFigure) getFigure()));
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new GeneratorEditPolicy());
 
 	}
 	
