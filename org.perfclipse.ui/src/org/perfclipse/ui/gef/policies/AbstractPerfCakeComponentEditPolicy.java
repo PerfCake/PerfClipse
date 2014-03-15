@@ -43,8 +43,6 @@ public class AbstractPerfCakeComponentEditPolicy extends ComponentEditPolicy {
 	}
 
 	protected Command createPropertiesCommand() {
-		//show dialog
-		System.err.println("Show dialog and get input");
 		return null;
 	}
 
