@@ -5,13 +5,23 @@ import java.beans.PropertyChangeListener;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.model.PropertyModel;
+import org.perfclipse.ui.gef.directedit.LabelCellEditorLocator;
+import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
+import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.DeletePropertyEditPolicy;
+import org.perfclipse.ui.gef.policies.directedit.RenamePropertyDirectEditPolicy;
 
 public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
+
+
+	private LabelDirectEditManager manager;
 
 	public PropertyEditPart(PropertyModel modelProperty){
 		setModel(modelProperty);
@@ -51,16 +61,35 @@ public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 	}
 
 	@Override
+	public void performRequest(Request request){
+		if (request.getType() == RequestConstants.REQ_OPEN ||
+				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
+		{
+			if (manager == null){
+				manager = new LabelDirectEditManager(this,
+						TextCellEditor.class,
+						new LabelCellEditorLocator(((LabeledRoundedRectangle) getFigure()).getLabel()));
+			}
+			manager.show();
+			
+		}
+	}
+	
+	@Override
 	protected void createEditPolicies() {
 		PropertiesModel properties = (PropertiesModel) getParent().getModel();
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new DeletePropertyEditPolicy(properties, getPropertyModel()));
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+				new RenamePropertyDirectEditPolicy(getPropertyModel(), (ILabeledFigure) getFigure()));
 
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
-		
+		if (evt.getPropertyName().equals(PropertyModel.PROPERTY_NAME) ||
+				evt.getPropertyName().equals(PropertyModel.PROPERTY_VALUE)){
+			refreshVisuals();
+		}
 	}
 
 }
