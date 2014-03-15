@@ -34,6 +34,8 @@ import org.slf4j.LoggerFactory;
 public class GeneratorPage extends PerfCakePage {
 	
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(GeneratorPage.class);
+
+	private final static int SPINNER_DEFAULT_WIDTH = 33;
 	
 	private Composite container;
 
@@ -43,8 +45,11 @@ public class GeneratorPage extends PerfCakePage {
 	private Spinner threadsSpinner;
 	private Label threadsLabel;
 
-	private Label runLabel;
-	private Combo runCombo;
+	private Label runTypeLabel;
+	private Combo runTypeCombo;
+	
+	private Label runValueLabel;
+	private Spinner runValueSpinner;
 	
 	public GeneratorPage(){
 		this("Scenario genarator and sender");
@@ -69,7 +74,7 @@ public class GeneratorPage extends PerfCakePage {
 		PerfCakeComponents components = getPerfCakeComponents();
 
 		generatorLabel = new Label(container, SWT.NONE);
-		generatorLabel.setText("Choose generator");
+		generatorLabel.setText("Generator type: ");
 		generatorCombo = new Combo(container, SWT.NONE);
 		if (components != null && components.getGenerators() != null){
 			for (Class<?> clazz : components.getGenerators()){
@@ -85,22 +90,41 @@ public class GeneratorPage extends PerfCakePage {
 		});
 		
 		generatorCombo.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
+
+		runTypeLabel = new Label(container, SWT.NONE);
+		runTypeLabel.setText("Run type: ");
 		
+		runTypeCombo = new Combo(container, SWT.NONE);
+
+		//TODO: read possible values from perfcake
+		runTypeCombo.add("iteration");
+		runTypeCombo.add("time");
+		runTypeCombo.add("percentage");
+
+		runTypeCombo.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		
+		runValueLabel = new Label(container, SWT.NONE);
+		runValueLabel.setText("Duration: ");
+		runValueSpinner = new Spinner(container, SWT.NONE);
+		runValueSpinner.setMinimum(0);
+		runValueSpinner.setMaximum(Integer.MAX_VALUE);
+		runValueSpinner.setSelection(1);
+
+		GridData runSpinnerGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
+		runSpinnerGridData.widthHint = SPINNER_DEFAULT_WIDTH;
+		runValueSpinner.setLayoutData(runSpinnerGridData);
+
 		threadsLabel = new Label(container, SWT.NONE);
 		threadsLabel.setText("Number of threads: ");
 
 		threadsSpinner = new Spinner(container, SWT.NONE);
-		//TODO: set size of spinner
+		threadsSpinner.setMinimum(0);
+		threadsSpinner.setSelection(1);
+		threadsSpinner.setMaximum(Integer.MAX_VALUE);
+		GridData threadsSpinnerGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
+		threadsSpinnerGridData.widthHint = SPINNER_DEFAULT_WIDTH;
+		threadsSpinner.setLayoutData(threadsSpinnerGridData);
 		
-		runLabel = new Label(container, SWT.NONE);
-		runLabel.setText("Run type: ");
-		
-		runCombo = new Combo(container, SWT.NONE);
-
-		//TODO: read possible values from perfcake
-		runCombo.add("iteration");
-		runCombo.add("time");
-		runCombo.add("percentage");
 		
 		setControl(container);
 		setPageComplete(false);
