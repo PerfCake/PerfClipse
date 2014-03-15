@@ -124,8 +124,9 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	}
 
 	@Override
-	public void propertyChange(PropertyChangeEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(GeneratorModel.PROPERTY_CLASS)){
+			refreshVisuals();
+		}	
 	}
 }
