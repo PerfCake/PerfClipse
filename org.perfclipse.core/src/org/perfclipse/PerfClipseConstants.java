@@ -26,6 +26,7 @@ package org.perfclipse;
 public class PerfClipseConstants {
 
 	public static final String PERFCAKE_BUNDLE = "org.perfcake";
+	public static final String PERFCAKE_XML_SCHEMA_PATH = "schemas/perfcake-scenario-1.0.xsd";
 	public static final String PERFCAKE_SENDER_PACKAGE = "org.perfcake.message.sender";
 	public static final String PERFCAKE_GENERATOR_PACKAGE = "org.perfcake.message.generator";
 	public static final String PERFCAKE_REPORTER_PACKAGE = "org.perfcake.reporting.reporters";
