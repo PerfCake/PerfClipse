@@ -26,20 +26,13 @@ import org.perfcake.message.sender.AbstractSender;
 import org.perfcake.reporting.destinations.Destination;
 import org.perfcake.reporting.reporters.Reporter;
 import org.perfcake.validation.MessageValidator;
+import org.perfclipse.PerfClipseConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PerfCakeComponents {
 	
 	final static Logger log = LoggerFactory.getLogger(PerfCakeComponents.class);
-
-	private static final String PERFCAKE_BUNDLE = "org.perfcake";
-	private static final String PERFCAKE_SENDER_PACKAGE = "org.perfcake.message.sender";
-	private static final String PERFCAKE_GENERATOR_PACKAGE = "org.perfcake.message.generator";
-	private static final String PERFCAKE_REPORTER_PACKAGE = "org.perfcake.reporting.reporters";
-	private static final String PERFCAKE_DESTINATION_PACKAGE = "org.perfcake.reporting.destinations";
-	private static final String PERFCAKE_VALIDATOR_PACKAGE = "org.perfcake.validation";
-
 
 	private static PerfCakeComponents instance;
 	
@@ -51,12 +44,12 @@ public class PerfCakeComponents {
 	
 	
 	private PerfCakeComponents() throws PerfClipseScannerException {
-		ComponentScanner scanner = new ComponentScanner(PERFCAKE_BUNDLE);
-		senders = scanner.scanForComponent(PERFCAKE_SENDER_PACKAGE, AbstractSender.class);
-		generators = scanner.scanForComponent(PERFCAKE_GENERATOR_PACKAGE, AbstractMessageGenerator.class);
-		reporters = scanner.scanForComponent(PERFCAKE_REPORTER_PACKAGE, Reporter.class);
-		destinations = scanner.scanForComponent(PERFCAKE_DESTINATION_PACKAGE, Destination.class);
-		validators = scanner.scanForComponent(PERFCAKE_VALIDATOR_PACKAGE, MessageValidator.class);
+		ComponentScanner scanner = new ComponentScanner(PerfClipseConstants.PERFCAKE_BUNDLE);
+		senders = scanner.scanForComponent(PerfClipseConstants.PERFCAKE_SENDER_PACKAGE, AbstractSender.class);
+		generators = scanner.scanForComponent(PerfClipseConstants.PERFCAKE_GENERATOR_PACKAGE, AbstractMessageGenerator.class);
+		reporters = scanner.scanForComponent(PerfClipseConstants.PERFCAKE_REPORTER_PACKAGE, Reporter.class);
+		destinations = scanner.scanForComponent(PerfClipseConstants.PERFCAKE_DESTINATION_PACKAGE, Destination.class);
+		validators = scanner.scanForComponent(PerfClipseConstants.PERFCAKE_VALIDATOR_PACKAGE, MessageValidator.class);
 		log.debug("Components included in PerfCake has been loaded.");
 	}
 	
