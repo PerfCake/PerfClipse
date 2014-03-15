@@ -50,6 +50,7 @@ import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
 import org.perfclipse.ui.Activator;
+import org.perfclipse.ui.actions.PropertiesAction;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 import org.perfclipse.ui.gef.parts.ScenarioEditPart;
 import org.slf4j.LoggerFactory;
@@ -145,6 +146,17 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 				(ConnectionLayer) rootEditPart.getLayer(LayerConstants.CONNECTION_LAYER);
 		connectionLayer.setConnectionRouter(new ShortestPathConnectionRouter(
 				scenarioPart.getFigure()));
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void createActions() {
+		PropertiesAction action = new PropertiesAction(this);
+		getActionRegistry().registerAction(action);
+		getSelectionActions().add(action.getId());
+
+		super.createActions();
 	}
 
 	@Override

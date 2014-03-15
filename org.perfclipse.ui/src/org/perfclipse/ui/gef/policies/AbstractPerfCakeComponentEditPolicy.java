@@ -19,31 +19,34 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.requests.GroupRequest;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
-import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
+import org.eclipse.gef.editpolicies.ComponentEditPolicy;
+import org.perfclipse.ui.actions.PropertiesAction;
 
-public class DeleteMessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
-
-	private MessagesModel messages;
-	private MessageModel message;
-
-	public DeleteMessageEditPolicy(MessagesModel messages, MessageModel message) {
-		super();
-		this.messages = messages;
-		this.message = message;
-	}
+/**
+ * @author Jakub Knetl
+ *
+ */
+public class AbstractPerfCakeComponentEditPolicy extends ComponentEditPolicy {
 
 	@Override
-	protected Command createDeleteCommand(GroupRequest deleteRequest) {
-		return new DeleteMessageCommand(messages, message);
+	public Command getCommand(Request request) {
+		if (request.getType().equals(PropertiesAction.REQ_SHOW_PROPERTIES)){
+			return getPropertiesCommand();
+		}
+		return super.getCommand(request);
 	}
 
-	@Override
+	protected Command getPropertiesCommand() {
+		return createPropertiesCommand();
+	}
+
 	protected Command createPropertiesCommand() {
-		super.createPropertiesCommand();
+		//show dialog
+		System.err.println("Show dialog and get input");
 		return null;
 	}
+
+	
 }
