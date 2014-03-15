@@ -19,21 +19,18 @@
 
 package org.perfclipse.ui.wizards;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.perfclipse.reflect.PerfCakeComponents;
-import org.perfclipse.reflect.PerfClipseScannerException;
 import org.slf4j.LoggerFactory;
 
-public class GeneratorPage extends WizardPage {
+public class GeneratorPage extends PerfCakePage {
 	
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(GeneratorPage.class);
 	
@@ -61,15 +58,7 @@ public class GeneratorPage extends WizardPage {
 		layout.verticalSpacing = 10;
 		container.setLayout(layout);
 		
-		
-		PerfCakeComponents components = null;
-		try {
-			components = PerfCakeComponents.getInstance();
-		} catch (PerfClipseScannerException e) {
-			log.error("Cannot parse PerfCake components", e);
-			MessageDialog.openError(getShell(), "Cannot parse PerfCake components",
-					"Automatically loaded components from PerfCake will not be available");
-		}
+		PerfCakeComponents components = getPerfCakeComponents();
 
 		generatorLabel = new Label(container, SWT.NONE);
 		generatorLabel.setText("Choose generator");
@@ -79,45 +68,33 @@ public class GeneratorPage extends WizardPage {
 				generatorCombo.add(clazz.getSimpleName());
 			}
 		}
-		generatorCombo.addSelectionListener(new SelectionListener() {
+		generatorCombo.addSelectionListener(new SelectionAdapter() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				setPageComplete(isPageComplete());
-				
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
+				updateControls();
 			}
 		});
 		
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		GridData gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
 		generatorCombo.setLayoutData(gridData);
 		
 		setControl(container);
 		setPageComplete(false);
-		
-		
 	}
 	
 	@Override
-	public boolean isPageComplete(){
+	protected void updateControls() {
 		if (generatorCombo.getText() == null || "".equals(generatorCombo.getText())){
 			setDescription("Select generator type!");
-			return false;
+			setPageComplete(false);
+		}else{
+			setDescription("Complete!");
+			setPageComplete(true);
 		}
-
-		setDescription("Complete!");
-		return true;
 	}
 
-	
 	public String getGeneratorName(){
 		return generatorCombo.getText();
 	}
-	
-	
 }

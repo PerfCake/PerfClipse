@@ -19,18 +19,15 @@
 
 package org.perfclipse.ui.wizards;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.perfclipse.reflect.PerfCakeComponents;
-import org.perfclipse.reflect.PerfClipseScannerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * @author Jakub Knetl
  *
  */
-public class SenderPage extends WizardPage {
+public class SenderPage extends PerfCakePage {
 	
 	private Composite container;
 	private Label senderLabel;
@@ -68,14 +65,7 @@ public class SenderPage extends WizardPage {
 		
 		senderCombo = new Combo(container, SWT.NONE);
 		
-		PerfCakeComponents components = null;
-		try {
-			components = PerfCakeComponents.getInstance();
-		} catch (PerfClipseScannerException e) {
-			log.error("Cannot parse PerfCake components", e);
-			MessageDialog.openError(getShell(), "Cannot parse PerfCake components",
-					"Automatically loaded components from PerfCake will not be available");
-		}
+		PerfCakeComponents components = getPerfCakeComponents();
 		
 		if (components != null && components.getSenders() != null){
 			for (Class<?> clazz : components.getSenders()){
@@ -83,40 +73,35 @@ public class SenderPage extends WizardPage {
 			}
 		}
 		senderCombo.add("DummySender");
-		senderCombo.addSelectionListener(new SelectionListener() {
+		senderCombo.addSelectionListener(new SelectionAdapter() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				setPageComplete(isPageComplete());
-				
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
+				updateControls();
 			}
 		});
 
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		GridData gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
 		senderCombo.setLayoutData(gridData);
 
 		setControl(container);
 		setPageComplete(false);
-
 	}
 	
 	
+	
 	@Override
-	public boolean isPageComplete() {
+	protected void updateControls() {
 		if (senderCombo.getText() == null || "".equals(senderCombo.getText())){
 			setDescription("Select sender type!");
-			return false;
+			setPageComplete(false);
+		}else{
+			setDescription("Complete!");
+			setPageComplete(true);
 		}
 		
-		setDescription("Complete!");
-		
-		return true;
+
+		super.updateControls();
 	}
 
 	public String getSenderName(){
