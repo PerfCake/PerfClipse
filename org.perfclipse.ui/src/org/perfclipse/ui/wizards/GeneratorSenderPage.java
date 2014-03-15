@@ -20,7 +20,6 @@
 package org.perfclipse.ui.wizards;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -44,21 +43,17 @@ public class GeneratorSenderPage extends WizardPage {
 	private Label generatorLabel;
 	private Combo generatorCombo;
 	
-	String defaultDirectoryPath;
-
-	public GeneratorSenderPage(IStructuredSelection selection){
-		this("Scenario genarator and sender", selection);
+	public GeneratorSenderPage(){
+		this("Scenario genarator and sender");
 	}
 	
-	public GeneratorSenderPage(String pageName, IStructuredSelection selection) {
+	public GeneratorSenderPage(String pageName) {
 		super(pageName);
 		setTitle("Generator and sender");
 		setDescription("Fill in neccessary information on this page");
 		
 		//TODO : check if the path is correctly resolved on the windows machine
 	}
-
-
 
 	@Override
 	public void createControl(Composite parent) {
