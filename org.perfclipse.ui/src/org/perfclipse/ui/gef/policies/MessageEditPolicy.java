@@ -19,39 +19,31 @@
 
 package org.perfclipse.ui.gef.policies;
 
-import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
-import org.perfclipse.model.DestinationModel;
-import org.perfclipse.model.ReporterModel;
-import org.perfclipse.ui.gef.commands.DeleteDestinationCommand;
+import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.MessagesModel;
+import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
 
-/**
- * @author Jakub Knetl
- *
- */
-public class DeleteDestionationEditPolicy extends ComponentEditPolicy implements
-		EditPolicy {
+public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
-	private ReporterModel reporter;
-	private DestinationModel destination;
+	private MessagesModel messages;
+	private MessageModel message;
 
-	public DeleteDestionationEditPolicy(ReporterModel reporter,
-			DestinationModel destination) {
+	public MessageEditPolicy(MessagesModel messages, MessageModel message) {
 		super();
-		this.reporter = reporter;
-		this.destination = destination;
+		this.messages = messages;
+		this.message = message;
 	}
 
 	@Override
-	protected Command getDeleteCommand(GroupRequest request) {
-		return new DeleteDestinationCommand(reporter, destination);
+	protected Command createDeleteCommand(GroupRequest deleteRequest) {
+		return new DeleteMessageCommand(messages, message);
 	}
-	
-	
-	
-	
 
-	
+	@Override
+	protected Command createPropertiesCommand() {
+		super.createPropertiesCommand();
+		return null;
+	}
 }

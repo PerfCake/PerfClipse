@@ -45,7 +45,7 @@ import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
-import org.perfclipse.ui.gef.policies.DeleteReporterEditPolicy;
+import org.perfclipse.ui.gef.policies.ReporterEditPolicy;
 import org.perfclipse.ui.gef.policies.DestinationListEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.RenameReporterDirectEditPolicy;
 import org.slf4j.Logger;
@@ -118,7 +118,7 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 		installEditPolicy(EditPolicy.LAYOUT_ROLE,
 				new DestinationListEditPolicy(getReporterModel()));
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new DeleteReporterEditPolicy(reporting, getReporterModel()));
+				new ReporterEditPolicy(reporting, getReporterModel()));
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new RenameReporterDirectEditPolicy(getReporterModel(), (ILabeledFigure) getFigure()));
 

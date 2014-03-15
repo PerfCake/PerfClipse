@@ -41,7 +41,7 @@ import org.perfclipse.ui.gef.directedit.ClassDirectEditManager;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
-import org.perfclipse.ui.gef.policies.DeleteValidatorEditPolicy;
+import org.perfclipse.ui.gef.policies.ValidatorEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.ValidatorDirectEditPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,7 +115,7 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements P
 		ValidationModel validation = (ValidationModel) getParent().getModel();
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new ValidatorDirectEditPolicy(getValidatorModel(), (ILabeledFigure) getFigure()));
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new DeleteValidatorEditPolicy(validation, getValidatorModel()));
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ValidatorEditPolicy(validation, getValidatorModel()));
 
 	}
 

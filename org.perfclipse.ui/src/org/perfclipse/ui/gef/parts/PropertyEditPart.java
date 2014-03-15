@@ -15,7 +15,7 @@ import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
-import org.perfclipse.ui.gef.policies.DeletePropertyEditPolicy;
+import org.perfclipse.ui.gef.policies.PropertyEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.RenamePropertyDirectEditPolicy;
 
 public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
@@ -78,7 +78,7 @@ public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 	@Override
 	protected void createEditPolicies() {
 		PropertiesModel properties = (PropertiesModel) getParent().getModel();
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new DeletePropertyEditPolicy(properties, getPropertyModel()));
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new PropertyEditPolicy(properties, getPropertyModel()));
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new RenamePropertyDirectEditPolicy(getPropertyModel(), (ILabeledFigure) getFigure()));
 

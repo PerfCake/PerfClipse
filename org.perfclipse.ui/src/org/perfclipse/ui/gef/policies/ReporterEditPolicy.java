@@ -19,9 +19,7 @@
 
 package org.perfclipse.ui.gef.policies;
 
-import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
@@ -31,13 +29,12 @@ import org.perfclipse.ui.gef.commands.DeleteReporterCommand;
  * @author Jakub Knetl
  *
  */
-public class DeleteReporterEditPolicy extends ComponentEditPolicy implements
-		EditPolicy {
+public class ReporterEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
 	private ReportingModel reporting;
 	private ReporterModel reporter;
 
-	public DeleteReporterEditPolicy(ReportingModel reporting,
+	public ReporterEditPolicy(ReportingModel reporting,
 			ReporterModel reporter) {
 		super();
 		this.reporting = reporting;

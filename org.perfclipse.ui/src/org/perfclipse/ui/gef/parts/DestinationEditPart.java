@@ -41,7 +41,7 @@ import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
-import org.perfclipse.ui.gef.policies.DeleteDestionationEditPolicy;
+import org.perfclipse.ui.gef.policies.DestionationEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.DestinationDirectEditPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,7 +108,7 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart implements
 	protected void createEditPolicies() {
 		ReporterModel reporter = (ReporterModel) getParent().getModel();
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new DeleteDestionationEditPolicy(reporter, getDestinationModel()));
+				new DestionationEditPolicy(reporter, getDestinationModel()));
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new DestinationDirectEditPolicy(getDestinationModel(), (ILabeledFigure) getFigure()));
 

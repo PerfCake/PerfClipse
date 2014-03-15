@@ -19,9 +19,7 @@
 
 package org.perfclipse.ui.gef.policies;
 
-import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
@@ -31,13 +29,12 @@ import org.perfclipse.ui.gef.commands.DeleteValidatorCommand;
  * @author Jakub Knetl
  *
  */
-public class DeleteValidatorEditPolicy extends ComponentEditPolicy implements
-		EditPolicy {
+public class ValidatorEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
 	private ValidationModel validation;
 	private ValidatorModel validator;
 
-	public DeleteValidatorEditPolicy(ValidationModel validation,
+	public ValidatorEditPolicy(ValidationModel validation,
 			ValidatorModel validator) {
 		super();
 		this.validation = validation;

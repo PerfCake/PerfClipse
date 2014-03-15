@@ -21,29 +21,28 @@ package org.perfclipse.ui.gef.policies;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
-import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
+import org.perfclipse.model.DestinationModel;
+import org.perfclipse.model.ReporterModel;
+import org.perfclipse.ui.gef.commands.DeleteDestinationCommand;
 
-public class DeleteMessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
+/**
+ * @author Jakub Knetl
+ *
+ */
+public class DestionationEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
-	private MessagesModel messages;
-	private MessageModel message;
+	private ReporterModel reporter;
+	private DestinationModel destination;
 
-	public DeleteMessageEditPolicy(MessagesModel messages, MessageModel message) {
+	public DestionationEditPolicy(ReporterModel reporter,
+			DestinationModel destination) {
 		super();
-		this.messages = messages;
-		this.message = message;
+		this.reporter = reporter;
+		this.destination = destination;
 	}
 
 	@Override
-	protected Command createDeleteCommand(GroupRequest deleteRequest) {
-		return new DeleteMessageCommand(messages, message);
-	}
-
-	@Override
-	protected Command createPropertiesCommand() {
-		super.createPropertiesCommand();
-		return null;
+	protected Command getDeleteCommand(GroupRequest request) {
+		return new DeleteDestinationCommand(reporter, destination);
 	}
 }

@@ -37,7 +37,7 @@ import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
-import org.perfclipse.ui.gef.policies.DeleteMessageEditPolicy;
+import org.perfclipse.ui.gef.policies.MessageEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.MessageDirectEditPolicy;
 
 public class MessageEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener{
@@ -95,7 +95,7 @@ public class MessageEditPart extends AbstractPerfCakeNodeEditPart implements Pro
 
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new MessageDirectEditPolicy(getMessageModel(), (ILabeledFigure) getFigure()));
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new DeleteMessageEditPolicy(messages, getMessageModel()));
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new MessageEditPolicy(messages, getMessageModel()));
 	}
 
 	@Override
