@@ -42,7 +42,7 @@ public class DestionationEditPolicy extends AbstractPerfCakeComponentEditPolicy 
 	}
 
 	@Override
-	protected Command getDeleteCommand(GroupRequest request) {
+	protected Command createDeleteCommand(GroupRequest deleteRequest) {
 		return new DeleteDestinationCommand(reporter, destination);
 	}
 }

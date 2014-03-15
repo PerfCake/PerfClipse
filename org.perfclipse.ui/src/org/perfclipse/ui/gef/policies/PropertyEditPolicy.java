@@ -42,7 +42,7 @@ public class PropertyEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	}
 
 	@Override
-	protected Command getDeleteCommand(GroupRequest request) {
+	protected Command createDeleteCommand(GroupRequest request) {
 		return new DeletePropertyCommand(properties, property);
 	}
 }

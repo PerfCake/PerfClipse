@@ -42,7 +42,7 @@ public class ReporterEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	}
 
 	@Override
-	protected Command getDeleteCommand(GroupRequest request) {
+	protected Command createDeleteCommand(GroupRequest request) {
 		return new DeleteReporterCommand(reporting, reporter);
 	}
 	
