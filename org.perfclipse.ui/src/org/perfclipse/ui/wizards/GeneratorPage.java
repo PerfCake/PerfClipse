@@ -135,6 +135,7 @@ public class GeneratorPage extends PerfCakePage {
 		if (runTypeCombo.getText() == null || "".equals(runTypeCombo.getText())){
 			setDescription("Select run type!");
 			setPageComplete(false);
+			return;
 		}
 		setDescription("Complete!");
 		setPageComplete(true);
