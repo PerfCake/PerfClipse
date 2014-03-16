@@ -20,6 +20,8 @@
 package org.perfclipse.ui.gef.policies;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -44,6 +46,12 @@ public class GeneratorEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.open();
+		if (dialog.getReturnCode() == Window.OK){
+			CompoundCommand command = wizard.getCommand();
+			if (!command.isEmpty()){
+				return command;
+			}
+		}
 		
 		return null;
 	}

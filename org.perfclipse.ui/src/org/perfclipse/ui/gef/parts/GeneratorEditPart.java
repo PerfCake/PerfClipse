@@ -128,8 +128,12 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(GeneratorModel.PROPERTY_CLASS)){
+		if (evt.getPropertyName().equals(GeneratorModel.PROPERTY_CLASS) ||
+				evt.getPropertyName().equals(GeneratorModel.PROPERTY_THREADS)){
 			refreshVisuals();
 		}	
+		if (evt.getPropertyName().equals(GeneratorModel.PROPERTY_RUN)){
+			refreshChildren();
+		}
 	}
 }
