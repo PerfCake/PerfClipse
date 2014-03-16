@@ -22,6 +22,8 @@ package org.perfclipse.ui.wizards;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
 import org.slf4j.Logger;
@@ -64,6 +66,20 @@ public abstract class PerfCakePage extends WizardPage {
 	 */
 	protected void updateControls(){
 		// do nothing
+	}
+	
+	protected static class UpdateSelectionAdapter extends SelectionAdapter{
+		
+		PerfCakePage page;
+		public UpdateSelectionAdapter(PerfCakePage page){
+			this.page = page;
+		}
+
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			page.updateControls();
+		}
+		
 	}
 
 }

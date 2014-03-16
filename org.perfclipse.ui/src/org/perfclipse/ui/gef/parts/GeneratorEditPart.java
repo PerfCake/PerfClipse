@@ -107,7 +107,7 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new GeneratorDirectEditPolicy(getGeneratorModel(), (ILabeledFigure) getFigure()));
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new GeneratorEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new GeneratorEditPolicy(getGeneratorModel()));
 
 	}
 	

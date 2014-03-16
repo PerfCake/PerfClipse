@@ -23,6 +23,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
+import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.ui.wizards.GeneratorEditWizard;
 
 /**
@@ -31,12 +32,15 @@ import org.perfclipse.ui.wizards.GeneratorEditWizard;
  */
 public class GeneratorEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
-	public GeneratorEditPolicy() {
+	private GeneratorModel generator;
+
+	public GeneratorEditPolicy(GeneratorModel generator) {
+		this.generator = generator;
 	}
 
 	@Override
 	protected Command createPropertiesCommand() {
-		GeneratorEditWizard wizard = new GeneratorEditWizard();
+		GeneratorEditWizard wizard = new GeneratorEditWizard(generator);
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.open();

@@ -20,8 +20,6 @@
 package org.perfclipse.ui.wizards;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -81,13 +79,7 @@ public class GeneratorPage extends PerfCakePage {
 				generatorCombo.add(clazz.getSimpleName());
 			}
 		}
-		generatorCombo.addSelectionListener(new SelectionAdapter() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				updateControls();
-			}
-		});
+		generatorCombo.addSelectionListener(new UpdateSelectionAdapter(this));
 		
 		generatorCombo.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
 
@@ -100,6 +92,8 @@ public class GeneratorPage extends PerfCakePage {
 		runTypeCombo.add("iteration");
 		runTypeCombo.add("time");
 		runTypeCombo.add("percentage");
+		
+		runTypeCombo.addSelectionListener(new UpdateSelectionAdapter(this));
 
 		runTypeCombo.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		
@@ -135,13 +129,30 @@ public class GeneratorPage extends PerfCakePage {
 		if (generatorCombo.getText() == null || "".equals(generatorCombo.getText())){
 			setDescription("Select generator type!");
 			setPageComplete(false);
-		}else{
-			setDescription("Complete!");
-			setPageComplete(true);
+			return;
 		}
+		
+		if (runTypeCombo.getText() == null || "".equals(runTypeCombo.getText())){
+			setDescription("Select run type!");
+			setPageComplete(false);
+		}
+		setDescription("Complete!");
+		setPageComplete(true);
 	}
 
 	public String getGeneratorName(){
 		return generatorCombo.getText();
+	}
+	
+	public String getRunType(){
+		return runTypeCombo.getText();
+	}
+	
+	public int getRunValue(){
+		return runValueSpinner.getSelection();
+	}
+	
+	public int getThreads(){
+		return threadsSpinner.getSelection();
 	}
 }
