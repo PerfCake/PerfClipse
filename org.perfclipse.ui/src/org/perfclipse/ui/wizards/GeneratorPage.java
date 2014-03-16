@@ -26,11 +26,15 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
+import org.perfcake.common.PeriodType;
+import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.slf4j.LoggerFactory;
 
 public class GeneratorPage extends PerfCakePage {
 	
+	private static final String GENERATOR_PAGE_NAME = "Scenario genarator and sender";
+
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(GeneratorPage.class);
 
 	private final static int SPINNER_DEFAULT_WIDTH = 33;
@@ -49,8 +53,15 @@ public class GeneratorPage extends PerfCakePage {
 	private Label runValueLabel;
 	private Spinner runValueSpinner;
 	
+	private GeneratorModel generator;
+	
 	public GeneratorPage(){
-		this("Scenario genarator and sender");
+		super(GENERATOR_PAGE_NAME);
+	}
+
+	public GeneratorPage(GeneratorModel generator){
+		super(GENERATOR_PAGE_NAME);
+		this.generator = generator;
 	}
 	
 	public GeneratorPage(String pageName) {
@@ -79,6 +90,7 @@ public class GeneratorPage extends PerfCakePage {
 				generatorCombo.add(clazz.getSimpleName());
 			}
 		}
+		generatorCombo.select(0);
 		generatorCombo.addSelectionListener(new UpdateSelectionAdapter(this));
 		
 		generatorCombo.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
@@ -88,17 +100,18 @@ public class GeneratorPage extends PerfCakePage {
 		
 		runTypeCombo = new Combo(container, SWT.NONE);
 
-		//TODO: read possible values from perfcake
-		runTypeCombo.add("iteration");
-		runTypeCombo.add("time");
-		runTypeCombo.add("percentage");
+		for (PeriodType period : PeriodType.values()){
+			String periodType = period.toString().toLowerCase();
+			runTypeCombo.add(periodType);
+		}
 		
+		runTypeCombo.select(0);
 		runTypeCombo.addSelectionListener(new UpdateSelectionAdapter(this));
 
 		runTypeCombo.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		
 		runValueLabel = new Label(container, SWT.NONE);
-		runValueLabel.setText("Duration: ");
+		runValueLabel.setText("Run duration: ");
 		runValueSpinner = new Spinner(container, SWT.NONE);
 		runValueSpinner.setMinimum(0);
 		runValueSpinner.setMaximum(Integer.MAX_VALUE);
@@ -118,10 +131,31 @@ public class GeneratorPage extends PerfCakePage {
 		GridData threadsSpinnerGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		threadsSpinnerGridData.widthHint = SPINNER_DEFAULT_WIDTH;
 		threadsSpinner.setLayoutData(threadsSpinnerGridData);
+
 		
+		// fill in current values if wizard is in edit mode (it means generator already exists)
+		if (generator != null){
+			
+			for (int i = 0; i < generatorCombo.getItems().length; i++) {
+				if (generator.getGenerator().getClazz().equals(generatorCombo.getItem(i))){
+					generatorCombo.select(i);
+					break;
+				}
+			}
+			
+			for (int i = 0; i < runTypeCombo.getItems().length; i++) {
+				if (generator.getGenerator().getRun().getType().equals(runTypeCombo.getItem(i))){
+					runTypeCombo.select(i);
+					break;
+				}
+			}
+			
+			runValueSpinner.setSelection(Integer.valueOf(generator.getGenerator().getRun().getValue()));
+			threadsSpinner.setSelection(Integer.valueOf(generator.getGenerator().getThreads()));
+		}
 		
 		setControl(container);
-		setPageComplete(false);
+		updateControls();
 	}
 	
 	@Override

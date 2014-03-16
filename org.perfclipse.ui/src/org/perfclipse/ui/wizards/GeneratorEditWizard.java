@@ -70,7 +70,7 @@ public class GeneratorEditWizard extends Wizard {
 
 	@Override
 	public void addPages() {
-		generatorPage = new GeneratorPage();
+		generatorPage = new GeneratorPage(generator);
 		addPage(generatorPage);
 
 		super.addPages();
