@@ -22,10 +22,12 @@ package org.perfclipse.ui.actions;
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
+import org.perfclipse.ui.gef.policies.AbstractPerfCakeComponentEditPolicy;
 
 /**
  * @author Jakub Knetl
@@ -61,14 +63,29 @@ public class PropertiesAction extends SelectionAction {
 
 	@Override
 	protected boolean calculateEnabled() {
-		if (getSelectedObjects().isEmpty())
+		//check if something is selected
+		if (getSelectedObjects().isEmpty()){
 			return false;
+		}
+
+		//check if all selected objects are instance of editPart
 		for (Object selected : getSelectedObjects()){
-			if (!(selected instanceof EditPart))
+			if (!(selected instanceof EditPart)){
 				return false;
+			}
+		}
+
+		//Check if all selected eidtParts has installed edit policy with edit properties
+		for (Object selected : getSelectedObjects()){
+			EditPart part = (EditPart) selected;
+			EditPolicy policy = part.getEditPolicy(EditPolicy.COMPONENT_ROLE);
+			if (!(policy instanceof AbstractPerfCakeComponentEditPolicy)){
+				return false;
+			}
 		}
 		
 		return true;
 	}
+
 
 }
