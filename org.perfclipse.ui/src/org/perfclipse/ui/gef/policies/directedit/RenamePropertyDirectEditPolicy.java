@@ -20,9 +20,11 @@
 package org.perfclipse.ui.gef.policies.directedit;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.perfclipse.model.PropertyModel;
-import org.perfclipse.ui.gef.commands.RenamePropertyCommand;
+import org.perfclipse.ui.gef.commands.EditPropertyNameCommand;
+import org.perfclipse.ui.gef.commands.EditPropertyValueCommand;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 
 /**
@@ -46,8 +48,13 @@ public class RenamePropertyDirectEditPolicy extends LabelDirectEditPolicy {
 		String input = (String) request.getCellEditor().getValue(); 
 		String[] parts = input.split(":");
 
+
 		if (parts.length == 2){
-			return new RenamePropertyCommand(model, parts[0].trim(), parts[1].trim());
+			CompoundCommand command = new CompoundCommand("Edit property");
+			command.add(new EditPropertyNameCommand(model, parts[0].trim()));
+			command.add(new EditPropertyValueCommand(model, parts[1].trim()));
+
+			return command;
 		}
 		
 		return null;

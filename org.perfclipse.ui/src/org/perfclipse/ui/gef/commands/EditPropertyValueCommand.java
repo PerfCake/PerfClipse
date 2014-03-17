@@ -26,36 +26,28 @@ import org.perfclipse.model.PropertyModel;
  * @author Jakub Knetl
  *
  */
-public class RenamePropertyCommand extends Command {
+public class EditPropertyValueCommand extends Command {
 
-	private PropertyModel property;
-
-	private String newKey;
-	private String oldKey;
-	private String newValue;
+	private PropertyModel model;
 	private String oldValue;
-	/**
-	 * @param property
-	 * @param newKey
-	 * @param newValue
-	 */
-	public RenamePropertyCommand(PropertyModel property, String newKey,
-			String newValue) {
-		super("Change property");
-		this.property = property;
-		this.newKey = newKey;
+	private String newValue;
+
+	public EditPropertyValueCommand(PropertyModel model, String newValue) {
+		super("Edit property value");
+		this.model = model;
 		this.newValue = newValue;
-		this.oldKey = property.getProperty().getName();
-		this.oldValue = property.getProperty().getValue();
+		this.oldValue = model.getProperty().getValue();
 	}
+
 	@Override
 	public void execute() {
-		property.setName(newKey);
-		property.setValue(newValue);
+		model.setValue(newValue);
 	}
+
 	@Override
 	public void undo() {
-		property.setName(oldKey);
-		property.setValue(oldValue);
+		model.setValue(oldValue);
 	}
+	
+	
 }
