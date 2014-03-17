@@ -62,7 +62,7 @@ public class PropertyModel {
 	public void setValue(String value){
 		String oldValue = getProperty().getValue();
 		getProperty().setValue(value);
-		listeners.firePropertyChange(PROPERTY_NAME, oldValue, value);
+		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener){
