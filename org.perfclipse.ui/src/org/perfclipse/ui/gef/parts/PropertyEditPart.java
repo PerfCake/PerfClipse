@@ -77,10 +77,12 @@ public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 	
 	@Override
 	protected void createEditPolicies() {
-		PropertiesModel properties = (PropertiesModel) getParent().getModel();
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new PropertyEditPolicy(properties, getPropertyModel()));
-		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
-				new RenamePropertyDirectEditPolicy(getPropertyModel(), (ILabeledFigure) getFigure()));
+		if (getParent().getModel() instanceof PropertiesModel){
+			PropertiesModel properties = (PropertiesModel) getParent().getModel();
+			installEditPolicy(EditPolicy.COMPONENT_ROLE, new PropertyEditPolicy(properties, getPropertyModel()));
+			installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+					new RenamePropertyDirectEditPolicy(getPropertyModel(), (ILabeledFigure) getFigure()));
+		}
 
 	}
 

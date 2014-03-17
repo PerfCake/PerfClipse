@@ -31,7 +31,9 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.ui.PlatformUI;
+import org.perfcake.model.Property;
 import org.perfclipse.model.GeneratorModel;
+import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.RunModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
@@ -122,6 +124,11 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 		List<Object> modelChildren = new ArrayList<>();
 		if (getGeneratorModel().getGenerator().getRun() != null)
 			modelChildren.add(new RunModel(getGeneratorModel().getGenerator().getRun()));
+		if (getGeneratorModel().getGenerator().getProperty() != null){
+			for (Property p: getGeneratorModel().getGenerator().getProperty()){
+				modelChildren.add(new PropertyModel(p));
+			}
+		}
 
 		return modelChildren;
 	}
