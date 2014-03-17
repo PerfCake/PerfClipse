@@ -19,7 +19,6 @@
 
 package org.perfclipse.ui.wizards;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -35,9 +34,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
 import org.perfcake.common.PeriodType;
-import org.perfcake.model.ObjectFactory;
-import org.perfcake.model.Property;
 import org.perfclipse.model.GeneratorModel;
+import org.perfclipse.model.PropertyModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.slf4j.LoggerFactory;
 
@@ -68,14 +66,16 @@ public class GeneratorPage extends PerfCakePage {
 	private TableViewer propertiesViewer;
 	
 	private GeneratorModel generator;
+	private List<PropertyModel> properties;
 	
 	public GeneratorPage(){
 		super(GENERATOR_PAGE_NAME);
 	}
 
-	public GeneratorPage(GeneratorModel generator){
+	public GeneratorPage(GeneratorModel generator, List<PropertyModel> properties){
 		super(GENERATOR_PAGE_NAME);
 		this.generator = generator;
+		this.properties = properties;
 	}
 	
 	public GeneratorPage(String pageName) {
@@ -165,8 +165,8 @@ public class GeneratorPage extends PerfCakePage {
 
 			@Override
 			public String getText(Object element) {
-				Property property = (Property) element;
-				return property.getName();
+				PropertyModel property = (PropertyModel) element;
+				return property.getProperty().getName();
 			}
 			
 		});
@@ -178,8 +178,8 @@ public class GeneratorPage extends PerfCakePage {
 
 			@Override
 			public String getText(Object element) {
-				Property property = (Property) element;
-				return property.getValue();
+				PropertyModel property = (PropertyModel) element;
+				return property.getProperty().getValue();
 			}
 			
 		});
@@ -211,28 +211,11 @@ public class GeneratorPage extends PerfCakePage {
 			
 			runValueSpinner.setSelection(Integer.valueOf(generator.getGenerator().getRun().getValue()));
 			threadsSpinner.setSelection(Integer.valueOf(generator.getGenerator().getThreads()));
-			propertiesViewer.setInput(getPropertyDeepCopy(generator.getGenerator().getProperty()));
+			propertiesViewer.setInput(properties);
 		}
 		
 		setControl(container);
 		updateControls();
-	}
-	
-	private List<Property> getPropertyDeepCopy(List<Property> property){
-		if (property == null){
-			return null;
-		}
-		List<Property> copy = new ArrayList<>();
-		
-		for (Property p : property){
-			Property newProperty = new ObjectFactory().createProperty();
-			newProperty.setName(p.getName());
-			newProperty.setValue(p.getValue());
-			copy.add(newProperty);
-		}
-
-		return copy;
-		
 	}
 	
 	@Override

@@ -20,7 +20,7 @@
 package org.perfclipse.ui.wizards;
 
 import org.eclipse.jface.viewers.TableViewer;
-import org.perfcake.model.Property;
+import org.perfclipse.model.PropertyModel;
 
 /**
  * @author Jakub Knetl
@@ -34,13 +34,13 @@ public class PropertyValueEditingSupport extends PropertyEditingSupport {
 
 	@Override
 	protected Object getValue(Object element) {
-		Property property = (Property) element;
-		return property.getValue();
+		PropertyModel property = (PropertyModel) element;
+		return property.getProperty().getValue();
 	}
 
 	@Override
 	protected void setValue(Object element, Object value) {
-		Property property = (Property) element;
+		PropertyModel property = (PropertyModel) element;
 		property.setValue(String.valueOf(value));
 		getViewer().update(element, null);
 	}

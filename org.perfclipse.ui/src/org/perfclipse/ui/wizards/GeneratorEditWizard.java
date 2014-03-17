@@ -19,12 +19,15 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.List;
+
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.wizard.Wizard;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Generator;
 import org.perfcake.model.Scenario.Generator.Run;
 import org.perfclipse.model.GeneratorModel;
+import org.perfclipse.model.PropertyModel;
 import org.perfclipse.ui.gef.commands.EditGeneratorRunCommand;
 import org.perfclipse.ui.gef.commands.EditGeneratorThreadsCommand;
 import org.perfclipse.ui.gef.commands.RenameGeneratorCommand;
@@ -38,9 +41,11 @@ public class GeneratorEditWizard extends Wizard {
 	private GeneratorPage generatorPage;
 	private CompoundCommand command;
 	private GeneratorModel generator;
+	private List<PropertyModel> properties;
 
-	public GeneratorEditWizard(GeneratorModel generator) {
+	public GeneratorEditWizard(GeneratorModel generator, List<PropertyModel> properties) {
 		this.generator = generator;
+		this.properties = properties;
 	}
 
 	@Override
@@ -64,13 +69,15 @@ public class GeneratorEditWizard extends Wizard {
 		if (!(gen.getThreads().equals(Integer.toString(generatorPage.getThreads())))){
 			command.add(new EditGeneratorThreadsCommand(generator, Integer.toString(generatorPage.getThreads())));
 		}
+		
+		//check if properties are changed
 
 		return true;
 	}
 
 	@Override
 	public void addPages() {
-		generatorPage = new GeneratorPage(generator);
+		generatorPage = new GeneratorPage(generator, properties);
 		addPage(generatorPage);
 
 		super.addPages();
