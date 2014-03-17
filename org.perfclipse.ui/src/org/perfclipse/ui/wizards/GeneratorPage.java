@@ -19,6 +19,13 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -26,13 +33,18 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.widgets.Table;
 import org.perfcake.common.PeriodType;
+import org.perfcake.model.ObjectFactory;
+import org.perfcake.model.Property;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.slf4j.LoggerFactory;
 
 public class GeneratorPage extends PerfCakePage {
 	
+	private static final int COLUMN_WIDTH = 220;
+
 	private static final String GENERATOR_PAGE_NAME = "Scenario genarator and sender";
 
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(GeneratorPage.class);
@@ -52,6 +64,8 @@ public class GeneratorPage extends PerfCakePage {
 	
 	private Label runValueLabel;
 	private Spinner runValueSpinner;
+	
+	private TableViewer propertiesViewer;
 	
 	private GeneratorModel generator;
 	
@@ -75,7 +89,7 @@ public class GeneratorPage extends PerfCakePage {
 		//TODO : gridData constructor with FILL_HORIZONTAL is deprecated
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		layout.horizontalSpacing = 10;
 		layout.verticalSpacing = 10;
 		container.setLayout(layout);
@@ -93,7 +107,9 @@ public class GeneratorPage extends PerfCakePage {
 		generatorCombo.select(0);
 		generatorCombo.addSelectionListener(new UpdateSelectionAdapter(this));
 		
-		generatorCombo.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
+		GridData generatorComboLayoutData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
+		generatorComboLayoutData.horizontalSpan = 2;
+		generatorCombo.setLayoutData(generatorComboLayoutData);
 
 		runTypeLabel = new Label(container, SWT.NONE);
 		runTypeLabel.setText("Run type: ");
@@ -108,16 +124,19 @@ public class GeneratorPage extends PerfCakePage {
 		runTypeCombo.select(0);
 		runTypeCombo.addSelectionListener(new UpdateSelectionAdapter(this));
 
-		runTypeCombo.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		GridData runComboLayoutData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+		runComboLayoutData.horizontalSpan = 2;
+		runTypeCombo.setLayoutData(runComboLayoutData);
 		
 		runValueLabel = new Label(container, SWT.NONE);
-		runValueLabel.setText("Run duration: ");
+		runValueLabel.setText("Duration: ");
 		runValueSpinner = new Spinner(container, SWT.NONE);
 		runValueSpinner.setMinimum(0);
 		runValueSpinner.setMaximum(Integer.MAX_VALUE);
 		runValueSpinner.setSelection(1);
 
 		GridData runSpinnerGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
+		runSpinnerGridData.horizontalSpan = 2;
 		runSpinnerGridData.widthHint = SPINNER_DEFAULT_WIDTH;
 		runValueSpinner.setLayoutData(runSpinnerGridData);
 
@@ -129,9 +148,49 @@ public class GeneratorPage extends PerfCakePage {
 		threadsSpinner.setSelection(1);
 		threadsSpinner.setMaximum(Integer.MAX_VALUE);
 		GridData threadsSpinnerGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
+		threadsSpinnerGridData.horizontalSpan = 2;
 		threadsSpinnerGridData.widthHint = SPINNER_DEFAULT_WIDTH;
 		threadsSpinner.setLayoutData(threadsSpinnerGridData);
+		
 
+		propertiesViewer = new TableViewer(container, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.FULL_SELECTION);
+		propertiesViewer.setContentProvider(ArrayContentProvider.getInstance());
+
+		//create columns
+		TableViewerColumn keyColumn = new TableViewerColumn(propertiesViewer, SWT.NONE);
+		keyColumn.getColumn().setWidth(COLUMN_WIDTH);
+		keyColumn.getColumn().setText("Property name");
+		keyColumn.setEditingSupport(new PropertyNameEditingSupport(propertiesViewer));
+		keyColumn.setLabelProvider(new ColumnLabelProvider(){
+
+			@Override
+			public String getText(Object element) {
+				Property property = (Property) element;
+				return property.getName();
+			}
+			
+		});
+		TableViewerColumn valueColumn = new TableViewerColumn(propertiesViewer, SWT.NONE);
+		valueColumn.getColumn().setText("Property value");
+		valueColumn.getColumn().setWidth(COLUMN_WIDTH);
+		valueColumn.setEditingSupport(new PropertyValueEditingSupport(propertiesViewer));
+		valueColumn.setLabelProvider(new ColumnLabelProvider(){
+
+			@Override
+			public String getText(Object element) {
+				Property property = (Property) element;
+				return property.getValue();
+			}
+			
+		});
+		
+		final Table propertiesTable = propertiesViewer.getTable();
+		propertiesTable.setHeaderVisible(true);
+		propertiesTable.setLinesVisible(true);
+		
+		GridData tableData = new GridData(SWT.BEGINNING, SWT.BEGINNING, true, true);
+		tableData.horizontalSpan = 2;
+		propertiesTable.setLayoutData(tableData);
 		
 		// fill in current values if wizard is in edit mode (it means generator already exists)
 		if (generator != null){
@@ -152,10 +211,28 @@ public class GeneratorPage extends PerfCakePage {
 			
 			runValueSpinner.setSelection(Integer.valueOf(generator.getGenerator().getRun().getValue()));
 			threadsSpinner.setSelection(Integer.valueOf(generator.getGenerator().getThreads()));
+			propertiesViewer.setInput(getPropertyDeepCopy(generator.getGenerator().getProperty()));
 		}
 		
 		setControl(container);
 		updateControls();
+	}
+	
+	private List<Property> getPropertyDeepCopy(List<Property> property){
+		if (property == null){
+			return null;
+		}
+		List<Property> copy = new ArrayList<>();
+		
+		for (Property p : property){
+			Property newProperty = new ObjectFactory().createProperty();
+			newProperty.setName(p.getName());
+			newProperty.setValue(p.getValue());
+			copy.add(newProperty);
+		}
+
+		return copy;
+		
 	}
 	
 	@Override
