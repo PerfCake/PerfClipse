@@ -21,12 +21,13 @@ package org.perfclipse.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination.Period;
 
-public class DestinationModel {
+public class DestinationModel implements IPropertyContainer {
 	
 	public static final String PROPERTY_PERIOD = "destination-period";
 	public static final String PROPERTY_CLASS = "destination-class";
@@ -97,6 +98,10 @@ public class DestinationModel {
 		if (getDestination().getProperty().remove(property)){
 			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
+	}
+	
+	public List<Property> getProperty(){
+		return getDestination().getProperty();
 	}
 	
 	public void setEnabled(boolean enabled){

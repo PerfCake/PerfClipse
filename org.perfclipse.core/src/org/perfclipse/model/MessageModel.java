@@ -21,13 +21,14 @@ package org.perfclipse.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 
 import org.perfcake.model.Header;
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 
-public class MessageModel {
+public class MessageModel implements IPropertyContainer {
 	
 	public static final String PROPERTY_HEADERS = "message-header";
 	public static final String PROPERTY_PROPERTIES = "message-property";
@@ -78,6 +79,10 @@ public class MessageModel {
 		if (getMessage().getProperty().remove(property)){
 			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
+	}
+	
+	public List<Property> getProperty(){
+		return getMessage().getProperty();
 	}
 	
 	public void addHeader(Header header){

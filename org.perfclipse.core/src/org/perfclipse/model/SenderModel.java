@@ -21,11 +21,12 @@ package org.perfclipse.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Sender;
 
-public class SenderModel {
+public class SenderModel implements IPropertyContainer {
 
 	public static final String PROPERTY_CLASS = "sender-class";
 	public static final String PROPERTY_PROPERTIES= "sender-property";
@@ -79,5 +80,10 @@ public class SenderModel {
 		if (getSender().getProperty().remove(property)){
 			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
+	}
+	
+	
+	public List<Property> getProperty(){
+		return getSender().getProperty();
 	}
 }

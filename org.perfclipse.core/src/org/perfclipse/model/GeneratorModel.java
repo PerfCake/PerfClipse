@@ -21,12 +21,13 @@ package org.perfclipse.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Generator;
 import org.perfcake.model.Scenario.Generator.Run;
 
-public class GeneratorModel {
+public class GeneratorModel implements IPropertyContainer{
 	
 	public final static String PROPERTY_CLASS = "generator-class";
 	public final static String PROPERTY_THREADS = "generator-threads";
@@ -94,6 +95,10 @@ public class GeneratorModel {
 			listeners.firePropertyChange(PROPERTY_PROPERTY, property, null);
 		}
 		
+	}
+	
+	public List<Property> getProperty(){
+		return getGenerator().getProperty();
 	}
 
 }

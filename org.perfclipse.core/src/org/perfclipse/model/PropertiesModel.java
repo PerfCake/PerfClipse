@@ -21,12 +21,13 @@ package org.perfclipse.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Properties;
 
-public class PropertiesModel {
+public class PropertiesModel implements IPropertyContainer {
 
 
 	public static final String PROPERTY_PROPERTIES = "properties-property";
@@ -67,6 +68,10 @@ public class PropertiesModel {
 		if (getProperties().getProperty().remove(property)){
 			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
+	}
+	
+	public List<Property> getProperty(){
+		return getProperties().getProperty();
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener){
