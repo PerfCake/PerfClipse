@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * @author Jakub Knetl
  *
  */
-public class SenderPage extends PerfCakePage {
+public class SenderPage extends AbstractPerfCakePage {
 	
 	private Composite container;
 	private Label senderLabel;

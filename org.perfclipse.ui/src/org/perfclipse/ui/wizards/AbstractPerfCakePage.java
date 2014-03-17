@@ -19,6 +19,9 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.List;
+
+import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
@@ -30,18 +33,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 
+ * Page which support AbstractPerfCakeWizard API for managing GEF commands.
+ * 
+ * Warning: This page should be used only in combination with AbstractPefCakeWizard.
+ * 
  * @author Jakub Knetl
  *
  */
-public abstract class PerfCakePage extends WizardPage {
+public abstract class AbstractPerfCakePage extends WizardPage {
 	
-	static Logger logger = LoggerFactory.getLogger(PerfCakePage.class);
+	static Logger logger = LoggerFactory.getLogger(AbstractPerfCakePage.class);
 
-	public PerfCakePage(String pageName) {
-		super(pageName);
+	public AbstractPerfCakePage(String pageName) {
+		this(pageName, null, null);
 	}
 
-	public PerfCakePage(String pageName, String title,
+	public AbstractPerfCakePage(String pageName, String title,
 			ImageDescriptor titleImage) {
 		super(pageName, title, titleImage);
 	}
@@ -68,10 +76,20 @@ public abstract class PerfCakePage extends WizardPage {
 		// do nothing
 	}
 	
+	/**
+	 * @return list of {@link AbstractPerfCakeEditWizard} editing support commands
+	 * 
+	 * @See {@link AbstractPerfCakeEditWizard#editingSupportCommands}
+	 */
+	protected List<Command> getEditingSupportCommands(){
+		AbstractPerfCakeEditWizard wizard = (AbstractPerfCakeEditWizard) getWizard();
+
+		return wizard.editingSupportCommands;
+	}
 	protected static class UpdateSelectionAdapter extends SelectionAdapter{
 		
-		PerfCakePage page;
-		public UpdateSelectionAdapter(PerfCakePage page){
+		AbstractPerfCakePage page;
+		public UpdateSelectionAdapter(AbstractPerfCakePage page){
 			this.page = page;
 		}
 
@@ -81,5 +99,4 @@ public abstract class PerfCakePage extends WizardPage {
 		}
 		
 	}
-
 }
