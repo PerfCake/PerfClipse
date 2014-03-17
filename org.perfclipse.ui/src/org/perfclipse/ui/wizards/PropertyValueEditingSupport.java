@@ -19,17 +19,21 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.List;
+
+import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
 import org.perfclipse.model.PropertyModel;
+import org.perfclipse.ui.gef.commands.EditPropertyValueCommand;
 
 /**
  * @author Jakub Knetl
  *
  */
 public class PropertyValueEditingSupport extends PropertyEditingSupport {
-
-	public PropertyValueEditingSupport(TableViewer viewer) {
-		super(viewer);
+	
+	public PropertyValueEditingSupport(TableViewer viewer, List<Command> command) {
+		super(viewer, command);
 	}
 
 	@Override
@@ -41,7 +45,11 @@ public class PropertyValueEditingSupport extends PropertyEditingSupport {
 	@Override
 	protected void setValue(Object element, Object value) {
 		PropertyModel property = (PropertyModel) element;
-		property.setValue(String.valueOf(value));
+		
+		Command command = new EditPropertyValueCommand(property, String.valueOf(value));
+		command.execute();
+		getCommands().add(command);
+		
 		getViewer().update(element, null);
 	}
 

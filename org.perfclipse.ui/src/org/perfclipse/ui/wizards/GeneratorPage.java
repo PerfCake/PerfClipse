@@ -19,8 +19,10 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -68,12 +70,15 @@ public class GeneratorPage extends PerfCakePage {
 	private GeneratorModel generator;
 	private List<PropertyModel> properties;
 	
+	private List<Command> propertyEditCommands;
+
+
 	public GeneratorPage(){
-		super(GENERATOR_PAGE_NAME);
+		this(GENERATOR_PAGE_NAME);
 	}
 
 	public GeneratorPage(GeneratorModel generator, List<PropertyModel> properties){
-		super(GENERATOR_PAGE_NAME);
+		this(GENERATOR_PAGE_NAME);
 		this.generator = generator;
 		this.properties = properties;
 	}
@@ -82,6 +87,7 @@ public class GeneratorPage extends PerfCakePage {
 		super(pageName);
 		setTitle("Generator");
 		setDescription("Fill in neccessary information on this page");
+		propertyEditCommands = new ArrayList<>();
 	}
 
 	@Override
@@ -160,7 +166,7 @@ public class GeneratorPage extends PerfCakePage {
 		TableViewerColumn keyColumn = new TableViewerColumn(propertiesViewer, SWT.NONE);
 		keyColumn.getColumn().setWidth(COLUMN_WIDTH);
 		keyColumn.getColumn().setText("Property name");
-		keyColumn.setEditingSupport(new PropertyNameEditingSupport(propertiesViewer));
+		keyColumn.setEditingSupport(new PropertyNameEditingSupport(propertiesViewer, propertyEditCommands));
 		keyColumn.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override
@@ -173,7 +179,7 @@ public class GeneratorPage extends PerfCakePage {
 		TableViewerColumn valueColumn = new TableViewerColumn(propertiesViewer, SWT.NONE);
 		valueColumn.getColumn().setText("Property value");
 		valueColumn.getColumn().setWidth(COLUMN_WIDTH);
-		valueColumn.setEditingSupport(new PropertyValueEditingSupport(propertiesViewer));
+		valueColumn.setEditingSupport(new PropertyValueEditingSupport(propertiesViewer, propertyEditCommands));
 		valueColumn.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override
@@ -233,6 +239,10 @@ public class GeneratorPage extends PerfCakePage {
 		}
 		setDescription("Complete!");
 		setPageComplete(true);
+	}
+	
+	public List<Command> getPropertyEditCommands() {
+		return propertyEditCommands;
 	}
 
 	public String getGeneratorName(){

@@ -19,6 +19,9 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.List;
+
+import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
@@ -31,10 +34,12 @@ import org.eclipse.jface.viewers.TextCellEditor;
 public abstract class PropertyEditingSupport extends EditingSupport {
 
 	private CellEditor cellEditor;
+	private List<Command> commands;
 
-	public PropertyEditingSupport(TableViewer viewer) {
+	public PropertyEditingSupport(TableViewer viewer, List<Command> command) {
 		super(viewer);
 		this.cellEditor = new TextCellEditor(viewer.getTable()); 
+		this.commands = command;
 	}
 
 	@Override
@@ -46,4 +51,9 @@ public abstract class PropertyEditingSupport extends EditingSupport {
 	protected boolean canEdit(Object element) {
 		return true;
 	}
+
+	protected List<Command> getCommands() {
+		return commands;
+	}
+	
 }

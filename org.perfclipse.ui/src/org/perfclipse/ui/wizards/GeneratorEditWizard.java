@@ -20,7 +20,9 @@
 package org.perfclipse.ui.wizards;
 
 import java.util.List;
+import java.util.ListIterator;
 
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.wizard.Wizard;
 import org.perfcake.model.ObjectFactory;
@@ -70,9 +72,35 @@ public class GeneratorEditWizard extends Wizard {
 			command.add(new EditGeneratorThreadsCommand(generator, Integer.toString(generatorPage.getThreads())));
 		}
 		
-		//check if properties are changed
+		//undo all direct edit changes and append them to global command which executes them again
+		//it is needed in order to allow user undo whole edit command by one click.
+		if (generatorPage.getPropertyEditCommands() != null){
+			undoEditSupportCommands();
+			for (Command c : generatorPage.getPropertyEditCommands()){
+				command.add(c);
+			}
+		}
 
 		return true;
+	}
+
+
+	@Override
+	public boolean performCancel() {
+		
+		//undo all commands in direct edit support
+		if (generatorPage.getPropertyEditCommands() != null){
+			undoEditSupportCommands();
+		}
+		return true;
+	}
+
+	private void undoEditSupportCommands() {
+			List<Command> list = generatorPage.getPropertyEditCommands();
+			ListIterator<Command> it = list.listIterator(list.size());
+			while (it.hasPrevious()){
+				it.previous().undo();
+			}
 	}
 
 	@Override
