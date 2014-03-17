@@ -139,7 +139,8 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 				evt.getPropertyName().equals(GeneratorModel.PROPERTY_THREADS)){
 			refreshVisuals();
 		}	
-		if (evt.getPropertyName().equals(GeneratorModel.PROPERTY_RUN)){
+		if (evt.getPropertyName().equals(GeneratorModel.PROPERTY_RUN) ||
+				evt.getPropertyName().equals(GeneratorModel.PROPERTY_PROPERTY)){
 			refreshChildren();
 		}
 	}

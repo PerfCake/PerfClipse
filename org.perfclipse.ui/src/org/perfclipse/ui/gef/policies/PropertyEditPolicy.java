@@ -21,7 +21,7 @@ package org.perfclipse.ui.gef.policies;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
-import org.perfclipse.model.PropertiesModel;
+import org.perfclipse.model.IPropertyContainer;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
 
@@ -31,10 +31,10 @@ import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
  */
 public class PropertyEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	
-	private PropertiesModel properties;
+	private IPropertyContainer properties;
 	private PropertyModel property;
 
-	public PropertyEditPolicy(PropertiesModel properties,
+	public PropertyEditPolicy(IPropertyContainer properties,
 			PropertyModel property) {
 		super();
 		this.properties = properties;

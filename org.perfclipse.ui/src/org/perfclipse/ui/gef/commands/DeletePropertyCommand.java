@@ -20,7 +20,7 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.PropertiesModel;
+import org.perfclipse.model.IPropertyContainer;
 import org.perfclipse.model.PropertyModel;
 
 /**
@@ -29,11 +29,11 @@ import org.perfclipse.model.PropertyModel;
  */
 public class DeletePropertyCommand extends Command {
 	
-	private PropertiesModel properties;
+	private IPropertyContainer properties;
 	private PropertyModel property;
 	private int index;
 
-	public DeletePropertyCommand(PropertiesModel properties,
+	public DeletePropertyCommand(IPropertyContainer properties,
 			PropertyModel property) {
 		super("Delete property");
 		this.properties = properties;
@@ -42,7 +42,7 @@ public class DeletePropertyCommand extends Command {
 
 	@Override
 	public void execute() {
-		index = properties.getProperties().getProperty().indexOf(property.getProperty());
+		index = properties.getProperty().indexOf(property.getProperty());
 		properties.removeProperty(property.getProperty());
 	}
 

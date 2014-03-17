@@ -8,7 +8,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.perfclipse.model.PropertiesModel;
+import org.perfclipse.model.IPropertyContainer;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.ui.gef.directedit.LabelCellEditorLocator;
 import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
@@ -77,8 +77,8 @@ public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 	
 	@Override
 	protected void createEditPolicies() {
-		if (getParent().getModel() instanceof PropertiesModel){
-			PropertiesModel properties = (PropertiesModel) getParent().getModel();
+		if (getParent().getModel() instanceof IPropertyContainer){
+			IPropertyContainer properties = (IPropertyContainer) getParent().getModel();
 			installEditPolicy(EditPolicy.COMPONENT_ROLE, new PropertyEditPolicy(properties, getPropertyModel()));
 			installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 					new RenamePropertyDirectEditPolicy(getPropertyModel(), (ILabeledFigure) getFigure()));
