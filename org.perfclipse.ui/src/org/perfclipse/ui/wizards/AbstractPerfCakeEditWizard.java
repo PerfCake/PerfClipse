@@ -54,6 +54,23 @@ public abstract class AbstractPerfCakeEditWizard extends Wizard {
 		undoEditingSupportCommands();
 		return super.performCancel();
 	}
+	
+	
+
+	/**
+	 * Undo all direct editing support commands and adds these command to
+	 * global command. Then return true.
+	 */
+	@Override
+	public boolean performFinish() {
+		undoEditingSupportCommands();
+
+		for (Command c : editingSupportCommands){
+			command.add(c);
+		}
+
+		return true;
+	}
 
 	/**
 	 * Add commond to list of editing support commands.

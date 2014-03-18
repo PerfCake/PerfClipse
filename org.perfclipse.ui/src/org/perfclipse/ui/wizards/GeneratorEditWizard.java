@@ -21,7 +21,6 @@ package org.perfclipse.ui.wizards;
 
 import java.util.List;
 
-import org.eclipse.gef.commands.Command;
 import org.perfcake.model.Scenario.Generator;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.PropertyModel;
@@ -69,14 +68,7 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 			command.add(new EditGeneratorThreadsCommand(generator, Integer.toString(generatorPage.getThreads())));
 		}
 		
-		//undo all direct edit changes and append them to global command which executes them again
-		//it is needed in order to allow user undo whole edit command by one click.
-		undoEditingSupportCommands();
-		for (Command c : editingSupportCommands){
-			command.add(c);
-		}
-
-		return true;
+		return super.performFinish();
 	}
 
 	@Override
