@@ -19,6 +19,9 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.List;
+
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -27,7 +30,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.perfclipse.model.PropertyModel;
+import org.perfclipse.model.SenderModel;
 import org.perfclipse.reflect.PerfCakeComponents;
+import org.perfclipse.ui.jface.PropertyTableViewer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,25 +44,38 @@ import org.slf4j.LoggerFactory;
  */
 public class SenderPage extends AbstractPerfCakePage {
 	
+	private static final String SENDER_PAGE_NAME = "Sender";
 	private Composite container;
 	private Label senderLabel;
 	private Combo senderCombo;
 	static final Logger log = LoggerFactory.getLogger(SenderPage.class);
 	
+	private TableViewer propertyViewer;
+	
+	private SenderModel sender;
+	private List<PropertyModel> properties;
+	
 	public SenderPage(){
-		this("Sender page");
+		this(SENDER_PAGE_NAME, false);
 	}
-	public SenderPage(String pageName) {
-		super(pageName, false);
+	
+	public SenderPage(SenderModel sender, List<PropertyModel> properties){
+		this(SENDER_PAGE_NAME, true);
+		this.sender = sender;
+		this.properties = properties;
+	}
+	
+	private SenderPage(String pageName, boolean edit) {
+		super(pageName, edit);
 		setTitle("Sender specification");
 		setDescription("Set sender type and sender properties");
 	}
-
+	
 	@Override
 	public void createControl(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		layout.horizontalSpacing = 10;
 		layout.verticalSpacing = 10;
 		container.setLayout(layout);
@@ -81,15 +101,42 @@ public class SenderPage extends AbstractPerfCakePage {
 			}
 		});
 
-		GridData gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
-		senderCombo.setLayoutData(gridData);
+		GridData senderComboGridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+		senderComboGridData.horizontalSpan = 2;
+		senderCombo.setLayoutData(senderComboGridData);
+		
+		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
+		final Table propertyTable = propertyViewer.getTable();
+		GridData propertyTableGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
+		propertyTable.setLayoutData(propertyTableGridData);
+		
+		fillValues();
 
 		setControl(container);
-		setPageComplete(false);
+		updateControls();
 	}
 	
 	
 	
+	@Override
+	protected void fillDefaultValues() {
+		senderCombo.select(0);
+	}
+
+	@Override
+	protected void fillCurrentValues() {
+		for (int i = 0; i < senderCombo.getItems().length; i++) {
+			if (sender.getSender().getClazz().equals(senderCombo.getItem(i))){
+				senderCombo.select(i);
+				break;
+			}
+		}
+		
+		if (properties != null){
+			propertyViewer.setInput(properties);
+		}
+	}
+
 	@Override
 	protected void updateControls() {
 		if (senderCombo.getText() == null || "".equals(senderCombo.getText())){
