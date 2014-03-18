@@ -139,7 +139,7 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 				getReporterModel().getReporter().getDestination() != null)
 		{
 			for (Destination d: getReporterModel().getReporter().getDestination()){
-				modelChildren.add(new DestinationModel(d));
+				modelChildren.add(getMapper().getModelContainer(d));
 			}
 		}
 		return modelChildren;

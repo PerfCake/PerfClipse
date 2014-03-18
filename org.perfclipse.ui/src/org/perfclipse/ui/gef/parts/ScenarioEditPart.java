@@ -28,13 +28,11 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.model.ScenarioModel;
-import org.perfclipse.model.SenderModel;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.ui.gef.layout.ScenarioFreeformLayout;
 
@@ -68,12 +66,28 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<>();
-		modelChildren.add(new GeneratorModel(getScenarioModel().getScenario().getGenerator()));
-		modelChildren.add(new SenderModel(getScenarioModel().getScenario().getSender()));
-		modelChildren.add(new MessagesModel(getScenarioModel().getScenario().getMessages()));
-		modelChildren.add(new ValidationModel(getScenarioModel().getScenario().getValidation()));
-		modelChildren.add(new ReportingModel(getScenarioModel().getScenario().getReporting()));
-		modelChildren.add(new PropertiesModel(getScenarioModel().getScenario().getProperties()));
+		modelChildren.add(getMapper().getModelContainer(getScenarioModel().getScenario().getGenerator()));
+		modelChildren.add(getMapper().getModelContainer(getScenarioModel().getScenario().getSender()));
+		if (getScenarioModel().getScenario().getMessages() == null){
+			modelChildren.add(new MessagesModel(getScenarioModel().getScenario().getMessages()));
+		}else{
+			modelChildren.add(getMapper().getModelContainer(getScenarioModel().getScenario().getMessages()));
+		}
+		if (getScenarioModel().getScenario().getValidation() == null){
+			modelChildren.add(new ValidationModel(getScenarioModel().getScenario().getValidation()));
+		} else {
+			modelChildren.add(getMapper().getModelContainer(getScenarioModel().getScenario().getValidation()));
+		}
+		if (getScenarioModel().getScenario().getReporting() == null){
+			modelChildren.add(new ReportingModel(getScenarioModel().getScenario().getReporting()));
+		} else {
+			modelChildren.add(getMapper().getModelContainer(getScenarioModel().getScenario().getReporting()));
+		}
+		if (getScenarioModel().getScenario().getProperties() == null){
+			modelChildren.add(new PropertiesModel(getScenarioModel().getScenario().getProperties()));
+		} else {
+			modelChildren.add(getMapper().getModelContainer(getScenarioModel().getScenario().getProperties()));
+		}
 		return modelChildren;
 	}
 	

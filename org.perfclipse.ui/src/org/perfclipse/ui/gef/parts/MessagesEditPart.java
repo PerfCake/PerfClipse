@@ -93,7 +93,7 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 		if (getMessagesModel().getMessages() != null){
 			if (getMessagesModel().getMessages().getMessage() != null){
 				for (Message m : getMessagesModel().getMessages().getMessage()){
-					modelChildren.add(new MessageModel(m));
+					modelChildren.add(getMapper().getModelContainer(m));
 				}
 			}
 		}

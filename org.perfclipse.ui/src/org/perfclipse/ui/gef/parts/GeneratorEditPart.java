@@ -31,7 +31,6 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.ui.PlatformUI;
-import org.perfcake.model.Property;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.reflect.PerfCakeComponents;
@@ -122,15 +121,9 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	
 	@Override
 	protected List<Object> getModelChildren(){
-		ModelMapper mapper = ModelMapper.getInstance();
 		List<Object> modelChildren = new ArrayList<>();
 		if (getGeneratorModel().getGenerator().getRun() != null)
-			modelChildren.add(mapper.getModelContainer(getGeneratorModel().getGenerator().getRun()));
-		if (getGeneratorModel().getGenerator().getProperty() != null){
-			for (Property p: getGeneratorModel().getGenerator().getProperty()){
-				modelChildren.add(mapper.getModelContainer(p));
-			}
-		}
+			modelChildren.add(getMapper().getModelContainer(getGeneratorModel().getGenerator().getRun()));
 
 		return modelChildren;
 	}

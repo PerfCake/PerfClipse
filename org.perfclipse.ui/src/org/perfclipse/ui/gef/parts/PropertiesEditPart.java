@@ -70,7 +70,7 @@ public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implemen
 		if (getPropertiesModel().getProperties() != null){
 			if (getPropertiesModel().getProperties().getProperty() != null){
 				for (Property p : getPropertiesModel().getProperties().getProperty()){
-					children.add(new PropertyModel(p));
+					children.add(getMapper().getModelContainer(p));
 				}
 			}
 		}

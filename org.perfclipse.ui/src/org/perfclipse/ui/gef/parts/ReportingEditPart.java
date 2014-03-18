@@ -96,7 +96,7 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 			if(getReportingModel().getReporting().getReporter() != null)
 			{
 				for (Reporter r : getReportingModel().getReporting().getReporter()){
-					modelChildren.add(new ReporterModel(r));
+					modelChildren.add(getMapper().getModelContainer(r));
 				}
 			}
 		}

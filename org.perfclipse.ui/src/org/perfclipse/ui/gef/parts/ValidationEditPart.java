@@ -92,7 +92,7 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 			if(getValidationModel().getValidation().getValidator() != null)
 			{
 				for (Validator v : getValidationModel().getValidation().getValidator()){
-					modelChildren.add(new ValidatorModel(v));
+					modelChildren.add(getMapper().getModelContainer(v));
 				}
 			}
 		}

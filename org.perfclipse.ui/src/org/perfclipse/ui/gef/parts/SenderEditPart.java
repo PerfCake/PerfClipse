@@ -32,9 +32,7 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.ui.PlatformUI;
-import org.perfcake.model.Property;
 import org.perfclipse.model.ModelMapper;
-import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
@@ -123,11 +121,6 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
-		if (getSenderModel().getSender().getProperty() != null){
-			for (Property p: getSenderModel().getSender().getProperty()){
-				modelChildren.add(new PropertyModel(p));
-			}
-		}
 		return modelChildren;
 	}
 

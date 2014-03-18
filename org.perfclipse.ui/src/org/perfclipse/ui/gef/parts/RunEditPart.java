@@ -77,11 +77,6 @@ public class RunEditPart extends AbstractPerfCakeNodeEditPart implements Propert
 	}
 
 	@Override
-	protected void refreshVisuals(){
-		super.refreshVisuals();
-	}
-
-	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(RunModel.PROPERTY_TYPE) ||
 				evt.getPropertyName().equals(RunModel.PROPERTY_VALUE)){
