@@ -21,7 +21,7 @@ package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
 import org.perfcake.model.Property;
-import org.perfclipse.model.PropertiesModel;
+import org.perfclipse.model.IPropertyContainer;
 
 /**
  * @author Jakub Knetl
@@ -30,9 +30,9 @@ import org.perfclipse.model.PropertiesModel;
 public class AddPropertyCommand extends Command {
 
 	private Property newProperty;
-	private PropertiesModel properties;
+	private IPropertyContainer properties;
 
-	public AddPropertyCommand(Property newProperty, PropertiesModel properties) {
+	public AddPropertyCommand(Property newProperty, IPropertyContainer properties) {
 		super("Add property");
 		this.newProperty = newProperty;
 		this.properties = properties;

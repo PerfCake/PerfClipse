@@ -19,21 +19,35 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.ui.PlatformUI;
 import org.perfcake.common.PeriodType;
+import org.perfcake.model.Property;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.reflect.PerfCakeComponents;
+import org.perfclipse.ui.gef.commands.AddPropertyCommand;
+import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
 import org.perfclipse.ui.jface.PropertyTableViewer;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +74,9 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	private Spinner runValueSpinner;
 	
 	private TableViewer propertiesViewer;
+	private Composite propertiesControls;
+	private Button addProperty;
+	private Button deleteProperty;
 	
 	private GeneratorModel generator;
 	private List<PropertyModel> properties;
@@ -147,6 +164,68 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		
 
 		propertiesViewer = new PropertyTableViewer(container, getEditingSupportCommands());
+		
+		propertiesControls = new Composite(container, SWT.NONE);
+		propertiesControls.setLayout(new RowLayout(SWT.VERTICAL));
+
+		addProperty = new Button(propertiesControls, SWT.PUSH);
+		addProperty.setText("Add");
+		addProperty.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String name = getDialogInput("Add property", "Property name: ", "name");
+				String value = getDialogInput("Add property", "Property value: ", "value");
+
+				if (name == null || value == null)
+					return;
+
+				Property p = new org.perfcake.model.ObjectFactory().createProperty();
+				p.setName(name);
+				p.setValue(value);
+				Command c = new AddPropertyCommand(p, generator);
+				c.execute();
+				getEditingSupportCommands().add(c);
+
+				//TODO: obtain ModelMapper
+				propertiesViewer.add(new PropertyModel(p));
+			}
+			
+			private String getDialogInput(String title, String label, String initValue) {
+				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+				//TODO: validator
+				InputDialog dialog = new InputDialog(shell, title, label, initValue, null);
+				dialog.open();
+				if (dialog.getReturnCode() == InputDialog.OK)
+					return dialog.getValue();
+				
+				return null;
+			}
+
+		});
+
+		deleteProperty = new Button(propertiesControls, SWT.PUSH);
+		deleteProperty.setText("Delete");
+		deleteProperty.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				ISelection selection = propertiesViewer.getSelection();
+				if (selection instanceof IStructuredSelection){
+					@SuppressWarnings("unchecked")
+					Iterator<Object> it = ((IStructuredSelection) selection).iterator();
+					while (it.hasNext()){
+						PropertyModel property = (PropertyModel) it.next();
+						Command c = new DeletePropertyCommand(generator, property);
+						c.execute();
+						getEditingSupportCommands().add(c);
+						propertiesViewer.remove(property);
+					}
+					
+				}
+			}
+			
+		});
 
 		final Table propertiesTable = propertiesViewer.getTable();
 		GridData tableData = new GridData(SWT.BEGINNING, SWT.BEGINNING, true, true);
