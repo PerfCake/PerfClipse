@@ -35,7 +35,10 @@ import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.ui.swt.ComboUtils;
+import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
+import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
+import org.perfclipse.ui.swt.widgets.TableViewerControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +55,7 @@ public class SenderPage extends AbstractPerfCakePage {
 	static final Logger log = LoggerFactory.getLogger(SenderPage.class);
 	
 	private TableViewer propertyViewer;
+	private TableViewerControl propertyViewerControls;
 	
 	private SenderModel sender;
 	private List<PropertyModel> properties;
@@ -112,6 +116,11 @@ public class SenderPage extends AbstractPerfCakePage {
 		propertyTableGridData.horizontalSpan = 2;
 		propertyTable.setLayoutData(propertyTableGridData);
 		
+		propertyViewerControls = new TableViewerControl(container, false, SWT.NONE);
+		propertyViewerControls.getAddElementButton().addSelectionListener(
+				new AddPropertySelectionAdapter(propertyViewer, getEditingSupportCommands(), sender));
+		propertyViewerControls.getDeleteElementButton().addSelectionListener(
+				new DeletePropertySelectionAdapter(propertyViewer, getEditingSupportCommands(), sender));
 		fillValues();
 
 		setControl(container);
