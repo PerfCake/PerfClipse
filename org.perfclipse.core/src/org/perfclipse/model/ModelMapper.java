@@ -79,6 +79,7 @@ public class ModelMapper {
 		Object result = map.get(perfcakeModel) ;
 		if (result == null){
 			createEntry(perfcakeModel);
+			result = map.get(perfcakeModel);
 		}
 		
 		return result;
