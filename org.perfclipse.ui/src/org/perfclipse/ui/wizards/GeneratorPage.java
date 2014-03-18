@@ -66,24 +66,24 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	
 
 	public GeneratorPage(){
-		this(GENERATOR_PAGE_NAME);
+		this(GENERATOR_PAGE_NAME, false);
 	}
 
-	public GeneratorPage(GeneratorModel generator, List<PropertyModel> properties){
-		this(GENERATOR_PAGE_NAME);
+	public GeneratorPage(GeneratorModel generator,
+			List<PropertyModel> properties){
+		this(GENERATOR_PAGE_NAME, true);
 		this.generator = generator;
 		this.properties = properties;
 	}
 	
-	public GeneratorPage(String pageName) {
-		super(pageName);
+	private GeneratorPage(String pageName, boolean edit) {
+		super(pageName, edit);
 		setTitle("Generator");
 		setDescription("Fill in neccessary information on this page");
 	}
 
 	@Override
 	public void createControl(Composite parent) {
-		//TODO : gridData constructor with FILL_HORIZONTAL is deprecated
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 3;
@@ -101,7 +101,6 @@ public class GeneratorPage extends AbstractPerfCakePage {
 				generatorCombo.add(clazz.getSimpleName());
 			}
 		}
-		generatorCombo.select(0);
 		generatorCombo.addSelectionListener(new UpdateSelectionAdapter(this));
 		
 		GridData generatorComboLayoutData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
@@ -118,7 +117,6 @@ public class GeneratorPage extends AbstractPerfCakePage {
 			runTypeCombo.add(periodType);
 		}
 		
-		runTypeCombo.select(0);
 		runTypeCombo.addSelectionListener(new UpdateSelectionAdapter(this));
 
 		GridData runComboLayoutData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
@@ -130,7 +128,6 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		runValueSpinner = new Spinner(container, SWT.NONE);
 		runValueSpinner.setMinimum(0);
 		runValueSpinner.setMaximum(Integer.MAX_VALUE);
-		runValueSpinner.setSelection(1);
 
 		GridData runSpinnerGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		runSpinnerGridData.horizontalSpan = 2;
@@ -142,7 +139,6 @@ public class GeneratorPage extends AbstractPerfCakePage {
 
 		threadsSpinner = new Spinner(container, SWT.NONE);
 		threadsSpinner.setMinimum(0);
-		threadsSpinner.setSelection(1);
 		threadsSpinner.setMaximum(Integer.MAX_VALUE);
 		GridData threadsSpinnerGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		threadsSpinnerGridData.horizontalSpan = 2;
@@ -157,27 +153,7 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		tableData.horizontalSpan = 2;
 		propertiesTable.setLayoutData(tableData);
 		
-		// fill in current values if wizard is in edit mode (it means generator already exists)
-		if (generator != null){
-			
-			for (int i = 0; i < generatorCombo.getItems().length; i++) {
-				if (generator.getGenerator().getClazz().equals(generatorCombo.getItem(i))){
-					generatorCombo.select(i);
-					break;
-				}
-			}
-			
-			for (int i = 0; i < runTypeCombo.getItems().length; i++) {
-				if (generator.getGenerator().getRun().getType().equals(runTypeCombo.getItem(i))){
-					runTypeCombo.select(i);
-					break;
-				}
-			}
-			
-			runValueSpinner.setSelection(Integer.valueOf(generator.getGenerator().getRun().getValue()));
-			threadsSpinner.setSelection(Integer.valueOf(generator.getGenerator().getThreads()));
-			propertiesViewer.setInput(properties);
-		}
+		fillValues();
 		
 		setControl(container);
 		updateControls();
@@ -200,6 +176,35 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		setPageComplete(true);
 	}
 	
+	@Override
+	protected void fillDefaultValues() {
+		generatorCombo.select(0);
+		runTypeCombo.select(0);
+		runValueSpinner.setSelection(1);
+		threadsSpinner.setSelection(1);
+	}
+
+	@Override
+	protected void fillCurrentValues() {
+		for (int i = 0; i < generatorCombo.getItems().length; i++) {
+			if (generator.getGenerator().getClazz().equals(generatorCombo.getItem(i))){
+				generatorCombo.select(i);
+				break;
+			}
+		}
+
+		for (int i = 0; i < runTypeCombo.getItems().length; i++) {
+			if (generator.getGenerator().getRun().getType().equals(runTypeCombo.getItem(i))){
+				runTypeCombo.select(i);
+				break;
+			}
+		}
+
+		runValueSpinner.setSelection(Integer.valueOf(generator.getGenerator().getRun().getValue()));
+		threadsSpinner.setSelection(Integer.valueOf(generator.getGenerator().getThreads()));
+		propertiesViewer.setInput(properties);
+	}
+
 	public String getGeneratorName(){
 		return generatorCombo.getText();
 	}

@@ -44,14 +44,22 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractPerfCakePage extends WizardPage {
 	
 	static Logger logger = LoggerFactory.getLogger(AbstractPerfCakePage.class);
+	
+	private boolean editMode;
 
-	public AbstractPerfCakePage(String pageName) {
-		this(pageName, null, null);
+	/**
+	 * 
+	 * @param pageName Page name
+	 * @param edit Is page editing existing model?
+	 */
+	public AbstractPerfCakePage(String pageName, boolean edit) {
+		this(pageName, null, null, edit);
 	}
 
 	public AbstractPerfCakePage(String pageName, String title,
-			ImageDescriptor titleImage) {
+			ImageDescriptor titleImage, boolean edit) {
 		super(pageName, title, titleImage);
+		this.editMode = edit;
 	}
 	
 	protected PerfCakeComponents getPerfCakeComponents(){
@@ -77,6 +85,37 @@ public abstract class AbstractPerfCakePage extends WizardPage {
 	}
 	
 	/**
+	 * Fills default values into wizard form.
+	 */
+	protected void fillDefaultValues(){
+		//Do nothing
+	}
+	
+	/**
+	 * Fills in values if page is in edit mode. (it means it has some model object)
+	 */
+	protected void fillCurrentValues(){
+		//do nothing
+	}
+	
+	/**
+	 * Fils in default values or current model values depending on editMode variable.
+	 * If the Page is in editMode then current model values are filled. Otherwise 
+	 * default values are filled
+	 */
+	protected void fillValues(){
+		if (isEditMode()){
+			fillCurrentValues();
+		} else{
+			fillDefaultValues();
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	
+	/**
 	 * @return list of {@link AbstractPerfCakeEditWizard} editing support commands
 	 * 
 	 * @See {@link AbstractPerfCakeEditWizard#editingSupportCommands}
@@ -86,6 +125,15 @@ public abstract class AbstractPerfCakePage extends WizardPage {
 
 		return wizard.editingSupportCommands;
 	}
+	
+	public boolean isEditMode() {
+		return editMode;
+	}
+
+	public void setEditMode(boolean editMode) {
+		this.editMode = editMode;
+	}
+
 	protected static class UpdateSelectionAdapter extends SelectionAdapter{
 		
 		AbstractPerfCakePage page;
@@ -97,6 +145,5 @@ public abstract class AbstractPerfCakePage extends WizardPage {
 		public void widgetSelected(SelectionEvent e) {
 			page.updateControls();
 		}
-		
 	}
 }

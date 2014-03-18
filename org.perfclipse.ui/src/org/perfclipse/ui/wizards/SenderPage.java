@@ -46,7 +46,7 @@ public class SenderPage extends AbstractPerfCakePage {
 		this("Sender page");
 	}
 	public SenderPage(String pageName) {
-		super(pageName);
+		super(pageName, false);
 		setTitle("Sender specification");
 		setDescription("Set sender type and sender properties");
 	}
