@@ -17,40 +17,43 @@
  * limitations under the License.
  */
 
-package org.perfclipse.ui.jface;
+package org.perfclipse.ui.swt.jface;
 
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
-import org.perfclipse.model.PropertyModel;
-import org.perfclipse.ui.gef.commands.EditPropertyValueCommand;
+import org.eclipse.jface.viewers.TextCellEditor;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class PropertyValueEditingSupport extends PropertyEditingSupport {
+public abstract class PropertyEditingSupport extends EditingSupport {
+
+	private CellEditor cellEditor;
+	private List<Command> commands;
+
+	public PropertyEditingSupport(TableViewer viewer, List<Command> command) {
+		super(viewer);
+		this.cellEditor = new TextCellEditor(viewer.getTable()); 
+		this.commands = command;
+	}
+
+	@Override
+	protected CellEditor getCellEditor(Object element) {
+		return cellEditor;
+	}
+
+	@Override
+	protected boolean canEdit(Object element) {
+		return true;
+	}
+
+	protected List<Command> getCommands() {
+		return commands;
+	}
 	
-	public PropertyValueEditingSupport(TableViewer viewer, List<Command> command) {
-		super(viewer, command);
-	}
-
-	@Override
-	protected Object getValue(Object element) {
-		PropertyModel property = (PropertyModel) element;
-		return property.getProperty().getValue();
-	}
-
-	@Override
-	protected void setValue(Object element, Object value) {
-		PropertyModel property = (PropertyModel) element;
-		
-		Command command = new EditPropertyValueCommand(property, String.valueOf(value));
-		command.execute();
-		getCommands().add(command);
-		
-		getViewer().update(element, null);
-	}
-
 }

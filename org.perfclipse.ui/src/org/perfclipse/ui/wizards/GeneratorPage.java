@@ -48,7 +48,8 @@ import org.perfclipse.model.PropertyModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.ui.gef.commands.AddPropertyCommand;
 import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
-import org.perfclipse.ui.jface.PropertyTableViewer;
+import org.perfclipse.ui.swt.ComboUtils;
+import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.slf4j.LoggerFactory;
 
 public class GeneratorPage extends AbstractPerfCakePage {

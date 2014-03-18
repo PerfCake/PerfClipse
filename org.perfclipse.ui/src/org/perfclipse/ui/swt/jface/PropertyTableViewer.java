@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package org.perfclipse.ui.jface;
+package org.perfclipse.ui.swt.jface;
 
 import java.util.List;
 

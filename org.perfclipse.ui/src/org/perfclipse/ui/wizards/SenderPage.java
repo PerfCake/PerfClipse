@@ -34,7 +34,8 @@ import org.eclipse.swt.widgets.Table;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.reflect.PerfCakeComponents;
-import org.perfclipse.ui.jface.PropertyTableViewer;
+import org.perfclipse.ui.swt.ComboUtils;
+import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
