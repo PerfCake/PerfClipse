@@ -186,19 +186,9 @@ public class GeneratorPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void fillCurrentValues() {
-		for (int i = 0; i < generatorCombo.getItems().length; i++) {
-			if (generator.getGenerator().getClazz().equals(generatorCombo.getItem(i))){
-				generatorCombo.select(i);
-				break;
-			}
-		}
-
-		for (int i = 0; i < runTypeCombo.getItems().length; i++) {
-			if (generator.getGenerator().getRun().getType().equals(runTypeCombo.getItem(i))){
-				runTypeCombo.select(i);
-				break;
-			}
-		}
+		ComboUtils.select(generatorCombo, generator.getGenerator().getClazz());
+		
+		ComboUtils.select(runTypeCombo, generator.getGenerator().getRun().getType());
 
 		runValueSpinner.setSelection(Integer.valueOf(generator.getGenerator().getRun().getValue()));
 		threadsSpinner.setSelection(Integer.valueOf(generator.getGenerator().getThreads()));
