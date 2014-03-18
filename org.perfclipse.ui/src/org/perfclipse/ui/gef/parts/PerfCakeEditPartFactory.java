@@ -25,6 +25,7 @@ import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.ReporterModel;
@@ -37,53 +38,56 @@ import org.perfclipse.model.ValidatorModel;
 
 public class PerfCakeEditPartFactory implements EditPartFactory {
 
+	private ModelMapper mapper;
+
 	public PerfCakeEditPartFactory() {
-		// TODO Auto-generated constructor stub
+		//TODO: obtain model mapper from editor input.
+		mapper = ModelMapper.getInstance();
 	}
 
 	@Override
 	public EditPart createEditPart(EditPart context, Object model) {
 		if (model instanceof ScenarioModel){
-			return new ScenarioEditPart((ScenarioModel) model);
+			return new ScenarioEditPart((ScenarioModel) model, mapper);
 		}
 		if (model instanceof GeneratorModel){
-			return new GeneratorEditPart((GeneratorModel) model);
+			return new GeneratorEditPart((GeneratorModel) model, mapper);
 		}
 		if (model instanceof SenderModel){
-			return new SenderEditPart((SenderModel) model);
+			return new SenderEditPart((SenderModel) model, mapper);
 		}
 		if (model instanceof ReportingModel){
-			return new ReportingEditPart((ReportingModel) model);
+			return new ReportingEditPart((ReportingModel) model, mapper);
 		}
 		if (model instanceof ValidationModel){
-			return new ValidationEditPart((ValidationModel) model);
+			return new ValidationEditPart((ValidationModel) model, mapper);
 		}
 		if (model instanceof ValidatorModel){
-			return new ValidatorEditPart((ValidatorModel) model);
+			return new ValidatorEditPart((ValidatorModel) model, mapper);
 		}
 		if (model instanceof MessagesModel){
-			return new MessagesEditPart((MessagesModel) model);
+			return new MessagesEditPart((MessagesModel) model, mapper);
 		}
 		if (model instanceof RunModel){
-			return new RunEditPart((RunModel) model);
+			return new RunEditPart((RunModel) model, mapper);
 		}
 		if (model instanceof MessageModel){
-			return new MessageEditPart((MessageModel) model);
+			return new MessageEditPart((MessageModel) model, mapper);
 		}
 		if (model instanceof String){
-			return new StringEditPart((String) model);
+			return new StringEditPart((String) model, mapper);
 		}
 		if (model instanceof ReporterModel){
-			return new ReporterEditPart((ReporterModel) model);
+			return new ReporterEditPart((ReporterModel) model, mapper);
 		}
 		if (model instanceof DestinationModel){
-			return new DestinationEditPart((DestinationModel) model);
+			return new DestinationEditPart((DestinationModel) model, mapper);
 		}
 		if (model instanceof PropertiesModel){
-			return new PropertiesEditPart((PropertiesModel) model);
+			return new PropertiesEditPart((PropertiesModel) model, mapper);
 		}
 		if (model instanceof PropertyModel){
-			return new PropertyEditPart((PropertyModel) model);
+			return new PropertyEditPart((PropertyModel) model, mapper);
 		}
 		return null;
 	}

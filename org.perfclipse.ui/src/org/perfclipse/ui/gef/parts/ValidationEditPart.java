@@ -28,6 +28,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.perfcake.model.Scenario.Validation.Validator;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
@@ -39,7 +40,9 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 
 	private static final String VALIDATION_SECTION_LABEL = "Validation section";
 
-	public ValidationEditPart(ValidationModel validationModel){
+	public ValidationEditPart(ValidationModel validationModel,
+			ModelMapper mapper){
+		super(mapper);
 		setModel(validationModel);
 	}
 	
@@ -102,7 +105,7 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 			if (evt.getOldValue() == null && evt.getNewValue() instanceof Validator){
 				ValidatorModel validatorModel = new ValidatorModel((Validator) evt.getNewValue());
 				int index = getValidationModel().getValidation().getValidator().indexOf(validatorModel.getValidator());
-				addChild(new ValidatorEditPart(validatorModel), index);
+				addChild(new ValidatorEditPart(validatorModel, getMapper()), index);
 			}
 			if (evt.getNewValue() == null && evt.getOldValue() instanceof Validator){
 				List<EditPart> toDelete = new ArrayList<>();

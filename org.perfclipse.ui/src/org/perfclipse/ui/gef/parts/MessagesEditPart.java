@@ -30,6 +30,7 @@ import org.eclipse.gef.EditPolicy;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
@@ -39,7 +40,9 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 
 	private static final String MESSAGES_SECTION_LABEL = "Messages";
 
-	public MessagesEditPart(MessagesModel messagesModel){
+	public MessagesEditPart(MessagesModel messagesModel,
+			ModelMapper mapper){
+		super(mapper);
 		setModel(messagesModel);
 	}
 	
@@ -105,7 +108,7 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 			if(e.getOldValue() == null && e.getNewValue() instanceof Message){
 				MessageModel messageModel = new MessageModel((Message) e.getNewValue());
 				int index = getMessagesModel().getMessages().getMessage().indexOf(messageModel.getMessage());
-				addChild(new MessageEditPart(messageModel), index);
+				addChild(new MessageEditPart(messageModel, getMapper()), index);
 			}
 			//if message is deleted
 			if (e.getNewValue() == null && e.getOldValue() instanceof Message){

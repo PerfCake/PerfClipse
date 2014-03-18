@@ -32,12 +32,13 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.ui.PlatformUI;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
-import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
 import org.perfclipse.ui.gef.directedit.ClassDirectEditManager;
+import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
@@ -52,7 +53,9 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements P
 
 	protected DirectEditManager manager;
 
-	public ValidatorEditPart(ValidatorModel validatorModel){
+	public ValidatorEditPart(ValidatorModel validatorModel,
+			ModelMapper mapper){
+		super(mapper);
 		setModel(validatorModel);
 	}
 	

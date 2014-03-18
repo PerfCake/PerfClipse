@@ -34,8 +34,6 @@ import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.ModelMapper;
-import org.perfclipse.model.PropertyModel;
-import org.perfclipse.model.RunModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
 import org.perfclipse.ui.gef.directedit.ClassDirectEditManager;
@@ -54,7 +52,9 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	private ClassDirectEditManager manager;
 	static final Logger log = LoggerFactory.getLogger(GeneratorEditPart.class);
 
-	public GeneratorEditPart(GeneratorModel generatorModel) {
+	public GeneratorEditPart(GeneratorModel generatorModel,
+			ModelMapper mapper) {
+		super(mapper);
 		setModel(generatorModel);
 	}
 	

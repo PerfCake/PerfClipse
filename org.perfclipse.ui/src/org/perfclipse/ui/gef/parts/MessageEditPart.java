@@ -32,6 +32,7 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.ui.gef.directedit.LabelCellEditorLocator;
 import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
@@ -44,7 +45,9 @@ public class MessageEditPart extends AbstractPerfCakeNodeEditPart implements Pro
 
 	protected DirectEditManager manager;
 
-	public MessageEditPart(MessageModel modelMessage){
+	public MessageEditPart(MessageModel modelMessage, 
+			ModelMapper mapper){
+		super(mapper);
 		setModel(modelMessage);
 	}
 	

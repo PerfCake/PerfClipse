@@ -29,6 +29,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.model.ScenarioModel;
@@ -41,7 +42,9 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 	private static final String REPORTING_SECTION_LABEL = "Reporting";
 
 
-	public ReportingEditPart(ReportingModel reportingModel){
+	public ReportingEditPart(ReportingModel reportingModel,
+			ModelMapper mapper){
+		super(mapper);
 		setModel(reportingModel);
 	}
 	
@@ -106,7 +109,7 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 			if (evt.getOldValue() == null && evt.getNewValue() instanceof Reporter){
 				ReporterModel reporterModel = new ReporterModel((Reporter) evt.getNewValue());
 				int index = getReportingModel().getReporting().getReporter().indexOf(reporterModel.getReporter());
-				addChild(new ReporterEditPart(reporterModel), index);
+				addChild(new ReporterEditPart(reporterModel, getMapper()), index);
 			}
 			if (evt.getNewValue() == null && evt.getOldValue() instanceof Reporter){
 				List<EditPart> toDelete = new ArrayList<>();

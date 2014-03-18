@@ -36,6 +36,7 @@ import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
 import org.perfclipse.model.DestinationModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.reflect.PerfCakeComponents;
@@ -45,8 +46,8 @@ import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
-import org.perfclipse.ui.gef.policies.ReporterEditPolicy;
 import org.perfclipse.ui.gef.policies.DestinationListEditPolicy;
+import org.perfclipse.ui.gef.policies.ReporterEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.RenameReporterDirectEditPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +59,9 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 
 	static final Logger log = LoggerFactory.getLogger(ReporterEditPart.class);
 
-	public ReporterEditPart(ReporterModel reporterModel){
+	public ReporterEditPart(ReporterModel reporterModel,
+			ModelMapper mapper){
+		super(mapper);
 		setModel(reporterModel);
 	}
 	
@@ -148,7 +151,7 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 			if (evt.getOldValue() == null && evt.getNewValue() instanceof Destination){
 				DestinationModel destinationModel = new DestinationModel((Destination) evt.getNewValue());
 				int index = getReporterModel().getReporter().getDestination().indexOf(destinationModel.getDestination());
-				addChild(new DestinationEditPart(destinationModel), index);
+				addChild(new DestinationEditPart(destinationModel,getMapper()), index);
 			}
 			if (evt.getNewValue() == null && evt.getOldValue() instanceof Destination){
 				List<EditPart> toDelete = new ArrayList<>();

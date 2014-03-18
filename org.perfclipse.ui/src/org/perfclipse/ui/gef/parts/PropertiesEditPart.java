@@ -9,6 +9,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.perfcake.model.Property;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.ScenarioModel;
@@ -20,7 +21,9 @@ public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implemen
 
 	public static final String PROPERTIES_SECTION_LABEL = "Scenario Properties";
 	
-	public PropertiesEditPart(PropertiesModel propertiesModel){
+	public PropertiesEditPart(PropertiesModel propertiesModel,
+			ModelMapper mapper){
+		super(mapper);
 		setModel(propertiesModel);
 	}
 	
@@ -80,7 +83,7 @@ public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implemen
 			if (evt.getOldValue() == null && evt.getNewValue() instanceof Property){
 				PropertyModel propertyModel = new PropertyModel((Property) evt.getNewValue());
 				int index = getPropertiesModel().getProperties().getProperty().indexOf(propertyModel.getProperty());
-				addChild(new PropertyEditPart(propertyModel), index);
+				addChild(new PropertyEditPart(propertyModel, getMapper()), index);
 			}
 			
 			if (evt.getNewValue() == null && evt.getOldValue() instanceof Property){

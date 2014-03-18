@@ -21,10 +21,13 @@ package org.perfclipse.ui.gef.parts;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.perfclipse.model.ModelMapper;
 
 public class StringEditPart extends AbstractPerfCakeNodeEditPart {
 
-	public StringEditPart(String name){
+	public StringEditPart(String name,
+			ModelMapper mapper){
+		super(mapper);
 		setModel(name);
 	}
 	

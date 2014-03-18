@@ -33,6 +33,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.ui.PlatformUI;
 import org.perfclipse.model.DestinationModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
@@ -52,7 +53,9 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart implements
 
 	private DirectEditManager manager;
 
-	public DestinationEditPart(DestinationModel destinationModel){
+	public DestinationEditPart(DestinationModel destinationModel,
+			ModelMapper mapper){
+		super(mapper);
 		setModel(destinationModel);
 	}
 	

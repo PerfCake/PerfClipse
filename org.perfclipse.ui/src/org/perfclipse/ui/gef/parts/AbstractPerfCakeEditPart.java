@@ -20,8 +20,23 @@
 package org.perfclipse.ui.gef.parts;
 
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.perfclipse.model.ModelMapper;
 
 public abstract class AbstractPerfCakeEditPart extends
 		AbstractGraphicalEditPart {
+	private ModelMapper mapper;
+	
+	/**
+	 * Stores ModelMapper objects.
+	 * @param mapper ModelMapper object
+	 */
+	public AbstractPerfCakeEditPart(ModelMapper mapper) {
+		super();
+		this.mapper = mapper;
+	}
 
+
+	public ModelMapper getMapper() {
+		return mapper;
+	}
 }

@@ -30,6 +30,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.model.ScenarioModel;
@@ -42,7 +43,9 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 //	private static final int BORDER_PADDING = 1;
 
 	
-	public ScenarioEditPart(ScenarioModel scenarioModel){
+	public ScenarioEditPart(ScenarioModel scenarioModel,
+			ModelMapper mapper){
+		super(mapper);
 		setModel(scenarioModel);
 	}
 

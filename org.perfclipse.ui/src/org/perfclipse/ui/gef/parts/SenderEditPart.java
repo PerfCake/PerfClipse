@@ -33,6 +33,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.reflect.PerfCakeComponents;
@@ -67,7 +68,9 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 		super.deactivate();
 	}
 	
-	public SenderEditPart(SenderModel senderModel){
+	public SenderEditPart(SenderModel senderModel,
+			ModelMapper mapper){
+		super(mapper);
 		setModel(senderModel);
 	}
 

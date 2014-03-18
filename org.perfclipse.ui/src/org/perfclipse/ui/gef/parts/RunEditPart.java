@@ -24,6 +24,7 @@ import java.beans.PropertyChangeListener;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.RunModel;
 import org.perfclipse.ui.gef.figures.EditableLabel;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
@@ -46,7 +47,9 @@ public class RunEditPart extends AbstractPerfCakeNodeEditPart implements Propert
 		super.deactivate();
 	}
 	
-	public RunEditPart(RunModel runModel){
+	public RunEditPart(RunModel runModel,
+			ModelMapper mapper){
+		super(mapper);
 		setModel(runModel);
 	}
 	
