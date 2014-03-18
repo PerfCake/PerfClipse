@@ -64,7 +64,7 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 		if (!(gen.getRun().getType().equals(generatorPage.getRunType()))){
 			command.add(new EditRunTypeCommand(run, generatorPage.getRunType()));
 		}
-		if ((gen.getRun().getValue().equals(generatorPage.getRunValue()))){
+		if (!(gen.getRun().getValue().equals(generatorPage.getRunValue()))){
 			command.add(new EditRunValue(run, String.valueOf(generatorPage.getRunValue())));
 		}
 		
