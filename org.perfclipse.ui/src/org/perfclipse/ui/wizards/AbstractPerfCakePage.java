@@ -27,6 +27,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
 import org.slf4j.Logger;
@@ -75,6 +76,13 @@ public abstract class AbstractPerfCakePage extends WizardPage {
 		return components;
 	}
 	
+	
+	@Override
+	public void createControl(Composite parent) {
+		fillValues();
+		updateControls();
+	}
+
 	/**
 	 * Method which updates control of the wizard.
 	 * It should be called from widget listeners when user change input.

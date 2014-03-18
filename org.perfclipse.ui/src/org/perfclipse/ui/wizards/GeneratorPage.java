@@ -166,10 +166,8 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		tableData.horizontalSpan = 2;
 		propertiesTable.setLayoutData(tableData);
 		
-		fillValues();
-		
 		setControl(container);
-		updateControls();
+		super.createControl(parent);
 	}
 	
 	@Override

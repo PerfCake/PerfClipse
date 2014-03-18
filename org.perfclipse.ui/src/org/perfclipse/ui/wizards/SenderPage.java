@@ -123,11 +123,8 @@ public class SenderPage extends AbstractPerfCakePage {
 		propertyTableGridData.horizontalSpan = 2;
 		propertyTable.setLayoutData(propertyTableGridData);
 		
-		
-		fillValues();
-
 		setControl(container);
-		updateControls();
+		super.createControl(parent);
 	}
 	
 	
