@@ -82,14 +82,6 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 		return true;
 	}
 
-
-	@Override
-	public boolean performCancel() {
-		
-		undoEditingSupportCommands();
-		return true;
-	}
-
 	@Override
 	public void addPages() {
 		generatorPage = new GeneratorPage(generator, properties);
