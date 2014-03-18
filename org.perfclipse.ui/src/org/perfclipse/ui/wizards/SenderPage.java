@@ -107,7 +107,8 @@ public class SenderPage extends AbstractPerfCakePage {
 		
 		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
 		final Table propertyTable = propertyViewer.getTable();
-		GridData propertyTableGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
+		GridData propertyTableGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, true, true);
+		propertyTableGridData.horizontalSpan = 2;
 		propertyTable.setLayoutData(propertyTableGridData);
 		
 		fillValues();
