@@ -1,0 +1,71 @@
+/*
+ * Perfclispe
+ * 
+ * 
+ * Copyright (c) 2013 Jakub Knetl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.perfclipse.ui.gef.policies;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
+import org.perfclipse.model.PropertyModel;
+import org.perfclipse.model.SenderModel;
+import org.perfclipse.ui.wizards.SenderEditWizard;
+
+/**
+ * @author Jakub Knetl
+ *
+ */
+public class SenderEditPolicy extends AbstractPerfCakeComponentEditPolicy {
+
+	private SenderModel sender;
+
+	public SenderEditPolicy(SenderModel sender) {
+		super();
+		this.sender = sender;
+	}
+	
+	@Override
+	protected Command createPropertiesCommand() {
+		List<PropertyModel> properties = new ArrayList<>();
+		for (Object child : getHost().getChildren()){
+			EditPart part = (EditPart) child;
+			Object model = part.getModel();
+			if (model instanceof PropertyModel)
+				properties.add((PropertyModel) model);
+		}
+		SenderEditWizard wizard = new SenderEditWizard(sender, properties);
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		WizardDialog dialog = new WizardDialog(shell, wizard);
+		dialog.open();
+		if (dialog.getReturnCode() == Window.OK){
+			CompoundCommand command = wizard.getCommand();
+			if (!command.isEmpty()){
+				return command;
+			}
+		}
+		
+		return null;
+	}
+}

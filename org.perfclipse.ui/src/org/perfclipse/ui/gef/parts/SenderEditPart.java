@@ -32,6 +32,8 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.ui.PlatformUI;
+import org.perfcake.model.Property;
+import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
@@ -40,6 +42,7 @@ import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
+import org.perfclipse.ui.gef.policies.SenderEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.SenderDirectEditPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,12 +113,18 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new SenderDirectEditPolicy(getSenderModel(), (ILabeledFigure) getFigure()));
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new SenderEditPolicy(getSenderModel()));
 	}
 	
 
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
+		if (getSenderModel().getSender().getProperty() != null){
+			for (Property p: getSenderModel().getSender().getProperty()){
+				modelChildren.add(new PropertyModel(p));
+			}
+		}
 		return modelChildren;
 	}
 
