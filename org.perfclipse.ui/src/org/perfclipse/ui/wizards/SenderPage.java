@@ -111,16 +111,19 @@ public class SenderPage extends AbstractPerfCakePage {
 		senderCombo.setLayoutData(senderComboGridData);
 		
 		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
-		final Table propertyTable = propertyViewer.getTable();
-		GridData propertyTableGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, true, true);
-		propertyTableGridData.horizontalSpan = 2;
-		propertyTable.setLayoutData(propertyTableGridData);
 		
 		propertyViewerControls = new TableViewerControl(container, false, SWT.NONE);
 		propertyViewerControls.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(propertyViewer, getEditingSupportCommands(), sender));
 		propertyViewerControls.getDeleteButton().addSelectionListener(
 				new DeletePropertySelectionAdapter(propertyViewer, getEditingSupportCommands(), sender));
+		
+		final Table propertyTable = propertyViewer.getTable();
+		GridData propertyTableGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, true, false);
+		propertyTableGridData.horizontalSpan = 2;
+		propertyTable.setLayoutData(propertyTableGridData);
+		
+		
 		fillValues();
 
 		setControl(container);
