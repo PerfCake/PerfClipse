@@ -21,10 +21,7 @@ package org.perfclipse.ui.wizards;
 
 import java.util.List;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -37,13 +34,12 @@ import org.perfcake.common.PeriodType;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.reflect.PerfCakeComponents;
+import org.perfclipse.ui.jface.PropertyTableViewer;
 import org.slf4j.LoggerFactory;
 
 public class GeneratorPage extends AbstractPerfCakePage {
 	
-	private static final int COLUMN_WIDTH = 220;
-
-	private static final String GENERATOR_PAGE_NAME = "Scenario genarator and sender";
+	private static final String GENERATOR_PAGE_NAME = "Genarator";
 
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(GeneratorPage.class);
 
@@ -154,41 +150,9 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		threadsSpinner.setLayoutData(threadsSpinnerGridData);
 		
 
-		propertiesViewer = new TableViewer(container, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.FULL_SELECTION);
-		propertiesViewer.setContentProvider(ArrayContentProvider.getInstance());
+		propertiesViewer = new PropertyTableViewer(container, getEditingSupportCommands());
 
-		//create columns
-		TableViewerColumn keyColumn = new TableViewerColumn(propertiesViewer, SWT.NONE);
-		keyColumn.getColumn().setWidth(COLUMN_WIDTH);
-		keyColumn.getColumn().setText("Property name");
-		keyColumn.setEditingSupport(new PropertyNameEditingSupport(propertiesViewer, getEditingSupportCommands()));
-		keyColumn.setLabelProvider(new ColumnLabelProvider(){
-
-			@Override
-			public String getText(Object element) {
-				PropertyModel property = (PropertyModel) element;
-				return property.getProperty().getName();
-			}
-			
-		});
-		TableViewerColumn valueColumn = new TableViewerColumn(propertiesViewer, SWT.NONE);
-		valueColumn.getColumn().setText("Property value");
-		valueColumn.getColumn().setWidth(COLUMN_WIDTH);
-		valueColumn.setEditingSupport(new PropertyValueEditingSupport(propertiesViewer, getEditingSupportCommands()));
-		valueColumn.setLabelProvider(new ColumnLabelProvider(){
-
-			@Override
-			public String getText(Object element) {
-				PropertyModel property = (PropertyModel) element;
-				return property.getProperty().getValue();
-			}
-			
-		});
-		
 		final Table propertiesTable = propertiesViewer.getTable();
-		propertiesTable.setHeaderVisible(true);
-		propertiesTable.setLinesVisible(true);
-		
 		GridData tableData = new GridData(SWT.BEGINNING, SWT.BEGINNING, true, true);
 		tableData.horizontalSpan = 2;
 		propertiesTable.setLayoutData(tableData);
