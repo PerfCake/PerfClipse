@@ -23,13 +23,13 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Generator;
-import org.perfcake.model.Scenario.Generator.Run;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.PropertyModel;
-import org.perfclipse.ui.gef.commands.EditGeneratorRunCommand;
+import org.perfclipse.model.RunModel;
 import org.perfclipse.ui.gef.commands.EditGeneratorThreadsCommand;
+import org.perfclipse.ui.gef.commands.EditRunTypeCommand;
+import org.perfclipse.ui.gef.commands.EditRunValue;
 import org.perfclipse.ui.gef.commands.RenameGeneratorCommand;
 
 /**
@@ -42,10 +42,13 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 	private CompoundCommand command;
 	private GeneratorModel generator;
 	private List<PropertyModel> properties;
+	private RunModel run;
 
-	public GeneratorEditWizard(GeneratorModel generator, List<PropertyModel> properties) {
+	public GeneratorEditWizard(GeneratorModel generator,
+			List<PropertyModel> properties, RunModel run) {
 		this.generator = generator;
 		this.properties = properties;
+		this.run = run;
 	}
 
 	@Override
@@ -58,12 +61,11 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 		if (!(gen.getClazz().equals(generatorPage.getGeneratorName()))){
 			command.add(new RenameGeneratorCommand(generator, generatorPage.getGeneratorName()));
 		}
-		if (!(gen.getRun().getType().equals(generatorPage.getRunType())) 
-				|| !(gen.getRun().getValue().equals(generatorPage.getRunValue()))){
-			Run run = new ObjectFactory().createScenarioGeneratorRun();
-			run.setType(generatorPage.getRunType());
-			run.setValue(Integer.toString(generatorPage.getRunValue()));
-			command.add(new EditGeneratorRunCommand(generator, run));
+		if (!(gen.getRun().getType().equals(generatorPage.getRunType()))){
+			command.add(new EditRunTypeCommand(run, generatorPage.getRunType()));
+		}
+		if ((gen.getRun().getValue().equals(generatorPage.getRunValue()))){
+			command.add(new EditRunValue(run, String.valueOf(generatorPage.getRunValue())));
 		}
 		
 		if (!(gen.getThreads().equals(Integer.toString(generatorPage.getThreads())))){

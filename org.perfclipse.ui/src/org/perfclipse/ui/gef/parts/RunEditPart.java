@@ -19,15 +19,32 @@
 
 package org.perfclipse.ui.gef.parts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.perfclipse.model.RunModel;
 import org.perfclipse.ui.gef.figures.EditableLabel;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 
-public class RunEditPart extends AbstractPerfCakeNodeEditPart {
+public class RunEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
 
-	Label label;
+	private Label label;
+	
+	@Override
+	public void activate() {
+		if (!isActive()){
+			getRunModel().addPropertyChangeListener(this);
+		}
+		super.activate();
+	}
+
+	@Override
+	public void deactivate() {
+		getRunModel().removePropertyChangeListener(this);
+		super.deactivate();
+	}
 	
 	public RunEditPart(RunModel runModel){
 		setModel(runModel);
@@ -59,6 +76,14 @@ public class RunEditPart extends AbstractPerfCakeNodeEditPart {
 	@Override
 	protected void refreshVisuals(){
 		super.refreshVisuals();
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(RunModel.PROPERTY_TYPE) ||
+				evt.getPropertyName().equals(RunModel.PROPERTY_VALUE)){
+			refreshVisuals();
+		}
 	}
 
 }

@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.PropertyModel;
+import org.perfclipse.model.RunModel;
 import org.perfclipse.ui.wizards.GeneratorEditWizard;
 
 /**
@@ -48,13 +49,18 @@ public class GeneratorEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createPropertiesCommand() {
 		List<PropertyModel> properties = new ArrayList<>();
+		RunModel runModel = null;
 		for (Object child : getHost().getChildren()){
 			EditPart part = (EditPart) child;
 			Object model = part.getModel();
 			if (model instanceof PropertyModel)
 				properties.add((PropertyModel) model);
+			if (model instanceof RunModel){
+				runModel = (RunModel) model;
+			}
+
 		}
-		GeneratorEditWizard wizard = new GeneratorEditWizard(generator, properties);
+		GeneratorEditWizard wizard = new GeneratorEditWizard(generator, properties, runModel);
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.open();
