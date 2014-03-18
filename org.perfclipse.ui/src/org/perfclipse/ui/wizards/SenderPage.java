@@ -117,9 +117,9 @@ public class SenderPage extends AbstractPerfCakePage {
 		propertyTable.setLayoutData(propertyTableGridData);
 		
 		propertyViewerControls = new TableViewerControl(container, false, SWT.NONE);
-		propertyViewerControls.getAddElementButton().addSelectionListener(
+		propertyViewerControls.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(propertyViewer, getEditingSupportCommands(), sender));
-		propertyViewerControls.getDeleteElementButton().addSelectionListener(
+		propertyViewerControls.getDeleteButton().addSelectionListener(
 				new DeletePropertySelectionAdapter(propertyViewer, getEditingSupportCommands(), sender));
 		fillValues();
 

@@ -31,8 +31,8 @@ import org.eclipse.swt.widgets.Composite;
 public class TableViewerControl extends Composite {
 
 
-	private Button addElementButton;
-	private Button editElementButton;
+	private Button addButton;
+	private Button editButton;
 	private Button deleteElementButton;
 
 	/**
@@ -44,25 +44,25 @@ public class TableViewerControl extends Composite {
 		
 		setLayout(new RowLayout(SWT.VERTICAL));
 		
-		addElementButton = new Button(this, SWT.PUSH);
-		addElementButton.setText("Add");
+		addButton = new Button(this, SWT.PUSH);
+		addButton.setText("Add");
 		
 		if (hasEditButton){
-			editElementButton = new Button(this, SWT.PUSH);
-			editElementButton.setText("Edit");
+			editButton = new Button(this, SWT.PUSH);
+			editButton.setText("Edit");
 		}
 		
 		deleteElementButton = new Button(this, SWT.PUSH);
 		deleteElementButton.setText("Delete");
 	}
 
-	public Button getAddElementButton() {
-		return addElementButton;
+	public Button getAddButton() {
+		return addButton;
 	}
-	public Button getEditElementButton() {
-		return editElementButton;
+	public Button getEditButton() {
+		return editButton;
 	}
-	public Button getDeleteElementButton() {
+	public Button getDeleteButton() {
 		return deleteElementButton;
 	}
 }
