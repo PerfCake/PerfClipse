@@ -25,6 +25,9 @@ import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.perfclipse.ui.actions.PropertiesAction;
 
 /**
+ * Component edit policy which supports handling Properties Action request
+ * in addition.
+ * 
  * @author Jakub Knetl
  *
  */
@@ -42,6 +45,11 @@ public class AbstractPerfCakeComponentEditPolicy extends ComponentEditPolicy {
 		return createPropertiesCommand();
 	}
 
+	/**
+	 * Subclass may override this method to create proper Command as a response
+	 * to property action. 
+	 * @return Command which will react to property action request
+	 */
 	protected Command createPropertiesCommand() {
 		return null;
 	}
