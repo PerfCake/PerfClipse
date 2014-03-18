@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.wizard.Wizard;
 
 /**
@@ -37,10 +38,12 @@ public abstract class AbstractPerfCakeEditWizard extends Wizard {
 	 * List of commands which wizard pages creates
 	 */
 	protected List<Command> editingSupportCommands;
+	protected CompoundCommand command;
 
-	public AbstractPerfCakeEditWizard() {
+	public AbstractPerfCakeEditWizard(String commandLabel) {
 		super();
 		editingSupportCommands = new ArrayList<>();
+		command = new CompoundCommand(commandLabel);
 	}
 	
 	/**
@@ -69,6 +72,10 @@ public abstract class AbstractPerfCakeEditWizard extends Wizard {
 		while (it.hasPrevious()){
 			it.previous().undo();
 		}
+	}
+	
+	public CompoundCommand getCommand(){
+		return command;
 	}
 	
 	

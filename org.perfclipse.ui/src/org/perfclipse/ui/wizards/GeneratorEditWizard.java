@@ -22,7 +22,6 @@ package org.perfclipse.ui.wizards;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.perfcake.model.Scenario.Generator;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.PropertyModel;
@@ -39,13 +38,13 @@ import org.perfclipse.ui.gef.commands.RenameGeneratorCommand;
 public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 
 	private GeneratorPage generatorPage;
-	private CompoundCommand command;
 	private GeneratorModel generator;
 	private List<PropertyModel> properties;
 	private RunModel run;
 
 	public GeneratorEditWizard(GeneratorModel generator,
 			List<PropertyModel> properties, RunModel run) {
+		super("Edit Generator");
 		this.generator = generator;
 		this.properties = properties;
 		this.run = run;
@@ -54,8 +53,6 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 	@Override
 	public boolean performFinish() {
 
-		command = new CompoundCommand("Generator edit");
-		
 		Generator gen = generator.getGenerator();
 		
 		if (!(gen.getClazz().equals(generatorPage.getGeneratorName()))){
@@ -89,8 +86,5 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 
 		super.addPages();
 	}
-	
-	public CompoundCommand getCommand(){
-		return command;
-	}
+
 }
