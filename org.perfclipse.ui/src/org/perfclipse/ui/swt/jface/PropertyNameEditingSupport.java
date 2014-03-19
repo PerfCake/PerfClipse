@@ -47,7 +47,7 @@ public class PropertyNameEditingSupport extends AbstractEditingSupport {
 		PropertyModel property = (PropertyModel) element;
 		Command command = new EditPropertyNameCommand(property, String.valueOf(value));
 		command.execute();
-		getCommands().add(command);
+		addCommand(command);
 
 		getViewer().update(element, null);
 	}

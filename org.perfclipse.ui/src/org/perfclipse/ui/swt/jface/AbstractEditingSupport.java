@@ -52,8 +52,16 @@ public abstract class AbstractEditingSupport extends EditingSupport {
 		return true;
 	}
 
-	protected List<Command> getCommands() {
-		return commands;
+	/**
+	 * Checks if the commands list is not null. If it is not, then its add given
+	 * command to the commands list.
+	 * 
+	 * @param command
+	 */
+	protected void addCommand(Command command){
+		if (commands != null){
+			commands.add(command);
+		}
 	}
 	
 }

@@ -48,7 +48,7 @@ public class PropertyValueEditingSupport extends AbstractEditingSupport {
 		
 		Command command = new EditPropertyValueCommand(property, String.valueOf(value));
 		command.execute();
-		getCommands().add(command);
+		addCommand(command);
 		
 		getViewer().update(element, null);
 	}
