@@ -36,7 +36,7 @@
 	    <repository>
 			<id>perfclipse</id>
 			<layout>p2</layout>
-			<url>http://www.fi.muni.cz/~xknetl/perfclipse-p2-dependencies/</url>
+			<url>file:org.perfclipse.repo/target/repository/</url>
 		</repository>
 	</repositories>
 
