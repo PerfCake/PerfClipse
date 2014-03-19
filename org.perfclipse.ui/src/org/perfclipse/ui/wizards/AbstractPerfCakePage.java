@@ -37,8 +37,6 @@ import org.slf4j.LoggerFactory;
  * 
  * Page which support AbstractPerfCakeWizard API for managing GEF commands.
  * 
- * Warning: This page should be used only in combination with AbstractPefCakeWizard.
- * 
  * @author Jakub Knetl
  *
  */
@@ -125,13 +123,17 @@ public abstract class AbstractPerfCakePage extends WizardPage {
 	
 	/**
 	 * @return list of {@link AbstractPerfCakeEditWizard} editing support commands
+	 * or null if wizard is not instanceof AbstractPerfCakeEditWizard
 	 * 
 	 * @See {@link AbstractPerfCakeEditWizard#editingSupportCommands}
 	 */
 	protected List<Command> getEditingSupportCommands(){
-		AbstractPerfCakeEditWizard wizard = (AbstractPerfCakeEditWizard) getWizard();
-
-		return wizard.editingSupportCommands;
+		if (getWizard() instanceof AbstractPerfCakeEditWizard){
+			AbstractPerfCakeEditWizard wizard = (AbstractPerfCakeEditWizard) getWizard();
+			return wizard.editingSupportCommands;
+		}
+		
+		return null;
 	}
 	
 	public boolean isEditMode() {
