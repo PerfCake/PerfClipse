@@ -31,12 +31,12 @@ import org.eclipse.jface.viewers.TextCellEditor;
  * @author Jakub Knetl
  *
  */
-public abstract class PropertyEditingSupport extends EditingSupport {
+public abstract class AbstractEditingSupport extends EditingSupport {
 
 	private CellEditor cellEditor;
 	private List<Command> commands;
 
-	public PropertyEditingSupport(TableViewer viewer, List<Command> command) {
+	public AbstractEditingSupport(TableViewer viewer, List<Command> command) {
 		super(viewer);
 		this.cellEditor = new TextCellEditor(viewer.getTable()); 
 		this.commands = command;

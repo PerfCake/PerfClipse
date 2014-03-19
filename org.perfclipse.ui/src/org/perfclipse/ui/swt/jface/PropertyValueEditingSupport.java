@@ -30,7 +30,7 @@ import org.perfclipse.ui.gef.commands.EditPropertyValueCommand;
  * @author Jakub Knetl
  *
  */
-public class PropertyValueEditingSupport extends PropertyEditingSupport {
+public class PropertyValueEditingSupport extends AbstractEditingSupport {
 	
 	public PropertyValueEditingSupport(TableViewer viewer, List<Command> command) {
 		super(viewer, command);
