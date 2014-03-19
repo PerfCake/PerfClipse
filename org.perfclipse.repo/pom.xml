@@ -30,9 +30,6 @@
                                 </artifact>
 		
 
-                                <artifact><id>org.slf4j:slf4j-api:1.7.5</id></artifact>
-                                <artifact><id>org.slf4j:slf4j-simple:1.7.5</id></artifact>,
-                                
                                 <!-- Drools dependencies (with scope provided, so they are not fetched) -->
                                 <artifact><id>org.apache.servicemix.bundles:org.apache.servicemix.bundles.jaxb-xjc:2.2.6_1</id></artifact>
                                 <artifact><id>org.jvnet.sorcerer:sorcerer-javac:0.8</id></artifact>
