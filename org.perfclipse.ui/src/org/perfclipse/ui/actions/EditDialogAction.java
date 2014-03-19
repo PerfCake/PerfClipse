@@ -33,18 +33,18 @@ import org.perfclipse.ui.gef.policies.AbstractPerfCakeComponentEditPolicy;
  * @author Jakub Knetl
  *
  */
-public class PropertiesAction extends SelectionAction {
+public class EditDialogAction extends SelectionAction {
 
-	public static final String SHOW_PROPERTIES = "org.perfclipse.ui.actions.PropertiesAction";
-	public static final String REQ_SHOW_PROPERTIES = "org.perfclipse.ui.actions.PropertiesAction";
+	public static final String SHOW_EDIT_DIALOG = "org.perfclipse.ui.actions.EditAction";
+	public static final String REQ_SHOW_EDIT_DIALOG = "org.perfclipse.ui.actions.EditAction";
 	
 	private Request request;
 
-	public PropertiesAction(IWorkbenchPart part) {
+	public EditDialogAction(IWorkbenchPart part) {
 		super(part);
-		setId(SHOW_PROPERTIES);
-		setText("Properties");
-		request = new Request(REQ_SHOW_PROPERTIES);
+		setId(SHOW_EDIT_DIALOG);
+		setText("Edit");
+		request = new Request(REQ_SHOW_EDIT_DIALOG);
 	}
 	
 	

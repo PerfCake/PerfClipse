@@ -26,7 +26,7 @@ import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
-import org.perfclipse.ui.actions.PropertiesAction;
+import org.perfclipse.ui.actions.EditDialogAction;
 
 /**
  * @author Jakub Knetl
@@ -52,7 +52,7 @@ public class DesignEditorContextMenuProvider extends ContextMenuProvider {
 	        menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 	        action = actionRegistry.getAction(ActionFactory.REDO.getId());
 	        menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
-	        action = actionRegistry.getAction(PropertiesAction.SHOW_PROPERTIES);
+	        action = actionRegistry.getAction(EditDialogAction.SHOW_EDIT_DIALOG);
 	        menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 	}
 }
