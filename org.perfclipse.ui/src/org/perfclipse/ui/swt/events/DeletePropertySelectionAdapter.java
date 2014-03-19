@@ -59,9 +59,12 @@ public class DeletePropertySelectionAdapter extends SelectionAdapter {
 			Iterator<Object> it = ((IStructuredSelection) selection).iterator();
 			while (it.hasNext()){
 				PropertyModel property = (PropertyModel) it.next();
-				Command c = new DeletePropertyCommand(propertyContainer, property);
-				c.execute();
-				commands.add(c);
+				if (propertyContainer != null){
+					Command c = new DeletePropertyCommand(propertyContainer, property);
+					c.execute();
+					if (commands != null)
+						commands.add(c);
+				}
 				viewer.remove(property);
 			}
 			

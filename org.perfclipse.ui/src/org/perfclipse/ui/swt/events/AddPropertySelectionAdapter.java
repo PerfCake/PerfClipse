@@ -63,9 +63,13 @@ public class AddPropertySelectionAdapter extends SelectionAdapter {
 		Property p = new org.perfcake.model.ObjectFactory().createProperty();
 		p.setName(name);
 		p.setValue(value);
-		Command c = new AddPropertyCommand(p, propertyContainer);
-		c.execute();
-		commands.add(c);
+		
+		if (propertyContainer != null){
+			Command c = new AddPropertyCommand(p, propertyContainer);
+			c.execute();
+			if (commands != null)
+				commands.add(c);
+		}
 
 		//TODO: obtain ModelMapper
 		viewer.add(new PropertyModel(p));
