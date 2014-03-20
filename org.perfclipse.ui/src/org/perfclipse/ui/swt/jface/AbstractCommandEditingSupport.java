@@ -36,10 +36,28 @@ public abstract class AbstractCommandEditingSupport extends EditingSupport {
 	private CellEditor cellEditor;
 	private List<Command> commands;
 
-	public AbstractCommandEditingSupport(TableViewer viewer, List<Command> command) {
+	/**
+	 * Stores viewer command and cellEditor
+	 * 
+	 * @param viewer
+	 * @param command
+	 * @param cellEditor
+	 */
+	public AbstractCommandEditingSupport(TableViewer viewer, List<Command> command,
+			CellEditor cellEditor) {
 		super(viewer);
-		this.cellEditor = new TextCellEditor(viewer.getTable()); 
+		this.cellEditor = cellEditor; 
 		this.commands = command;
+	}
+	
+	/**
+	 * Create TextCellEditor and stores viewer and command.
+	 * 
+	 * @param viewer
+	 * @param command
+	 */
+	public AbstractCommandEditingSupport(TableViewer viewer, List<Command> command) {
+		this(viewer, command, new TextCellEditor(viewer.getTable()));
 	}
 
 	@Override
