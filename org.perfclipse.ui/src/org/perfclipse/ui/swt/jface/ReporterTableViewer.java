@@ -33,7 +33,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.EditReporterEnabledCommand;
+import org.perfclipse.ui.gef.commands.EditReporterTypeCommand;
 import org.perfclipse.ui.gef.directedit.ClassLabelProvider;
 
 /**
@@ -123,14 +125,16 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 			
 			@Override
 			protected Object getValue(Object element) {
-				//TODO:
+
+				//TODO: select current value
 				return null;
 			}
 			
 			@Override
 			protected Command getCommand(Object element, Object value) {
-				//TODO:
-				return null;
+				ReporterModel reporter = (ReporterModel) element;
+				Class<?> clazz = (Class<?>) value;
+				return new EditReporterTypeCommand(reporter, Utils.clazzToString(clazz));
 			}
 		});
 		
