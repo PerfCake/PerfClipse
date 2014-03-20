@@ -75,7 +75,7 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 			
 		});
 
-		uri.setEditingSupport(new AbstractCommandEditingSupport(this, commands) {
+		uri.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands()) {
 			
 			@Override
 			protected Object getValue(Object element) {

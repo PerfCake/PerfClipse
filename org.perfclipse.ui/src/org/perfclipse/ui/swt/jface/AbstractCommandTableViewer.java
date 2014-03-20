@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Table;
 
 public abstract class AbstractCommandTableViewer extends TableViewer {
 
-	protected List<Command> commands;
+	private List<Command> commands;
 
 
 	public AbstractCommandTableViewer(Composite parent, int style,
@@ -37,4 +37,7 @@ public abstract class AbstractCommandTableViewer extends TableViewer {
 	 */
 	protected abstract void initColumns();
 
+	public List<Command> getCommands() {
+		return commands;
+	}
 }
