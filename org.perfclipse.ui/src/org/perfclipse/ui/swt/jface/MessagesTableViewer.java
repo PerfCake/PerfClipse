@@ -39,6 +39,9 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 	private static final int VALIDATOR_REF_COLUMN_WIDTH = 50;
 	private static final int MULTIPLICITY_COLUMN_WIDTH = 50;
 	static final int URI_COLUMN_WIDTH = 220;
+	private TableViewerColumn multiplicity;
+	private TableViewerColumn validatorRef;
+	private TableViewerColumn uri;
 
 	/**
 	 * @param parent
@@ -61,8 +64,7 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 	@Override
 	protected void initColumns() {
 
-		TableViewerColumn uri = new TableViewerColumn(this, SWT.NONE);
-		uri.getColumn().setWidth(URI_COLUMN_WIDTH);
+		uri = new TableViewerColumn(this, SWT.NONE);
 		uri.getColumn().setText("Message URI");
 		uri.setLabelProvider(new ColumnLabelProvider(){
 
@@ -91,8 +93,7 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 			}
 		});
 		
-		TableViewerColumn multiplicity = new TableViewerColumn(this, SWT.NONE);
-		multiplicity.getColumn().setWidth(MULTIPLICITY_COLUMN_WIDTH);
+		multiplicity = new TableViewerColumn(this, SWT.NONE);
 		multiplicity.getColumn().setText("Mulitplicity");
 		multiplicity.setLabelProvider(new ColumnLabelProvider(){
 
@@ -104,8 +105,7 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 			
 		});
 		
-		TableViewerColumn validatorRef = new TableViewerColumn(this, SWT.NONE);
-		validatorRef.getColumn().setWidth(VALIDATOR_REF_COLUMN_WIDTH);
+		validatorRef = new TableViewerColumn(this, SWT.NONE);
 		validatorRef.getColumn().setText("Validators");
 		validatorRef.setLabelProvider(new ColumnLabelProvider(){
 
@@ -118,5 +118,14 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 		});
 		
 	}
+
+	@Override
+	protected void setColumnsSize() {
+		uri.getColumn().setWidth(URI_COLUMN_WIDTH);
+		validatorRef.getColumn().setWidth(VALIDATOR_REF_COLUMN_WIDTH);
+		multiplicity.getColumn().setWidth(MULTIPLICITY_COLUMN_WIDTH);
+	}
+	
+	
 
 }

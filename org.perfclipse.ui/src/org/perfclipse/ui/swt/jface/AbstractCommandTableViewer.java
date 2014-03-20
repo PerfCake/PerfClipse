@@ -26,6 +26,7 @@ public abstract class AbstractCommandTableViewer extends TableViewer {
 	protected void initializeViewer() {
 
 		initColumns();
+		setColumnsSize();
 
 		final Table propertiesTable = getTable();
 		propertiesTable.setHeaderVisible(true);
@@ -39,5 +40,13 @@ public abstract class AbstractCommandTableViewer extends TableViewer {
 
 	public List<Command> getCommands() {
 		return commands;
+	}
+	
+	/**
+	 * Method called in initializeViewer.
+	 * Default implementation does nothing. 
+	 */
+	protected void setColumnsSize(){
+		
 	}
 }

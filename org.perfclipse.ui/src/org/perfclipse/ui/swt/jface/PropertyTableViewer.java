@@ -36,6 +36,8 @@ import org.perfclipse.model.PropertyModel;
 public class PropertyTableViewer extends AbstractCommandTableViewer {
 
 	static final int COLUMN_WIDTH = 220;
+	private TableViewerColumn keyColumn;
+	private TableViewerColumn valueColumn;
 
 	public PropertyTableViewer(Composite parent, int style, List<Command> commands) {
 		super(parent, style, commands);
@@ -52,8 +54,7 @@ public class PropertyTableViewer extends AbstractCommandTableViewer {
 
 	@Override
 	protected void initColumns() {
-		TableViewerColumn keyColumn = new TableViewerColumn(this, SWT.NONE);
-		keyColumn.getColumn().setWidth(COLUMN_WIDTH);
+		keyColumn = new TableViewerColumn(this, SWT.NONE);
 		keyColumn.getColumn().setText("Property name");
 		keyColumn.setEditingSupport(new PropertyNameEditingSupport(this, getCommands()));
 		keyColumn.setLabelProvider(new ColumnLabelProvider(){
@@ -65,9 +66,8 @@ public class PropertyTableViewer extends AbstractCommandTableViewer {
 			}
 			
 		});
-		TableViewerColumn valueColumn = new TableViewerColumn(this, SWT.NONE);
+		valueColumn = new TableViewerColumn(this, SWT.NONE);
 		valueColumn.getColumn().setText("Property value");
-		valueColumn.getColumn().setWidth(COLUMN_WIDTH);
 		valueColumn.setEditingSupport(new PropertyValueEditingSupport(this, getCommands()));
 		valueColumn.setLabelProvider(new ColumnLabelProvider(){
 
@@ -80,4 +80,11 @@ public class PropertyTableViewer extends AbstractCommandTableViewer {
 		});
 		
 	}
+
+	@Override
+	protected void setColumnsSize() {
+		keyColumn.getColumn().setWidth(COLUMN_WIDTH);
+		valueColumn.getColumn().setWidth(COLUMN_WIDTH);
+	}
+	
 }
