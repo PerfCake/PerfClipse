@@ -20,6 +20,7 @@
 package org.perfclipse.ui.gef.directedit;
 
 import org.eclipse.jface.viewers.LabelProvider;
+import org.perfclipse.ui.Utils;
 
 public class ClassLabelProvider extends LabelProvider {
 	@Override 
@@ -28,7 +29,7 @@ public class ClassLabelProvider extends LabelProvider {
 			//TODO : check if it is component from perfcake.
 			// If it is not then return full path		}
 			Class<?> clazz = (Class<?>) element;
-			return clazz.getSimpleName();
+			return Utils.clazzToString(clazz);
 		}
 		return null;
 	}

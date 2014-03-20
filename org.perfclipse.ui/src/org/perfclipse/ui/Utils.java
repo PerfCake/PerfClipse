@@ -50,4 +50,14 @@ public class Utils {
 		return newConsole;
 		
 	}
+	
+	/**
+	 * Return string representation of class type of PerfCake component
+	 * For Components which are directly in PerfCake it returns simple name.
+	 * @return name of PerfCake Component
+	 */
+	public static String clazzToString(Class<?> clazz){
+		//TODO: Check if component is in PerfCake bundle
+		return clazz.getSimpleName();
+	}
 }

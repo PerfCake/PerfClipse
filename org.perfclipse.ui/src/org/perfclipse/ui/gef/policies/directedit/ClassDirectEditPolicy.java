@@ -20,7 +20,7 @@
 package org.perfclipse.ui.gef.policies.directedit;
 
 import org.eclipse.gef.requests.DirectEditRequest;
-import org.perfclipse.ui.gef.directedit.ClassLabelProvider;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 
 /**
@@ -39,8 +39,10 @@ public abstract class ClassDirectEditPolicy extends LabelDirectEditPolicy {
 	 * @return Label for given input or null if input is not instanceof Class
 	 */
 	protected String asString(Object input) {
-		ClassLabelProvider labelProvider = new ClassLabelProvider();
-		return labelProvider.getText(input);
+		if (input instanceof Class<?>){
+			Utils.clazzToString((Class<?>) input);
+		}
+		return null;
 	}
 
 	@Override
