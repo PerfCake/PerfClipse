@@ -28,6 +28,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.MessageModel;
+import org.perfclipse.ui.gef.commands.EditMessageMultiplicityCommand;
 import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
 
 /**
@@ -51,7 +52,6 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 	public MessagesTableViewer(Composite parent, int style,
 			List<Command> commands) {
 		super(parent, style, commands);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -105,6 +105,27 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 			
 		});
 		
+		multiplicity.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands()) {
+			
+			@Override
+			protected Object getValue(Object element) {
+				MessageModel message = (MessageModel) element;
+				return message.getMessage().getMultiplicity();
+			}
+			
+			@Override
+			protected Command getCommand(Object element, Object value) {
+				MessageModel message = (MessageModel) element;
+				try {
+					int newValue = Integer.valueOf(String.valueOf(value));
+					return new EditMessageMultiplicityCommand(message, newValue);
+				} catch (NumberFormatException e){
+					//TODO: show user warning
+					return null;
+				}
+			}
+		});
+		
 		validatorRef = new TableViewerColumn(this, SWT.NONE);
 		validatorRef.getColumn().setText("Validators");
 		validatorRef.setLabelProvider(new ColumnLabelProvider(){
@@ -125,7 +146,4 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 		validatorRef.getColumn().setWidth(VALIDATOR_REF_COLUMN_WIDTH);
 		multiplicity.getColumn().setWidth(MULTIPLICITY_COLUMN_WIDTH);
 	}
-	
-	
-
 }
