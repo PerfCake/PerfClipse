@@ -16,6 +16,8 @@ public abstract class AbstractCommandTableViewer extends TableViewer {
 			List<Command> commands) {
 		super(parent, style);
 		this.commands = commands;
+		
+		initializeViewer();
 	}
 
 	/**

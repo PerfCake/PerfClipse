@@ -39,9 +39,6 @@ public class PropertyTableViewer extends AbstractCommandTableViewer {
 
 	public PropertyTableViewer(Composite parent, int style, List<Command> commands) {
 		super(parent, style, commands);
-		this.commands = commands;
-		
-		initializeViewer();
 	}
 
 	public PropertyTableViewer(Composite parent, List<Command> commands) {
