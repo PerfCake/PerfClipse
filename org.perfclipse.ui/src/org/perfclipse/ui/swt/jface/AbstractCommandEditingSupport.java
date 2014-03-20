@@ -73,10 +73,12 @@ public abstract class AbstractCommandEditingSupport extends EditingSupport {
 	@Override
 	protected void setValue(Object element, Object value) {
 		Command command = getCommand(element, value);
-		command.execute();
-		addCommand(command);
+		if (command != null){
+			command.execute();
+			addCommand(command);
 		
-		getViewer().update(element, null);
+			getViewer().update(element, null);
+		}
 		
 	}
 
