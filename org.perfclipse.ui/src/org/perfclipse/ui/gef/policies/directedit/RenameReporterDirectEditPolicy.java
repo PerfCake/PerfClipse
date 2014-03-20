@@ -22,7 +22,7 @@ package org.perfclipse.ui.gef.policies.directedit;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.perfclipse.model.ReporterModel;
-import org.perfclipse.ui.gef.commands.RenameReporterCommand;
+import org.perfclipse.ui.gef.commands.EditReporterTypeCommand;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 
 /**
@@ -50,7 +50,7 @@ public class RenameReporterDirectEditPolicy extends ClassDirectEditPolicy {
 	protected Command getDirectEditCommand(DirectEditRequest request) {
 		String newName = asString(request.getCellEditor().getValue());
 		if (newName != null){
-			return new RenameReporterCommand(model, newName);
+			return new EditReporterTypeCommand(model, newName);
 		}
 		return null;
 	}

@@ -22,7 +22,7 @@ package org.perfclipse.ui.gef.policies.directedit;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.perfclipse.model.GeneratorModel;
-import org.perfclipse.ui.gef.commands.RenameGeneratorCommand;
+import org.perfclipse.ui.gef.commands.EditGeneratorTypeCommand;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 
 /**
@@ -46,7 +46,7 @@ public class GeneratorDirectEditPolicy extends ClassDirectEditPolicy {
 	protected Command getDirectEditCommand(DirectEditRequest request) {
 		String newName = asString(request.getCellEditor().getValue());
 		if (newName != null){
-			return new RenameGeneratorCommand(model, newName);
+			return new EditGeneratorTypeCommand(model, newName);
 		}
 		
 		return null;

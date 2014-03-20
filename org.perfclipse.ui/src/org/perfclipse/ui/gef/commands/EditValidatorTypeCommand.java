@@ -20,36 +20,29 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.SenderModel;
+import org.perfclipse.model.ValidatorModel;
 
-/**
- * @author Jakub Knetl
- *
- */
-public class RenameSenderCommand extends Command {
-	
-	private SenderModel sender;
-	private String oldClazz;
+public class EditValidatorTypeCommand extends Command {
+
 	private String newClazz;
-	/**
-	 * @param sender
-	 * @param newClazz
-	 */
-	public RenameSenderCommand(SenderModel sender, String newClazz) {
-		super("Rename sender");
-		this.sender = sender;
-		this.newClazz = newClazz;
-		this.oldClazz = sender.getSender().getClazz();
-	}
+	private String oldClazz;
+	private ValidatorModel validator;
 
+	public EditValidatorTypeCommand(ValidatorModel validator, String newClazz) {
+		super("rename validator");
+		this.validator = validator;
+		this.oldClazz = validator.getValidator().getClazz();
+		this.newClazz = newClazz;
+	}
+	
 	@Override
 	public void execute() {
-		sender.setClazz(newClazz);
+		validator.setClazz(newClazz);
 	}
 
 	@Override
 	public void undo() {
-		sender.setClazz(oldClazz);
+		validator.setClazz(oldClazz);
 	}
-	
+
 }

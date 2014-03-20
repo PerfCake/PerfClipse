@@ -22,7 +22,7 @@ package org.perfclipse.ui.gef.policies.directedit;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.perfclipse.model.ValidatorModel;
-import org.perfclipse.ui.gef.commands.RenameValidatorCommand;
+import org.perfclipse.ui.gef.commands.EditValidatorTypeCommand;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 
 public class ValidatorDirectEditPolicy extends ClassDirectEditPolicy {
@@ -40,7 +40,7 @@ public class ValidatorDirectEditPolicy extends ClassDirectEditPolicy {
 	protected Command getDirectEditCommand(DirectEditRequest request) {
 		String newName = asString(request.getCellEditor().getValue());
 		if (newName != null){
-			return new RenameValidatorCommand(model, newName);
+			return new EditValidatorTypeCommand(model, newName);
 		}
 		
 		return null;

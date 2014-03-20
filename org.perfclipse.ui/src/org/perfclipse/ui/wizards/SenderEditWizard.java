@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.SenderModel;
-import org.perfclipse.ui.gef.commands.RenameSenderCommand;
+import org.perfclipse.ui.gef.commands.EditSenderTypeCommand;
 
 /**
  * @author Jakub Knetl
@@ -45,7 +45,7 @@ public class SenderEditWizard extends AbstractPerfCakeEditWizard {
 	public boolean performFinish() {
 
 		if (!(sender.getSender().getClazz().equals(senderPage.getSenderName()))){
-			command.add(new RenameSenderCommand(sender, senderPage.getSenderName()));
+			command.add(new EditSenderTypeCommand(sender, senderPage.getSenderName()));
 		}
 		
 		return super.performFinish();

@@ -28,7 +28,7 @@ import org.perfclipse.model.RunModel;
 import org.perfclipse.ui.gef.commands.EditGeneratorThreadsCommand;
 import org.perfclipse.ui.gef.commands.EditRunTypeCommand;
 import org.perfclipse.ui.gef.commands.EditRunValue;
-import org.perfclipse.ui.gef.commands.RenameGeneratorCommand;
+import org.perfclipse.ui.gef.commands.EditGeneratorTypeCommand;
 
 /**
  * @author Jakub Knetl
@@ -55,7 +55,7 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 		Generator gen = generator.getGenerator();
 		
 		if (!(gen.getClazz().equals(generatorPage.getGeneratorName()))){
-			command.add(new RenameGeneratorCommand(generator, generatorPage.getGeneratorName()));
+			command.add(new EditGeneratorTypeCommand(generator, generatorPage.getGeneratorName()));
 		}
 		if (!(gen.getRun().getType().equals(generatorPage.getRunType()))){
 			command.add(new EditRunTypeCommand(run, generatorPage.getRunType()));

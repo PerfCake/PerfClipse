@@ -28,7 +28,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.MessageModel;
-import org.perfclipse.ui.gef.commands.RenameMessageUriCommand;
+import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
 
 /**
  * @author Jakub Knetl
@@ -89,7 +89,7 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 			@Override
 			protected Command getCommand(Object element, Object value) {
 				MessageModel message = (MessageModel) element;
-				return new RenameMessageUriCommand(message, String.valueOf(value));
+				return new EditMessageUriCommand(message, String.valueOf(value));
 			}
 		});
 		

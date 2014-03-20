@@ -22,7 +22,7 @@ package org.perfclipse.ui.gef.policies.directedit;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.perfclipse.model.SenderModel;
-import org.perfclipse.ui.gef.commands.RenameSenderCommand;
+import org.perfclipse.ui.gef.commands.EditSenderTypeCommand;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 
 /**
@@ -48,7 +48,7 @@ public class SenderDirectEditPolicy extends ClassDirectEditPolicy {
 	protected Command getDirectEditCommand(DirectEditRequest request) {
 		String newName = asString(request.getCellEditor().getValue());
 		if (newName != null){
-			return new RenameSenderCommand(model, newName);
+			return new EditSenderTypeCommand(model, newName);
 		}
 		return null;
 	}

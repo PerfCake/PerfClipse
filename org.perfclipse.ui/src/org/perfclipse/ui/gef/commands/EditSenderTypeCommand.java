@@ -20,29 +20,36 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.SenderModel;
 
-public class RenameMessageUriCommand extends Command {
-
-	private String newUri;
-	private String oldUri;
-	private MessageModel messageModel;
-
-	public RenameMessageUriCommand(MessageModel message, String newUri) {
-		super("rename message");
-		this.messageModel = message;
-		this.oldUri = message.getMessage().getUri();
-		this.newUri = newUri;
-	}
+/**
+ * @author Jakub Knetl
+ *
+ */
+public class EditSenderTypeCommand extends Command {
 	
+	private SenderModel sender;
+	private String oldClazz;
+	private String newClazz;
+	/**
+	 * @param sender
+	 * @param newClazz
+	 */
+	public EditSenderTypeCommand(SenderModel sender, String newClazz) {
+		super("Rename sender");
+		this.sender = sender;
+		this.newClazz = newClazz;
+		this.oldClazz = sender.getSender().getClazz();
+	}
+
 	@Override
 	public void execute() {
-		messageModel.setUri(newUri);
+		sender.setClazz(newClazz);
 	}
 
 	@Override
 	public void undo() {
-		messageModel.setUri(oldUri);
+		sender.setClazz(oldClazz);
 	}
-
+	
 }

@@ -26,13 +26,13 @@ import org.perfclipse.model.DestinationModel;
  * @author Jakub Knetl
  *
  */
-public class RenameDestinationCommand extends Command {
+public class EditDestinationTypeCommand extends Command {
 
 	private String newClazz;
 	private String oldClazz;
 	private DestinationModel destination;
 
-	public RenameDestinationCommand(DestinationModel model, String newName) {
+	public EditDestinationTypeCommand(DestinationModel model, String newName) {
 		super("Rename destination");
 		this.destination = model;
 		this.oldClazz = model.getDestination().getClazz();

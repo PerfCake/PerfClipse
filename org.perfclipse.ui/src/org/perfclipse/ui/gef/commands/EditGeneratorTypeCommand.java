@@ -20,32 +20,33 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.ReporterModel;
+import org.perfclipse.model.GeneratorModel;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class RenameReporterCommand extends Command {
-	
-	private ReporterModel reporter;
-	private String oldClazz;
+public class EditGeneratorTypeCommand extends Command {
 	private String newClazz;
+	private String oldClazz;
+	private GeneratorModel model;
 
-	public RenameReporterCommand(ReporterModel reporter, String newClazz) {
+	public EditGeneratorTypeCommand(GeneratorModel model, String newClazz) {
 		super();
-		this.reporter = reporter;
 		this.newClazz = newClazz;
-		this.oldClazz = reporter.getReporter().getClazz();
+		this.model = model;
+		this.oldClazz = model.getGenerator().getClazz();
 	}
+	
+	
 
 	@Override
 	public void execute() {
-		reporter.setClazz(newClazz);
+		model.setClazz(newClazz);
 	}
 
 	@Override
 	public void undo() {
-		reporter.setClazz(oldClazz);
+		model.setClazz(oldClazz);
 	}
 }

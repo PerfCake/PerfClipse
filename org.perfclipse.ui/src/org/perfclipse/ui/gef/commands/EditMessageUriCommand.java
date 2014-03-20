@@ -20,29 +20,29 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.model.MessageModel;
 
-public class RenameValidatorCommand extends Command {
+public class EditMessageUriCommand extends Command {
 
-	private String newClazz;
-	private String oldClazz;
-	private ValidatorModel validator;
+	private String newUri;
+	private String oldUri;
+	private MessageModel messageModel;
 
-	public RenameValidatorCommand(ValidatorModel validator, String newClazz) {
-		super("rename validator");
-		this.validator = validator;
-		this.oldClazz = validator.getValidator().getClazz();
-		this.newClazz = newClazz;
+	public EditMessageUriCommand(MessageModel message, String newUri) {
+		super("rename message");
+		this.messageModel = message;
+		this.oldUri = message.getMessage().getUri();
+		this.newUri = newUri;
 	}
 	
 	@Override
 	public void execute() {
-		validator.setClazz(newClazz);
+		messageModel.setUri(newUri);
 	}
 
 	@Override
 	public void undo() {
-		validator.setClazz(oldClazz);
+		messageModel.setUri(oldUri);
 	}
 
 }

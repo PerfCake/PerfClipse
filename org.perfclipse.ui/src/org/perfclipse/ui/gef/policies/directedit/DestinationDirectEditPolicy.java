@@ -23,7 +23,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.perfclipse.model.DestinationModel;
-import org.perfclipse.ui.gef.commands.RenameDestinationCommand;
+import org.perfclipse.ui.gef.commands.EditDestinationTypeCommand;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 
 /**
@@ -48,7 +48,7 @@ public class DestinationDirectEditPolicy extends ClassDirectEditPolicy
 	protected Command getDirectEditCommand(DirectEditRequest request) {
 		String newName = asString(request.getCellEditor().getValue());
 		if (newName != null){
-			return new RenameDestinationCommand(model, newName);
+			return new EditDestinationTypeCommand(model, newName);
 		}
 		return null;
 	}
