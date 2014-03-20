@@ -2,18 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
-         <command
-               commandId="org.perfclipse.ui.runScenario"
-               label="Run PerfCake Sceanrio"
-               style="push">
-         </command>
-      </menuContribution>
-   </extension>
-   <extension
          point="org.eclipse.ui.newWizards">
       <category
             id="org.perfclipse.ui.wizards.category.perfcake"
