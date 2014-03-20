@@ -24,39 +24,37 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Table;
 import org.perfclipse.model.PropertyModel;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class PropertyTableViewer extends TableViewer {
+public class PropertyTableViewer extends AbstractCommandTableViewer {
 
-	private static final int COLUMN_WIDTH = 220;
-
-	protected List<Command> commands;
+	static final int COLUMN_WIDTH = 220;
 
 	public PropertyTableViewer(Composite parent, int style, List<Command> commands) {
-		super(parent, style);
+		super(parent, style, commands);
 		this.commands = commands;
 		
 		initializeViewer();
 	}
 
-
-
 	public PropertyTableViewer(Composite parent, List<Command> commands) {
-		this(parent, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.FULL_SELECTION, commands);
+		super(parent, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.FULL_SELECTION, commands);
 	}
 	
 	protected void initializeViewer() {
 		setContentProvider(ArrayContentProvider.getInstance());
-		//create columns
+		super.initializeViewer();
+	}
+
+	@Override
+	protected void initColumns() {
 		TableViewerColumn keyColumn = new TableViewerColumn(this, SWT.NONE);
 		keyColumn.getColumn().setWidth(COLUMN_WIDTH);
 		keyColumn.getColumn().setText("Property name");
@@ -84,8 +82,5 @@ public class PropertyTableViewer extends TableViewer {
 			
 		});
 		
-		final Table propertiesTable = getTable();
-		propertiesTable.setHeaderVisible(true);
-		propertiesTable.setLinesVisible(true);
 	}
 }
