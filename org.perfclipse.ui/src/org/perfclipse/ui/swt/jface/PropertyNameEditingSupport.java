@@ -30,7 +30,7 @@ import org.perfclipse.ui.gef.commands.EditPropertyNameCommand;
  * @author Jakub Knetl
  *
  */
-public class PropertyNameEditingSupport extends AbstractEditingSupport {
+public class PropertyNameEditingSupport extends AbstractCommandEditingSupport {
 	
 	public PropertyNameEditingSupport(TableViewer viewer, List<Command> command) {
 		super(viewer, command);
