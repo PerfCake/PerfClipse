@@ -24,7 +24,6 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -39,16 +38,16 @@ import org.perfclipse.ui.gef.commands.AddPropertyCommand;
  * @author Jakub Knetl
  *
  */
-public class AddPropertySelectionAdapter extends SelectionAdapter {
+public class AddPropertySelectionAdapter extends AbstractCommandSelectionAdapter {
 
 	private TableViewer viewer;
-	private List<Command> commands;
 	private IPropertyContainer propertyContainer;
+	private Property property;
 
 	public AddPropertySelectionAdapter(TableViewer viewer,
 			List<Command> commands, IPropertyContainer propertyContainer) {
+		super(commands);
 		this.viewer = viewer;
-		this.commands = commands;
 		this.propertyContainer = propertyContainer;
 	}
 
@@ -60,19 +59,14 @@ public class AddPropertySelectionAdapter extends SelectionAdapter {
 		if (name == null || value == null)
 			return;
 
-		Property p = new org.perfcake.model.ObjectFactory().createProperty();
-		p.setName(name);
-		p.setValue(value);
+		property = new org.perfcake.model.ObjectFactory().createProperty();
+		property.setName(name);
+		property.setValue(value);
 		
-		if (propertyContainer != null){
-			Command c = new AddPropertyCommand(p, propertyContainer);
-			c.execute();
-			if (commands != null)
-				commands.add(c);
-		}
-
 		//TODO: obtain ModelMapper
-		viewer.add(new PropertyModel(p));
+		viewer.add(new PropertyModel(property));
+
+		super.widgetSelected(e);
 	}
 	
 	private String getDialogInput(String title, String label, String initValue) {
@@ -82,6 +76,15 @@ public class AddPropertySelectionAdapter extends SelectionAdapter {
 		dialog.open();
 		if (dialog.getReturnCode() == InputDialog.OK)
 			return dialog.getValue();
+		
+		return null;
+	}
+
+	@Override
+	protected Command getCommand() {
+		if (propertyContainer != null){
+			return new AddPropertyCommand(property, propertyContainer);
+		}
 		
 		return null;
 	}

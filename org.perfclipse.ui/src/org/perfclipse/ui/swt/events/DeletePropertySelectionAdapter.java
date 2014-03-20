@@ -26,7 +26,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.perfclipse.model.IPropertyContainer;
 import org.perfclipse.model.PropertyModel;
@@ -37,16 +36,16 @@ import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
  * @author Jakub Knetl
  *
  */
-public class DeletePropertySelectionAdapter extends SelectionAdapter {
+public class DeletePropertySelectionAdapter extends AbstractCommandSelectionAdapter {
 
 	private TableViewer viewer;
-	private List<Command> commands;
 	private IPropertyContainer propertyContainer;
+	private PropertyModel property;
 
 	public DeletePropertySelectionAdapter(TableViewer viewer,
 			List<Command> commands, IPropertyContainer propertyContainer) {
+		super(commands);
 		this.viewer = viewer;
-		this.commands = commands;
 		this.propertyContainer = propertyContainer;
 	}
 	
@@ -58,16 +57,19 @@ public class DeletePropertySelectionAdapter extends SelectionAdapter {
 			@SuppressWarnings("unchecked")
 			Iterator<Object> it = ((IStructuredSelection) selection).iterator();
 			while (it.hasNext()){
-				PropertyModel property = (PropertyModel) it.next();
-				if (propertyContainer != null){
-					Command c = new DeletePropertyCommand(propertyContainer, property);
-					c.execute();
-					if (commands != null)
-						commands.add(c);
-				}
+				property = (PropertyModel) it.next();
+				super.handleCommand();
 				viewer.remove(property);
 			}
 			
 		}
+	}
+
+	@Override
+	protected Command getCommand() {
+		if (propertyContainer != null){
+			new DeletePropertyCommand(propertyContainer, property);
+		}
+		return null;
 	}
 }
