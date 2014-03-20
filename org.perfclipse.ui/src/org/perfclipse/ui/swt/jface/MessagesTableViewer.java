@@ -22,7 +22,6 @@ package org.perfclipse.ui.swt.jface;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -53,13 +52,6 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 			List<Command> commands) {
 		super(parent, style, commands);
 	}
-
-	@Override
-	protected void initializeViewer() {
-		setContentProvider(ArrayContentProvider.getInstance());
-		super.initializeViewer();
-	}
-
 
 	@Override
 	protected void initColumns() {

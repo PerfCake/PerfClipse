@@ -3,6 +3,7 @@ package org.perfclipse.ui.swt.jface;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
@@ -21,9 +22,11 @@ public abstract class AbstractCommandTableViewer extends TableViewer {
 	}
 
 	/**
-	 * Calls initColumns() method and sets table header and lines visible
+	 * Sets array content provider, calls initColumns() method and sets table header
+	 *  and lines visible
 	 */
 	protected void initializeViewer() {
+		setContentProvider(ArrayContentProvider.getInstance());
 
 		initColumns();
 		setColumnsSize();

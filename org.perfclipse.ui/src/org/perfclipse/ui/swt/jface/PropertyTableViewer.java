@@ -22,7 +22,6 @@ package org.perfclipse.ui.swt.jface;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -45,11 +44,6 @@ public class PropertyTableViewer extends AbstractCommandTableViewer {
 
 	public PropertyTableViewer(Composite parent, List<Command> commands) {
 		super(parent, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.FULL_SELECTION, commands);
-	}
-	
-	protected void initializeViewer() {
-		setContentProvider(ArrayContentProvider.getInstance());
-		super.initializeViewer();
 	}
 
 	@Override
