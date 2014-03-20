@@ -43,14 +43,9 @@ public class PropertyValueEditingSupport extends AbstractCommandEditingSupport {
 	}
 
 	@Override
-	protected void setValue(Object element, Object value) {
+	protected Command getCommand(Object element, Object value) {
 		PropertyModel property = (PropertyModel) element;
-		
-		Command command = new EditPropertyValueCommand(property, String.valueOf(value));
-		command.execute();
-		addCommand(command);
-		
-		getViewer().update(element, null);
+		return new EditPropertyValueCommand(property, String.valueOf(value));
 	}
 
 }

@@ -64,4 +64,25 @@ public abstract class AbstractCommandEditingSupport extends EditingSupport {
 		}
 	}
 	
+	
+	/**
+	 * Calls getCommand to obtain command then executes this command, adds the command
+	 * to the command list and updates viewer.
+	 * 
+	 */
+	@Override
+	protected void setValue(Object element, Object value) {
+		Command command = getCommand(element, value);
+		command.execute();
+		addCommand(command);
+		
+		getViewer().update(element, null);
+		
+	}
+
+	/**
+	 * Returns command to be executed
+	 */
+	protected abstract Command getCommand(Object element, Object value);
+	
 }
