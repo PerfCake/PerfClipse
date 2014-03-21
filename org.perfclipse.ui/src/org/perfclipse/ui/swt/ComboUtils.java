@@ -19,6 +19,8 @@
 
 package org.perfclipse.ui.swt;
 
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Combo;
 
 /**
@@ -39,6 +41,15 @@ public class ComboUtils {
 				break;
 			}
 		}
-		
 	}
+	
+	/**
+	 * Select given value in the combo viewer, if such value exists in the viewer
+	 * @param viewer ComboViewer where value should be selected
+	 * @param value Value to be selected
+	 */
+	public static void select(ComboViewer viewer, Object value){
+		viewer.setSelection(new StructuredSelection(value));
+	}
+	
 }
