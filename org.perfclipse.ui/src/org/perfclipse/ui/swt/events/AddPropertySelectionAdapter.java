@@ -22,8 +22,9 @@ package org.perfclipse.ui.swt.events;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -31,6 +32,7 @@ import org.perfcake.model.Property;
 import org.perfclipse.model.IPropertyContainer;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.ui.gef.commands.AddPropertyCommand;
+import org.perfclipse.ui.wizards.PropertyWizard;
 
 /**
  * 
@@ -53,15 +55,17 @@ public class AddPropertySelectionAdapter extends AbstractCommandSelectionAdapter
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		String name = getDialogInput("Add property", "Property name: ", "name");
-		String value = getDialogInput("Add property", "Property value: ", "value");
 
-		if (name == null || value == null)
+		PropertyWizard wizard = new PropertyWizard();
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		WizardDialog dialog = new WizardDialog(shell, wizard);
+
+		if (dialog.open() != Window.OK)
 			return;
 
 		property = new org.perfcake.model.ObjectFactory().createProperty();
-		property.setName(name);
-		property.setValue(value);
+		property.setName(wizard.getName());
+		property.setValue(wizard.getValue());
 		
 		//TODO: obtain ModelMapper
 		viewer.add(new PropertyModel(property));
@@ -69,17 +73,6 @@ public class AddPropertySelectionAdapter extends AbstractCommandSelectionAdapter
 		super.widgetSelected(e);
 	}
 	
-	private String getDialogInput(String title, String label, String initValue) {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		//TODO: validator
-		InputDialog dialog = new InputDialog(shell, title, label, initValue, null);
-		dialog.open();
-		if (dialog.getReturnCode() == InputDialog.OK)
-			return dialog.getValue();
-		
-		return null;
-	}
-
 	@Override
 	protected Command getCommand() {
 		if (propertyContainer != null){

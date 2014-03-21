@@ -24,13 +24,15 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
 import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.commands.AddPropertyCommand;
+import org.perfclipse.ui.wizards.PropertyWizard;
 
 /**
  * @author Jakub Knetl
@@ -73,28 +75,21 @@ public class PropertyListEditPolicy extends AbstractListEditPolicy implements
 				properties.createProperties();
 				scenario.setProperties(properties.getProperties());
 			}
-			Property newProperty = (Property) request.getNewObject();
-			String name = getDialogInput("Add property", "Property name: ", "name");
-			String value = getDialogInput("Add property", "Property value: ", "value");
-			if (name == null || value == null)
-				return null;
+			PropertyWizard wizard = new PropertyWizard();
+			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			WizardDialog dialog = new WizardDialog(shell, wizard);
 			
-			newProperty.setName(name);
-			newProperty.setValue(value);
+			if (dialog.open() != Window.OK)
+				return null;
+				
+			Property newProperty = (Property) request.getNewObject();
+			
+			newProperty.setName(wizard.getName());
+			newProperty.setValue(wizard.getValue());
 			return new AddPropertyCommand(newProperty, properties);
 		}
 		return null;
 	}
 	
-	private String getDialogInput(String title, String label, String initValue) {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		//TODO: validator
-		InputDialog dialog = new InputDialog(shell, title, label, initValue, null);
-		dialog.open();
-		if (dialog.getReturnCode() == InputDialog.OK)
-			return dialog.getValue();
-		
-		return null;
-	}
 
 }

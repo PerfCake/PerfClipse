@@ -65,6 +65,8 @@ public class PropertyPage extends WizardPage {
 
 	@Override
 	public void createControl(Composite parent) {
+		setTitle("Property wizard");
+		setDescription("Fill in name and value.");
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		GridData data;
@@ -77,6 +79,7 @@ public class PropertyPage extends WizardPage {
 		nameText = new Text(container, SWT.NONE);
 		data = new GridData();
 		data.horizontalAlignment = SWT.FILL;
+		data.grabExcessHorizontalSpace = true;
 		nameText.setLayoutData(data);
 		
 		
@@ -86,6 +89,7 @@ public class PropertyPage extends WizardPage {
 		valueText = new Text(container, SWT.NONE);
 		data = new GridData();
 		data.horizontalAlignment = SWT.FILL;
+		data.grabExcessHorizontalSpace = true;
 		valueText.setLayoutData(data);
 		
 		setControl(container);
