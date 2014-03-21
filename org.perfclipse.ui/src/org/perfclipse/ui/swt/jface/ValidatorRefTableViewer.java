@@ -26,24 +26,25 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.perfclipse.model.PropertyModel;
+import org.perfclipse.model.ValidatorRefModel;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class PropertyTableViewer extends AbstractCommandTableViewer {
+public class ValidatorRefTableViewer extends AbstractCommandTableViewer {
 
-	static final int COLUMN_WIDTH = 220;
-	private TableViewerColumn keyColumn;
-	private TableViewerColumn valueColumn;
+
 	
+	private static final int ID_COLUMN_WIDTH = 80;
+	private TableViewerColumn refColumn;
+
 	/**
 	 * @param parent
 	 * @param style
 	 * @param commands
 	 */
-	public PropertyTableViewer(Composite parent, int style,
+	public ValidatorRefTableViewer(Composite parent, int style,
 			List<Command> commands) {
 		super(parent, style, commands);
 	}
@@ -52,43 +53,35 @@ public class PropertyTableViewer extends AbstractCommandTableViewer {
 	 * @param parent
 	 * @param commands
 	 */
-	public PropertyTableViewer(Composite parent, List<Command> commands) {
+	public ValidatorRefTableViewer(Composite parent, List<Command> commands) {
 		super(parent, commands);
 	}
+	
 
 	@Override
 	protected void initColumns() {
-		keyColumn = new TableViewerColumn(this, SWT.NONE);
-		keyColumn.getColumn().setText("Property name");
-		keyColumn.setEditingSupport(new PropertyNameEditingSupport(this, getCommands()));
-		keyColumn.setLabelProvider(new ColumnLabelProvider(){
+
+		refColumn = new TableViewerColumn(this, SWT.NONE);
+		//TODO: Connect with validator using its name and enable to go to edit validator wizard.
+		refColumn.getColumn().setText("Validator id");
+		refColumn.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override
 			public String getText(Object element) {
-				PropertyModel property = (PropertyModel) element;
-				return property.getProperty().getName();
+				ValidatorRefModel ref = (ValidatorRefModel) element;
+				return ref.getValidatorRef().getId();
 			}
 			
 		});
-		valueColumn = new TableViewerColumn(this, SWT.NONE);
-		valueColumn.getColumn().setText("Property value");
-		valueColumn.setEditingSupport(new PropertyValueEditingSupport(this, getCommands()));
-		valueColumn.setLabelProvider(new ColumnLabelProvider(){
-
-			@Override
-			public String getText(Object element) {
-				PropertyModel property = (PropertyModel) element;
-				return property.getProperty().getValue();
-			}
-			
-		});
-		
 	}
 
 	@Override
 	protected void setColumnsSize() {
-		keyColumn.getColumn().setWidth(COLUMN_WIDTH);
-		valueColumn.getColumn().setWidth(COLUMN_WIDTH);
+
+		refColumn.getColumn().setWidth(ID_COLUMN_WIDTH);
+		super.setColumnsSize();
 	}
 	
+	
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
@@ -12,6 +13,9 @@ public abstract class AbstractCommandTableViewer extends TableViewer {
 
 	private List<Command> commands;
 
+	public AbstractCommandTableViewer(Composite parent, List<Command> commands) {
+		this(parent,SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.FULL_SELECTION , commands);
+	}
 
 	public AbstractCommandTableViewer(Composite parent, int style,
 			List<Command> commands) {

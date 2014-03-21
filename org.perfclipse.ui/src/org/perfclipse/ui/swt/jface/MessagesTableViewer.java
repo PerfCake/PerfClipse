@@ -43,6 +43,7 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 	private TableViewerColumn validatorRef;
 	private TableViewerColumn uri;
 
+	
 	/**
 	 * @param parent
 	 * @param style
@@ -51,6 +52,14 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 	public MessagesTableViewer(Composite parent, int style,
 			List<Command> commands) {
 		super(parent, style, commands);
+	}
+
+	/**
+	 * @param parent
+	 * @param commands
+	 */
+	public MessagesTableViewer(Composite parent, List<Command> commands) {
+		super(parent, commands);
 	}
 
 	@Override
