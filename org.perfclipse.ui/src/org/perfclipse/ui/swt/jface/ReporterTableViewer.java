@@ -19,13 +19,13 @@
 
 package org.perfclipse.ui.swt.jface;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -109,24 +109,31 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 		});
 		
 		//TODO: extract own ClassComboViewerCellEditor and use it also in Direct Edit
-		ComboBoxViewerCellEditor editor = new ComboBoxViewerCellEditor(getTable());
-		editor.setContentProvider(ArrayContentProvider.getInstance());
-		editor.setLabelProvider(new ClassLabelProvider());
-
+		PerfCakeComponents components = null;
 		try {
-			PerfCakeComponents components = PerfCakeComponents.getInstance();
-			editor.setInput(components.getReporters().toArray());
+			components = PerfCakeComponents.getInstance();
 		} catch (PerfClipseScannerException e) {
 			//TODO: log error
 		}
+		final ClassCellEditor editor = new ClassCellEditor(getTable());
+		editor.setInput(components.getReporters());
+		editor.setContentProvider(ArrayContentProvider.getInstance());
+		editor.setLabelProvider(new ClassLabelProvider());
+
 		
 		classColumn.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands(), editor) {
 			
 			@Override
 			protected Object getValue(Object element) {
-
-				//TODO: select current value
-				return null;
+				ReporterModel reporter = (ReporterModel) element;
+				Collection<Class<?>> input =  ((Collection<Class<?>>) editor.getViewer().getInput());
+				for (Class<?> c : input){
+					if (reporter.getReporter().getClazz().equals(Utils.clazzToString(c))){
+						return c;
+					}
+				}
+				
+				return element;
 			}
 			
 			@Override
