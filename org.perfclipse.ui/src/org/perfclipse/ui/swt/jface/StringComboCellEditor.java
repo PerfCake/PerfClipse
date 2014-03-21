@@ -23,6 +23,7 @@ import java.util.Collection;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Composite;
@@ -32,7 +33,7 @@ import org.eclipse.swt.widgets.Control;
  * @author Jakub Knetl
  *
  */
-public class ClassCellEditor extends ComboBoxViewerCellEditor {
+public class StringComboCellEditor extends ComboBoxViewerCellEditor {
 
 	Collection<String> input;
 	
@@ -41,7 +42,7 @@ public class ClassCellEditor extends ComboBoxViewerCellEditor {
 	 * @param parent
 	 * @param input
 	 */
-	public ClassCellEditor(Composite parent, Collection<String> input) {
+	public StringComboCellEditor(Composite parent, Collection<String> input) {
 		this(parent, SWT.NONE, input);
 	}
 
@@ -49,7 +50,7 @@ public class ClassCellEditor extends ComboBoxViewerCellEditor {
 	 * @param parent
 	 * @param style
 	 */
-	public ClassCellEditor(Composite parent, int style, Collection<String> input) {
+	public StringComboCellEditor(Composite parent, int style, Collection<String> input) {
 		super(parent, style);
 		this.input = input;
 		getViewer().setInput(input);
@@ -60,7 +61,7 @@ public class ClassCellEditor extends ComboBoxViewerCellEditor {
 	protected Control createControl(Composite parent) {
 		Control returnValue = (CCombo) super.createControl(parent);
 		getViewer().setContentProvider(ArrayContentProvider.getInstance());
-		getViewer().setLabelProvider(new ClassLabelProvider());
+		getViewer().setLabelProvider(new LabelProvider());
 		return returnValue;
 	}
 	

@@ -23,6 +23,7 @@ import java.util.Collection;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -35,7 +36,7 @@ import org.eclipse.swt.widgets.Composite;
  *
  */
 //TODO: Add type argument
-public class ClassComboViewer extends ComboViewer {
+public class StringComboViewer extends ComboViewer {
 
 	private Collection<String> input;
 
@@ -44,7 +45,7 @@ public class ClassComboViewer extends ComboViewer {
 	 * @param parent
 	 * @param input
 	 */
-	public ClassComboViewer(Composite parent, Collection<String> input) {
+	public StringComboViewer(Composite parent, Collection<String> input) {
 		super(parent);
 		initializeViewer(input);
 	}
@@ -54,7 +55,7 @@ public class ClassComboViewer extends ComboViewer {
 	 * @param list
 	 * @param input
 	 */
-	public ClassComboViewer(Combo list, Collection<String> input) {
+	public StringComboViewer(Combo list, Collection<String> input) {
 		super(list);
 		initializeViewer(input);
 	}
@@ -63,7 +64,7 @@ public class ClassComboViewer extends ComboViewer {
 	 * 
 	 * @param list
 	 */
-	public ClassComboViewer(CCombo list, Collection<String> input) {
+	public StringComboViewer(CCombo list, Collection<String> input) {
 		super(list);
 		initializeViewer(input);
 	}
@@ -74,7 +75,7 @@ public class ClassComboViewer extends ComboViewer {
 	 * @param style
 	 * @param input
 	 */
-	public ClassComboViewer(Composite parent, int style, Collection<String> input) {
+	public StringComboViewer(Composite parent, int style, Collection<String> input) {
 		super(parent, style);
 		initializeViewer(input);
 	}
@@ -86,7 +87,7 @@ public class ClassComboViewer extends ComboViewer {
 	protected void initializeViewer(Collection<String> input) {
 		
 		setContentProvider(ArrayContentProvider.getInstance());
-		setLabelProvider(new ClassLabelProvider());
+		setLabelProvider(new LabelProvider());
 		this.input = input;
 		setInput(input);
 	}

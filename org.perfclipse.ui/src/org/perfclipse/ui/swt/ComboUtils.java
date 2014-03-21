@@ -23,7 +23,7 @@ import java.util.Collection;
 
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Combo;
-import org.perfclipse.ui.swt.jface.ClassComboViewer;
+import org.perfclipse.ui.swt.jface.StringComboViewer;
 
 /**
  * @author Jakub Knetl
@@ -50,7 +50,7 @@ public class ComboUtils {
 	 * @param viewer ComboViewer where value should be selected
 	 * @param value Value to be selected
 	 */
-	public static void select(ClassComboViewer viewer, Object value){
+	public static void select(StringComboViewer viewer, Object value){
 		
 		Collection<String> input =   viewer.getInputCollection();
 		int i = 0;

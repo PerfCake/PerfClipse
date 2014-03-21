@@ -26,8 +26,8 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.perfclipse.ui.swt.jface.ClassLabelProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +57,7 @@ public class ClassDirectEditManager extends DirectEditManager {
 	protected void initCellEditor() {
 			final ComboBoxViewerCellEditor editor = (ComboBoxViewerCellEditor) getCellEditor();
 				editor.setContentProvider(new ArrayContentProvider());
-				editor.setLabelProvider(new ClassLabelProvider());
+				editor.setLabelProvider(new LabelProvider());
 				editor.setInput(comboInput);
 				//TODO: select current validator class by default (or empty string with sufficient length)
 				editor.setValue(label.getText());

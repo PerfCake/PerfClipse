@@ -40,7 +40,7 @@ import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
-import org.perfclipse.ui.swt.jface.ClassComboViewer;
+import org.perfclipse.ui.swt.jface.StringComboViewer;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
 import org.slf4j.LoggerFactory;
@@ -56,7 +56,7 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	private Composite container;
 
 	private Label generatorLabel;
-	private ClassComboViewer generatorTypeViewer;
+	private StringComboViewer generatorTypeViewer;
 
 	private Spinner threadsSpinner;
 	private Label threadsLabel;
@@ -105,7 +105,7 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		generatorLabel = new Label(container, SWT.NONE);
 		generatorLabel.setText("Generator type: ");
 		
-		generatorTypeViewer =  new ClassComboViewer(container, components.getGeneratorNames());
+		generatorTypeViewer =  new StringComboViewer(container, components.getGeneratorNames());
 
 		generatorTypeViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
 		

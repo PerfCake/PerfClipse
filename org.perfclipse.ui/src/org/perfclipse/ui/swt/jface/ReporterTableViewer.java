@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -114,7 +113,7 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 		} catch (PerfClipseScannerException e) {
 			//TODO: log error
 		}
-		final ClassCellEditor editor = new ClassCellEditor(getTable(), components.getReporterNames());
+		final StringComboCellEditor editor = new StringComboCellEditor(getTable(), components.getReporterNames());
 
 		
 		classColumn.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands(), editor) {

@@ -35,7 +35,7 @@ import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
-import org.perfclipse.ui.swt.jface.ClassComboViewer;
+import org.perfclipse.ui.swt.jface.StringComboViewer;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
 import org.slf4j.Logger;
@@ -50,7 +50,7 @@ public class SenderPage extends AbstractPerfCakePage {
 	private static final String SENDER_PAGE_NAME = "Sender";
 	private Composite container;
 	private Label senderLabel;
-	private ClassComboViewer senderTypeViewer;
+	private StringComboViewer senderTypeViewer;
 	static final Logger log = LoggerFactory.getLogger(SenderPage.class);
 	
 	private TableViewer propertyViewer;
@@ -89,7 +89,7 @@ public class SenderPage extends AbstractPerfCakePage {
 		
 		PerfCakeComponents components = getPerfCakeComponents();
 
-		senderTypeViewer = new ClassComboViewer(container, components.getSenderNames() );
+		senderTypeViewer = new StringComboViewer(container, components.getSenderNames() );
 
 		senderTypeViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
 		GridData senderComboGridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
