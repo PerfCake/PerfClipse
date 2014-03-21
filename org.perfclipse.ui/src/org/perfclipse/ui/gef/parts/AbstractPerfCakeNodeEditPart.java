@@ -22,16 +22,11 @@ package org.perfclipse.ui.gef.parts;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.perfclipse.model.ModelMapper;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 
 
 public abstract class AbstractPerfCakeNodeEditPart extends  AbstractPerfCakeEditPart{
-
-	public AbstractPerfCakeNodeEditPart(ModelMapper mapper) {
-		super(mapper);
-	}
 
 	private Dimension figureDefaultSize;
 	

@@ -19,32 +19,29 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Sender;
 
-public class SenderModel implements IPropertyContainer {
+public class SenderModel extends PerfClipseModel implements IPropertyContainer {
 
 	public static final String PROPERTY_CLASS = "sender-class";
 	public static final String PROPERTY_PROPERTIES= "sender-property";
 	
 	private Sender sender;
-	private PropertyChangeSupport listeners;
 	
-	public SenderModel(Sender sender){
+	public SenderModel(Sender sender, ModelMapper mapper){
+		super(mapper);
 		if (sender == null){
 			throw new IllegalArgumentException("Sender must not be null");
 		}
 		this.sender = sender;
-		listeners = new PropertyChangeSupport(this);
 	}
 	
 	/**
 	 * This method should not be used for modifying Sender (in a way getSender().setClass()))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Sender
@@ -52,19 +49,11 @@ public class SenderModel implements IPropertyContainer {
 	public Sender getSender() {
 		return sender;
 	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
-	}
 
 	public void setClazz(String clazz){
 		String oldClazz = getSender().getClazz();
 		getSender().setClazz(clazz);
-		listeners.firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
+		getListeners().firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
 	}
 	
 	public void addProperty(Property Property){
@@ -73,12 +62,12 @@ public class SenderModel implements IPropertyContainer {
 	
 	public void addProperty(int index, Property property){
 		getSender().getProperty().add(index, property);
-		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
+		getListeners().firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	
 	public void removeProperty(Property property){
 		if (getSender().getProperty().remove(property)){
-			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
+			getListeners().firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
 	}
 	

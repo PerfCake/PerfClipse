@@ -19,34 +19,31 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Properties;
 
-public class PropertiesModel implements IPropertyContainer {
+public class PropertiesModel extends PerfClipseModel implements IPropertyContainer {
 
 
 	public static final String PROPERTY_PROPERTIES = "properties-property";
 	
 	private Properties properties;
-	private PropertyChangeSupport listeners;
 
-	public PropertiesModel(Properties properties) {
+	public PropertiesModel(Properties properties, ModelMapper mapper) {
+		super(mapper);
 //		if (properties == null){
 //			throw new IllegalArgumentException("Properties must not be null");
 //		}
 		this.properties = properties;
-		listeners = new PropertyChangeSupport(this);
 	}
 
 	
 	/**
 	 * This method should not be used for modifying properties (in a way getProperties().add()))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Properties 
@@ -61,25 +58,17 @@ public class PropertiesModel implements IPropertyContainer {
 	
 	public void addProperty(int index, Property property){
 		getProperties().getProperty().add(index, property);
-		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
+		getListeners().firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	
 	public void removeProperty(Property property){
 		if (getProperties().getProperty().remove(property)){
-			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
+			getListeners().firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
 	}
 	
 	public List<Property> getProperty(){
 		return getProperties().getProperty();
-	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
 	}
 	
 	public void createProperties(){

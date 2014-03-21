@@ -59,9 +59,7 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 
 	static final Logger log = LoggerFactory.getLogger(ReporterEditPart.class);
 
-	public ReporterEditPart(ReporterModel reporterModel,
-			ModelMapper mapper){
-		super(mapper);
+	public ReporterEditPart(ReporterModel reporterModel){
 		setModel(reporterModel);
 	}
 	
@@ -135,11 +133,12 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
+		ModelMapper mapper = getReporterModel().getMapper();
 		if (getReporterModel().getReporter().getDestination() != null &&
 				getReporterModel().getReporter().getDestination() != null)
 		{
 			for (Destination d: getReporterModel().getReporter().getDestination()){
-				modelChildren.add(getMapper().getModelContainer(d));
+				modelChildren.add(mapper.getModelContainer(d));
 			}
 		}
 		return modelChildren;
@@ -147,11 +146,13 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+		ModelMapper mapper = getReporterModel().getMapper();
 		if (evt.getPropertyName().equals(ReporterModel.PROPERTY_DESTINATIONS)){
 			if (evt.getOldValue() == null && evt.getNewValue() instanceof Destination){
-				DestinationModel destinationModel = new DestinationModel((Destination) evt.getNewValue());
+				Destination d = (Destination) evt.getNewValue();
+				DestinationModel destinationModel = (DestinationModel) mapper.getModelContainer(d);
 				int index = getReporterModel().getReporter().getDestination().indexOf(destinationModel.getDestination());
-				addChild(new DestinationEditPart(destinationModel,getMapper()), index);
+				addChild(new DestinationEditPart(destinationModel), index);
 			}
 			if (evt.getNewValue() == null && evt.getOldValue() instanceof Destination){
 				List<EditPart> toDelete = new ArrayList<>();

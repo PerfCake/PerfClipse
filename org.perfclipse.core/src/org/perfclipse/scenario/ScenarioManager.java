@@ -35,6 +35,7 @@ import org.perfcake.PerfCakeException;
 import org.perfcake.Scenario;
 import org.perfcake.ScenarioBuilder;
 import org.perfcake.parser.ScenarioParser;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.reflect.SchemaScanner;
 import org.slf4j.LoggerFactory;
@@ -115,7 +116,7 @@ public class ScenarioManager {
 			log.error("Cannot load scenario", e);
 			throw new ScenarioException("Cannot load scenario", e);
 		}
-		return new ScenarioModel(model);
+		return new ScenarioModel(model, new ModelMapper());
 	}
 	
 	public void createXML(org.perfcake.model.Scenario model, OutputStream out) throws ScenarioException{

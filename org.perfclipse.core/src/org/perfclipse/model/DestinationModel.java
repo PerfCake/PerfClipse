@@ -19,15 +19,13 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination.Period;
 
-public class DestinationModel implements IPropertyContainer {
+public class DestinationModel extends PerfClipseModel implements IPropertyContainer {
 	
 	public static final String PROPERTY_PERIOD = "destination-period";
 	public static final String PROPERTY_CLASS = "destination-class";
@@ -35,19 +33,18 @@ public class DestinationModel implements IPropertyContainer {
 	public static final String PROPERTY_PROPERTIES = "destination-property";
 	
 	private Destination destination;
-	private PropertyChangeSupport listeners;
 
-	public DestinationModel(Destination destination) {
+	public DestinationModel(Destination destination, ModelMapper mapper) {
+		super(mapper);
 		if (destination == null){
 			throw new IllegalArgumentException("Destination must not be null");
 		}
 		this.destination = destination;
-		listeners = new PropertyChangeSupport(this);
 	}
 	
 	/**
 	 * This method should not be used for modifying Destination (in a way getDestination().setClass()))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Destination
@@ -56,18 +53,10 @@ public class DestinationModel implements IPropertyContainer {
 		return destination;
 	}
 	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
-	}
-	
 	public void setClazz(String clazz){
 		String oldClazz = getDestination().getClazz();
 		getDestination().setClazz(clazz);
-		listeners.firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
+		getListeners().firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
 	}
 	
 	public void addPeriod(Period period){
@@ -76,12 +65,12 @@ public class DestinationModel implements IPropertyContainer {
 
 	public void addPeriod(int index, Period period){
 		getDestination().getPeriod().add(index, period);
-		listeners.firePropertyChange(PROPERTY_PERIOD, null, period);
+		getListeners().firePropertyChange(PROPERTY_PERIOD, null, period);
 	}
 	
 	public void removePeriod(Period period){
 		if (getDestination().getPeriod().remove(period)){
-			listeners.firePropertyChange(PROPERTY_PERIOD, period, null);
+			getListeners().firePropertyChange(PROPERTY_PERIOD, period, null);
 		}
 	}
 	
@@ -91,12 +80,12 @@ public class DestinationModel implements IPropertyContainer {
 	
 	public void addProperty(int index, Property property){
 		getDestination().getProperty().add(index, property);
-		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
+		getListeners().firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	
 	public void removeProperty(Property property){
 		if (getDestination().getProperty().remove(property)){
-			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
+			getListeners().firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
 	}
 	
@@ -107,7 +96,7 @@ public class DestinationModel implements IPropertyContainer {
 	public void setEnabled(boolean enabled){
 		if (enabled != getDestination().isEnabled()){
 			getDestination().setEnabled(enabled);
-			listeners.firePropertyChange(PROPERTY_ENABLED, !enabled, enabled);
+			getListeners().firePropertyChange(PROPERTY_ENABLED, !enabled, enabled);
 		}
 	}
 	

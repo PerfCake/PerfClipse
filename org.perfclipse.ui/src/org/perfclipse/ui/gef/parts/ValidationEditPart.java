@@ -40,9 +40,7 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 
 	private static final String VALIDATION_SECTION_LABEL = "Validation section";
 
-	public ValidationEditPart(ValidationModel validationModel,
-			ModelMapper mapper){
-		super(mapper);
+	public ValidationEditPart(ValidationModel validationModel){
 		setModel(validationModel);
 	}
 	
@@ -87,12 +85,13 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 	
 	@Override
 	protected List<Object> getModelChildren(){
+		ModelMapper mapper = getValidationModel().getMapper();
 		List<Object> modelChildren = new ArrayList<Object>();
 		if (getValidationModel().getValidation() != null){
 			if(getValidationModel().getValidation().getValidator() != null)
 			{
 				for (Validator v : getValidationModel().getValidation().getValidator()){
-					modelChildren.add(getMapper().getModelContainer(v));
+					modelChildren.add(mapper.getModelContainer(v));
 				}
 			}
 		}
@@ -101,11 +100,13 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+		ModelMapper mapper = getValidationModel().getMapper();
 		if (evt.getPropertyName().equals(ValidationModel.PROPERTY_VALIDATORS)){
 			if (evt.getOldValue() == null && evt.getNewValue() instanceof Validator){
-				ValidatorModel validatorModel = new ValidatorModel((Validator) evt.getNewValue());
+				Validator v = (Validator) evt.getNewValue();
+				ValidatorModel validatorModel = (ValidatorModel) mapper.getModelContainer(v);
 				int index = getValidationModel().getValidation().getValidator().indexOf(validatorModel.getValidator());
-				addChild(new ValidatorEditPart(validatorModel, getMapper()), index);
+				addChild(new ValidatorEditPart(validatorModel), index);
 			}
 			if (evt.getNewValue() == null && evt.getOldValue() instanceof Validator){
 				List<EditPart> toDelete = new ArrayList<>();

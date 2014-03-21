@@ -19,31 +19,27 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 import org.perfcake.model.Header;
 
-public class HeaderModel {
+public class HeaderModel extends PerfClipseModel {
 
 	public static final String PROPERTY_NAME = "header-name";
 	public static final String PROPERTY_VALUE = "header-value";
 	
 	private Header header;
-	private PropertyChangeSupport listeners;
 
-	public HeaderModel(Header header) {
+	public HeaderModel(Header header, ModelMapper mapper) {
+		super(mapper);
 		if (header == null){
 			throw new IllegalArgumentException("Header must not be null");
 		}
 		this.header = header;
-		listeners = new PropertyChangeSupport(this);
 	}
 
 	
 	/**
 	 * This method should not be used for modifying header (in a way getHeader().setName()))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Header 
@@ -55,21 +51,13 @@ public class HeaderModel {
 	public void setName(String name){
 		String oldName = getHeader().getName();
 		getHeader().setName(name);
-		listeners.firePropertyChange(PROPERTY_NAME, oldName, name);
+		getListeners().firePropertyChange(PROPERTY_NAME, oldName, name);
 	}
 	
 
 	public void setValue(String value){
 		String oldValue = getHeader().getValue();
 		getHeader().setValue(value);
-		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
-	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
+		getListeners().firePropertyChange(PROPERTY_VALUE, oldValue, value);
 	}
 }

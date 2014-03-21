@@ -32,7 +32,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.ui.PlatformUI;
-import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.reflect.PerfCakeComponents;
@@ -53,9 +52,7 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements P
 
 	protected DirectEditManager manager;
 
-	public ValidatorEditPart(ValidatorModel validatorModel,
-			ModelMapper mapper){
-		super(mapper);
+	public ValidatorEditPart(ValidatorModel validatorModel){
 		setModel(validatorModel);
 	}
 	

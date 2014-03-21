@@ -1,8 +1,8 @@
 /*
- * Perfclispe
+ * PerfClispe
  * 
- * 
- * Copyright (c) 2013 Jakub Knetl
+ *
+ * Copyright (c) 2014 Jakub Knetl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,13 @@
  * limitations under the License.
  */
 
-package org.perfclipse.ui.gef.parts;
+package org.perfclipse.model;
 
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-
-public abstract class AbstractPerfCakeEditPart extends
-		AbstractGraphicalEditPart {
+/**
+ * @author Jakub Knetl
+ *
+ */
+public interface IMapperSupport{
+	public ModelMapper getMapper();
 
 }

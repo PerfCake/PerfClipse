@@ -21,9 +21,7 @@ public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implemen
 
 	public static final String PROPERTIES_SECTION_LABEL = "Scenario Properties";
 	
-	public PropertiesEditPart(PropertiesModel propertiesModel,
-			ModelMapper mapper){
-		super(mapper);
+	public PropertiesEditPart(PropertiesModel propertiesModel){
 		setModel(propertiesModel);
 	}
 	
@@ -67,10 +65,11 @@ public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implemen
 	@Override
 	protected List<Object> getModelChildren() {
 		List<Object> children = new ArrayList<>();
+		ModelMapper mapper = getPropertiesModel().getMapper();
 		if (getPropertiesModel().getProperties() != null){
 			if (getPropertiesModel().getProperties().getProperty() != null){
 				for (Property p : getPropertiesModel().getProperties().getProperty()){
-					children.add(getMapper().getModelContainer(p));
+					children.add(mapper.getModelContainer(p));
 				}
 			}
 		}
@@ -79,11 +78,13 @@ public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implemen
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+		ModelMapper mapper = getPropertiesModel().getMapper();
 		if (evt.getPropertyName().equals(PropertiesModel.PROPERTY_PROPERTIES)){
 			if (evt.getOldValue() == null && evt.getNewValue() instanceof Property){
-				PropertyModel propertyModel = new PropertyModel((Property) evt.getNewValue());
+				Property p = (Property) evt.getNewValue();
+				PropertyModel propertyModel = (PropertyModel) mapper.getModelContainer(p);
 				int index = getPropertiesModel().getProperties().getProperty().indexOf(propertyModel.getProperty());
-				addChild(new PropertyEditPart(propertyModel, getMapper()), index);
+				addChild(new PropertyEditPart(propertyModel), index);
 			}
 			
 			if (evt.getNewValue() == null && evt.getOldValue() instanceof Property){

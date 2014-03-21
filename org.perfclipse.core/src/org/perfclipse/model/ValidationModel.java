@@ -19,46 +19,33 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Validation;
 import org.perfcake.model.Scenario.Validation.Validator;
 
-public class ValidationModel {
+public class ValidationModel extends PerfClipseModel {
 
 	public static final String PROPERTY_VALIDATORS = "validation-validators";
 	
 	private Validation validation;
-	private PropertyChangeSupport listeners;
 	
-	public ValidationModel(Validation validation){
+	public ValidationModel(Validation validation, ModelMapper mapper){
+		super(mapper);
 //		if (validation == null){
 //			throw new IllegalArgumentException("Validation must not be null");
 //		}
 		this.validation = validation;
-		listeners = new PropertyChangeSupport(this);
 	}
 
 	/**
 	 * This method should not be used for modifying Validation (in a way getValidation().getValidator().add()))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Validation
 	 */
 	public Validation getValidation() {
 		return validation;
-	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
 	}
 	
 	public void createValidation(){
@@ -74,12 +61,12 @@ public class ValidationModel {
 	}
 	public void addValidator(int index, Validator validator){
 		getValidation().getValidator().add(index, validator);
-		listeners.firePropertyChange(PROPERTY_VALIDATORS, null, validator);
+		getListeners().firePropertyChange(PROPERTY_VALIDATORS, null, validator);
 	}
 	
 	public void removeValidator(Validator validator){
 		if (getValidation().getValidator().remove(validator)){
-			listeners.firePropertyChange(PROPERTY_VALIDATORS, validator, null);
+			getListeners().firePropertyChange(PROPERTY_VALIDATORS, validator, null);
 		}
 	}
 

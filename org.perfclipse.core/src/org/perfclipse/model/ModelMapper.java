@@ -53,19 +53,11 @@ public class ModelMapper {
 
 	private Map<Object, Object> map;
 
-	private static ModelMapper instance;
 	
-	private ModelMapper(){
+	public ModelMapper(){
 		map = new HashMap<>();
 	};
 	
-	public static ModelMapper getInstance(){
-		if (instance == null){
-			instance = new ModelMapper();
-		}
-		
-		return instance;
-	}
 	
 	/**
 	 * Returns PerfClipse model container for given perfcakeModel.
@@ -88,81 +80,81 @@ public class ModelMapper {
 
 	private void createEntry(Object perfcakeModel) {
 		if (perfcakeModel instanceof Destination){
-			map.put(perfcakeModel, new DestinationModel((Destination) perfcakeModel));
+			map.put(perfcakeModel, new DestinationModel((Destination) perfcakeModel, this));
 			return;
 		}
 
 		if (perfcakeModel instanceof Generator){
-			map.put(perfcakeModel, new GeneratorModel((Generator) perfcakeModel));
+			map.put(perfcakeModel, new GeneratorModel((Generator) perfcakeModel, this));
 			return;
 		}
 		
 		if (perfcakeModel instanceof Header){
-			map.put(perfcakeModel, new HeaderModel((Header) perfcakeModel));
+			map.put(perfcakeModel, new HeaderModel((Header) perfcakeModel, this));
 			return;
 		}
 		
 		if (perfcakeModel instanceof Message){
-			map.put(perfcakeModel, new MessageModel((Message) perfcakeModel));
+			map.put(perfcakeModel, new MessageModel((Message) perfcakeModel, this));
 			return;
 		}
 		if (perfcakeModel instanceof Messages){
-			map.put(perfcakeModel, new MessagesModel((Messages) perfcakeModel));
+			map.put(perfcakeModel, new MessagesModel((Messages) perfcakeModel, this));
 			return;
 		}
 		
 		if (perfcakeModel instanceof Period){
-			map.put(perfcakeModel, new PeriodModel((Period) perfcakeModel));
+			map.put(perfcakeModel, new PeriodModel((Period) perfcakeModel, this));
 			return;
 		}
 
 		if (perfcakeModel instanceof Properties){
-			map.put(perfcakeModel, new PropertiesModel((Properties) perfcakeModel));
+			map.put(perfcakeModel, new PropertiesModel((Properties) perfcakeModel, this));
 			return;
 		}
 
 		if (perfcakeModel instanceof Property){
-			map.put(perfcakeModel, new PropertyModel((Property) perfcakeModel));
+			map.put(perfcakeModel, new PropertyModel((Property) perfcakeModel, this));
 			return;
 		}
 		
 		if (perfcakeModel instanceof Reporter){
-			map.put(perfcakeModel, new ReporterModel((Reporter) perfcakeModel));
+			map.put(perfcakeModel, new ReporterModel((Reporter) perfcakeModel, this));
 			return;
 		}
 		
 		if (perfcakeModel instanceof Reporting){
-			map.put(perfcakeModel, new ReportingModel((Reporting) perfcakeModel));
+			map.put(perfcakeModel, new ReportingModel((Reporting) perfcakeModel, this));
 			return;
 		}
 		
 		if (perfcakeModel instanceof Run){
-			map.put(perfcakeModel, new RunModel((Run) perfcakeModel));
+			map.put(perfcakeModel, new RunModel((Run) perfcakeModel, this));
 			return;
 		}
 		
 		if (perfcakeModel instanceof Scenario){
-			map.put(perfcakeModel, new ScenarioModel((Scenario) perfcakeModel));
+			map.put(perfcakeModel, new ScenarioModel((Scenario) perfcakeModel, this));
 			return;
 		}
 		
 		if (perfcakeModel instanceof Sender){
-			map.put(perfcakeModel, new SenderModel((Sender) perfcakeModel));
+			map.put(perfcakeModel, new SenderModel((Sender) perfcakeModel, this));
 			return;
 		}
 		
 		if (perfcakeModel instanceof Validation){
-			map.put(perfcakeModel, new ValidationModel((Validation) perfcakeModel));
+			map.put(perfcakeModel, new ValidationModel((Validation) perfcakeModel, this));
 			return;
 		}
 		
 		if (perfcakeModel instanceof Validator){
-			map.put(perfcakeModel, new ValidatorModel((Validator) perfcakeModel));
+			map.put(perfcakeModel, new ValidatorModel((Validator) perfcakeModel, this));
 			return;
 		}
 		
 		if (perfcakeModel instanceof ValidatorRef){
-			map.put(perfcakeModel, new ValidatorRefModel((ValidatorRef) perfcakeModel));
+			map.put(perfcakeModel, new ValidatorRefModel((ValidatorRef) perfcakeModel, this));
 			return;
 		}
 		

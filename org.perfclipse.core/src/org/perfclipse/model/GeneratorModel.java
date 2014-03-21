@@ -19,43 +19,32 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Generator;
 import org.perfcake.model.Scenario.Generator.Run;
 
-public class GeneratorModel implements IPropertyContainer{
+public class GeneratorModel extends PerfClipseModel implements IPropertyContainer{
 	
 	public final static String PROPERTY_CLASS = "generator-class";
 	public final static String PROPERTY_THREADS = "generator-threads";
 	public final static String PROPERTY_RUN = "generator-run";
 	public final static String PROPERTY_PROPERTY = "generator-property";
 	
-	private PropertyChangeSupport listeners;
 	private Generator generator;
 	
-	public GeneratorModel(Generator generator){
+	public GeneratorModel(Generator generator, ModelMapper mapper){
+		super(mapper);
 		if (generator == null){
 			throw new IllegalArgumentException("Generator must not be null");
 		}
 		this.generator = generator;
-		listeners = new PropertyChangeSupport(this);
-	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
 	}
 	
 	/**
 	 * This method should not be used for modifying generator (in a way getGenerator().setThreads(n))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Generator
@@ -67,19 +56,19 @@ public class GeneratorModel implements IPropertyContainer{
 	public void setThreads(String value) {
 		String oldValue = getGenerator().getThreads();
 		getGenerator().setThreads(value);
-		listeners.firePropertyChange(PROPERTY_THREADS, oldValue, value);
+		getListeners().firePropertyChange(PROPERTY_THREADS, oldValue, value);
 	}
 
 	public void setClazz(String value) {
 		String oldValue = getGenerator().getClazz();
 		getGenerator().setClazz(value);
-		listeners.firePropertyChange(PROPERTY_CLASS, oldValue, value);
+		getListeners().firePropertyChange(PROPERTY_CLASS, oldValue, value);
 	}
 
 	public void setRun(Run value) {
 		Run oldValue = getGenerator().getRun();
 		getGenerator().setRun(value);
-		listeners.firePropertyChange(PROPERTY_RUN, oldValue, value);
+		getListeners().firePropertyChange(PROPERTY_RUN, oldValue, value);
 	}
 	
 	public void addProperty(Property newProperty){
@@ -87,12 +76,12 @@ public class GeneratorModel implements IPropertyContainer{
 	}
 	public void addProperty(int index, Property newProperty){
 		getGenerator().getProperty().add(index, newProperty);
-		listeners.firePropertyChange(PROPERTY_PROPERTY, null, newProperty);
+		getListeners().firePropertyChange(PROPERTY_PROPERTY, null, newProperty);
 	}
 	
 	public void removeProperty(Property property){
 		if (getGenerator().getProperty().remove(property)){
-			listeners.firePropertyChange(PROPERTY_PROPERTY, property, null);
+			getListeners().firePropertyChange(PROPERTY_PROPERTY, property, null);
 		}
 		
 	}

@@ -19,36 +19,24 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 import org.perfcake.model.Scenario.Generator.Run;
 
-public class RunModel {
+public class RunModel extends PerfClipseModel {
 	public static final String PROPERTY_TYPE = "run-type";
 	public static final String PROPERTY_VALUE = "run-value";
-	private PropertyChangeSupport listeners;
 	private Run run;
 	
-	public RunModel(Run run){
+	public RunModel(Run run, ModelMapper mapper){
+		super(mapper);
 		if (run == null){
 			throw new IllegalArgumentException("Run must not be null");
 		}
 		this.run = run;
-		listeners = new PropertyChangeSupport(this);
-	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
 	}
 	
 	/**
 	 * This method should not be used for modifying run (in a way getRun().setType(s))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Run
@@ -60,13 +48,13 @@ public class RunModel {
 	public void setType(String value) {
 		String oldValue = getRun().getType();
 		getRun().setType(value);
-		listeners.firePropertyChange(PROPERTY_TYPE, oldValue, value);
+		getListeners().firePropertyChange(PROPERTY_TYPE, oldValue, value);
 	}
 
 	public void setValue(String value) {
 		String oldValue = getRun().getValue();
 		getRun().setValue(value);
-		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
+		getListeners().firePropertyChange(PROPERTY_VALUE, oldValue, value);
 	}
 
 

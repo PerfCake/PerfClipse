@@ -43,9 +43,7 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 	private static final String REPORTING_SECTION_LABEL = "Reporting";
 
 
-	public ReportingEditPart(ReportingModel reportingModel,
-			ModelMapper mapper){
-		super(mapper);
+	public ReportingEditPart(ReportingModel reportingModel){
 		setModel(reportingModel);
 	}
 	
@@ -95,12 +93,13 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 
 	@Override
 	protected List<Object> getModelChildren(){
+		ModelMapper mapper = getReportingModel().getMapper();
 		List<Object> modelChildren = new ArrayList<Object>();
 		if (getReportingModel().getReporting() != null ){
 			if(getReportingModel().getReporting().getReporter() != null)
 			{
 				for (Reporter r : getReportingModel().getReporting().getReporter()){
-					modelChildren.add(getMapper().getModelContainer(r));
+					modelChildren.add(mapper.getModelContainer(r));
 				}
 			}
 		}
@@ -109,11 +108,13 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+		ModelMapper mapper = getReportingModel().getMapper();
 		if (evt.getPropertyName().equals(ReportingModel.PROPERTY_REPORTERS)){
 			if (evt.getOldValue() == null && evt.getNewValue() instanceof Reporter){
-				ReporterModel reporterModel = new ReporterModel((Reporter) evt.getNewValue());
+				Reporter r = (Reporter) evt.getNewValue();
+				ReporterModel reporterModel = (ReporterModel) mapper.getModelContainer(r);
 				int index = getReportingModel().getReporting().getReporter().indexOf(reporterModel.getReporter());
-				addChild(new ReporterEditPart(reporterModel, getMapper()), index);
+				addChild(new ReporterEditPart(reporterModel), index);
 			}
 			if (evt.getNewValue() == null && evt.getOldValue() instanceof Reporter){
 				List<EditPart> toDelete = new ArrayList<>();

@@ -30,7 +30,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
 import org.perfclipse.model.IPropertyContainer;
-import org.perfclipse.model.PropertyModel;
 import org.perfclipse.ui.gef.commands.AddPropertyCommand;
 import org.perfclipse.ui.wizards.PropertyWizard;
 
@@ -67,8 +66,7 @@ public class AddPropertySelectionAdapter extends AbstractCommandSelectionAdapter
 		property.setName(wizard.getName());
 		property.setValue(wizard.getValue());
 		
-		//TODO: obtain ModelMapper
-		viewer.add(new PropertyModel(property));
+		viewer.add(propertyContainer.getMapper().getModelContainer(property));
 
 		super.widgetSelected(e);
 	}

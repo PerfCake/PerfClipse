@@ -31,7 +31,6 @@ import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.SenderModel;
-import org.perfclipse.ui.gef.parts.AbstractPerfCakeEditPart;
 import org.perfclipse.ui.wizards.SenderEditWizard;
 
 /**
@@ -50,9 +49,8 @@ public class SenderEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createPropertiesCommand() {
 		List<PropertyModel> properties = new ArrayList<>();
-		AbstractPerfCakeEditPart part = (AbstractPerfCakeEditPart) getHost();
 		for (Property p: sender.getProperty()){
-			properties.add((PropertyModel) part.getMapper().getModelContainer(p));
+			properties.add((PropertyModel) sender.getMapper().getModelContainer(p));
 		}
 
 		SenderEditWizard wizard = new SenderEditWizard(sender, properties);

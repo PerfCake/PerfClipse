@@ -19,35 +19,32 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
 
-public class ReporterModel implements IPropertyContainer {
+public class ReporterModel extends PerfClipseModel implements IPropertyContainer {
 
 	public static final String PROPERTY_CLASS = "reporter-class";
 	public static final String PROPERTY_DESTINATIONS = "reporter-destination";
 	public static final String PROPERTY_PROPERTIES = "reporter-property";
 	public static final String PROPERTY_ENABLED = "reporter-enabled";
 	
-	private PropertyChangeSupport listeners;
 	private Reporter reporter;
 
-	public ReporterModel(Reporter reporter){
+	public ReporterModel(Reporter reporter, ModelMapper mapper){
+		super(mapper);
 		if (reporter == null){
 			throw new IllegalArgumentException("Reporter must not be null");
 		}
 		this.reporter = reporter;
-		listeners = new PropertyChangeSupport(this);
 	}
 	
 	/**
 	 * This method should not be used for modifying Reporter(in a way getReporter().setClass()))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Reporter
@@ -56,18 +53,10 @@ public class ReporterModel implements IPropertyContainer {
 		return reporter;
 	}
 	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
-	}
-	
 	public void setClazz(String clazz){
 		String oldClazz = getReporter().getClazz();
 		getReporter().setClazz(clazz);
-		listeners.firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
+		getListeners().firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
 	}
 	
 	public void addDestination(Destination destination){
@@ -75,12 +64,12 @@ public class ReporterModel implements IPropertyContainer {
 	}
 	public void addDestination(int index, Destination destination){
 		getReporter().getDestination().add(index, destination);
-		listeners.firePropertyChange(PROPERTY_DESTINATIONS, null, destination);
+		getListeners().firePropertyChange(PROPERTY_DESTINATIONS, null, destination);
 	}
 	
 	public void removeDestionation(Destination destination){
 		if (getReporter().getDestination().remove(destination)){
-			listeners.firePropertyChange(PROPERTY_DESTINATIONS, destination, null);
+			getListeners().firePropertyChange(PROPERTY_DESTINATIONS, destination, null);
 		}
 	}
 	
@@ -90,12 +79,12 @@ public class ReporterModel implements IPropertyContainer {
 	
 	public void addProperty(int index, Property property){
 		getReporter().getProperty().add(index, property);
-		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
+		getListeners().firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	
 	public void removeProperty(Property property){
 		if (getReporter().getProperty().remove(property)){
-			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
+			getListeners().firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
 	}
 	
@@ -106,7 +95,7 @@ public class ReporterModel implements IPropertyContainer {
 	public void setEnabled(boolean enabled){
 		if (enabled != getReporter().isEnabled()){
 			getReporter().setEnabled(enabled);
-			listeners.firePropertyChange(PROPERTY_ENABLED, !enabled, enabled);
+			getListeners().firePropertyChange(PROPERTY_ENABLED, !enabled, enabled);
 		}
 	}
 }

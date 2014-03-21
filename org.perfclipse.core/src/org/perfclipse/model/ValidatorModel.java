@@ -19,32 +19,28 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 import org.perfcake.model.Scenario.Validation.Validator;
 
-public class ValidatorModel {
+public class ValidatorModel extends PerfClipseModel{
 
 	public static final String PROPERTY_CLASS = "validator-class";
 	public static final String PROPERTY_ID = "validator-id";
 	public static final String PROPERTY_VALUE = "validator-value";
 	
 	private Validator validator;
-	private PropertyChangeSupport listeners;
 	
-	public ValidatorModel(Validator validator){
+	public ValidatorModel(Validator validator, ModelMapper mapper){
+		super(mapper);
 		if (validator == null){
 			throw new IllegalArgumentException("Validator must not be null.");
 		}
 		
 		this.validator = validator;
-		listeners = new PropertyChangeSupport(this);
 	}
 	
 	/**
 	 * This method should not be used for modifying validator (in a way getValidator().setClass())
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Validator
@@ -53,31 +49,22 @@ public class ValidatorModel {
 		return validator;
 	}
 	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
-	}
-	
 	public void setClazz(String clazz){
 		String oldClazz = getValidator().getClazz();
 		getValidator().setClazz(clazz);
-		listeners.firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
+		getListeners().firePropertyChange(PROPERTY_CLASS, oldClazz, clazz);
 	}
 	
 	public void setId(String id){
 		String oldId = getValidator().getId();
 		getValidator().setId(id);
-		listeners.firePropertyChange(PROPERTY_ID, oldId, id);
+		getListeners().firePropertyChange(PROPERTY_ID, oldId, id);
 	}
 	
 	public void setValue(String value){
 		String oldValue = getValidator().getValue();
 		getValidator().setValue(value);
-		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
+		getListeners().firePropertyChange(PROPERTY_VALUE, oldValue, value);
 	}
 
 

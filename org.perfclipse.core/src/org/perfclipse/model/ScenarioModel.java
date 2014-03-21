@@ -19,12 +19,9 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 import org.perfcake.model.Scenario;
 
-public class ScenarioModel {
+public class ScenarioModel extends PerfClipseModel {
 	
 	public static final String PROPERTY_GENERATOR = "scenario-generator";
 	public static final String PROPERTY_SENDER = "scenario-sender";
@@ -33,28 +30,22 @@ public class ScenarioModel {
 	public static final String PROPERTY_REPORTING = "scenario-reporting";
 	public static final String PROPERTY_VALIDATION = "scenario-validation";
 	
-	private PropertyChangeSupport listeners;
+	
 	private Scenario scenario;
+	private ModelMapper mapper;
 
-	public ScenarioModel(Scenario scenario) {
+	public ScenarioModel(Scenario scenario, ModelMapper mapper) {
+		super(mapper);
 		if (scenario == null){
 			throw new IllegalArgumentException("Scenario must not be null");
 		}
 		this.scenario = scenario;
-		listeners = new PropertyChangeSupport(this);
-	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
+		this.mapper = new ModelMapper();
 	}
 
 	/**
 	 * This method should not be used for modifying scenario (in a way getScenario().setSender(sender))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of scenario
@@ -66,37 +57,40 @@ public class ScenarioModel {
 	public void setSender(Scenario.Sender sender){
 		Scenario.Sender oldSender = getScenario().getSender();
 		getScenario().setSender(sender);
-		listeners.firePropertyChange(PROPERTY_SENDER, oldSender, sender);
+		getListeners().firePropertyChange(PROPERTY_SENDER, oldSender, sender);
 	}
 	
 	public void setGenerator(Scenario.Generator generator){
 		Scenario.Generator oldGenerator = getScenario().getGenerator();
 		getScenario().setGenerator(generator);
-		listeners.firePropertyChange(PROPERTY_GENERATOR, oldGenerator, generator);
+		getListeners().firePropertyChange(PROPERTY_GENERATOR, oldGenerator, generator);
 	}
 	
 	public void setReporting(Scenario.Reporting reporting){
 		Scenario.Reporting oldReporting = getScenario().getReporting();
 		getScenario().setReporting(reporting);
-		listeners.firePropertyChange(PROPERTY_REPORTING, oldReporting, reporting);
+		getListeners().firePropertyChange(PROPERTY_REPORTING, oldReporting, reporting);
 	}
 	
 	public void setMessages(Scenario.Messages messages){
 		Scenario.Messages oldMessages = getScenario().getMessages();
 		getScenario().setMessages(messages);
-		listeners.firePropertyChange(PROPERTY_MESSAGES, oldMessages, messages);
+		getListeners().firePropertyChange(PROPERTY_MESSAGES, oldMessages, messages);
 	}
 	
 	public void setValidation(Scenario.Validation validatrion){
 		Scenario.Validation oldValidation = getScenario().getValidation();
 		getScenario().setValidation(validatrion);
-		listeners.firePropertyChange(PROPERTY_VALIDATION, oldValidation, validatrion);
+		getListeners().firePropertyChange(PROPERTY_VALIDATION, oldValidation, validatrion);
 	}
 	
 	public void setProperties(Scenario.Properties properties){
 		Scenario.Properties oldProperties = getScenario().getProperties();
 		getScenario().setProperties(properties);
-		listeners.firePropertyChange(PROPERTY_PROPERTIES, oldProperties, properties);
+		getListeners().firePropertyChange(PROPERTY_PROPERTIES, oldProperties, properties);
 	}
 
+	public ModelMapper getMapper() {
+		return mapper;
+	}
 }

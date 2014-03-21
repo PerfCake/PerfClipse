@@ -19,8 +19,6 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import org.perfcake.model.Header;
@@ -28,7 +26,7 @@ import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 
-public class MessageModel implements IPropertyContainer {
+public class MessageModel extends PerfClipseModel implements IPropertyContainer {
 	
 	public static final String PROPERTY_HEADERS = "message-header";
 	public static final String PROPERTY_PROPERTIES = "message-property";
@@ -37,27 +35,18 @@ public class MessageModel implements IPropertyContainer {
 	public static final String PROPERTY_MULTIPLICITY = "message-multiplicity";
 
 	private Message message;
-	private PropertyChangeSupport listeners;
 
-	public MessageModel(Message message) {
+	public MessageModel(Message message, ModelMapper mapper) {
+		super(mapper);
 		if (message == null){
 			throw new IllegalArgumentException("Message must not be null.");
 		}
 		this.message = message;
-		listeners = new PropertyChangeSupport(this);
-	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
 	}
 	
 	/**
 	 * This method should not be used for modifying message (in a way getMessage().setUri(uri))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Message
@@ -72,12 +61,12 @@ public class MessageModel implements IPropertyContainer {
 	
 	public void addProperty(int index, Property property){
 		getMessage().getProperty().add(index, property);
-		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
+		getListeners().firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	
 	public void removeProperty(Property property){
 		if (getMessage().getProperty().remove(property)){
-			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
+			getListeners().firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
 	}
 	
@@ -90,12 +79,12 @@ public class MessageModel implements IPropertyContainer {
 	}
 	public void addHeader(int index, Header header){
 		getMessage().getHeader().add(index, header);
-		listeners.firePropertyChange(PROPERTY_HEADERS, null, header);
+		getListeners().firePropertyChange(PROPERTY_HEADERS, null, header);
 	}
 	
 	public void removeHeader(Header header){
 		if (getMessage().getHeader().remove(header)){
-			listeners.firePropertyChange(PROPERTY_HEADERS, header, null);
+			getListeners().firePropertyChange(PROPERTY_HEADERS, header, null);
 		}
 	}
 	
@@ -104,25 +93,25 @@ public class MessageModel implements IPropertyContainer {
 	}
 	public void addValidatorRef(int index, ValidatorRef ref){
 		getMessage().getValidatorRef().add(index, ref);
-		listeners.firePropertyChange(PROPERTY_VALIDATOR_REFS, null, ref);
+		getListeners().firePropertyChange(PROPERTY_VALIDATOR_REFS, null, ref);
 	}
 	
 	public void removeValidatorRef(ValidatorRef ref){
 		if(getMessage().getValidatorRef().remove(ref)){
-			listeners.firePropertyChange(PROPERTY_VALIDATOR_REFS, ref, null);
+			getListeners().firePropertyChange(PROPERTY_VALIDATOR_REFS, ref, null);
 		}
 	}
 	
 	public void setUri(String uri){
 		String oldUri = getMessage().getUri();
 		getMessage().setUri(uri);
-		listeners.firePropertyChange(PROPERTY_URI, oldUri, uri);
+		getListeners().firePropertyChange(PROPERTY_URI, oldUri, uri);
 	}
 	
 	public void setMultiplicity(String multiplicity){
 		String oldMultiplicity = getMessage().getMultiplicity();
 		getMessage().setMultiplicity(multiplicity);
-		listeners.firePropertyChange(PROPERTY_MULTIPLICITY, oldMultiplicity, multiplicity);
+		getListeners().firePropertyChange(PROPERTY_MULTIPLICITY, oldMultiplicity, multiplicity);
 	}
 	
 	

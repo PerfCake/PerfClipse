@@ -28,7 +28,7 @@ import org.perfcake.model.Property;
  * 
  * @author Jakub Knetl
  */
-public interface IPropertyContainer {
+public interface IPropertyContainer extends IMapperSupport {
 
 	/**
 	 * Adds property to component on last position

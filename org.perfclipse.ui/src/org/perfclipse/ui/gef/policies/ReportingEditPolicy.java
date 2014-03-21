@@ -32,7 +32,6 @@ import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
-import org.perfclipse.ui.gef.parts.AbstractPerfCakeEditPart;
 import org.perfclipse.ui.wizards.ReportingEditWizard;
 
 /**
@@ -51,7 +50,7 @@ public class ReportingEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createPropertiesCommand() {
 		List<ReporterModel> reporters = new ArrayList<>(reporting.getReporting().getReporter().size());
-		ModelMapper mapper = ((AbstractPerfCakeEditPart) getHost()).getMapper();
+		ModelMapper mapper = reporting.getMapper();
 
 		for (Reporter r : reporting.getReporting().getReporter()){
 			reporters.add((ReporterModel) mapper.getModelContainer(r));

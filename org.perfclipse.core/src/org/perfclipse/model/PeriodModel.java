@@ -19,31 +19,27 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination.Period;
 
-public class PeriodModel {
+public class PeriodModel extends PerfClipseModel {
 	
 	public static final String PROPERTY_TYPE = "period-type";
 	public static final String PROPERTY_VALUE= "period-value";
 
-	private PropertyChangeSupport listeners;
 	private Period period;
 
-	public PeriodModel(Period period) {
+	public PeriodModel(Period period, ModelMapper mapper) {
+		super(mapper);
 		if (period == null){
 			throw new IllegalArgumentException("Period must not be null.");
 		}
 		this.period = period;
-		listeners = new PropertyChangeSupport(this);
 	}
 
 	
 	/**
 	 * This method should not be used for modifying Period(in a way getPeriod().setValue()))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Period
@@ -52,24 +48,16 @@ public class PeriodModel {
 		return period;
 	}
 	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
-	}
-	
 	public void setType(String type){
 		String oldType = getPeriod().getType();
 		getPeriod().setType(type);
-		listeners.firePropertyChange(PROPERTY_TYPE, oldType, type);
+		getListeners().firePropertyChange(PROPERTY_TYPE, oldType, type);
 	}
 	
 	public void setValue(String value){
 		String oldValue = getPeriod().getValue();
 		getPeriod().setValue(value);
-		listeners.firePropertyChange(PROPERTY_VALUE, oldValue, value);
+		getListeners().firePropertyChange(PROPERTY_VALUE, oldValue, value);
 	}
 	
 }

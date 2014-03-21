@@ -22,19 +22,12 @@ package org.perfclipse.ui.gef.parts;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
-import org.perfclipse.model.ModelMapper;
 import org.perfclipse.ui.gef.layout.LayoutUtils;
 import org.perfclipse.ui.gef.layout.ScenarioFreeformLayout;
 
 public abstract class AbstractPerfCakeSectionEditPart extends
 		AbstractPerfCakeNodeEditPart {
 	
-	
-
-	public AbstractPerfCakeSectionEditPart(ModelMapper mapper) {
-		super(mapper);
-	}
-
 	protected Dimension getDefaultSize() {
 		Dimension defaultSize = new Dimension(0, 0);
 		LayoutUtils utils = LayoutUtils.getInstance();

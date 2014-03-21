@@ -35,7 +35,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario;
-import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
 import org.perfclipse.ui.editors.ScenarioDesignEditorInput;
@@ -82,7 +81,6 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 		sender.setClazz(senderPage.getSenderName());
 		scenario.setSender(sender);
 		
-		ScenarioModel model = new ScenarioModel(scenario);
 		
 		try {
 				IFile scenarioFile = fileCreationPage.createNewFile();;
@@ -90,7 +88,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 				ScenarioManager manager = new ScenarioManager();
 				PipedOutputStream out = new PipedOutputStream();
 				PipedInputStream in = new PipedInputStream(out);
-				manager.createXML(model.getScenario(), out);
+				manager.createXML(scenario, out);
 				out.close();
 				scenarioFile.setContents(in, false, true, null);
 				

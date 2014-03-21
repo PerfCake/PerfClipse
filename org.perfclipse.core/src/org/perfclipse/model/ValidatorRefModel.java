@@ -1,30 +1,26 @@
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 
-public class ValidatorRefModel {
+public class ValidatorRefModel extends PerfClipseModel{
 
 	public static final String PROPERTY_ID = "validatorRef-id";
 	
 	private ValidatorRef validatorRef;
-	private PropertyChangeSupport listeners;
 
-	public ValidatorRefModel(ValidatorRef validatorRef) {
+	public ValidatorRefModel(ValidatorRef validatorRef, ModelMapper mapper) {
+		super(mapper);
 		if (validatorRef == null){
 			throw new IllegalArgumentException("ValidatorRef must not be null.");
 		}
 		
 		this.validatorRef = validatorRef;
-		listeners = new PropertyChangeSupport(this);
 	}
 
 	
 	/**
 	 * This method should not be used for modifying validatorRef (in a way getValidatorRef().setId()))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of validatorRef
@@ -36,14 +32,6 @@ public class ValidatorRefModel {
 	public void setId(String id){
 		String oldId = getValidatorRef().getId();
 		getValidatorRef().setId(id);
-		listeners.firePropertyChange(PROPERTY_ID, oldId, id);
-	}
-
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
+		getListeners().firePropertyChange(PROPERTY_ID, oldId, id);
 	}
 }

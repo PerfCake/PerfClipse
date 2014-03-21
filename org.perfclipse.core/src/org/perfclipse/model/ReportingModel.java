@@ -19,8 +19,6 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import org.perfcake.model.ObjectFactory;
@@ -28,25 +26,24 @@ import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Reporting;
 import org.perfcake.model.Scenario.Reporting.Reporter;
 
-public class ReportingModel implements IPropertyContainer {
+public class ReportingModel extends PerfClipseModel implements IPropertyContainer {
 
 	public static final String PROPERTY_PROPERTIES = "reporting-property";
 	public static final String PROPERTY_REPORTERS = "reporting-reporter";
 	
-	private PropertyChangeSupport listeners;
 	private Reporting reporting;
 	
-	public ReportingModel(Reporting reporting){
+	public ReportingModel(Reporting reporting, ModelMapper mapper){
+		super(mapper);
 //		if (reporting == null){
 //			throw new IllegalArgumentException("Reporting must not be null.");
 //		}
 	this.reporting = reporting;
-	listeners = new PropertyChangeSupport(this);
 	}
 	
 	/**
 	 * This method should not be used for modifying Reporting(in a way getReporting().addReporter()))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Reporting
@@ -54,26 +51,17 @@ public class ReportingModel implements IPropertyContainer {
 	public Reporting getReporting() {
 		return reporting;
 	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
-	}
-	
 	public void addReporter(Reporter reporter){
 		addReporter(getReporting().getReporter().size(), reporter);
 	}
 	public void addReporter(int index, Reporter reporter){
 		getReporting().getReporter().add(index, reporter);
-		listeners.firePropertyChange(PROPERTY_REPORTERS, null, reporter);
+		getListeners().firePropertyChange(PROPERTY_REPORTERS, null, reporter);
 	}
 	
 	public void removeReporter(Reporter reporter){
 		if (getReporting().getReporter().remove(reporter)){
-			listeners.firePropertyChange(PROPERTY_REPORTERS, reporter, null);
+			getListeners().firePropertyChange(PROPERTY_REPORTERS, reporter, null);
 		}
 	}
 	
@@ -91,12 +79,12 @@ public class ReportingModel implements IPropertyContainer {
 	
 	public void addProperty(int index, Property property){
 		getReporting().getProperty().add(index, property);
-		listeners.firePropertyChange(PROPERTY_PROPERTIES, null, property);
+		getListeners().firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	
 	public void removeProperty(Property property){
 		if (getReporting().getProperty().remove(property)){
-			listeners.firePropertyChange(PROPERTY_PROPERTIES, property, null);
+			getListeners().firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
 	}
 	

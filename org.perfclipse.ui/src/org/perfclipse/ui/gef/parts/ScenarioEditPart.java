@@ -41,9 +41,7 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 //	private static final int BORDER_PADDING = 1;
 
 	
-	public ScenarioEditPart(ScenarioModel scenarioModel,
-			ModelMapper mapper){
-		super(mapper);
+	public ScenarioEditPart(ScenarioModel scenarioModel){
 		setModel(scenarioModel);
 	}
 
@@ -65,28 +63,31 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 	
 	@Override
 	protected List<Object> getModelChildren(){
+		ModelMapper mapper = getScenarioModel().getMapper();
 		List<Object> modelChildren = new ArrayList<>();
-		modelChildren.add(getMapper().getModelContainer(getScenarioModel().getScenario().getGenerator()));
-		modelChildren.add(getMapper().getModelContainer(getScenarioModel().getScenario().getSender()));
+		modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getGenerator()));
+		modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getSender()));
+		
+		//TODO: Mapper and fake containers with empty binding to perfcake
 		if (getScenarioModel().getScenario().getMessages() == null){
-			modelChildren.add(new MessagesModel(getScenarioModel().getScenario().getMessages()));
+			modelChildren.add(new MessagesModel(getScenarioModel().getScenario().getMessages(), mapper));
 		}else{
-			modelChildren.add(getMapper().getModelContainer(getScenarioModel().getScenario().getMessages()));
+			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getMessages()));
 		}
 		if (getScenarioModel().getScenario().getValidation() == null){
-			modelChildren.add(new ValidationModel(getScenarioModel().getScenario().getValidation()));
+			modelChildren.add(new ValidationModel(getScenarioModel().getScenario().getValidation(), mapper));
 		} else {
-			modelChildren.add(getMapper().getModelContainer(getScenarioModel().getScenario().getValidation()));
+			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getValidation()));
 		}
 		if (getScenarioModel().getScenario().getReporting() == null){
-			modelChildren.add(new ReportingModel(getScenarioModel().getScenario().getReporting()));
+			modelChildren.add(new ReportingModel(getScenarioModel().getScenario().getReporting(), mapper));
 		} else {
-			modelChildren.add(getMapper().getModelContainer(getScenarioModel().getScenario().getReporting()));
+			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getReporting()));
 		}
 		if (getScenarioModel().getScenario().getProperties() == null){
-			modelChildren.add(new PropertiesModel(getScenarioModel().getScenario().getProperties()));
+			modelChildren.add(new PropertiesModel(getScenarioModel().getScenario().getProperties(), mapper));
 		} else {
-			modelChildren.add(getMapper().getModelContainer(getScenarioModel().getScenario().getProperties()));
+			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getProperties()));
 		}
 		return modelChildren;
 	}

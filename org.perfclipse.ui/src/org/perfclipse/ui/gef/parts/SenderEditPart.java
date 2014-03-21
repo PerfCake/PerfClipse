@@ -32,7 +32,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.ui.PlatformUI;
-import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
@@ -66,9 +65,7 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 		super.deactivate();
 	}
 	
-	public SenderEditPart(SenderModel senderModel,
-			ModelMapper mapper){
-		super(mapper);
+	public SenderEditPart(SenderModel senderModel){
 		setModel(senderModel);
 	}
 

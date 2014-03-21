@@ -19,33 +19,27 @@
 
 package org.perfclipse.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Messages;
 import org.perfcake.model.Scenario.Messages.Message;
 
-public class MessagesModel {
+public class MessagesModel extends PerfClipseModel {
 
 	public  static final String PROPERTY_MESSAGE = "messages-message";
 
-	private PropertyChangeSupport listeners;
 	private Messages messages;
 
-	
-	
-	public MessagesModel(Messages messages){
+	public MessagesModel(Messages messages, ModelMapper mapper){
+		super(mapper);
 //		if (messages == null){
 //			throw new IllegalArgumentException("Messages must not be null");
 //		}
 		this.messages = messages;
-		listeners = new PropertyChangeSupport(this);
 	}
 	
 	/**
 	 * This method should not be used for modifying messages (in a way getMessages().add(message))
-	 * since these changes would not fire PropertyChange listeners which implies that
+	 * since these changes would not fire PropertyChange getListeners() which implies that
 	 * the GEF View will not be updated according to these changes. Use set methods of this class instead.
 	 * 
 	 * @return PerfCake model of Messages
@@ -59,12 +53,12 @@ public class MessagesModel {
 	}
 	public void addMessage(int index, Message m){
 		getMessages().getMessage().add(index, m);
-		listeners.firePropertyChange(PROPERTY_MESSAGE, null, m);
+		getListeners().firePropertyChange(PROPERTY_MESSAGE, null, m);
 	}
 	
 	public void removeMessage(Message m){
 		if (getMessages().getMessage().remove(m)){
-			listeners.firePropertyChange(PROPERTY_MESSAGE, m, null);
+			getListeners().firePropertyChange(PROPERTY_MESSAGE, m, null);
 		}
 	}
 	
@@ -76,12 +70,5 @@ public class MessagesModel {
 		}
 	}
 	
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		listeners.addPropertyChangeListener(listener);
-	}
 	
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		listeners.removePropertyChangeListener(listener);
-	}
-
 }

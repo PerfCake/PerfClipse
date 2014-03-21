@@ -9,7 +9,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.perfclipse.model.IPropertyContainer;
-import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.ui.gef.directedit.LabelCellEditorLocator;
 import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
@@ -24,9 +23,7 @@ public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 
 	private LabelDirectEditManager manager;
 
-	public PropertyEditPart(PropertyModel modelProperty,
-			ModelMapper mapper){
-		super(mapper);
+	public PropertyEditPart(PropertyModel modelProperty){
 		setModel(modelProperty);
 	}
 	

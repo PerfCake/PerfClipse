@@ -51,9 +51,7 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	private ClassDirectEditManager manager;
 	static final Logger log = LoggerFactory.getLogger(GeneratorEditPart.class);
 
-	public GeneratorEditPart(GeneratorModel generatorModel,
-			ModelMapper mapper) {
-		super(mapper);
+	public GeneratorEditPart(GeneratorModel generatorModel) {
 		setModel(generatorModel);
 	}
 	
@@ -122,8 +120,9 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<>();
+		ModelMapper mapper = getGeneratorModel().getMapper();
 		if (getGeneratorModel().getGenerator().getRun() != null)
-			modelChildren.add(getMapper().getModelContainer(getGeneratorModel().getGenerator().getRun()));
+			modelChildren.add(mapper.getModelContainer(getGeneratorModel().getGenerator().getRun()));
 
 		return modelChildren;
 	}

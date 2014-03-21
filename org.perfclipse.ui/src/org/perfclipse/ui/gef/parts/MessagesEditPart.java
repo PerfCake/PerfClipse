@@ -40,9 +40,7 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 
 	private static final String MESSAGES_SECTION_LABEL = "Messages";
 
-	public MessagesEditPart(MessagesModel messagesModel,
-			ModelMapper mapper){
-		super(mapper);
+	public MessagesEditPart(MessagesModel messagesModel){
 		setModel(messagesModel);
 	}
 	
@@ -90,10 +88,11 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<>();
+		ModelMapper mapper = getMessagesModel().getMapper();
 		if (getMessagesModel().getMessages() != null){
 			if (getMessagesModel().getMessages().getMessage() != null){
 				for (Message m : getMessagesModel().getMessages().getMessage()){
-					modelChildren.add(getMapper().getModelContainer(m));
+					modelChildren.add(mapper.getModelContainer(m));
 				}
 			}
 		}
@@ -106,9 +105,10 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 			
 			//if message is added
 			if(e.getOldValue() == null && e.getNewValue() instanceof Message){
-				MessageModel messageModel = new MessageModel((Message) e.getNewValue());
+				Message m = (Message) e.getNewValue();
+				MessageModel messageModel = (MessageModel) getMessagesModel().getMapper().getModelContainer(m);
 				int index = getMessagesModel().getMessages().getMessage().indexOf(messageModel.getMessage());
-				addChild(new MessageEditPart(messageModel, getMapper()), index);
+				addChild(new MessageEditPart(messageModel), index);
 			}
 			//if message is deleted
 			if (e.getNewValue() == null && e.getOldValue() instanceof Message){
