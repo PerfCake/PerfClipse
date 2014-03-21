@@ -59,7 +59,7 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 	@Override
 	protected void initColumns() {
 		enabledColumn = new TableViewerColumn(this, SWT.NONE);
-		enabledColumn.getColumn().setText("Enabled");
+		enabledColumn.getColumn().setText("On");
 		enabledColumn.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override
@@ -71,7 +71,10 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 			@Override
 			public String getText(Object element) {
 				ReporterModel reporter = (ReporterModel) element;
-				return String.valueOf(reporter.getReporter().isEnabled());
+				if (reporter.getReporter().isEnabled())
+					return "*";
+				else
+					return "";
 			}
 			
 			
@@ -143,7 +146,7 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 
 	@Override
 	protected void setColumnsSize() {
-		enabledColumn.getColumn().setWidth(10);
+		enabledColumn.getColumn().setWidth(30);
 		classColumn.getColumn().setWidth(CLASS_COLUMN_WIDTH);
 	}
 }
