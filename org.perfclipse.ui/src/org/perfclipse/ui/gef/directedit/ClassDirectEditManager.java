@@ -27,6 +27,7 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.perfclipse.ui.swt.jface.ClassLabelProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

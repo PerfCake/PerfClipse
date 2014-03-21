@@ -36,7 +36,6 @@ import org.perfclipse.reflect.PerfClipseScannerException;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.EditReporterEnabledCommand;
 import org.perfclipse.ui.gef.commands.EditReporterTypeCommand;
-import org.perfclipse.ui.gef.directedit.ClassLabelProvider;
 
 /**
  * @author Jakub Knetl

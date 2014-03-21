@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package org.perfclipse.ui.gef.directedit;
+package org.perfclipse.ui.swt.jface;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.perfclipse.ui.Utils;
