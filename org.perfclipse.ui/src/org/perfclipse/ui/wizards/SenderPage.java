@@ -21,22 +21,23 @@ package org.perfclipse.ui.wizards;
 
 import java.util.List;
 
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
+import org.perfcake.message.sender.AbstractSender;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.reflect.PerfCakeComponents;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.ui.swt.jface.ClassComboViewer;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
 import org.slf4j.Logger;
@@ -51,7 +52,7 @@ public class SenderPage extends AbstractPerfCakePage {
 	private static final String SENDER_PAGE_NAME = "Sender";
 	private Composite container;
 	private Label senderLabel;
-	private Combo senderCombo;
+	private ClassComboViewer<AbstractSender> senderTypeViewer;
 	static final Logger log = LoggerFactory.getLogger(SenderPage.class);
 	
 	private TableViewer propertyViewer;
@@ -88,27 +89,14 @@ public class SenderPage extends AbstractPerfCakePage {
 		senderLabel = new Label(container, SWT.NONE);
 		senderLabel.setText("Choose sender");
 		
-		senderCombo = new Combo(container, SWT.NONE);
-		
 		PerfCakeComponents components = getPerfCakeComponents();
-		
-		if (components != null && components.getSenders() != null){
-			for (Class<?> clazz : components.getSenders()){
-				senderCombo.add(clazz.getSimpleName());
-			}
-		}
-		senderCombo.add("DummySender");
-		senderCombo.addSelectionListener(new SelectionAdapter() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				updateControls();
-			}
-		});
 
+		senderTypeViewer = new ClassComboViewer<>(container, components.getSenders() );
+
+		senderTypeViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
 		GridData senderComboGridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 		senderComboGridData.horizontalSpan = 2;
-		senderCombo.setLayoutData(senderComboGridData);
+		senderTypeViewer.getControl().setLayoutData(senderComboGridData);
 		
 		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
 		
@@ -135,12 +123,14 @@ public class SenderPage extends AbstractPerfCakePage {
 	
 	@Override
 	protected void fillDefaultValues() {
-		senderCombo.select(0);
+		StructuredSelection sel = new StructuredSelection(senderTypeViewer.getElementAt(0));
+		senderTypeViewer.setSelection(sel);
 	}
 
 	@Override
 	protected void fillCurrentValues() {
-		ComboUtils.select(senderCombo, sender.getSender().getClazz());
+		
+		ComboUtils.select(senderTypeViewer, sender.getSender().getClazz());
 		
 		if (properties != null){
 			propertyViewer.setInput(properties);
@@ -149,7 +139,9 @@ public class SenderPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void updateControls() {
-		if (senderCombo.getText() == null || "".equals(senderCombo.getText())){
+		StructuredSelection sel = (StructuredSelection) senderTypeViewer.getSelection();
+		if (sel == null ||
+				"".equals(sel.getFirstElement())){
 			setDescription("Select sender type!");
 			setPageComplete(false);
 		}else{
@@ -162,7 +154,8 @@ public class SenderPage extends AbstractPerfCakePage {
 	}
 
 	public String getSenderName(){
-		return senderCombo.getText();
+		StructuredSelection sel = (StructuredSelection) senderTypeViewer.getSelection();
+		return Utils.clazzToString((Class<?>) sel.getFirstElement());
 	}
 	
 }

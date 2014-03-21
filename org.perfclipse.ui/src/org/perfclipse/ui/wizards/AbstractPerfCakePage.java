@@ -24,6 +24,8 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -155,5 +157,21 @@ public abstract class AbstractPerfCakePage extends WizardPage {
 		public void widgetSelected(SelectionEvent e) {
 			page.updateControls();
 		}
+	}
+	
+	protected static class UpdateSelectionChangeListener implements ISelectionChangedListener{
+
+		AbstractPerfCakePage page;
+
+		public UpdateSelectionChangeListener(AbstractPerfCakePage page) {
+			super();
+			this.page = page;
+		}
+
+		@Override
+		public void selectionChanged(SelectionChangedEvent event) {
+			page.updateControls();
+		}
+		
 	}
 }

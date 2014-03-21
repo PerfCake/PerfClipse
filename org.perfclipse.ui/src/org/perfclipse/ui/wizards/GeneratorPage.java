@@ -21,6 +21,9 @@ package org.perfclipse.ui.wizards;
 
 import java.util.List;
 
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -31,12 +34,15 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
 import org.perfcake.common.PeriodType;
+import org.perfcake.message.generator.AbstractMessageGenerator;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.reflect.PerfCakeComponents;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.ui.swt.jface.ClassComboViewer;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
 import org.slf4j.LoggerFactory;
@@ -52,7 +58,7 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	private Composite container;
 
 	private Label generatorLabel;
-	private Combo generatorCombo;
+	private ClassComboViewer<AbstractMessageGenerator> generatorTypeViewer;
 
 	private Spinner threadsSpinner;
 	private Label threadsLabel;
@@ -100,17 +106,14 @@ public class GeneratorPage extends AbstractPerfCakePage {
 
 		generatorLabel = new Label(container, SWT.NONE);
 		generatorLabel.setText("Generator type: ");
-		generatorCombo = new Combo(container, SWT.NONE);
-		if (components != null && components.getGenerators() != null){
-			for (Class<?> clazz : components.getGenerators()){
-				generatorCombo.add(clazz.getSimpleName());
-			}
-		}
-		generatorCombo.addSelectionListener(new UpdateSelectionAdapter(this));
+		
+		generatorTypeViewer =  new ClassComboViewer<AbstractMessageGenerator>(container, components.getGenerators());
+
+		generatorTypeViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
 		
 		GridData generatorComboLayoutData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
 		generatorComboLayoutData.horizontalSpan = 2;
-		generatorCombo.setLayoutData(generatorComboLayoutData);
+		generatorTypeViewer.getControl().setLayoutData(generatorComboLayoutData);
 
 		runTypeLabel = new Label(container, SWT.NONE);
 		runTypeLabel.setText("Run type: ");
@@ -176,7 +179,9 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	
 	@Override
 	protected void updateControls() {
-		if (generatorCombo.getText() == null || "".equals(generatorCombo.getText())){
+		StructuredSelection sel = (StructuredSelection) generatorTypeViewer.getSelection();
+		if (generatorTypeViewer.getSelection() == null || 
+				"".equals(sel.getFirstElement())){
 			setDescription("Select generator type!");
 			setPageComplete(false);
 			return;
@@ -193,7 +198,9 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	
 	@Override
 	protected void fillDefaultValues() {
-		generatorCombo.select(0);
+
+		ISelection selection = new StructuredSelection(generatorTypeViewer.getElementAt(0));
+		generatorTypeViewer.setSelection(selection);;
 		runTypeCombo.select(0);
 		runValueSpinner.setSelection(1);
 		threadsSpinner.setSelection(1);
@@ -201,7 +208,7 @@ public class GeneratorPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void fillCurrentValues() {
-		ComboUtils.select(generatorCombo, generator.getGenerator().getClazz());
+		ComboUtils.select(generatorTypeViewer, generator.getGenerator().getClazz());
 		
 		ComboUtils.select(runTypeCombo, generator.getGenerator().getRun().getType());
 
@@ -211,7 +218,8 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	}
 
 	public String getGeneratorName(){
-		return generatorCombo.getText();
+		IStructuredSelection sel = (IStructuredSelection) generatorTypeViewer.getSelection();
+		return Utils.clazzToString((Class<?>) sel.getFirstElement());
 	}
 	
 	public String getRunType(){
