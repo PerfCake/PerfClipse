@@ -48,7 +48,7 @@ public class RenameReporterDirectEditPolicy extends ClassDirectEditPolicy {
 
 	@Override
 	protected Command getDirectEditCommand(DirectEditRequest request) {
-		String newName = asString(request.getCellEditor().getValue());
+		String newName = (String) request.getCellEditor().getValue();
 		if (newName != null){
 			return new EditReporterTypeCommand(model, newName);
 		}

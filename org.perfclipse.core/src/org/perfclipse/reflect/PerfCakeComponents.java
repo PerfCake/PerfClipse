@@ -19,6 +19,7 @@
 
 package org.perfclipse.reflect;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.perfcake.message.generator.AbstractMessageGenerator;
@@ -42,6 +43,12 @@ public class PerfCakeComponents {
 	private Set<Class<? extends Destination>> destinations;
 	private Set<Class<? extends MessageValidator>> validators;
 	
+	private Set<String> senderNames;
+	private Set<String> generatorNames;
+	private Set<String> reporterNames;
+	private Set<String> destinationNames;
+	private Set<String> validatorNames;
+	
 	
 	private PerfCakeComponents() throws PerfClipseScannerException {
 		ComponentScanner scanner = new ComponentScanner(PerfClipseConstants.PERFCAKE_BUNDLE);
@@ -50,9 +57,24 @@ public class PerfCakeComponents {
 		reporters = scanner.scanForComponent(PerfClipseConstants.PERFCAKE_REPORTER_PACKAGE, Reporter.class);
 		destinations = scanner.scanForComponent(PerfClipseConstants.PERFCAKE_DESTINATION_PACKAGE, Destination.class);
 		validators = scanner.scanForComponent(PerfClipseConstants.PERFCAKE_VALIDATOR_PACKAGE, MessageValidator.class);
+		
+		senderNames = getStringReperesentation(senders); 
+		generatorNames = getStringReperesentation(generators); 
+		reporterNames = getStringReperesentation(reporters);
+		destinationNames = getStringReperesentation(destinations);
+		validatorNames = getStringReperesentation(validators); 
+
 		log.debug("Components included in PerfCake has been loaded.");
 	}
 	
+	private <T> Set<String> getStringReperesentation(Set<Class<? extends T>> components) {
+		HashSet<String> result = new HashSet<>(components.size());
+		for (Class<?> c : components){
+			result.add(clazzToString(c));
+		}
+		return result;
+	}
+
 	public static PerfCakeComponents getInstance() throws PerfClipseScannerException{
 		if (instance == null){
 			instance = new PerfCakeComponents();
@@ -79,6 +101,37 @@ public class PerfCakeComponents {
 
 	public Set<Class<? extends MessageValidator>> getValidators() {
 		return validators;
+	}
+	
+	
+	public Set<String> getSenderNames() {
+		return senderNames;
+	}
+
+	public Set<String> getGeneratorNames() {
+		return generatorNames;
+	}
+
+	public Set<String> getReporterNames() {
+		return reporterNames;
+	}
+
+	public Set<String> getDestinationNames() {
+		return destinationNames;
+	}
+
+	public Set<String> getValidatorNames() {
+		return validatorNames;
+	}
+
+	/**
+	 * Return string representation of class type of PerfCake component
+	 * For Components which are directly in PerfCake it returns simple name.
+	 * @return name of PerfCake Component
+	 */
+	public static String clazzToString(Class<?> clazz){
+		//TODO: Check if component is in PerfCake bundle
+		return clazz.getSimpleName();
 	}
 
 }

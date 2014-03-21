@@ -20,7 +20,6 @@
 package org.perfclipse.ui.gef.policies.directedit;
 
 import org.eclipse.gef.requests.DirectEditRequest;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 
 /**
@@ -33,22 +32,10 @@ public abstract class ClassDirectEditPolicy extends LabelDirectEditPolicy {
 		super(labeledFigure);
 	}
 	
-	/**
-	 * Returns String representation of class object
-	 * @param input selected object
-	 * @return Label for given input or null if input is not instanceof Class
-	 */
-	protected String asString(Object input) {
-		if (input instanceof Class<?>){
-			Utils.clazzToString((Class<?>) input);
-		}
-		return null;
-	}
-
 	@Override
 	protected void showCurrentEditValue(DirectEditRequest request) {
 		Object input = request.getCellEditor().getValue();
-		labeledFigure.getLabel().setText(asString(input));
+		labeledFigure.getLabel().setText((String) input);
 	}
 	
 	

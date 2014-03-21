@@ -20,17 +20,10 @@
 package org.perfclipse.ui.swt.jface;
 
 import org.eclipse.jface.viewers.LabelProvider;
-import org.perfclipse.ui.Utils;
 
 public class ClassLabelProvider extends LabelProvider {
 	@Override 
 	public String getText(Object element){
-		if (element instanceof Class){
-			//TODO : check if it is component from perfcake.
-			// If it is not then return full path		}
-			Class<?> clazz = (Class<?>) element;
-			return Utils.clazzToString(clazz);
-		}
-		return null;
+			return (String) element;
 	}
 }

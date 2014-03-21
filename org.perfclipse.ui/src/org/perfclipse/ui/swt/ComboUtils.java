@@ -23,7 +23,6 @@ import java.util.Collection;
 
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Combo;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.jface.ClassComboViewer;
 
 /**
@@ -51,13 +50,12 @@ public class ComboUtils {
 	 * @param viewer ComboViewer where value should be selected
 	 * @param value Value to be selected
 	 */
-	public static void select(ClassComboViewer<?> viewer, Object value){
+	public static void select(ClassComboViewer viewer, Object value){
 		
-		@SuppressWarnings("unchecked")
-		Collection<Class<?>> input =  (Collection<Class<?>>) viewer.getInput();
+		Collection<String> input =   (Collection<String>) viewer.getInput();
 		int i = 0;
-		for (Class<?> c : input){
-			if (value.equals(Utils.clazzToString(c))){
+		for (String name : input){
+			if (value.equals(name)){
 				viewer.setSelection(new StructuredSelection(viewer.getElementAt(i)));
 				return;
 			}

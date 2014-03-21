@@ -96,7 +96,7 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart implements
 				if (manager == null){
 					manager = new ClassDirectEditManager(this, ComboBoxViewerCellEditor.class,
 							new ComboViewerCellEditorLocator(((ILabeledFigure) getFigure()).getLabel()),
-									components.getDestinations());
+									components.getDestinationNames());
 				}
 				manager.show();
 			} catch (PerfClipseScannerException e) {

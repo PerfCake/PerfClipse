@@ -34,11 +34,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
 import org.perfcake.common.PeriodType;
-import org.perfcake.message.generator.AbstractMessageGenerator;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.reflect.PerfCakeComponents;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
@@ -58,7 +56,7 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	private Composite container;
 
 	private Label generatorLabel;
-	private ClassComboViewer<AbstractMessageGenerator> generatorTypeViewer;
+	private ClassComboViewer generatorTypeViewer;
 
 	private Spinner threadsSpinner;
 	private Label threadsLabel;
@@ -107,7 +105,7 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		generatorLabel = new Label(container, SWT.NONE);
 		generatorLabel.setText("Generator type: ");
 		
-		generatorTypeViewer =  new ClassComboViewer<AbstractMessageGenerator>(container, components.getGenerators());
+		generatorTypeViewer =  new ClassComboViewer(container, components.getGeneratorNames());
 
 		generatorTypeViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
 		
@@ -219,7 +217,7 @@ public class GeneratorPage extends AbstractPerfCakePage {
 
 	public String getGeneratorName(){
 		IStructuredSelection sel = (IStructuredSelection) generatorTypeViewer.getSelection();
-		return Utils.clazzToString((Class<?>) sel.getFirstElement());
+		return (String) sel.getFirstElement();
 	}
 	
 	public String getRunType(){

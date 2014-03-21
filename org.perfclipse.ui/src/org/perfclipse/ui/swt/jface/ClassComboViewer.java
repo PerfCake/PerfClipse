@@ -35,14 +35,14 @@ import org.eclipse.swt.widgets.Composite;
  *
  */
 //TODO: Add type argument
-public class ClassComboViewer<T> extends ComboViewer {
+public class ClassComboViewer extends ComboViewer {
 
 	/**
 	 * 
 	 * @param parent
 	 * @param input
 	 */
-	public ClassComboViewer(Composite parent, Collection<Class<? extends T>> input) {
+	public ClassComboViewer(Composite parent, Collection<String> input) {
 		super(parent);
 		initializeViewer(input);
 	}
@@ -52,7 +52,7 @@ public class ClassComboViewer<T> extends ComboViewer {
 	 * @param list
 	 * @param input
 	 */
-	public ClassComboViewer(Combo list, Collection<Class<? extends T>> input) {
+	public ClassComboViewer(Combo list, Collection<String> input) {
 		super(list);
 		initializeViewer(input);
 	}
@@ -61,7 +61,7 @@ public class ClassComboViewer<T> extends ComboViewer {
 	 * 
 	 * @param list
 	 */
-	public ClassComboViewer(CCombo list, Collection<Class<? extends T>> input) {
+	public ClassComboViewer(CCombo list, Collection<String> input) {
 		super(list);
 		initializeViewer(input);
 	}
@@ -72,7 +72,7 @@ public class ClassComboViewer<T> extends ComboViewer {
 	 * @param style
 	 * @param input
 	 */
-	public ClassComboViewer(Composite parent, int style, Collection<Class<? extends T>> input) {
+	public ClassComboViewer(Composite parent, int style, Collection<String> input) {
 		super(parent, style);
 		initializeViewer(input);
 	}
@@ -81,7 +81,7 @@ public class ClassComboViewer<T> extends ComboViewer {
 	 * 
 	 * @param input
 	 */
-	protected void initializeViewer(Collection<Class<? extends T>> input) {
+	protected void initializeViewer(Collection<String> input) {
 		
 		setContentProvider(ArrayContentProvider.getInstance());
 		setLabelProvider(new ClassLabelProvider());

@@ -104,7 +104,7 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 				if (manager == null){
 					manager = new ClassDirectEditManager(this, ComboBoxViewerCellEditor.class,
 							new ComboViewerCellEditorLocator(((TwoPartRectangle) getFigure()).getLabel()),
-									components.getReporters());
+									components.getReporterNames());
 				}
 				manager.show();
 			} catch (PerfClipseScannerException e) {

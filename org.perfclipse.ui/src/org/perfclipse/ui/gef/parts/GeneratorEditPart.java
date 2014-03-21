@@ -94,7 +94,7 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 				if (manager == null){
 					manager = new ClassDirectEditManager(this, ComboBoxViewerCellEditor.class,
 							new ComboViewerCellEditorLocator(((ILabeledFigure) getFigure()).getLabel()),
-									components.getGenerators());
+									components.getGeneratorNames());
 				}
 				manager.show();
 			} catch (PerfClipseScannerException e) {

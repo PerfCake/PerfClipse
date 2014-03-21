@@ -33,7 +33,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.EditReporterEnabledCommand;
 import org.perfclipse.ui.gef.commands.EditReporterTypeCommand;
 
@@ -116,7 +115,7 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 			//TODO: log error
 		}
 		final ClassCellEditor editor = new ClassCellEditor(getTable());
-		editor.setInput(components.getReporters());
+		editor.setInput(components.getReporterNames());
 		editor.setContentProvider(ArrayContentProvider.getInstance());
 		editor.setLabelProvider(new ClassLabelProvider());
 
@@ -126,9 +125,9 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 			@Override
 			protected Object getValue(Object element) {
 				ReporterModel reporter = (ReporterModel) element;
-				Collection<Class<?>> input =  ((Collection<Class<?>>) editor.getViewer().getInput());
-				for (Class<?> c : input){
-					if (reporter.getReporter().getClazz().equals(Utils.clazzToString(c))){
+				Collection<String> input =   (Collection<String>) editor.getViewer().getInput();
+				for (String c : input){
+					if (reporter.getReporter().getClazz().equals(c)){
 						return c;
 					}
 				}
@@ -139,8 +138,8 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 			@Override
 			protected Command getCommand(Object element, Object value) {
 				ReporterModel reporter = (ReporterModel) element;
-				Class<?> clazz = (Class<?>) value;
-				return new EditReporterTypeCommand(reporter, Utils.clazzToString(clazz));
+				String clazz = (String) value;
+				return new EditReporterTypeCommand(reporter, clazz);
 			}
 		});
 		

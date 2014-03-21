@@ -101,7 +101,7 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements P
 					manager = new ClassDirectEditManager(this,
 							ComboBoxViewerCellEditor.class,
 							new ComboViewerCellEditorLocator(((LabeledRoundedRectangle) getFigure()).getLabel()),
-							components.getValidators());
+							components.getValidatorNames());
 				}
 				manager.show();
 			} catch (PerfClipseScannerException e) {

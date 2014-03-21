@@ -57,8 +57,8 @@ public class ClassDirectEditManager extends DirectEditManager {
 	protected void initCellEditor() {
 			final ComboBoxViewerCellEditor editor = (ComboBoxViewerCellEditor) getCellEditor();
 				editor.setContentProvider(new ArrayContentProvider());
-				editor.setInput(comboInput);
 				editor.setLabelProvider(new ClassLabelProvider());
+				editor.setInput(comboInput);
 				//TODO: select current validator class by default (or empty string with sufficient length)
 				editor.setValue(label.getText());
 				editor.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {

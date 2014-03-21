@@ -38,7 +38,7 @@ public class ValidatorDirectEditPolicy extends ClassDirectEditPolicy {
 
 	@Override
 	protected Command getDirectEditCommand(DirectEditRequest request) {
-		String newName = asString(request.getCellEditor().getValue());
+		String newName = (String) request.getCellEditor().getValue();
 		if (newName != null){
 			return new EditValidatorTypeCommand(model, newName);
 		}

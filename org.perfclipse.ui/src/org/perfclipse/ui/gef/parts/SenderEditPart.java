@@ -99,7 +99,7 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 				if (manager == null){
 					manager = new ClassDirectEditManager(this, ComboBoxViewerCellEditor.class,
 							new ComboViewerCellEditorLocator(((ILabeledFigure) getFigure()).getLabel()),
-									components.getSenders());
+									components.getSenderNames());
 				}
 				manager.show();
 			} catch (PerfClipseScannerException e) {
