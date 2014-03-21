@@ -52,7 +52,7 @@ public class ComboUtils {
 	 */
 	public static void select(ClassComboViewer viewer, Object value){
 		
-		Collection<String> input =   (Collection<String>) viewer.getInput();
+		Collection<String> input =   viewer.getInputCollection();
 		int i = 0;
 		for (String name : input){
 			if (value.equals(name)){

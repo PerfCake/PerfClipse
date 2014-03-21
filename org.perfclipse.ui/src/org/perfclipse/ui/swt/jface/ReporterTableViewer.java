@@ -114,10 +114,7 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 		} catch (PerfClipseScannerException e) {
 			//TODO: log error
 		}
-		final ClassCellEditor editor = new ClassCellEditor(getTable());
-		editor.setInput(components.getReporterNames());
-		editor.setContentProvider(ArrayContentProvider.getInstance());
-		editor.setLabelProvider(new ClassLabelProvider());
+		final ClassCellEditor editor = new ClassCellEditor(getTable(), components.getReporterNames());
 
 		
 		classColumn.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands(), editor) {
@@ -125,7 +122,7 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 			@Override
 			protected Object getValue(Object element) {
 				ReporterModel reporter = (ReporterModel) element;
-				Collection<String> input =   (Collection<String>) editor.getViewer().getInput();
+				Collection<String> input =   editor.getViewerInputCollection();
 				for (String c : input){
 					if (reporter.getReporter().getClazz().equals(c)){
 						return c;

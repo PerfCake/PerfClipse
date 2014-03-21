@@ -37,6 +37,8 @@ import org.eclipse.swt.widgets.Composite;
 //TODO: Add type argument
 public class ClassComboViewer extends ComboViewer {
 
+	private Collection<String> input;
+
 	/**
 	 * 
 	 * @param parent
@@ -85,7 +87,13 @@ public class ClassComboViewer extends ComboViewer {
 		
 		setContentProvider(ArrayContentProvider.getInstance());
 		setLabelProvider(new ClassLabelProvider());
+		this.input = input;
 		setInput(input);
 	}
+	
+	public Collection<String> getInputCollection(){
+		return input;
+	}
+	
 
 }

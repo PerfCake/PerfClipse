@@ -19,6 +19,8 @@
 
 package org.perfclipse.ui.swt.jface;
 
+import java.util.Collection;
+
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.swt.SWT;
@@ -32,22 +34,26 @@ import org.eclipse.swt.widgets.Control;
  */
 public class ClassCellEditor extends ComboBoxViewerCellEditor {
 
+	Collection<String> input;
 	
 	/**
 	 * 
 	 * @param parent
 	 * @param input
 	 */
-	public ClassCellEditor(Composite parent) {
-		this(parent, SWT.NONE);
+	public ClassCellEditor(Composite parent, Collection<String> input) {
+		this(parent, SWT.NONE, input);
 	}
 
 	/**
 	 * @param parent
 	 * @param style
 	 */
-	public ClassCellEditor(Composite parent, int style) {
+	public ClassCellEditor(Composite parent, int style, Collection<String> input) {
 		super(parent, style);
+		this.input = input;
+		getViewer().setInput(input);
+
 	}
 
 	@Override
@@ -56,6 +62,10 @@ public class ClassCellEditor extends ComboBoxViewerCellEditor {
 		getViewer().setContentProvider(ArrayContentProvider.getInstance());
 		getViewer().setLabelProvider(new ClassLabelProvider());
 		return returnValue;
+	}
+	
+	public Collection<String> getViewerInputCollection(){
+		return input;
 	}
 	
 	
