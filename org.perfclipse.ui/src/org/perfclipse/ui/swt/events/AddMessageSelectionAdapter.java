@@ -27,9 +27,10 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.commands.AddMessageCommand;
 import org.perfclipse.ui.wizards.MessageAddWizard;
-import org.perfclipse.ui.wizards.MessageEditWizard;
 
 /**
  * @author Jakub Knetl
@@ -40,6 +41,7 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 	private TableViewer viewer;
 	private MessagesModel messages;
 	private MessageModel message;
+	private ModelMapper mapper;
 	
 	/**
 	 * @param commands
@@ -51,6 +53,10 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 		super(commands);
 		this.viewer = viewer;
 		this.messages = messages;
+		if (messages != null)
+			mapper = messages.getMapper();
+		else
+			mapper = new ModelMapper();
 	}
 
 	
@@ -58,10 +64,12 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
 		MessageAddWizard wizard = new MessageAddWizard();
+		//TODO: undo editing support Commands?
 		if (Utils.showWizardDialog(wizard) != Window.OK)
 			return;
 		
-		
+		message = (MessageModel) mapper.getModelContainer(wizard.getMessage());
+		viewer.add(message);
 		super.widgetSelected(e);
 	}
 
@@ -69,7 +77,9 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 
 	@Override
 	protected Command getCommand() {
-		// TODO Auto-generated method stub
+		if (messages != null && message != null){
+			return new AddMessageCommand(message.getMessage(), messages);
+		}
 		return null;
 	}
 

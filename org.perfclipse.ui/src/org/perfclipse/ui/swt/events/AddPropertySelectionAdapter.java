@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
 import org.perfclipse.model.IPropertyContainer;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.ui.gef.commands.AddPropertyCommand;
 import org.perfclipse.ui.wizards.PropertyAddWizard;
 
@@ -44,12 +45,18 @@ public class AddPropertySelectionAdapter extends AbstractCommandSelectionAdapter
 	private TableViewer viewer;
 	private IPropertyContainer propertyContainer;
 	private Property property;
+	private ModelMapper mapper;
 
 	public AddPropertySelectionAdapter(TableViewer viewer,
 			List<Command> commands, IPropertyContainer propertyContainer) {
 		super(commands);
 		this.viewer = viewer;
 		this.propertyContainer = propertyContainer;
+		if (propertyContainer != null)
+			mapper = propertyContainer.getMapper();
+		else
+			mapper = new ModelMapper();
+			
 	}
 
 	@Override
@@ -66,7 +73,7 @@ public class AddPropertySelectionAdapter extends AbstractCommandSelectionAdapter
 		property.setName(wizard.getName());
 		property.setValue(wizard.getValue());
 		
-		viewer.add(propertyContainer.getMapper().getModelContainer(property));
+		viewer.add(mapper.getModelContainer(property));
 
 		super.widgetSelected(e);
 	}

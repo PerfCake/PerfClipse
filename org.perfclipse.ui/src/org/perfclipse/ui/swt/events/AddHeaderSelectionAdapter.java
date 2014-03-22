@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Header;
 import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.ui.gef.commands.AddHeaderCommand;
 import org.perfclipse.ui.wizards.PropertyAddWizard;
 
@@ -41,6 +42,7 @@ public class AddHeaderSelectionAdapter extends AbstractCommandSelectionAdapter {
 
 	private TableViewer viewer;
 	private MessageModel message;
+	private ModelMapper mapper;
 	private Header header;
 
 	/**
@@ -53,6 +55,12 @@ public class AddHeaderSelectionAdapter extends AbstractCommandSelectionAdapter {
 		super(commands);
 		this.viewer = viewer;
 		this.message = message;
+		if (message != null){
+			this.mapper = message.getMapper();
+		}
+		else{
+			this.mapper = new ModelMapper();
+		}
 	}
 	
 	
@@ -71,7 +79,7 @@ public class AddHeaderSelectionAdapter extends AbstractCommandSelectionAdapter {
 		header.setName(wizard.getName());
 		header.setValue(wizard.getValue());
 		
-		viewer.add(message.getMapper().getModelContainer(header));
+		viewer.add(mapper.getModelContainer(header));
 
 		super.widgetSelected(e);
 	}
