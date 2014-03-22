@@ -31,6 +31,7 @@ import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.ui.swt.events.AddMessageSelectionAdapter;
 import org.perfclipse.ui.swt.jface.MessagesTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
 
@@ -84,7 +85,9 @@ public class MessagesPage extends AbstractPerfCakePage {
 		messagesViewer.getTable().setLayoutData(data);
 		
 		messagesViewerControls = new TableViewerControl(container, true, SWT.NONE);
+		messagesViewerControls.getAddButton().addSelectionListener(new AddMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, messagesModel));
 		
+		setControl(container);
 		super.createControl(parent);
 	}
 

@@ -34,6 +34,7 @@ import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
+import org.perfclipse.ui.gef.policies.MessagesEditPolicy;
 import org.perfclipse.ui.gef.policies.MessagesListEditPolicy;
 
 public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
@@ -77,6 +78,7 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 		ScenarioModel scenarioModel = ((ScenarioEditPart) getParent()).getScenarioModel();
 		installEditPolicy(EditPolicy.LAYOUT_ROLE,
 				new MessagesListEditPolicy(getMessagesModel(), scenarioModel));
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new MessagesEditPolicy(getMessagesModel()));
 	}
 	
 	
