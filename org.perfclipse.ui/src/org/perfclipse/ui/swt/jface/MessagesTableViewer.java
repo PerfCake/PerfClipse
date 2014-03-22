@@ -118,7 +118,7 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 			protected Command getCommand(Object element, Object value) {
 				MessageModel message = (MessageModel) element;
 				try {
-					int newValue = Integer.valueOf(String.valueOf(value));
+					String newValue = String.valueOf(value);
 					return new EditMessageMultiplicityCommand(message, newValue);
 				} catch (NumberFormatException e){
 					//TODO: show user warning
