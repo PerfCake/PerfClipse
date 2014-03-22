@@ -23,10 +23,12 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.ui.swt.jface.MessagesTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
 
 /**
@@ -64,7 +66,16 @@ public class MessagesPage extends AbstractPerfCakePage {
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		container.setLayout(layout);
+		GridData data;
 		
+		messagesViewer = new MessagesTableViewer(container, getEditingSupportCommands());
+		messagesViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
+		data = new GridData();
+		data.horizontalAlignment = SWT.FILL;
+		data.grabExcessHorizontalSpace = true;
+		messagesViewer.getTable().setLayoutData(data);
+		
+		messagesViewerControls = new TableViewerControl(container, true, SWT.NONE);
 		super.createControl(parent);
 	}
 
