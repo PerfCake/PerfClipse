@@ -24,41 +24,22 @@ package org.perfclipse.ui.wizards;
  * @author Jakub Knetl
  *
  */
-public class PropertyAddWizard extends AbstractPerfCakeAddWizard {
+public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 
-	PropertyPage propertyPage;
-	
-	private String name;
-	private String value;
-	
-	
-	
+	private MessagePage messagePage;
+
 	@Override
 	public boolean performFinish() {
-		
-		name = propertyPage.getNameText().getText();
-		value = propertyPage.getValueText().getText();
 		
 		return true;
 	}
 
 	@Override
 	public void addPages() {
-		propertyPage = new PropertyPage();
-		addPage(propertyPage);
+		messagePage = new MessagePage();
+		addPage(messagePage);
 		super.addPages();
 	}
-
-	public PropertyPage getPropertyPage() {
-		return propertyPage;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getValue() {
-		return value;
-	}
+	
 	
 }

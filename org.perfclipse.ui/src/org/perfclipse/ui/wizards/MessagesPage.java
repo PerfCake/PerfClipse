@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.TableViewer;
@@ -26,8 +27,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.ui.swt.jface.MessagesTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
 
@@ -49,10 +52,15 @@ public class MessagesPage extends AbstractPerfCakePage {
 		super(MESSAGES_PAGE_NAME, false);
 	}
 	
-	public MessagesPage(MessagesModel messagesModel, List<MessageModel> messagesList){
+	public MessagesPage(MessagesModel messagesModel){
 		super(MESSAGES_PAGE_NAME, true);
 		this.messagesModel = messagesModel;
-		this.messagesList = messagesList;
+		ModelMapper mapper = messagesModel.getMapper();
+		messagesList = new ArrayList<>(messagesModel.getMessages().getMessage().size());
+		
+		for (Message m : messagesModel.getMessages().getMessage()){
+			messagesList.add((MessageModel) mapper.getModelContainer(m));
+		}
 	}
 	
 	public MessagesPage(String pageName, boolean edit){
@@ -76,24 +84,19 @@ public class MessagesPage extends AbstractPerfCakePage {
 		messagesViewer.getTable().setLayoutData(data);
 		
 		messagesViewerControls = new TableViewerControl(container, true, SWT.NONE);
+		
 		super.createControl(parent);
 	}
 
 	@Override
 	protected void updateControls() {
-		// TODO Auto-generated method stub
+		setPageComplete(true);
 		super.updateControls();
 	}
 
 	@Override
-	protected void fillDefaultValues() {
-		// TODO Auto-generated method stub
-		super.fillDefaultValues();
-	}
-
-	@Override
 	protected void fillCurrentValues() {
-		// TODO Auto-generated method stub
+		messagesViewer.setInput(messagesList);
 		super.fillCurrentValues();
 	}
 	

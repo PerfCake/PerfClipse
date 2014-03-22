@@ -19,46 +19,12 @@
 
 package org.perfclipse.ui.wizards;
 
+import org.eclipse.jface.wizard.Wizard;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class PropertyAddWizard extends AbstractPerfCakeAddWizard {
+public abstract class AbstractPerfCakeAddWizard extends Wizard {
 
-	PropertyPage propertyPage;
-	
-	private String name;
-	private String value;
-	
-	
-	
-	@Override
-	public boolean performFinish() {
-		
-		name = propertyPage.getNameText().getText();
-		value = propertyPage.getValueText().getText();
-		
-		return true;
-	}
-
-	@Override
-	public void addPages() {
-		propertyPage = new PropertyPage();
-		addPage(propertyPage);
-		super.addPages();
-	}
-
-	public PropertyPage getPropertyPage() {
-		return propertyPage;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getValue() {
-		return value;
-	}
-	
 }
