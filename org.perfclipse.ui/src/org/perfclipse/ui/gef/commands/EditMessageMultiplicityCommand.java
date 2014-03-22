@@ -29,23 +29,23 @@ import org.perfclipse.model.MessageModel;
 public class EditMessageMultiplicityCommand extends Command {
 
 	private MessageModel message;
-	private int newValue;
-	private int oldValue;
+	private String newValue;
+	private String oldValue;
 
-	public EditMessageMultiplicityCommand(MessageModel message, int newValue) {
+	public EditMessageMultiplicityCommand(MessageModel message, String newValue) {
 		super("Edit multiplicity");
 		this.message = message;
 		this.newValue = newValue;
-		this.oldValue = Integer.valueOf(message.getMessage().getMultiplicity());
+		this.oldValue = message.getMessage().getMultiplicity();
 	}
 
 	@Override
 	public void execute() {
-		message.setMultiplicity(String.valueOf(newValue));
+		message.setMultiplicity(newValue);
 	}
 
 	@Override
 	public void undo() {
-		message.setMultiplicity(String.valueOf(oldValue));
+		message.setMultiplicity(oldValue);
 	}
 }
