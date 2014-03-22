@@ -19,9 +19,6 @@
 
 package org.perfclipse.ui.wizards;
 
-import java.util.List;
-
-import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.ui.gef.commands.EditSenderTypeCommand;
 
@@ -32,13 +29,11 @@ import org.perfclipse.ui.gef.commands.EditSenderTypeCommand;
 public class SenderEditWizard extends AbstractPerfCakeEditWizard {
 
 	private SenderModel sender;
-	private List<PropertyModel> property;
 	private SenderPage senderPage;
 	
-	public SenderEditWizard(SenderModel sender, List<PropertyModel> property) {
+	public SenderEditWizard(SenderModel sender) {
 		super("Edit Sender");
 		this.sender = sender;
-		this.property = property;
 	}
 
 	@Override
@@ -53,7 +48,7 @@ public class SenderEditWizard extends AbstractPerfCakeEditWizard {
 
 	@Override
 	public void addPages() {
-		senderPage = new SenderPage(sender, property);
+		senderPage = new SenderPage(sender);
 		addPage(senderPage);
 	}
 

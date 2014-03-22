@@ -19,9 +19,6 @@
 
 package org.perfclipse.ui.wizards;
 
-import java.util.List;
-
-import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
 
 /**
@@ -31,21 +28,19 @@ import org.perfclipse.model.ReportingModel;
 public class ReportingEditWizard extends AbstractPerfCakeEditWizard {
 
 	private ReportingModel reporting;
-	private List<ReporterModel> reporters;
 	private ReportingPage reportingPage;
 
 	/**
 	 * @param commandLabel
 	 */
-	public ReportingEditWizard(ReportingModel reporting, List<ReporterModel> reporters) {
+	public ReportingEditWizard(ReportingModel reporting) {
 		super("Edit reporter");
 		this.reporting = reporting;
-		this.reporters = reporters;
 	}
 
 	@Override
 	public void addPages() {
-		reportingPage = new ReportingPage(reporting, reporters);
+		reportingPage = new ReportingPage(reporting);
 		addPage(reportingPage);
 
 		super.addPages();

@@ -19,18 +19,12 @@
 
 package org.perfclipse.ui.gef.policies;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
-import org.perfcake.model.Scenario.Reporting.Reporter;
-import org.perfclipse.model.ModelMapper;
-import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.ui.wizards.ReportingEditWizard;
 
@@ -49,14 +43,9 @@ public class ReportingEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
 	@Override
 	protected Command createPropertiesCommand() {
-		List<ReporterModel> reporters = new ArrayList<>(reporting.getReporting().getReporter().size());
-		ModelMapper mapper = reporting.getMapper();
-
-		for (Reporter r : reporting.getReporting().getReporter()){
-			reporters.add((ReporterModel) mapper.getModelContainer(r));
-		}
 		
-		ReportingEditWizard wizard = new ReportingEditWizard(reporting, reporters);
+		
+		ReportingEditWizard wizard = new ReportingEditWizard(reporting);
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.open();

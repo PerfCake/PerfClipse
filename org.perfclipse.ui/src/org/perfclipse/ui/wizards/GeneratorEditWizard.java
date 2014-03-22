@@ -19,16 +19,14 @@
 
 package org.perfclipse.ui.wizards;
 
-import java.util.List;
-
 import org.perfcake.model.Scenario.Generator;
 import org.perfclipse.model.GeneratorModel;
-import org.perfclipse.model.PropertyModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.RunModel;
 import org.perfclipse.ui.gef.commands.EditGeneratorThreadsCommand;
+import org.perfclipse.ui.gef.commands.EditGeneratorTypeCommand;
 import org.perfclipse.ui.gef.commands.EditRunTypeCommand;
 import org.perfclipse.ui.gef.commands.EditRunValue;
-import org.perfclipse.ui.gef.commands.EditGeneratorTypeCommand;
 
 /**
  * @author Jakub Knetl
@@ -38,15 +36,13 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 
 	private GeneratorPage generatorPage;
 	private GeneratorModel generator;
-	private List<PropertyModel> properties;
 	private RunModel run;
 
-	public GeneratorEditWizard(GeneratorModel generator,
-			List<PropertyModel> properties, RunModel run) {
+	public GeneratorEditWizard(GeneratorModel generator) {
 		super("Edit Generator");
+		ModelMapper mapper = generator.getMapper();
 		this.generator = generator;
-		this.properties = properties;
-		this.run = run;
+		this.run = (RunModel) mapper.getModelContainer(generator.getGenerator().getRun());
 	}
 
 	@Override
@@ -73,7 +69,7 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 
 	@Override
 	public void addPages() {
-		generatorPage = new GeneratorPage(generator, properties);
+		generatorPage = new GeneratorPage(generator);
 		addPage(generatorPage);
 
 		super.addPages();

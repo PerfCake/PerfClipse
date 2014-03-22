@@ -19,17 +19,12 @@
 
 package org.perfclipse.ui.gef.policies;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
-import org.perfcake.model.Property;
-import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.ui.wizards.SenderEditWizard;
 
@@ -48,12 +43,7 @@ public class SenderEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	
 	@Override
 	protected Command createPropertiesCommand() {
-		List<PropertyModel> properties = new ArrayList<>();
-		for (Property p: sender.getProperty()){
-			properties.add((PropertyModel) sender.getMapper().getModelContainer(p));
-		}
-
-		SenderEditWizard wizard = new SenderEditWizard(sender, properties);
+		SenderEditWizard wizard = new SenderEditWizard(sender);
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.open();

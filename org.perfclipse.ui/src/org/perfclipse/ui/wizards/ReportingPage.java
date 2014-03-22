@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.TableViewer;
@@ -27,6 +28,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
+import org.perfcake.model.Scenario.Reporting.Reporter;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.ui.swt.jface.ReporterTableViewer;
@@ -52,10 +55,15 @@ public class ReportingPage extends AbstractPerfCakePage {
 	}
 	
 	
-	public ReportingPage(ReportingModel reporting, List<ReporterModel> reporters){
+	public ReportingPage(ReportingModel reporting){
 		super(REPORTING_PAGE_NAME, true);
 		this.reporting = reporting;
-		this.reporters = reporters;
+		reporters = new ArrayList<>(reporting.getReporting().getReporter().size());
+		ModelMapper mapper = reporting.getMapper();
+
+		for (Reporter r : reporting.getReporting().getReporter()){
+			reporters.add((ReporterModel) mapper.getModelContainer(r));
+		}
 	}
 
 	private ReportingPage(String pageName, boolean edit) {

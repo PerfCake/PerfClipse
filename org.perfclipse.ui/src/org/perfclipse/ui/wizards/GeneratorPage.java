@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ISelection;
@@ -34,14 +35,16 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
 import org.perfcake.common.PeriodType;
+import org.perfcake.model.Property;
 import org.perfclipse.model.GeneratorModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
-import org.perfclipse.ui.swt.jface.StringComboViewer;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
+import org.perfclipse.ui.swt.jface.StringComboViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
 import org.slf4j.LoggerFactory;
 
@@ -78,11 +81,14 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		this(GENERATOR_PAGE_NAME, false);
 	}
 
-	public GeneratorPage(GeneratorModel generator,
-			List<PropertyModel> properties){
+	public GeneratorPage(GeneratorModel generator){
 		this(GENERATOR_PAGE_NAME, true);
 		this.generator = generator;
-		this.properties = properties;
+		ModelMapper mapper = generator.getMapper();
+		properties = new ArrayList<>(generator.getProperty().size());
+		for (Property p : generator.getProperty()){
+			properties.add((PropertyModel) mapper.getModelContainer(p));
+		}
 	}
 	
 	private GeneratorPage(String pageName, boolean edit) {

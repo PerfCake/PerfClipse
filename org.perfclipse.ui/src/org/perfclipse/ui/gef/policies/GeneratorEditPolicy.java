@@ -19,20 +19,13 @@
 
 package org.perfclipse.ui.gef.policies;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
-import org.perfcake.model.Property;
 import org.perfclipse.model.GeneratorModel;
-import org.perfclipse.model.ModelMapper;
-import org.perfclipse.model.PropertyModel;
-import org.perfclipse.model.RunModel;
 import org.perfclipse.ui.wizards.GeneratorEditWizard;
 
 /**
@@ -49,14 +42,8 @@ public class GeneratorEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
 	@Override
 	protected Command createPropertiesCommand() {
-		List<PropertyModel> properties = new ArrayList<>();
 		
-		ModelMapper mapper = generator.getMapper();
-		for (Property p : generator.getProperty()){
-			properties.add((PropertyModel) mapper.getModelContainer(p));
-		}
-		GeneratorEditWizard wizard = new GeneratorEditWizard(generator,
-				properties, (RunModel) mapper.getModelContainer(generator.getGenerator().getRun()));
+		GeneratorEditWizard wizard = new GeneratorEditWizard(generator);
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.open();

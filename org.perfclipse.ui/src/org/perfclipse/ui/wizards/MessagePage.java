@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -28,8 +29,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
+import org.perfcake.model.Header;
+import org.perfcake.model.Property;
+import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfclipse.model.HeaderModel;
 import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.ValidatorRefModel;
 import org.perfclipse.ui.swt.events.AddHeaderSelectionAdapter;
@@ -74,13 +79,27 @@ public class MessagePage extends AbstractPerfCakePage {
 		this(MESSAGE_PAGE_NAME, false);
 	}
 
-	public MessagePage(MessageModel message, List<HeaderModel> headers, 
-			List<PropertyModel> properties, List<ValidatorRefModel> refs){
+	public MessagePage(MessageModel message){
 		this(MESSAGE_PAGE_NAME, true);
 		this.message = message;
-		this.headers = headers;
-		this.properties = properties;
-		this.refs = refs;
+		
+		ModelMapper mapper = message.getMapper();
+		
+		properties = new ArrayList<>(message.getProperty().size());
+		headers = new ArrayList<>(message.getMessage().getHeader().size());
+		refs = new ArrayList<>(message.getMessage().getValidatorRef().size());
+		
+		for (Property p : message.getProperty()){
+			properties.add((PropertyModel) mapper.getModelContainer(p));
+		}
+		
+		for (Header h : message.getMessage().getHeader()){
+			headers.add((HeaderModel) mapper.getModelContainer(h));
+		}
+		
+		for (ValidatorRef r : message.getMessage().getValidatorRef()){
+			refs.add((ValidatorRefModel) mapper.getModelContainer(r));
+		}
 	}
 
 	private MessagePage(String pageName, boolean edit) {

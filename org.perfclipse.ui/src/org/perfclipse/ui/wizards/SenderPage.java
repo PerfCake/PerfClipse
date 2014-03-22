@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -29,14 +30,16 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
+import org.perfcake.model.Property;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
-import org.perfclipse.ui.swt.jface.StringComboViewer;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
+import org.perfclipse.ui.swt.jface.StringComboViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,10 +66,17 @@ public class SenderPage extends AbstractPerfCakePage {
 		this(SENDER_PAGE_NAME, false);
 	}
 	
-	public SenderPage(SenderModel sender, List<PropertyModel> properties){
+	public SenderPage(SenderModel sender){
 		this(SENDER_PAGE_NAME, true);
 		this.sender = sender;
-		this.properties = properties;
+		
+		ModelMapper mapper = sender.getMapper();
+
+		properties = new ArrayList<>(sender.getProperty().size());
+
+		for (Property p : sender.getProperty()){
+			properties.add((PropertyModel) mapper.getModelContainer(p));
+		}
 	}
 	
 	private SenderPage(String pageName, boolean edit) {

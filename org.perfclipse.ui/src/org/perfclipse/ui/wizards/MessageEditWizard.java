@@ -19,12 +19,7 @@
 
 package org.perfclipse.ui.wizards;
 
-import java.util.List;
-
-import org.perfclipse.model.HeaderModel;
 import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.PropertyModel;
-import org.perfclipse.model.ValidatorRefModel;
 import org.perfclipse.ui.gef.commands.EditMessageMultiplicityCommand;
 import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
 
@@ -35,9 +30,6 @@ import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
 public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 
 	private MessageModel message;
-	private List<PropertyModel> properties;
-	private List<HeaderModel> headers;
-	private List<ValidatorRefModel> refs;
 	
 	private MessagePage messagePage;
 	/**
@@ -47,14 +39,9 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 	 * @param headers
 	 * @param refs
 	 */
-	public MessageEditWizard(MessageModel message,
-			List<PropertyModel> properties, List<HeaderModel> headers,
-			List<ValidatorRefModel> refs) {
+	public MessageEditWizard(MessageModel message) {
 		super("Edit Message");
 		this.message = message;
-		this.properties = properties;
-		this.headers = headers;
-		this.refs = refs;
 	}
 	@Override
 	public boolean performFinish() {
@@ -72,7 +59,7 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 	}
 	@Override
 	public void addPages() {
-		messagePage = new MessagePage(message, headers, properties, refs);
+		messagePage = new MessagePage(message);
 		addPage(messagePage);
 		super.addPages();
 	}
