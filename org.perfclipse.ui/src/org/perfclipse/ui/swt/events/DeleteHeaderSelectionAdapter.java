@@ -25,50 +25,61 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.events.SelectionEvent;
-import org.perfclipse.model.IPropertyContainer;
-import org.perfclipse.model.PropertyModel;
-import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
+import org.perfclipse.model.HeaderModel;
+import org.perfclipse.model.MessageModel;
+import org.perfclipse.ui.gef.commands.DeleteHeaderCommand;
 
 /**
- * Selection Adapter which handles delete in PropertyViewer
  * @author Jakub Knetl
  *
  */
-public class DeletePropertySelectionAdapter extends AbstractCommandSelectionAdapter {
+public class DeleteHeaderSelectionAdapter extends
+		AbstractCommandSelectionAdapter {
 
 	private TableViewer viewer;
-	private IPropertyContainer propertyContainer;
-	private PropertyModel property;
-
-	public DeletePropertySelectionAdapter(TableViewer viewer,
-			List<Command> commands, IPropertyContainer propertyContainer) {
+	private MessageModel message;
+	private HeaderModel header;
+	
+	
+	/**
+	 * @param commands
+	 * @param viewer
+	 * @param message
+	 * @param header
+	 */
+	public DeleteHeaderSelectionAdapter(List<Command> commands,
+			TableViewer viewer, MessageModel message) {
 		super(commands);
 		this.viewer = viewer;
-		this.propertyContainer = propertyContainer;
+		this.message = message;
 	}
-	
+
+
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-
 		ISelection selection = viewer.getSelection();
 		if (selection instanceof IStructuredSelection){
-			Iterator<?> it = ((IStructuredSelection) selection).iterator();
+			StructuredSelection structSelection = (StructuredSelection) selection;
+			Iterator<?> it = structSelection.iterator();
 			while (it.hasNext()){
-				property = (PropertyModel) it.next();
+				header = (HeaderModel) it.next();
 				super.handleCommand();
-				viewer.remove(property);
+				viewer.remove(header);
 			}
-			
 		}
+		super.widgetSelected(e);
 	}
+
 
 	@Override
 	protected Command getCommand() {
-		if (propertyContainer != null){
-			new DeletePropertyCommand(propertyContainer, property);
+		if (message != null && header != null){
+			new DeleteHeaderCommand(message, header.getHeader());
 		}
 		return null;
 	}
+
 }
