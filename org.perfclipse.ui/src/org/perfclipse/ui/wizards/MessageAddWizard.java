@@ -19,7 +19,15 @@
 
 package org.perfclipse.ui.wizards;
 
+import org.perfcake.model.ObjectFactory;
+import org.perfcake.model.Scenario.Messages.Message;
+import org.perfclipse.model.PropertyModel;
 
+
+/**
+ * @author Jakub Knetl
+ *
+ */
 /**
  * @author Jakub Knetl
  *
@@ -27,10 +35,18 @@ package org.perfclipse.ui.wizards;
 public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 
 	private MessagePage messagePage;
+	private Message message;
 
 	@Override
 	public boolean performFinish() {
 		
+		message = new ObjectFactory().createScenarioMessagesMessage();
+		message.setMultiplicity(String.valueOf(messagePage.getMultiplicity()));
+		message.setUri(messagePage.getUri());
+		for (PropertyModel p : messagePage.getProperty()){
+			message.getProperty().add(p.getProperty());
+		}
+
 		return true;
 	}
 
@@ -40,6 +56,8 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 		addPage(messagePage);
 		super.addPages();
 	}
-	
-	
+
+	public Message getMessage() {
+		return message;
+	}
 }
