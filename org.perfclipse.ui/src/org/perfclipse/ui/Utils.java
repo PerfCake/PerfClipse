@@ -19,6 +19,10 @@
 
 package org.perfclipse.ui;
 
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
@@ -49,5 +53,17 @@ public class Utils {
 		consoleManager.addConsoles(new IConsole[]{newConsole});
 		return newConsole;
 		
+	}
+	
+	/**
+	 * Shows wizard wrapped as WizardDialog.
+	 * @return Return value of dialog.open()
+	 */
+	
+	public static int showWizardDialog(IWizard wizard){
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		WizardDialog dialog = new WizardDialog(shell, wizard);
+		
+		return dialog.open();
 	}
 }
