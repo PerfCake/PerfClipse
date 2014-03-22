@@ -31,7 +31,7 @@ import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Header;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.ui.gef.commands.AddHeaderCommand;
-import org.perfclipse.ui.wizards.PropertyWizard;
+import org.perfclipse.ui.wizards.PropertyAddWizard;
 
 /**
  * @author Jakub Knetl
@@ -60,7 +60,7 @@ public class AddHeaderSelectionAdapter extends AbstractCommandSelectionAdapter {
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		PropertyWizard wizard = new PropertyWizard();
+		PropertyAddWizard wizard = new PropertyAddWizard();
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 

@@ -23,9 +23,13 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
-import org.perfcake.model.Scenario.Messages.Message;
+import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.wizards.MessageAddWizard;
+import org.perfclipse.ui.wizards.MessageEditWizard;
 
 /**
  * @author Jakub Knetl
@@ -35,9 +39,7 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 
 	private TableViewer viewer;
 	private MessagesModel messages;
-	private Message message;
-	
-	
+	private MessageModel message;
 	
 	/**
 	 * @param commands
@@ -55,6 +57,11 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
+		MessageAddWizard wizard = new MessageAddWizard();
+		if (Utils.showWizardDialog(wizard) != Window.OK)
+			return;
+		
+		
 		super.widgetSelected(e);
 	}
 

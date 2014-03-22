@@ -31,7 +31,7 @@ import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
 import org.perfclipse.model.IPropertyContainer;
 import org.perfclipse.ui.gef.commands.AddPropertyCommand;
-import org.perfclipse.ui.wizards.PropertyWizard;
+import org.perfclipse.ui.wizards.PropertyAddWizard;
 
 /**
  * 
@@ -55,7 +55,7 @@ public class AddPropertySelectionAdapter extends AbstractCommandSelectionAdapter
 	@Override
 	public void widgetSelected(SelectionEvent e) {
 
-		PropertyWizard wizard = new PropertyWizard();
+		PropertyAddWizard wizard = new PropertyAddWizard();
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 
