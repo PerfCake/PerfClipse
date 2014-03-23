@@ -37,7 +37,7 @@ import org.perfclipse.ui.gef.commands.EditDestinationTypeCommand;
  * @author Jakub Knetl
  *
  */
-public class DestiantionTableViewer extends AbstractCommandTableViewer {
+public class DestinationTableViewer extends AbstractCommandTableViewer {
 
 	private static final int CLAZZ_COLUMN_WIDTH = 220;
 	private TableViewerColumn clazzColumn;
@@ -47,7 +47,7 @@ public class DestiantionTableViewer extends AbstractCommandTableViewer {
 	 * @param parent
 	 * @param commands
 	 */
-	public DestiantionTableViewer(Composite parent, List<Command> commands) {
+	public DestinationTableViewer(Composite parent, List<Command> commands) {
 		super(parent, commands);
 		// TODO Auto-generated constructor stub
 	}
@@ -57,7 +57,7 @@ public class DestiantionTableViewer extends AbstractCommandTableViewer {
 	 * @param style
 	 * @param commands
 	 */
-	public DestiantionTableViewer(Composite parent, int style,
+	public DestinationTableViewer(Composite parent, int style,
 			List<Command> commands) {
 		super(parent, style, commands);
 		// TODO Auto-generated constructor stub

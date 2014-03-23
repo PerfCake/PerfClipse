@@ -203,7 +203,7 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	protected void fillDefaultValues() {
 
 		ISelection selection = new StructuredSelection(generatorTypeViewer.getElementAt(0));
-		generatorTypeViewer.setSelection(selection);;
+		generatorTypeViewer.setSelection(selection);
 		runTypeCombo.select(0);
 		runValueSpinner.setSelection(1);
 		threadsSpinner.setSelection(1);
