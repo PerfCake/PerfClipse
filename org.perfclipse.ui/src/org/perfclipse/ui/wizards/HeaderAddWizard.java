@@ -19,34 +19,31 @@
 
 package org.perfclipse.ui.wizards;
 
+import org.eclipse.jface.wizard.IWizardPage;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class PropertyAddWizard extends AbstractPerfCakeAddWizard {
+public class HeaderAddWizard extends AbstractPerfCakeAddWizard {
 
-	private PropertyPage propertyPage;
-	
+	private HeaderPage headerPage;
 	private String name;
 	private String value;
-	
-	
-	
+
 	@Override
 	public boolean performFinish() {
-		
-		name = propertyPage.getNameText().getText();
-		value = propertyPage.getValueText().getText();
-		
+		name = headerPage.getNameText().getText();
+		value = headerPage.getValueText().getText();
+
 		return true;
 	}
 
 	@Override
-	public void addPages() {
-		propertyPage = new PropertyPage();
-		addPage(propertyPage);
-		super.addPages();
+	public void addPage(IWizardPage page) {
+		headerPage = new HeaderPage();
+		addPage(headerPage);
+		super.addPage(page);
 	}
 
 	public String getName() {
@@ -56,5 +53,5 @@ public class PropertyAddWizard extends AbstractPerfCakeAddWizard {
 	public String getValue() {
 		return value;
 	}
-	
+
 }
