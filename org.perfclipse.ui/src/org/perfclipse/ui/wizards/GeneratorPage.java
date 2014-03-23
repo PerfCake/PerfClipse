@@ -34,12 +34,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
-import org.perfcake.common.PeriodType;
 import org.perfcake.model.Property;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.reflect.PerfCakeComponents;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
@@ -124,9 +124,8 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		
 		runTypeCombo = new Combo(container, SWT.NONE);
 
-		for (PeriodType period : PeriodType.values()){
-			String periodType = period.toString().toLowerCase();
-			runTypeCombo.add(periodType);
+		for (String period : Utils.getPeriodTypes()){
+			runTypeCombo.add(period);
 		}
 		
 		runTypeCombo.addSelectionListener(new UpdateSelectionAdapter(this));
