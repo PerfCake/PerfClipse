@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.wizard.WizardPage;
@@ -55,14 +54,10 @@ public abstract class AbstractPerfCakePage extends WizardPage {
 	 * @param edit Is page editing existing model?
 	 */
 	public AbstractPerfCakePage(String pageName, boolean edit) {
-		this(pageName, null, null, edit);
-	}
-
-	public AbstractPerfCakePage(String pageName, String title,
-			ImageDescriptor titleImage, boolean edit) {
-		super(pageName, title, titleImage);
+		super(pageName);
 		this.editMode = edit;
 	}
+
 	
 	protected PerfCakeComponents getPerfCakeComponents(){
 		PerfCakeComponents components = null;
