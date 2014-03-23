@@ -109,7 +109,6 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 			
 		});
 		
-		//TODO: extract own ClassComboViewerCellEditor and use it also in Direct Edit
 		PerfCakeComponents components = null;
 		try {
 			components = PerfCakeComponents.getInstance();
