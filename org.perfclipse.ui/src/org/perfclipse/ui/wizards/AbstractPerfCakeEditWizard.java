@@ -94,6 +94,8 @@ public abstract class AbstractPerfCakeEditWizard extends Wizard {
 	public CompoundCommand getCommand(){
 		return command;
 	}
-	
-	
+
+	public List<Command> getEditingSupportCommands() {
+		return editingSupportCommands;
+	}
 }

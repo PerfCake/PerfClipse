@@ -132,7 +132,7 @@ public abstract class AbstractPerfCakePage extends WizardPage {
 	protected List<Command> getEditingSupportCommands(){
 		if (getWizard() instanceof AbstractPerfCakeEditWizard){
 			AbstractPerfCakeEditWizard wizard = (AbstractPerfCakeEditWizard) getWizard();
-			return wizard.editingSupportCommands;
+			return wizard.getEditingSupportCommands();
 		}
 		
 		return null;
