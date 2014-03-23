@@ -3,14 +3,22 @@ package org.perfclipse.ui.swt.jface;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.ui.PlatformUI;
+import org.perfclipse.reflect.PerfCakeComponents;
+import org.perfclipse.reflect.PerfClipseScannerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractCommandTableViewer extends TableViewer {
 
+	static final Logger log = LoggerFactory.getLogger(AbstractCommandTableViewer.class);
 	private List<Command> commands;
 
 	public AbstractCommandTableViewer(Composite parent, List<Command> commands) {
@@ -55,5 +63,18 @@ public abstract class AbstractCommandTableViewer extends TableViewer {
 	 */
 	protected void setColumnsSize(){
 		
+	}
+	
+	protected PerfCakeComponents getPerfCakeComponents(){
+		PerfCakeComponents components = null;
+		try {
+			components = PerfCakeComponents.getInstance();
+		} catch (PerfClipseScannerException e) {
+			log.error("Cannot parse PerfCake components", e);
+			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			MessageDialog.openError(shell, "PerfCake components error.", "Cannot parse PerfCake components.");
+		}
+		
+		return components;
 	}
 }

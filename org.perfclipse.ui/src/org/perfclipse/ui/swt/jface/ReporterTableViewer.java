@@ -30,8 +30,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.ReporterModel;
-import org.perfclipse.reflect.PerfCakeComponents;
-import org.perfclipse.reflect.PerfClipseScannerException;
 import org.perfclipse.ui.gef.commands.EditReporterEnabledCommand;
 import org.perfclipse.ui.gef.commands.EditReporterTypeCommand;
 
@@ -109,13 +107,8 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 			
 		});
 		
-		PerfCakeComponents components = null;
-		try {
-			components = PerfCakeComponents.getInstance();
-		} catch (PerfClipseScannerException e) {
-			//TODO: log error
-		}
-		final StringComboCellEditor editor = new StringComboCellEditor(getTable(), components.getReporterNames());
+
+		final StringComboCellEditor editor = new StringComboCellEditor(getTable(), getPerfCakeComponents().getReporterNames());
 
 		
 		classColumn.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands(), editor) {
