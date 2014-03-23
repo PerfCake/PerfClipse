@@ -217,11 +217,17 @@ public class MessagePage extends AbstractPerfCakePage {
 	public int getMultiplicity(){
 		return multiplicitySpinner.getSelection();
 	}
-	
-	@SuppressWarnings("unchecked")
-	public List<PropertyModel> getProperty(){
-		return (List<PropertyModel>) propertyViewer.getInput();
+
+	public PropertyTableViewer getPropertyViewer() {
+		return propertyViewer;
 	}
-	
+
+	public HeaderTableViewer getHeaderViewer() {
+		return headerViewer;
+	}
+
+	public ValidatorRefTableViewer getRefViewer() {
+		return refViewer;
+	}
 	
 }

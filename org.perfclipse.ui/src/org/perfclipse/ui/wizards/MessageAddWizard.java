@@ -19,9 +19,12 @@
 
 package org.perfclipse.ui.wizards;
 
+import org.eclipse.swt.widgets.TableItem;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Messages.Message;
+import org.perfclipse.model.HeaderModel;
 import org.perfclipse.model.PropertyModel;
+import org.perfclipse.model.ValidatorRefModel;
 
 
 /**
@@ -43,10 +46,26 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 		message = new ObjectFactory().createScenarioMessagesMessage();
 		message.setMultiplicity(String.valueOf(messagePage.getMultiplicity()));
 		message.setUri(messagePage.getUri());
-		for (PropertyModel p : messagePage.getProperty()){
-			message.getProperty().add(p.getProperty());
+		for (TableItem i : messagePage.getPropertyViewer().getTable().getItems()){
+			if (i.getData() instanceof PropertyModel){
+				PropertyModel p = (PropertyModel) i.getData();
+				message.getProperty().add(p.getProperty());
+			}
+		}
+		
+		for (TableItem i : messagePage.getHeaderViewer().getTable().getItems()){
+			if (i.getData() instanceof HeaderModel){
+				HeaderModel h = (HeaderModel) i.getData();
+				message.getHeader().add(h.getHeader());
+			}
 		}
 
+		for (TableItem i : messagePage.getRefViewer().getTable().getItems()){
+			if (i.getData() instanceof ValidatorRefModel){
+				ValidatorRefModel v = (ValidatorRefModel) i.getData();
+				message.getValidatorRef().add(v.getValidatorRef());
+			}
+		}
 		return true;
 	}
 
