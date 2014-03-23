@@ -23,6 +23,7 @@ import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.gef.commands.EditValidatorIdCommand;
 import org.perfclipse.ui.gef.commands.EditValidatorTypeCommand;
+import org.perfclipse.ui.gef.commands.EditValidatorValueCommand;
 import org.perfclipse.ui.wizards.pages.ValidatorPage;
 
 /**
@@ -47,7 +48,8 @@ public class ValidatorEditWizard extends AbstractPerfCakeEditWizard {
 			command.add(new EditValidatorTypeCommand(validator, validatorPage.getValidatorName()));
 		if (!v.getId().equals(validatorPage.getValidatorId()))
 			command.add(new EditValidatorIdCommand(validator, validatorPage.getValidatorId()));
-
+		if (!v.getValue().equals(validatorPage.getValidatorValue()))
+			command.add(new EditValidatorValueCommand(validator, validatorPage.getValidatorValue()));
 		return super.performFinish();
 	}
 	@Override

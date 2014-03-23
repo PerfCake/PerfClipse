@@ -46,6 +46,8 @@ public class ValidatorPage extends AbstractPerfCakePage {
 	private StringComboViewer typeCombo; 
 	private Label idLabel;
 	private Text idText;
+	private Label valueLabel;
+	private Text valueText;
 	
 	public ValidatorPage(){
 		this(VALIDATOR_PAGE_NAME, false);
@@ -98,6 +100,12 @@ public class ValidatorPage extends AbstractPerfCakePage {
 		data.horizontalAlignment = SWT.FILL;
 		idText.setLayoutData(data);
 		
+		valueLabel = new Label(container, SWT.NONE);
+		valueLabel.setText("Value: ");
+		valueText = new  Text(container, SWT.NONE);
+		data = new GridData(SWT.FILL, SWT.FILL, true, true);
+		valueText.setLayoutData(data);
+		
 		super.createControl(parent);
 	}
 
@@ -105,6 +113,7 @@ public class ValidatorPage extends AbstractPerfCakePage {
 	protected void fillCurrentValues() {
 		ComboUtils.select(typeCombo, validator.getValidator().getClazz());
 		idText.setText(validator.getValidator().getId());
+		valueText.setText(validator.getValidator().getValue());
 		super.fillCurrentValues();
 	}
 
@@ -127,6 +136,10 @@ public class ValidatorPage extends AbstractPerfCakePage {
 	
 	public String getValidatorId(){
 		return idText.getText();
+	}
+	
+	public String getValidatorValue(){
+		return valueText.getText();
 	}
 	
 }
