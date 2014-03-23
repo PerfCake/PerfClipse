@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package org.perfclipse.ui.wizards;
+package org.perfclipse.ui.wizards.pages;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;

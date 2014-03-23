@@ -20,6 +20,7 @@
 package org.perfclipse.ui.wizards;
 
 import org.eclipse.jface.wizard.IWizardPage;
+import org.perfclipse.ui.wizards.pages.HeaderPage;
 
 /**
  * @author Jakub Knetl

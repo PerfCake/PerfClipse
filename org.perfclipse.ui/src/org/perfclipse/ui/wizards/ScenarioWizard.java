@@ -38,6 +38,9 @@ import org.perfcake.model.Scenario;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
 import org.perfclipse.ui.editors.ScenarioDesignEditorInput;
+import org.perfclipse.ui.wizards.pages.GeneratorPage;
+import org.perfclipse.ui.wizards.pages.ScenarioNewFilePage;
+import org.perfclipse.ui.wizards.pages.SenderPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

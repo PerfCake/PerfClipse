@@ -1,4 +1,4 @@
-package org.perfclipse.ui.wizards;
+package org.perfclipse.ui.wizards.pages;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;

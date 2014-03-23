@@ -22,6 +22,7 @@ package org.perfclipse.ui.wizards;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.ui.gef.commands.EditMessageMultiplicityCommand;
 import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
+import org.perfclipse.ui.wizards.pages.MessagePage;
 
 /**
  * @author Jakub Knetl

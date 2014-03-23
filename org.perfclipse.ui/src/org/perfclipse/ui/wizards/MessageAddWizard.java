@@ -25,6 +25,7 @@ import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.HeaderModel;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.ValidatorRefModel;
+import org.perfclipse.ui.wizards.pages.MessagePage;
 
 
 /**

@@ -21,6 +21,7 @@ package org.perfclipse.ui.wizards;
 
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.ui.gef.commands.EditSenderTypeCommand;
+import org.perfclipse.ui.wizards.pages.SenderPage;
 
 /**
  * @author Jakub Knetl

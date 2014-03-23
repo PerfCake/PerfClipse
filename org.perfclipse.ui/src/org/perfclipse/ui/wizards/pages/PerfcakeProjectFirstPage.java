@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package org.perfclipse.ui.wizards;
+package org.perfclipse.ui.wizards.pages;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;

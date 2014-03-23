@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.perfclipse.ui.PerfClipseConstants;
+import org.perfclipse.ui.wizards.pages.PerfcakeProjectFirstPage;
 import org.slf4j.LoggerFactory;
 
 public class PerfcakeProjectWizard extends Wizard implements INewWizard {

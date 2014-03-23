@@ -20,6 +20,7 @@
 package org.perfclipse.ui.wizards;
 
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.ui.wizards.pages.MessagesPage;
 
 /**
  * @author Jakub Knetl

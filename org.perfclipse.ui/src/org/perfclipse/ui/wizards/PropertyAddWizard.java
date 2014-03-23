@@ -19,6 +19,8 @@
 
 package org.perfclipse.ui.wizards;
 
+import org.perfclipse.ui.wizards.pages.PropertyPage;
+
 
 /**
  * @author Jakub Knetl

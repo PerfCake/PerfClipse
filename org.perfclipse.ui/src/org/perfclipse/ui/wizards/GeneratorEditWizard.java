@@ -27,6 +27,7 @@ import org.perfclipse.ui.gef.commands.EditGeneratorThreadsCommand;
 import org.perfclipse.ui.gef.commands.EditGeneratorTypeCommand;
 import org.perfclipse.ui.gef.commands.EditRunTypeCommand;
 import org.perfclipse.ui.gef.commands.EditRunValue;
+import org.perfclipse.ui.wizards.pages.GeneratorPage;
 
 /**
  * @author Jakub Knetl

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package org.perfclipse.ui.wizards;
+package org.perfclipse.ui.wizards.pages;
 
 import java.util.List;
 
@@ -32,6 +32,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
+import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
