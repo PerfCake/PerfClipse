@@ -19,48 +19,48 @@
 
 package org.perfclipse.ui.wizards;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.perfclipse.model.PropertyModel;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class PropertyPage extends WizardPage {
+public class PropertyPage extends AbstractPerfCakePage {
 
+	private static final String PROPERTY_PAGE_NAME = "Property";
 	private Composite container;
 	private Label nameLabel;
 	private Text nameText;
 
 	private Label valueLabel;
 	private Text valueText;
+	
+	private PropertyModel property;
 
-	public PropertyPage() {
-		this("Property");
+	
+	
+	public PropertyPage(){
+		this(PROPERTY_PAGE_NAME, false);
 	}
 	
-	/**
-	 * @param pageName
-	 */
-	public PropertyPage(String pageName) {
-		super(pageName);
+	public PropertyPage(PropertyModel property){
+		this(PROPERTY_PAGE_NAME, true);
+		this.property = property;
 	}
+	
 
 	/**
 	 * @param pageName
-	 * @param title
-	 * @param titleImage
+	 * @param edit
 	 */
-	public PropertyPage(String pageName, String title,
-			ImageDescriptor titleImage) {
-		super(pageName, title, titleImage);
-		// TODO Auto-generated constructor stub
+	private PropertyPage(String pageName, boolean edit) {
+		super(pageName, edit);
 	}
 
 	@Override
@@ -93,6 +93,15 @@ public class PropertyPage extends WizardPage {
 		valueText.setLayoutData(data);
 		
 		setControl(container);
+	}
+
+	
+	
+	@Override
+	protected void fillCurrentValues() {
+		nameText.setText(property.getProperty().getName());
+		valueText.setText(property.getProperty().getValue());
+		super.fillCurrentValues();
 	}
 
 	public Label getNameLabel() {
