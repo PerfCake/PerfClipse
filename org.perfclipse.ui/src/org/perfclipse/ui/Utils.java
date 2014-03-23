@@ -19,6 +19,9 @@
 
 package org.perfclipse.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -27,6 +30,7 @@ import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
+import org.perfcake.common.PeriodType;
 
 public class Utils {
 
@@ -65,5 +69,18 @@ public class Utils {
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		
 		return dialog.open();
+	}
+	
+	/**
+	 * @return List of String reperesentation of period Type in PerfCake
+	 * 
+	 */
+	public static List<String> getPeriodTypes(){
+		List<String> list = new ArrayList<>();
+		for (PeriodType p : PeriodType.values()){
+			list.add(p.toString().toLowerCase());
+		}
+		
+		return list;
 	}
 }
