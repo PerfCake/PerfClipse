@@ -21,9 +21,12 @@ package org.perfclipse.ui.gef.policies;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.jface.window.Window;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.DeleteReporterCommand;
+import org.perfclipse.ui.wizards.ReporterEditWizard;
 
 /**
  * @author Jakub Knetl
@@ -45,5 +48,17 @@ public class ReporterEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	protected Command createDeleteCommand(GroupRequest request) {
 		return new DeleteReporterCommand(reporting, reporter);
 	}
+
+	@Override
+	protected Command createPropertiesCommand() {
+		ReporterEditWizard wizard = new ReporterEditWizard(reporter);
+		if (Utils.showWizardDialog(wizard) == Window.OK){
+			if (!wizard.getCommand().isEmpty())
+				return wizard.getCommand();
+		}
+		return null;
+	}
+	
+	
 	
 }

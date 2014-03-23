@@ -79,6 +79,7 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 	protected void createEditPolicies() {
 		ScenarioModel scenarioModel = ((ScenarioEditPart) getParent()).getScenarioModel();
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ValidatorListEditPolicy(getValidationModel(), scenarioModel));
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ValidationEditPolicy(getValidationModel()));
 
 
 	}

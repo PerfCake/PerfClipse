@@ -21,9 +21,12 @@ package org.perfclipse.ui.gef.policies;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.jface.window.Window;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.DeleteValidatorCommand;
+import org.perfclipse.ui.wizards.ValidatorEditWizard;
 
 /**
  * @author Jakub Knetl
@@ -45,5 +48,15 @@ public class ValidatorEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	protected Command createDeleteCommand(GroupRequest request) {
 		return new DeleteValidatorCommand(validation, validator);
 	}
-	
+
+	@Override
+	protected Command createPropertiesCommand() {
+		ValidatorEditWizard wizard = new ValidatorEditWizard(validator);
+		if (Utils.showWizardDialog(wizard) == Window.OK){
+			if (! wizard.getCommand().isEmpty()){
+				return wizard.getCommand();
+			}
+		}
+		return null;
+	}
 }

@@ -17,41 +17,34 @@
  * limitations under the License.
  */
 
-package org.perfclipse.ui.gef.policies;
+package org.perfclipse.ui.gef.parts;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.window.Window;
-import org.perfclipse.model.IPropertyContainer;
-import org.perfclipse.model.PropertyModel;
+import org.perfclipse.model.ValidationModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
-import org.perfclipse.ui.wizards.PropertyEditWizard;
+import org.perfclipse.ui.gef.policies.AbstractPerfCakeComponentEditPolicy;
+import org.perfclipse.ui.wizards.ValidationEditWizard;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class PropertyEditPolicy extends AbstractPerfCakeComponentEditPolicy {
-	
-	private IPropertyContainer properties;
-	private PropertyModel property;
+public class ValidationEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
-	public PropertyEditPolicy(IPropertyContainer properties,
-			PropertyModel property) {
+	private ValidationModel validation;
+
+	/**
+	 * @param validation
+	 */
+	public ValidationEditPolicy(ValidationModel validation) {
 		super();
-		this.properties = properties;
-		this.property = property;
-	}
-
-	@Override
-	protected Command createDeleteCommand(GroupRequest request) {
-		return new DeletePropertyCommand(properties, property);
+		this.validation = validation;
 	}
 
 	@Override
 	protected Command createPropertiesCommand() {
-		PropertyEditWizard wizard = new PropertyEditWizard(property);
+		ValidationEditWizard wizard = new ValidationEditWizard(validation);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
 			if (!wizard.getCommand().isEmpty())
 				return wizard.getCommand();

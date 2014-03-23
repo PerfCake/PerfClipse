@@ -20,44 +20,38 @@
 package org.perfclipse.ui.gef.policies;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.window.Window;
-import org.perfclipse.model.IPropertyContainer;
-import org.perfclipse.model.PropertyModel;
+import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
-import org.perfclipse.ui.wizards.PropertyEditWizard;
+import org.perfclipse.ui.wizards.PropertiesEditWizard;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class PropertyEditPolicy extends AbstractPerfCakeComponentEditPolicy {
-	
-	private IPropertyContainer properties;
-	private PropertyModel property;
+public class PropertiesEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
-	public PropertyEditPolicy(IPropertyContainer properties,
-			PropertyModel property) {
+	private PropertiesModel properties;
+
+	/**
+	 * @param properties
+	 */
+	public PropertiesEditPolicy(PropertiesModel properties) {
 		super();
 		this.properties = properties;
-		this.property = property;
-	}
-
-	@Override
-	protected Command createDeleteCommand(GroupRequest request) {
-		return new DeletePropertyCommand(properties, property);
 	}
 
 	@Override
 	protected Command createPropertiesCommand() {
-		PropertyEditWizard wizard = new PropertyEditWizard(property);
+		PropertiesEditWizard wizard = new PropertiesEditWizard(properties);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
-			if (!wizard.getCommand().isEmpty())
+			if (!wizard.getCommand().isEmpty()){
 				return wizard.getCommand();
+			}
 		}
 		return null;
 	}
 	
 	
 }
+

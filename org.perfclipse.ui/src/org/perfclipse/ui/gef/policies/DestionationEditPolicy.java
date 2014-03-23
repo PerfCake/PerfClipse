@@ -20,10 +20,14 @@
 package org.perfclipse.ui.gef.policies;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.jface.window.Window;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ReporterModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.DeleteDestinationCommand;
+import org.perfclipse.ui.wizards.DestinationEditWizard;
 
 /**
  * @author Jakub Knetl
@@ -45,4 +49,18 @@ public class DestionationEditPolicy extends AbstractPerfCakeComponentEditPolicy 
 	protected Command createDeleteCommand(GroupRequest deleteRequest) {
 		return new DeleteDestinationCommand(reporter, destination);
 	}
+
+	@Override
+	protected Command createPropertiesCommand() {
+		DestinationEditWizard wizard = new DestinationEditWizard(destination);
+		if (Utils.showWizardDialog(wizard) == Window.OK){
+			CompoundCommand command = wizard.getCommand();
+			if (!command.isEmpty()){
+				return command;
+			}
+		}
+		return null;
+	}
+	
+	
 }
