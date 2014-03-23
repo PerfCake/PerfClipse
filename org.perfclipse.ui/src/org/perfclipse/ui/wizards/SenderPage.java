@@ -165,5 +165,9 @@ public class SenderPage extends AbstractPerfCakePage {
 		StructuredSelection sel = (StructuredSelection) senderTypeViewer.getSelection();
 		return (String) sel.getFirstElement();
 	}
+
+	public TableViewer getPropertyViewer() {
+		return propertyViewer;
+	}
 	
 }

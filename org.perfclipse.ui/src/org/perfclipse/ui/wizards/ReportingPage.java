@@ -112,10 +112,10 @@ public class ReportingPage extends AbstractPerfCakePage {
 		reporterViewer.setInput(reporters);
 		super.fillCurrentValues();
 	}
-	
-	
 
-	
-	
 
+	public TableViewer getReporterViewer() {
+		return reporterViewer;
+	}
+	
 }

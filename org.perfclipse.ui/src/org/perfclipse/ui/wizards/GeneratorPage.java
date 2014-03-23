@@ -237,4 +237,9 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	public int getThreads(){
 		return threadsSpinner.getSelection();
 	}
+
+	public TableViewer getPropertiesViewer() {
+		return propertiesViewer;
+	}
+	
 }

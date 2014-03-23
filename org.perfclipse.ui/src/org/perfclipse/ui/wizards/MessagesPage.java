@@ -102,6 +102,8 @@ public class MessagesPage extends AbstractPerfCakePage {
 		messagesViewer.setInput(messagesList);
 		super.fillCurrentValues();
 	}
-	
-	
+
+	public TableViewer getMessagesViewer() {
+		return messagesViewer;
+	}
 }
