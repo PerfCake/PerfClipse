@@ -35,6 +35,11 @@ public abstract class AbstractCommandSelectionAdapter extends SelectionAdapter {
 
 	private List<Command> commands;
 
+	/**
+	 *
+	 * @param commands Commands created as response to user actions. This commands
+	 * are automatically executed in handleCommand() method.
+	 */
 	public AbstractCommandSelectionAdapter(List<Command> commands) {
 		this.commands = commands;
 	}
