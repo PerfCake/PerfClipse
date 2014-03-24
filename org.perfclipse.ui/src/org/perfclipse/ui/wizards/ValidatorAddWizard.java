@@ -49,4 +49,7 @@ public class ValidatorAddWizard extends AbstractPerfCakeAddWizard {
 		super.addPages();
 	}
 
+	public Validator getValidator() {
+		return validator;
+	}
 }

@@ -57,4 +57,10 @@ public class ReporterAddWizard extends AbstractPerfCakeAddWizard {
 		addPage(page);
 		super.addPages();
 	}
+
+	public Reporter getReporter() {
+		return reporter;
+	}
+	
+	
 }
