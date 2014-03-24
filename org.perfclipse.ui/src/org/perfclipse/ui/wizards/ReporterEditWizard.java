@@ -46,10 +46,10 @@ public class ReporterEditWizard extends AbstractPerfCakeEditWizard {
 	public boolean performFinish() {
 		Reporter r = reporter.getReporter();
 		if (!r.getClazz().equals(reporterPage.getReporterType())){
-			command.add(new EditReporterTypeCommand(reporter, reporterPage.getReporterType()));
+			getCommand().add(new EditReporterTypeCommand(reporter, reporterPage.getReporterType()));
 		}
 		if (r.isEnabled() != reporterPage.getEnabled()){
-			command.add(new EditReporterEnabledCommand(reporter, reporterPage.getEnabled()));
+			getCommand().add(new EditReporterEnabledCommand(reporter, reporterPage.getEnabled()));
 		}
 		return super.performFinish();
 	}

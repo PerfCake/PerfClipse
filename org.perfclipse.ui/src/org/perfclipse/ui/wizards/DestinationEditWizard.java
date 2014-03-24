@@ -46,10 +46,10 @@ public class DestinationEditWizard extends AbstractPerfCakeEditWizard {
 	public boolean performFinish() {
 		Destination d = destination.getDestination();
 		if (!(d.getClazz().equals(destinationPage.getDestinationType()))){
-			command.add(new EditDestinationTypeCommand(destination, destinationPage.getDestinationType()));
+			getCommand().add(new EditDestinationTypeCommand(destination, destinationPage.getDestinationType()));
 		}
 		if (d.isEnabled() != destinationPage.getEnabled()){
-			command.add(new EditDestinationEnabledCommand(destination, destinationPage.getEnabled()));
+			getCommand().add(new EditDestinationEnabledCommand(destination, destinationPage.getEnabled()));
 		}
 		
 		return super.performFinish();

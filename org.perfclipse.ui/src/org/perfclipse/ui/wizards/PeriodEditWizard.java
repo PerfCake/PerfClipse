@@ -45,9 +45,9 @@ public class PeriodEditWizard extends AbstractPerfCakeEditWizard {
 		Period p = period.getPeriod();
 	
 		if (!p.getType().equals(periodPage.getPeriodName()))
-			command.add(new EditPeriodType(period, periodPage.getPeriodName()));
+			getCommand().add(new EditPeriodType(period, periodPage.getPeriodName()));
 		if (!p.getValue().equals(periodPage.getPeriodValue()))
-			command.add(new EditPeriodValue(period, periodPage.getPeriodValue()));
+			getCommand().add(new EditPeriodValue(period, periodPage.getPeriodValue()));
 		
 		return super.performFinish();
 	}

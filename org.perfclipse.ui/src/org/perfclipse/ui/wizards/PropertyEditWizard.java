@@ -44,10 +44,10 @@ public class PropertyEditWizard extends AbstractPerfCakeEditWizard {
 	public boolean performFinish() {
 		Property p = property.getProperty();
 		if (!p.getName().equals(propertyPage.getNameText().getText()))
-			command.add(new EditPropertyNameCommand(property, propertyPage.getName()));
+			getCommand().add(new EditPropertyNameCommand(property, propertyPage.getName()));
 		
 		if (!p.getValue().equals(propertyPage.getValueText().getText()))
-			command.add(new EditPropertyValueCommand(property, propertyPage.getValueText().getText()));
+			getCommand().add(new EditPropertyValueCommand(property, propertyPage.getValueText().getText()));
 
 		return super.performFinish();
 	}

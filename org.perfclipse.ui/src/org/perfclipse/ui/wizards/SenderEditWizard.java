@@ -41,7 +41,7 @@ public class SenderEditWizard extends AbstractPerfCakeEditWizard {
 	public boolean performFinish() {
 
 		if (!(sender.getSender().getClazz().equals(senderPage.getSenderName()))){
-			command.add(new EditSenderTypeCommand(sender, senderPage.getSenderName()));
+			getCommand().add(new EditSenderTypeCommand(sender, senderPage.getSenderName()));
 		}
 		
 		return super.performFinish();

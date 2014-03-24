@@ -52,17 +52,17 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 		Generator gen = generator.getGenerator();
 		
 		if (!(gen.getClazz().equals(generatorPage.getGeneratorName()))){
-			command.add(new EditGeneratorTypeCommand(generator, generatorPage.getGeneratorName()));
+			getCommand().add(new EditGeneratorTypeCommand(generator, generatorPage.getGeneratorName()));
 		}
 		if (!(gen.getRun().getType().equals(generatorPage.getRunType()))){
-			command.add(new EditRunTypeCommand(run, generatorPage.getRunType()));
+			getCommand().add(new EditRunTypeCommand(run, generatorPage.getRunType()));
 		}
 		if (!(gen.getRun().getValue().equals(generatorPage.getRunValue()))){
-			command.add(new EditRunValue(run, String.valueOf(generatorPage.getRunValue())));
+			getCommand().add(new EditRunValue(run, String.valueOf(generatorPage.getRunValue())));
 		}
 		
 		if (!(gen.getThreads().equals(Integer.toString(generatorPage.getThreads())))){
-			command.add(new EditGeneratorThreadsCommand(generator, Integer.toString(generatorPage.getThreads())));
+			getCommand().add(new EditGeneratorThreadsCommand(generator, Integer.toString(generatorPage.getThreads())));
 		}
 		
 		return super.performFinish();

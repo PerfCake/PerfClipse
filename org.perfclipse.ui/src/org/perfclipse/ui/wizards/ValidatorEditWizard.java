@@ -45,11 +45,11 @@ public class ValidatorEditWizard extends AbstractPerfCakeEditWizard {
 	public boolean performFinish() {
 		Validator v = validator.getValidator();
 		if (!v.getClazz().equals(validatorPage.getValidatorName()))
-			command.add(new EditValidatorTypeCommand(validator, validatorPage.getValidatorName()));
+			getCommand().add(new EditValidatorTypeCommand(validator, validatorPage.getValidatorName()));
 		if (!v.getId().equals(validatorPage.getValidatorId()))
-			command.add(new EditValidatorIdCommand(validator, validatorPage.getValidatorId()));
+			getCommand().add(new EditValidatorIdCommand(validator, validatorPage.getValidatorId()));
 		if (!v.getValue().equals(validatorPage.getValidatorValue()))
-			command.add(new EditValidatorValueCommand(validator, validatorPage.getValidatorValue()));
+			getCommand().add(new EditValidatorValueCommand(validator, validatorPage.getValidatorValue()));
 		return super.performFinish();
 	}
 	@Override

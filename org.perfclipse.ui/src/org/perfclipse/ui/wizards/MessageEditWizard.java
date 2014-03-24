@@ -48,13 +48,13 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 	public boolean performFinish() {
 		if (message.getMessage().getUri() == null
 				|| !message.getMessage().getUri().equals(messagePage.getUri())){
-			command.add(new EditMessageUriCommand(message, messagePage.getUri()));
+			getCommand().add(new EditMessageUriCommand(message, messagePage.getUri()));
 		}
 		
 		if (message.getMessage().getMultiplicity() == null ||
 				! message.getMessage().getMultiplicity().equals(messagePage.getMultiplicity())){
 			String multiplicity = String.valueOf(messagePage.getMultiplicity());
-			command.add(new EditMessageMultiplicityCommand(message, multiplicity));
+			getCommand().add(new EditMessageMultiplicityCommand(message, multiplicity));
 		}
 		return super.performFinish();
 	}

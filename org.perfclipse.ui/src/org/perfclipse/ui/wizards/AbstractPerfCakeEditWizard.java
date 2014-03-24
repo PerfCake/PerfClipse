@@ -37,8 +37,8 @@ public abstract class AbstractPerfCakeEditWizard extends Wizard {
 	/**
 	 * List of commands which wizard pages creates
 	 */
-	protected List<Command> editingSupportCommands;
-	protected CompoundCommand command;
+	private List<Command> editingSupportCommands;
+	private CompoundCommand command;
 
 	public AbstractPerfCakeEditWizard(String commandLabel) {
 		super();
