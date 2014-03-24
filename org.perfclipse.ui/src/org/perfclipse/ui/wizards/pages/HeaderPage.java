@@ -94,6 +94,7 @@ public class HeaderPage extends AbstractPerfCakePage {
 		valueText.setLayoutData(data);
 		
 		setControl(container);
+		super.createControl(parent);
 	}
 
 	

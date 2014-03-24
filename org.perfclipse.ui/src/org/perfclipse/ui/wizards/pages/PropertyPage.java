@@ -93,6 +93,7 @@ public class PropertyPage extends AbstractPerfCakePage {
 		valueText.setLayoutData(data);
 		
 		setControl(container);
+		super.createControl(parent);
 	}
 
 	

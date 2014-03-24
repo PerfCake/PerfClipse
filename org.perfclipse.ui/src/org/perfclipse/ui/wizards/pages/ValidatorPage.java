@@ -106,6 +106,7 @@ public class ValidatorPage extends AbstractPerfCakePage {
 		data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		valueText.setLayoutData(data);
 		
+		setControl(container);
 		super.createControl(parent);
 	}
 

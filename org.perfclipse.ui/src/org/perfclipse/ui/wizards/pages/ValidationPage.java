@@ -92,6 +92,7 @@ public class ValidationPage extends AbstractPerfCakePage {
 		
 		validatorControl = new TableViewerControl(container, false, SWT.NONE);
 
+		setControl(container);
 		super.createControl(parent);
 	}
 
