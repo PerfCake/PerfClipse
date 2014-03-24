@@ -174,9 +174,8 @@ public class GeneratorPage extends AbstractPerfCakePage {
 				new DeletePropertySelectionAdapter(getEditingSupportCommands(), propertiesViewer, generator));
 
 		final Table propertiesTable = propertiesViewer.getTable();
-		GridData tableData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		GridData tableData = Utils.getTableViewerGridData();
 		tableData.horizontalSpan = 2;
-		tableData.minimumHeight = 100;
 		propertiesTable.setLayoutData(tableData);
 		
 		setControl(container);

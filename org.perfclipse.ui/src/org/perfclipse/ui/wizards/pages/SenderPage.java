@@ -35,6 +35,7 @@ import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.reflect.PerfCakeComponents;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
@@ -122,7 +123,7 @@ public class SenderPage extends AbstractPerfCakePage {
 				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
 		
 		final Table propertyTable = propertyViewer.getTable();
-		GridData propertyTableData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		GridData propertyTableData = Utils.getTableViewerGridData();
 		propertyTableData.horizontalSpan = 2;
 		propertyTable.setLayoutData(propertyTableData);
 		

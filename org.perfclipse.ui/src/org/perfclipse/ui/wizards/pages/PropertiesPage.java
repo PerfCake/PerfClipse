@@ -30,6 +30,7 @@ import org.perfcake.model.Property;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.model.PropertyModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.EditPropertySelectionAdapter;
@@ -83,9 +84,7 @@ public class PropertiesPage extends AbstractPerfCakePage {
 		GridData data;
 		
 		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
-		data = new GridData();
-		data.grabExcessHorizontalSpace = true;
-		data.horizontalAlignment = SWT.FILL;
+		data = Utils.getTableViewerGridData();
 		propertyViewer.getTable().setLayoutData(data);
 		
 		propertyControl = new TableViewerControl(container, true, SWT.NONE);

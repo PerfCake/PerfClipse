@@ -31,6 +31,7 @@ import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.events.AddMessageSelectionAdapter;
 import org.perfclipse.ui.swt.events.DeleteMessageSelectionAdapter;
 import org.perfclipse.ui.swt.events.EditMessageSelectionAdapter;
@@ -81,8 +82,7 @@ public class MessagesPage extends AbstractPerfCakePage {
 		
 		messagesViewer = new MessagesTableViewer(container, getEditingSupportCommands());
 		messagesViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
-		data = new GridData();
-		data.horizontalAlignment = SWT.FILL;
+		data = Utils.getTableViewerGridData();
 		data.grabExcessHorizontalSpace = true;
 		messagesViewer.getTable().setLayoutData(data);
 		

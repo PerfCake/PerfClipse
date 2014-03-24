@@ -32,6 +32,7 @@ import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
 import org.perfclipse.ui.swt.events.AddValidatorSelectionAdapater;
 import org.perfclipse.ui.swt.events.DeleteValidatorSelectionAdapter;
@@ -91,9 +92,7 @@ public class ValidationPage extends AbstractPerfCakePage {
 		GridData data;
 		
 		validatorViewer = new ValidatorTableViewer(container, getEditingSupportCommands());
-		data = new GridData();
-		data.grabExcessHorizontalSpace = true;
-		data.horizontalAlignment = SWT.FILL;
+		data = Utils.getTableViewerGridData();
 		validatorViewer.getTable().setLayoutData(data);
 		
 		validatorControl = new TableViewerControl(container, true, SWT.NONE);

@@ -24,6 +24,8 @@ import java.util.List;
 
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.ConsolePlugin;
@@ -82,5 +84,15 @@ public class Utils {
 		}
 		
 		return list;
+	}
+	
+	/**
+	 * Return new instance of GridData used for TableViewer
+	 * @return
+	 */
+	public static GridData getTableViewerGridData(){
+		GridData data =  new GridData(SWT.FILL, SWT.FILL, true, true);
+		data.minimumWidth = 120;
+		return data;
 	}
 }

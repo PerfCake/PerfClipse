@@ -33,6 +33,7 @@ import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
 import org.perfclipse.ui.swt.events.AddReporterSelectionAdapter;
 import org.perfclipse.ui.swt.events.DeleteReporterSelectionAdapter;
@@ -102,8 +103,7 @@ public class ReportingPage extends AbstractPerfCakePage {
 		reporterViewerControl.getDeleteButton().addSelectionListener(
 				new DeleteReporterSelectionAdapter(getEditingSupportCommands(), reporterViewer, reporting));
 		final Table reporterTable = reporterViewer.getTable();
-		GridData tableData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		tableData.minimumHeight = 100;
+		GridData tableData = Utils.getTableViewerGridData();
 		reporterTable.setLayoutData(tableData);
 		
 		setControl(container);

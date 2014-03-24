@@ -35,6 +35,7 @@ import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PeriodModel;
 import org.perfclipse.model.PropertyModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
 import org.perfclipse.ui.swt.events.AddPeriodSelectionAdapter;
@@ -125,10 +126,8 @@ public class DestinationPage extends AbstractPerfCakePage {
 		enabledButton.setLayoutData(data);
 		
 		periodViewer = new PeriodTableViewer(container, getEditingSupportCommands());
-		data = new GridData();
+		data = Utils.getTableViewerGridData();
 		data.horizontalSpan = 2;
-		data.grabExcessHorizontalSpace = true;
-		data.horizontalAlignment = SWT.FILL;
 		periodViewer.getTable().setLayoutData(data);
 		
 		periodControl = new TableViewerControl(container, false, SWT.NONE);
@@ -147,10 +146,8 @@ public class DestinationPage extends AbstractPerfCakePage {
 			
 		
 		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
-		data = new GridData();
+		data = Utils.getTableViewerGridData();
 		data.horizontalSpan = 2;
-		data.grabExcessHorizontalSpace = true;
-		data.horizontalAlignment = SWT.FILL;
 		propertyViewer.getTable().setLayoutData(data);
 		
 		

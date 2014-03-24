@@ -38,6 +38,7 @@ import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.ValidatorRefModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
 import org.perfclipse.ui.swt.events.AddHeaderSelectionAdapter;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
@@ -142,7 +143,7 @@ public class MessagePage extends AbstractPerfCakePage {
 
 		headerViewer = new HeaderTableViewer(container, getEditingSupportCommands());
 		headerViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
-		data = new GridData(SWT.FILL, SWT.FILL, true, true);
+		data = Utils.getTableViewerGridData();
 		data.horizontalSpan = 2;
 		headerViewer.getTable().setLayoutData(data);
 		
@@ -164,7 +165,7 @@ public class MessagePage extends AbstractPerfCakePage {
 		
 		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
 		propertyViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
-		data = new GridData(SWT.FILL, SWT.FILL, true, true);
+		data = Utils.getTableViewerGridData();
 		data.horizontalSpan = 2;
 		propertyViewer.getTable().setLayoutData(data);
 		
@@ -180,7 +181,7 @@ public class MessagePage extends AbstractPerfCakePage {
 		
 		refViewer = new ValidatorRefTableViewer(container, getEditingSupportCommands());
 		refViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
-		data = new GridData(SWT.FILL, SWT.FILL, true, true);
+		data = Utils.getTableViewerGridData();
 		data.horizontalSpan = 2;
 		refViewer.getTable().setLayoutData(data);
 		
