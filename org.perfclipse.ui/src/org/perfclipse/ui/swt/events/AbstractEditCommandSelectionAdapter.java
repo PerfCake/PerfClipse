@@ -49,12 +49,20 @@ public abstract class AbstractEditCommandSelectionAdapter extends
 
 
 	
+	/**
+	 * this method checks if some element is selected if it is, then it calls
+	 * createWizard(element) and shows this wizard. If wizard is closed properly
+	 * then it creates command and call refresh on viewer
+	 */
 	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (! (getViewer().getSelection() instanceof IStructuredSelection))
 			return;
 		
 		IStructuredSelection selection = (IStructuredSelection) getViewer().getSelection();
+
+		if (selection.getFirstElement() == null)
+			return;
 
 		wizard = createWizard(selection);
 		if (Utils.showWizardDialog(wizard) != Window.OK)
