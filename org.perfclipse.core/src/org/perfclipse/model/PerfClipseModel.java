@@ -28,7 +28,7 @@ import java.beans.PropertyChangeSupport;
  * @author Jakub Knetl
  *
  */
-public class PerfClipseModel {
+public class PerfClipseModel implements IMapperSupport{
 
 	private PropertyChangeSupport listeners;
 	private ModelMapper mapper;
