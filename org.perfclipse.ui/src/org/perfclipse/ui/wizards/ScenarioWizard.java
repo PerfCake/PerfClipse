@@ -19,9 +19,9 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -86,21 +86,21 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 		
 		
 		try {
-				IFile scenarioFile = fileCreationPage.createNewFile();;
-				
-				ScenarioManager manager = new ScenarioManager();
-				PipedOutputStream out = new PipedOutputStream();
-				PipedInputStream in = new PipedInputStream(out);
-				manager.createXML(scenario, out);
-				out.close();
-				scenarioFile.setContents(in, false, true, null);
-				
-				//open scenario editor
-				String scenarioEditorID = "org.perfclipse.ui.editors.scenario";
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				//TODO : editor cannot be initialized after Eclipse reload
-				page.openEditor(new ScenarioDesignEditorInput(scenarioFile), scenarioEditorID);
-				return true;
+			IFile scenarioFile = fileCreationPage.createNewFile();;
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+			ScenarioManager manager = new ScenarioManager();
+			manager.createXML(scenario, out);
+			ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+			out.close();
+			scenarioFile.setContents(in, false, true, null);
+
+			//open scenario editor
+			String scenarioEditorID = "org.perfclipse.ui.editors.scenario";
+			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			//TODO : editor cannot be initialized after Eclipse reload
+			page.openEditor(new ScenarioDesignEditorInput(scenarioFile), scenarioEditorID, true);
+			return true;
 		} catch (CoreException e) {
 			MessageDialog.openError(getShell(), "Core exception", "Cannot create or open file with scenario." );
 			log.error("Cannot create or open file with scenario.", e);
