@@ -57,9 +57,11 @@ public class ValidationModel extends PerfClipseModel {
 		ObjectFactory f = new ObjectFactory();
 		validation = f.createScenarioValidation();
 		scenario.setValidation(validation);
+		getMapper().addEntry(validation, this);
 	}
 	
 	private void removeValidation(){
+		getMapper().removeEntry(validation);
 		validation = null;
 		scenario.setValidation(validation);
 	}

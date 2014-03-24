@@ -83,6 +83,7 @@ public class ReportingModel extends PerfClipseModel implements IPropertyContaine
 		ObjectFactory f = new ObjectFactory();
 		reporting = f.createScenarioReporting();
 		scenario.setReporting(reporting);
+		getMapper().addEntry(reporting, this);
 	}
 	
 	private void removeReporting(){

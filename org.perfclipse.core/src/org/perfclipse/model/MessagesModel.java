@@ -81,9 +81,11 @@ public class MessagesModel extends PerfClipseModel {
 		ObjectFactory f = new ObjectFactory();
 		messages = f.createScenarioMessages(); 
 		scenario.setMessages(messages);
+		getMapper().addEntry(messages, this);
 	}
 	
 	private void removeMessages(){
+		getMapper().removeEntry(messages);
 		messages = null;
 		scenario.setMessages(messages);
 	}

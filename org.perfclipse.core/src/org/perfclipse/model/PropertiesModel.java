@@ -90,9 +90,11 @@ public class PropertiesModel extends PerfClipseModel implements IPropertyContain
 		ObjectFactory f = new ObjectFactory();
 		properties = f.createScenarioProperties();
 		scenario.setProperties(properties);
+		getMapper().addEntry(properties, this);
 	}
 	
 	private void removeProperties(){
+		getMapper().removeEntry(properties);
 		properties = null;
 		scenario.setProperties(properties);
 	}

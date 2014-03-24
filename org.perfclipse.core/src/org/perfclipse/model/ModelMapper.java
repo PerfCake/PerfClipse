@@ -22,13 +22,13 @@ package org.perfclipse.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.perfcake.model.Header;
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario;
+import org.perfcake.model.Scenario.Generator;
 import org.perfcake.model.Scenario.Generator.Run;
 import org.perfcake.model.Scenario.Messages;
 import org.perfcake.model.Scenario.Messages.Message;
-import org.perfcake.model.Header;
-import org.perfcake.model.Scenario.Generator;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfcake.model.Scenario.Properties;
 import org.perfcake.model.Scenario.Reporting;
@@ -75,96 +75,138 @@ public class ModelMapper {
 	public Object getModelContainer(Object perfcakeModel){
 		Object result = map.get(perfcakeModel) ;
 		if (result == null){
-			createEntry(perfcakeModel);
-			result = map.get(perfcakeModel);
+			result = create(perfcakeModel);
 		}
 		
 		return result;
 		
 	}
 
-	private void createEntry(Object perfcakeModel) {
-		if (perfcakeModel instanceof Destination){
-			map.put(perfcakeModel, new DestinationModel((Destination) perfcakeModel, this));
+	/**
+	 * Creates record of pair (PerfCake model, PerfClipse model) if it is
+	 * not exists in the map.
+	 * @param perfcakeModel
+	 */
+	public void createEntry(Object perfcakeModel) {
+		if (map.get(perfcakeModel) != null)
 			return;
+		
+		create(perfcakeModel);
+	}
+	
+	/**
+	 * Adds entry (PerfCake model, PerfClipse model) to map.
+	 * 
+	 * @param perfcakeMode
+	 * @param perfclipseModel
+	 */
+	public void addEntry(Object perfcakeModel, Object perfclipseModel){
+		map.put(perfcakeModel, perfclipseModel);
+	}
+	
+	/**
+	 * Remove entry from map.
+	 * @param perfcakeModel key of entry
+	 */
+	public void removeEntry(Object perfcakeModel){
+		map.remove(perfcakeModel);
+	}
+
+	private Object create(Object perfcakeModel){
+		Object result;
+		if (perfcakeModel instanceof Destination){
+			result = new DestinationModel((Destination) perfcakeModel, this);
+			map.put(perfcakeModel, result);
+			return result;
 		}
 
 		if (perfcakeModel instanceof Generator){
-			map.put(perfcakeModel, new GeneratorModel((Generator) perfcakeModel, this));
-			return;
+			result = new GeneratorModel((Generator) perfcakeModel, this);
+			map.put(perfcakeModel, result);
+			return result;
 		}
-		
+
 		if (perfcakeModel instanceof Header){
-			map.put(perfcakeModel, new HeaderModel((Header) perfcakeModel, this));
-			return;
+			result =  new HeaderModel((Header) perfcakeModel, this);
+			map.put(perfcakeModel, result);
+			return result;
 		}
-		
+
 		if (perfcakeModel instanceof Message){
-			map.put(perfcakeModel, new MessageModel((Message) perfcakeModel, this));
-			return;
+			result =  new MessageModel((Message) perfcakeModel, this);	
+			map.put(perfcakeModel, result);
+			return result;
 		}
+
 		if (perfcakeModel instanceof Messages){
-			map.put(perfcakeModel, new MessagesModel((Messages) perfcakeModel,
-					scenario, this));
-			return;
+			result = new MessagesModel((Messages) perfcakeModel, scenario, this);
+			map.put(perfcakeModel, result);
+			return result;
 		}
-		
+
 		if (perfcakeModel instanceof Period){
-			map.put(perfcakeModel, new PeriodModel((Period) perfcakeModel, this));
-			return;
+			result =  new PeriodModel((Period) perfcakeModel, this);	
+			map.put(perfcakeModel, result);
+			return result;
 		}
 
 		if (perfcakeModel instanceof Properties){
-			map.put(perfcakeModel, new PropertiesModel((Properties) perfcakeModel,
-					scenario, this));
-			return;
+			result = new PropertiesModel((Properties) perfcakeModel, scenario, this);
+			map.put(perfcakeModel, result);
+			return result;
 		}
 
 		if (perfcakeModel instanceof Property){
-			map.put(perfcakeModel, new PropertyModel((Property) perfcakeModel, this));
-			return;
+			result =  new PropertyModel((Property) perfcakeModel, this);	
+			map.put(perfcakeModel, result);
+			return result;
 		}
-		
+
 		if (perfcakeModel instanceof Reporter){
-			map.put(perfcakeModel, new ReporterModel((Reporter) perfcakeModel, this));
-			return;
+			result =  new ReporterModel((Reporter) perfcakeModel, this);	
+			map.put(perfcakeModel, result);
+			return result;
 		}
-		
+
 		if (perfcakeModel instanceof Reporting){
-			map.put(perfcakeModel, new ReportingModel((Reporting) perfcakeModel,
-					scenario, this));
-			return;
+			result =  new ReportingModel((Reporting) perfcakeModel, scenario, this);
+			map.put(perfcakeModel, result);
+			return result;
 		}
-		
+
 		if (perfcakeModel instanceof Run){
-			map.put(perfcakeModel, new RunModel((Run) perfcakeModel, this));
-			return;
+			result =  new RunModel((Run) perfcakeModel, this);	
+			map.put(perfcakeModel, result);
+			return result;
 		}
-		
+
 		if (perfcakeModel instanceof Scenario){
 			map.put(perfcakeModel, scenario);
-			return;
+			return scenario;
 		}
-		
+
 		if (perfcakeModel instanceof Sender){
-			map.put(perfcakeModel, new SenderModel((Sender) perfcakeModel, this));
-			return;
+			result =  new SenderModel((Sender) perfcakeModel, this);	
+			map.put(perfcakeModel, result);
+			return result;
 		}
-		
+
 		if (perfcakeModel instanceof Validation){
-			map.put(perfcakeModel, new ValidationModel((Validation) perfcakeModel,
-					scenario, this));
-			return;
+			result = new ValidationModel((Validation) perfcakeModel, scenario, this);
+			map.put(perfcakeModel, result);
+			return result;
 		}
-		
+
 		if (perfcakeModel instanceof Validator){
-			map.put(perfcakeModel, new ValidatorModel((Validator) perfcakeModel, this));
-			return;
+			result =  new ValidatorModel((Validator) perfcakeModel, this);	
+			map.put(perfcakeModel, result);
+			return result;
 		}
-		
+
 		if (perfcakeModel instanceof ValidatorRef){
-			map.put(perfcakeModel, new ValidatorRefModel((ValidatorRef) perfcakeModel, this));
-			return;
+			result =  new ValidatorRefModel((ValidatorRef) perfcakeModel, this);	
+			map.put(perfcakeModel, result);
+			return result;
 		}
 		
 		log.warn("Unknown PerfCake model.", perfcakeModel);
