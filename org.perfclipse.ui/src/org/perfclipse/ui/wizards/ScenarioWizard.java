@@ -33,11 +33,11 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
+import org.eclipse.ui.part.FileEditorInput;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
-import org.perfclipse.ui.editors.ScenarioDesignEditorInput;
 import org.perfclipse.ui.wizards.pages.GeneratorPage;
 import org.perfclipse.ui.wizards.pages.ScenarioNewFilePage;
 import org.perfclipse.ui.wizards.pages.SenderPage;
@@ -99,7 +99,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 			String scenarioEditorID = "org.perfclipse.ui.editors.scenario";
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			//TODO : editor cannot be initialized after Eclipse reload
-			page.openEditor(new ScenarioDesignEditorInput(scenarioFile), scenarioEditorID, true);
+			page.openEditor(new FileEditorInput(scenarioFile), scenarioEditorID, true);
 			return true;
 		} catch (CoreException e) {
 			MessageDialog.openError(getShell(), "Core exception", "Cannot create or open file with scenario." );
