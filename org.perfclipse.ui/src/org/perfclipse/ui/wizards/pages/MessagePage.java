@@ -22,6 +22,7 @@ package org.perfclipse.ui.wizards.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -37,14 +38,18 @@ import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.ValidatorRefModel;
+import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
 import org.perfclipse.ui.swt.events.AddHeaderSelectionAdapter;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeleteHeaderSelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.ui.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.ui.swt.jface.HeaderTableViewer;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.perfclipse.ui.swt.jface.ValidatorRefTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
+import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
+import org.perfclipse.ui.wizards.HeaderEditWizard;
 
 /**
  * @author Jakub Knetl
@@ -141,13 +146,21 @@ public class MessagePage extends AbstractPerfCakePage {
 		data.horizontalSpan = 2;
 		headerViewer.getTable().setLayoutData(data);
 		
-		headerControl = new TableViewerControl(container, false, SWT.NONE);
+		headerControl = new TableViewerControl(container, true, SWT.NONE);
 		headerControl.getAddButton().addSelectionListener(
 				new AddHeaderSelectionAdapter(getEditingSupportCommands(),
 						headerViewer, message));
 		headerControl.getDeleteButton().addSelectionListener(
 				new DeleteHeaderSelectionAdapter(getEditingSupportCommands(),
 						headerViewer, message));
+		headerControl.getEditButton().addSelectionListener(new AbstractEditCommandSelectionAdapter(getEditingSupportCommands(), headerViewer) {
+			
+			@Override
+			protected AbstractPerfCakeEditWizard createWizard(
+					IStructuredSelection selection) {
+				return new HeaderEditWizard((HeaderModel) selection.getFirstElement());
+			}
+		});
 		
 		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
 		propertyViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
@@ -155,13 +168,15 @@ public class MessagePage extends AbstractPerfCakePage {
 		data.horizontalSpan = 2;
 		propertyViewer.getTable().setLayoutData(data);
 		
-		propertyControl = new TableViewerControl(container, false, SWT.NONE);
+		propertyControl = new TableViewerControl(container, true, SWT.NONE);
 		propertyControl.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(getEditingSupportCommands(),
 						propertyViewer, message));
 		propertyControl.getDeleteButton().addSelectionListener(
 				new DeletePropertySelectionAdapter(getEditingSupportCommands(),
 						propertyViewer, message));
+		propertyControl.getDeleteButton().addSelectionListener(
+				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
 		
 		refViewer = new ValidatorRefTableViewer(container, getEditingSupportCommands());
 		refViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));

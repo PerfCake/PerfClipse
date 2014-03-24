@@ -23,6 +23,7 @@ package org.perfclipse.ui.wizards.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -31,8 +32,13 @@ import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
+import org.perfclipse.ui.swt.events.AddValidatorSelectionAdapater;
+import org.perfclipse.ui.swt.events.DeleteValidatorSelectionAdapter;
 import org.perfclipse.ui.swt.jface.ValidatorTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
+import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
+import org.perfclipse.ui.wizards.ValidatorEditWizard;
 
 /**
  * @author Jakub Knetl
@@ -90,7 +96,20 @@ public class ValidationPage extends AbstractPerfCakePage {
 		data.horizontalAlignment = SWT.FILL;
 		validatorViewer.getTable().setLayoutData(data);
 		
-		validatorControl = new TableViewerControl(container, false, SWT.NONE);
+		validatorControl = new TableViewerControl(container, true, SWT.NONE);
+		validatorControl.getAddButton().addSelectionListener(
+				new AddValidatorSelectionAdapater(getEditingSupportCommands(), validatorViewer, validation));
+		validatorControl.getEditButton().addSelectionListener(
+				new AbstractEditCommandSelectionAdapter(getEditingSupportCommands(), validatorViewer) {
+			
+			@Override
+			protected AbstractPerfCakeEditWizard createWizard(
+					IStructuredSelection selection) {
+				return new ValidatorEditWizard((ValidatorModel) selection.getFirstElement());
+			}
+		});
+		validatorControl.getDeleteButton().addSelectionListener(
+				new DeleteValidatorSelectionAdapter(getEditingSupportCommands(), validatorViewer, validation));
 
 		setControl(container);
 		super.createControl(parent);

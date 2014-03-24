@@ -36,10 +36,18 @@ import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.swt.ComboUtils;
+import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
+import org.perfclipse.ui.swt.events.AddDestinationSelectionAdapter;
+import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
+import org.perfclipse.ui.swt.events.DeleteDestinationSelectionAdapter;
+import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.ui.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.ui.swt.jface.DestinationTableViewer;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.perfclipse.ui.swt.jface.StringComboViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
+import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
+import org.perfclipse.ui.wizards.DestinationEditWizard;
 
 /**
  * @author Jakub Knetl
@@ -124,6 +132,19 @@ public class ReporterPage extends AbstractPerfCakePage {
 		destinationViewer.getTable().setLayoutData(data);
 		
 		destinationControl = new TableViewerControl(container, true, SWT.NONE);
+		destinationControl.getAddButton().addSelectionListener(
+				new AddDestinationSelectionAdapter(getEditingSupportCommands(), destinationViewer, reporter));
+		destinationControl.getEditButton().addSelectionListener(
+				new AbstractEditCommandSelectionAdapter(getEditingSupportCommands(), destinationViewer) {
+			
+			@Override
+			protected AbstractPerfCakeEditWizard createWizard(
+					IStructuredSelection selection) {
+				return new DestinationEditWizard((DestinationModel) selection.getFirstElement());
+			}
+		});
+		destinationControl.getDeleteButton().addSelectionListener(
+				new DeleteDestinationSelectionAdapter(getEditingSupportCommands(), destinationViewer, reporter));
 		
 		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
 		data = new GridData();
@@ -133,7 +154,16 @@ public class ReporterPage extends AbstractPerfCakePage {
 		propertyViewer.getTable().setLayoutData(data);
 		
 		
-		propertyControl = new TableViewerControl(container, false, SWT.NONE);
+		
+		propertyControl = new TableViewerControl(container, true, SWT.NONE);
+		propertyControl.getAddButton().addSelectionListener(
+				new AddPropertySelectionAdapter(getEditingSupportCommands(),
+						propertyViewer, reporter));
+		propertyControl.getDeleteButton().addSelectionListener(
+				new DeletePropertySelectionAdapter(getEditingSupportCommands(),
+						propertyViewer, reporter));
+		propertyControl.getDeleteButton().addSelectionListener(
+				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
 		
 		setControl(container);
 		super.createControl(parent);

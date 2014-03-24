@@ -36,10 +36,18 @@ import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PeriodModel;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.ui.swt.ComboUtils;
+import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
+import org.perfclipse.ui.swt.events.AddPeriodSelectionAdapter;
+import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
+import org.perfclipse.ui.swt.events.DeletePeriodSelectionAdapter;
+import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.ui.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.ui.swt.jface.PeriodTableViewer;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.perfclipse.ui.swt.jface.StringComboViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
+import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
+import org.perfclipse.ui.wizards.PeriodEditWizard;
 
 /**
  * @author Jakub Knetl
@@ -124,6 +132,19 @@ public class DestinationPage extends AbstractPerfCakePage {
 		periodViewer.getTable().setLayoutData(data);
 		
 		periodControl = new TableViewerControl(container, false, SWT.NONE);
+		periodControl.getAddButton().addSelectionListener(
+				new AddPeriodSelectionAdapter(getEditingSupportCommands(), periodViewer, destination));
+
+		periodControl.getEditButton().addSelectionListener(new AbstractEditCommandSelectionAdapter(getEditingSupportCommands(), propertyViewer) {
+			
+			@Override
+			protected AbstractPerfCakeEditWizard createWizard(
+					IStructuredSelection selection) {
+				return new PeriodEditWizard((PeriodModel) selection.getFirstElement());
+			}
+		});
+		periodControl.getDeleteButton().addSelectionListener(new DeletePeriodSelectionAdapter(getEditingSupportCommands(), periodViewer, destination));
+			
 		
 		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
 		data = new GridData();
@@ -133,7 +154,10 @@ public class DestinationPage extends AbstractPerfCakePage {
 		propertyViewer.getTable().setLayoutData(data);
 		
 		
-		propertyControl = new TableViewerControl(container, false, SWT.NONE);
+		propertyControl = new TableViewerControl(container, true, SWT.NONE);
+		propertyControl.getAddButton().addSelectionListener(new AddPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer, destination));
+		propertyControl.getEditButton().addSelectionListener(new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
+		propertyControl.getEditButton().addSelectionListener(new DeletePropertySelectionAdapter(getEditingSupportCommands(), propertyViewer, destination));
 		
 		setControl(container);
 		super.createControl(parent);

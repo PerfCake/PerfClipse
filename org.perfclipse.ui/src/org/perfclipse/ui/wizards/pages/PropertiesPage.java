@@ -30,6 +30,9 @@ import org.perfcake.model.Property;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.model.PropertyModel;
+import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
+import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.ui.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
 
@@ -85,7 +88,15 @@ public class PropertiesPage extends AbstractPerfCakePage {
 		data.horizontalAlignment = SWT.FILL;
 		propertyViewer.getTable().setLayoutData(data);
 		
-		propertyControl = new TableViewerControl(container, false, SWT.NONE);
+		propertyControl = new TableViewerControl(container, true, SWT.NONE);
+		propertyControl.getAddButton().addSelectionListener(
+				new AddPropertySelectionAdapter(getEditingSupportCommands(),
+						propertyViewer, properties));
+		propertyControl.getDeleteButton().addSelectionListener(
+				new DeletePropertySelectionAdapter(getEditingSupportCommands(),
+						propertyViewer, properties));
+		propertyControl.getDeleteButton().addSelectionListener(
+				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
 		
 		setControl(container);
 		super.createControl(parent);

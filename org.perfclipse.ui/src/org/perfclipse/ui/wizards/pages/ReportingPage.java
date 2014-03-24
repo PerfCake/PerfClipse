@@ -22,6 +22,7 @@ package org.perfclipse.ui.wizards.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -32,8 +33,13 @@ import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
+import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
+import org.perfclipse.ui.swt.events.AddReporterSelectionAdapter;
+import org.perfclipse.ui.swt.events.DeleteReporterSelectionAdapter;
 import org.perfclipse.ui.swt.jface.ReporterTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
+import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
+import org.perfclipse.ui.wizards.ReporterEditWizard;
 
 /**
  * @author Jakub Knetl
@@ -82,7 +88,19 @@ public class ReportingPage extends AbstractPerfCakePage {
 		
 		reporterViewer = new ReporterTableViewer(container, getEditingSupportCommands());
 		reporterViewerControl = new TableViewerControl(container, true, SWT.NONE);
-		
+		reporterViewerControl.getAddButton().addSelectionListener(
+				new AddReporterSelectionAdapter(getEditingSupportCommands(), reporterViewer, reporting));
+		reporterViewerControl.getEditButton().addSelectionListener(
+				new AbstractEditCommandSelectionAdapter(getEditingSupportCommands(), reporterViewer) {
+			
+			@Override
+			protected AbstractPerfCakeEditWizard createWizard(
+					IStructuredSelection selection) {
+				return new ReporterEditWizard((ReporterModel) selection.getFirstElement());
+			}
+		});
+		reporterViewerControl.getDeleteButton().addSelectionListener(
+				new DeleteReporterSelectionAdapter(getEditingSupportCommands(), reporterViewer, reporting));
 		final Table reporterTable = reporterViewer.getTable();
 		GridData tableData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		tableData.minimumHeight = 100;

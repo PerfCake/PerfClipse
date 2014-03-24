@@ -43,6 +43,7 @@ import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.ui.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.perfclipse.ui.swt.jface.StringComboViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
@@ -159,7 +160,7 @@ public class GeneratorPage extends AbstractPerfCakePage {
 
 		propertiesViewer = new PropertyTableViewer(container, getEditingSupportCommands());
 		
-		propertiesControls = new TableViewerControl(container, false, SWT.NONE);
+		propertiesControls = new TableViewerControl(container, true, SWT.NONE);
 		GridData tableControlsData = new GridData();
 		tableControlsData.verticalAlignment = SWT.BEGINNING;
 		propertiesControls.setLayoutData(tableControlsData);
@@ -167,6 +168,8 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		propertiesControls.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(getEditingSupportCommands(), propertiesViewer, generator));
 
+		propertiesControls.getEditButton().addSelectionListener(
+				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertiesViewer));
 		propertiesControls.getDeleteButton().addSelectionListener(
 				new DeletePropertySelectionAdapter(getEditingSupportCommands(), propertiesViewer, generator));
 
