@@ -23,37 +23,44 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
-import org.perfclipse.model.IPropertyContainer;
-import org.perfclipse.model.PropertyModel;
-import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
+import org.perfclipse.model.ReporterModel;
+import org.perfclipse.model.ReportingModel;
+import org.perfclipse.ui.gef.commands.DeleteReporterCommand;
 
 /**
- * Selection Adapter which handles delete in PropertyViewer
  * @author Jakub Knetl
  *
  */
-public class DeletePropertySelectionAdapter extends 
-AbstractDeleteCommandSelectionAdapter {
+public class DeleteReporterSelectionAdapter extends
+		AbstractDeleteCommandSelectionAdapter {
 
-	private IPropertyContainer propertyContainer;
-	private PropertyModel property;
-
-	public DeletePropertySelectionAdapter(List<Command> commands,
-			TableViewer viewer, IPropertyContainer propertyContainer) {
-		super(commands, viewer);
-		this.propertyContainer = propertyContainer;
-	}
+	private ReporterModel reporter;
+	private ReportingModel reporting;
 	
-	@Override
-	protected Command getCommand() {
-		if (propertyContainer != null){
-			new DeletePropertyCommand(propertyContainer, property);
-		}
-		return null;
+	
+	/**
+	 * @param commands
+	 * @param viewer
+	 * @param reporting
+	 */
+	public DeleteReporterSelectionAdapter(List<Command> commands,
+			TableViewer viewer, ReportingModel reporting) {
+		super(commands, viewer);
+		this.reporting = reporting;
 	}
 
 	@Override
 	public void handleDeleteData(Object element) {
-		property = (PropertyModel) element;
+		reporter = (ReporterModel) element;
 	}
+
+	@Override
+	protected Command getCommand() {
+		if (reporter != null && reporting != null){
+			return new DeleteReporterCommand(reporting, reporter);
+		}
+		
+		return null;
+	}
+
 }

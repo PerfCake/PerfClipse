@@ -165,10 +165,10 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		propertiesControls.setLayoutData(tableControlsData);
 
 		propertiesControls.getAddButton().addSelectionListener(
-				new AddPropertySelectionAdapter(propertiesViewer, getEditingSupportCommands(), generator));
+				new AddPropertySelectionAdapter(getEditingSupportCommands(), propertiesViewer, generator));
 
 		propertiesControls.getDeleteButton().addSelectionListener(
-				new DeletePropertySelectionAdapter(propertiesViewer, getEditingSupportCommands(), generator));
+				new DeletePropertySelectionAdapter(getEditingSupportCommands(), propertiesViewer, generator));
 
 		final Table propertiesTable = propertiesViewer.getTable();
 		GridData tableData = new GridData(SWT.FILL, SWT.FILL, true, true);

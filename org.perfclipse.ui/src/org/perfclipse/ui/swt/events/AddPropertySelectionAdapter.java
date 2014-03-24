@@ -44,15 +44,13 @@ import org.perfclipse.ui.wizards.PropertyAddWizard;
  */
 public class AddPropertySelectionAdapter extends AbstractCommandSelectionAdapter {
 
-	private TableViewer viewer;
 	private IPropertyContainer propertyContainer;
 	private Property property;
 	private ModelMapper mapper;
 
-	public AddPropertySelectionAdapter(TableViewer viewer,
-			List<Command> commands, IPropertyContainer propertyContainer) {
-		super(commands);
-		this.viewer = viewer;
+	public AddPropertySelectionAdapter(List<Command> commands,
+			TableViewer viewer, IPropertyContainer propertyContainer) {
+		super(commands, viewer);
 		this.propertyContainer = propertyContainer;
 		if (propertyContainer != null){
 			mapper = propertyContainer.getMapper();
@@ -78,7 +76,7 @@ public class AddPropertySelectionAdapter extends AbstractCommandSelectionAdapter
 		property.setName(wizard.getName());
 		property.setValue(wizard.getValue());
 		
-		viewer.add(mapper.getModelContainer(property));
+		getViewer().add(mapper.getModelContainer(property));
 
 		super.widgetSelected(e);
 	}

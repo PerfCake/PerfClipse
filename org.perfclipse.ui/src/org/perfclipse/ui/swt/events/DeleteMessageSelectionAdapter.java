@@ -23,37 +23,42 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
-import org.perfclipse.model.IPropertyContainer;
-import org.perfclipse.model.PropertyModel;
-import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
+import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.MessagesModel;
+import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
 
 /**
- * Selection Adapter which handles delete in PropertyViewer
  * @author Jakub Knetl
  *
  */
-public class DeletePropertySelectionAdapter extends 
-AbstractDeleteCommandSelectionAdapter {
+public class DeleteMessageSelectionAdapter extends
+		AbstractDeleteCommandSelectionAdapter {
 
-	private IPropertyContainer propertyContainer;
-	private PropertyModel property;
-
-	public DeletePropertySelectionAdapter(List<Command> commands,
-			TableViewer viewer, IPropertyContainer propertyContainer) {
-		super(commands, viewer);
-		this.propertyContainer = propertyContainer;
-	}
+	private MessagesModel messages;
+	private MessageModel message;
 	
+	
+	/**
+	 * @param commands
+	 * @param viewer
+	 * @param messages
+	 */
+	public DeleteMessageSelectionAdapter(List<Command> commands,
+			TableViewer viewer, MessagesModel messages) {
+		super(commands, viewer);
+		this.messages = messages;
+	}
+
 	@Override
 	protected Command getCommand() {
-		if (propertyContainer != null){
-			new DeletePropertyCommand(propertyContainer, property);
-		}
+		if (message != null && messages != null)
+			return new DeleteMessageCommand(messages, message);
 		return null;
 	}
 
 	@Override
 	public void handleDeleteData(Object element) {
-		property = (PropertyModel) element;
+		message = (MessageModel) element;
 	}
+
 }

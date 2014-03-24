@@ -19,15 +19,10 @@
 
 package org.perfclipse.ui.swt.events;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.events.SelectionEvent;
 import org.perfclipse.model.HeaderModel;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.ui.gef.commands.DeleteHeaderCommand;
@@ -37,12 +32,10 @@ import org.perfclipse.ui.gef.commands.DeleteHeaderCommand;
  *
  */
 public class DeleteHeaderSelectionAdapter extends
-		AbstractCommandSelectionAdapter {
+		AbstractDeleteCommandSelectionAdapter {
 
-	private TableViewer viewer;
 	private MessageModel message;
 	private HeaderModel header;
-	
 	
 	/**
 	 * @param commands
@@ -52,27 +45,9 @@ public class DeleteHeaderSelectionAdapter extends
 	 */
 	public DeleteHeaderSelectionAdapter(List<Command> commands,
 			TableViewer viewer, MessageModel message) {
-		super(commands);
-		this.viewer = viewer;
+		super(commands, viewer);
 		this.message = message;
 	}
-
-
-	@Override
-	public void widgetSelected(SelectionEvent e) {
-		ISelection selection = viewer.getSelection();
-		if (selection instanceof IStructuredSelection){
-			StructuredSelection structSelection = (StructuredSelection) selection;
-			Iterator<?> it = structSelection.iterator();
-			while (it.hasNext()){
-				header = (HeaderModel) it.next();
-				super.handleCommand();
-				viewer.remove(header);
-			}
-		}
-		super.widgetSelected(e);
-	}
-
 
 	@Override
 	protected Command getCommand() {
@@ -80,6 +55,11 @@ public class DeleteHeaderSelectionAdapter extends
 			new DeleteHeaderCommand(message, header.getHeader());
 		}
 		return null;
+	}
+
+	@Override
+	public void handleDeleteData(Object element) {
+		header = (HeaderModel) element;
 	}
 
 }

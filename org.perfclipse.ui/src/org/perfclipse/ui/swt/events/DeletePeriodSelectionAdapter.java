@@ -23,37 +23,45 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
-import org.perfclipse.model.IPropertyContainer;
-import org.perfclipse.model.PropertyModel;
-import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
+import org.perfclipse.model.DestinationModel;
+import org.perfclipse.model.PeriodModel;
+import org.perfclipse.ui.gef.commands.DeletePeriodCommand;
 
 /**
- * Selection Adapter which handles delete in PropertyViewer
  * @author Jakub Knetl
  *
  */
-public class DeletePropertySelectionAdapter extends 
-AbstractDeleteCommandSelectionAdapter {
+public class DeletePeriodSelectionAdapter extends
+		AbstractDeleteCommandSelectionAdapter {
 
-	private IPropertyContainer propertyContainer;
-	private PropertyModel property;
-
-	public DeletePropertySelectionAdapter(List<Command> commands,
-			TableViewer viewer, IPropertyContainer propertyContainer) {
+	private PeriodModel period;
+	private DestinationModel destination;
+	
+	
+	/**
+	 * @param commands
+	 * @param viewer
+	 * @param destination
+	 */
+	public DeletePeriodSelectionAdapter(List<Command> commands,
+			TableViewer viewer, DestinationModel destination) {
 		super(commands, viewer);
-		this.propertyContainer = propertyContainer;
+		this.destination = destination;
 	}
+
 	
 	@Override
 	protected Command getCommand() {
-		if (propertyContainer != null){
-			new DeletePropertyCommand(propertyContainer, property);
+		if (period != null && destination != null){
+			return new DeletePeriodCommand(destination, period.getPeriod());
 		}
 		return null;
 	}
 
+
 	@Override
 	public void handleDeleteData(Object element) {
-		property = (PropertyModel) element;
+		period = (PeriodModel) element;
 	}
+
 }

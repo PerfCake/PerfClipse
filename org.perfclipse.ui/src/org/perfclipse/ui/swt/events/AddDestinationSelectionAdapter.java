@@ -26,51 +26,51 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
 import org.perfcake.model.Scenario;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.AddMessageCommand;
-import org.perfclipse.ui.wizards.MessageAddWizard;
+import org.perfclipse.ui.gef.commands.AddDestinationCommand;
+import org.perfclipse.ui.wizards.DestinationAddWizard;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter {
+public class AddDestinationSelectionAdapter extends
+		AbstractCommandSelectionAdapter {
 
-	private MessagesModel messages;
-	private MessageModel message;
+	private ReporterModel reporter;
+	private DestinationModel destination;
 	private ModelMapper mapper;
+
 	
 	/**
 	 * @param commands
 	 * @param viewer
-	 * @param messages
+	 * @param reporter
 	 */
-	public AddMessageSelectionAdapter(List<Command> commands,
-			TableViewer viewer, MessagesModel messages) {
+	public AddDestinationSelectionAdapter(List<Command> commands,
+			TableViewer viewer, ReporterModel reporter) {
 		super(commands, viewer);
-		this.messages = messages;
-		if (messages != null)
-			mapper = messages.getMapper();
+		this.reporter = reporter;
+		if (reporter == null)
+			mapper = new ModelMapper(new ScenarioModel(new Scenario()));
 		else
-			//TODO: dummy sceanrio since it is not needed
-			this.mapper = new ModelMapper(new ScenarioModel(new Scenario()));
+			mapper = reporter.getMapper();
 	}
-
-	
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		MessageAddWizard wizard = new MessageAddWizard();
-		//TODO: undo editing support Commands?
+		DestinationAddWizard wizard = new DestinationAddWizard();
+		
 		if (Utils.showWizardDialog(wizard) != Window.OK)
 			return;
 		
-		message = (MessageModel) mapper.getModelContainer(wizard.getMessage());
-		getViewer().add(message);
+		destination = (DestinationModel) mapper.getModelContainer(wizard.getDestination());
+		getViewer().add(destination);
+
 		super.widgetSelected(e);
 	}
 
@@ -78,8 +78,8 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 
 	@Override
 	protected Command getCommand() {
-		if (messages != null && message != null){
-			return new AddMessageCommand(message.getMessage(), messages);
+		if (reporter != null && destination != null){
+			return new AddDestinationCommand(destination.getDestination(), reporter);
 		}
 		return null;
 	}

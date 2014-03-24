@@ -19,62 +19,53 @@
 
 package org.perfclipse.ui.swt.events;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.wizards.MessageEditWizard;
 
 /**
+ * Abstract selection adpater for handling delete command in TableViewer.
  * @author Jakub Knetl
  *
  */
-public class EditMessageSelectionAdapter extends
+public abstract class AbstractDeleteCommandSelectionAdapter extends
 		AbstractCommandSelectionAdapter {
 
-	private MessageModel message;
-	private MessageEditWizard wizard;
-	
-	
-	/**
-	 * 
-	 * @param commands
-	 * @param viewer
-	 */
-	public EditMessageSelectionAdapter(List<Command> commands, TableViewer viewer) {
+	public AbstractDeleteCommandSelectionAdapter(List<Command> commands,
+			TableViewer viewer) {
 		super(commands, viewer);
 	}
 
+	/**
+	 * Iterates through selected elements in the viewer and for each of them it calls
+	 * handleDeleteData() and handleCommand() in this order.
+	 */
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-
-		if (! (getViewer().getSelection() instanceof IStructuredSelection))
-			return;
-		
-		IStructuredSelection selection = (IStructuredSelection) getViewer().getSelection();
-		if (!(selection.getFirstElement() instanceof MessageModel))
-			return;
-
-		message = (MessageModel) selection.getFirstElement();
-		wizard = new MessageEditWizard(message);
-		if (Utils.showWizardDialog(wizard) != Window.OK)
-			return;
-		
-		
-		getViewer().refresh();
-		super.widgetSelected(e);
+		ISelection selection = getViewer().getSelection();
+		if (selection instanceof IStructuredSelection){
+			Iterator<?> it = ((IStructuredSelection) selection).iterator();
+			while (it.hasNext()){
+				Object data = it.next();
+				handleDeleteData(data);
+				super.handleCommand();
+				getViewer().remove(data);
+			}
+			
+		}
 	}
-
-	@Override
-	protected Command getCommand() {
-		if (wizard.getCommand().isEmpty())
-			return null;
-		return wizard.getCommand();
-	}
+	
+	/**
+	 * This method is called for every element which is selected for delete.
+	 * It is called before handleCommand.
+	 * 
+	 * @param element One of the selected elements in the viewer.
+	 */
+	public abstract void handleDeleteData(Object element);
 
 }

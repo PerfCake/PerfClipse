@@ -26,60 +26,55 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
 import org.perfcake.model.Scenario;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.model.PeriodModel;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.AddMessageCommand;
-import org.perfclipse.ui.wizards.MessageAddWizard;
+import org.perfclipse.ui.gef.commands.AddPeriodCommand;
+import org.perfclipse.ui.wizards.PeriodAddWizard;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter {
+public class AddPeriodSelectionAdapter extends AbstractCommandSelectionAdapter {
 
-	private MessagesModel messages;
-	private MessageModel message;
+	private PeriodModel period;
+	private DestinationModel destination;
 	private ModelMapper mapper;
+	
 	
 	/**
 	 * @param commands
 	 * @param viewer
-	 * @param messages
+	 * @param destination
 	 */
-	public AddMessageSelectionAdapter(List<Command> commands,
-			TableViewer viewer, MessagesModel messages) {
+	public AddPeriodSelectionAdapter(List<Command> commands,
+			TableViewer viewer, DestinationModel destination) {
 		super(commands, viewer);
-		this.messages = messages;
-		if (messages != null)
-			mapper = messages.getMapper();
+		this.destination = destination;
+		if (destination != null)
+			mapper = destination.getMapper();
 		else
-			//TODO: dummy sceanrio since it is not needed
-			this.mapper = new ModelMapper(new ScenarioModel(new Scenario()));
+			mapper = new ModelMapper(new ScenarioModel(new Scenario()));
 	}
-
 	
-
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		MessageAddWizard wizard = new MessageAddWizard();
-		//TODO: undo editing support Commands?
+		PeriodAddWizard wizard = new PeriodAddWizard();
 		if (Utils.showWizardDialog(wizard) != Window.OK)
 			return;
 		
-		message = (MessageModel) mapper.getModelContainer(wizard.getMessage());
-		getViewer().add(message);
+		period = (PeriodModel) mapper.getModelContainer(wizard.getPeriod());
+		getViewer().add(period);
 		super.widgetSelected(e);
 	}
 
-
-
 	@Override
 	protected Command getCommand() {
-		if (messages != null && message != null){
-			return new AddMessageCommand(message.getMessage(), messages);
+		if (period != null && destination != null){
+			return new AddPeriodCommand(destination, period.getPeriod());
 		}
 		return null;
 	}

@@ -23,37 +23,43 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
-import org.perfclipse.model.IPropertyContainer;
-import org.perfclipse.model.PropertyModel;
-import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
+import org.perfclipse.model.ValidationModel;
+import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.ui.gef.commands.DeleteValidatorCommand;
 
 /**
- * Selection Adapter which handles delete in PropertyViewer
  * @author Jakub Knetl
  *
  */
-public class DeletePropertySelectionAdapter extends 
-AbstractDeleteCommandSelectionAdapter {
+public class DeleteValidatorSelectionAdapter extends
+		AbstractDeleteCommandSelectionAdapter {
 
-	private IPropertyContainer propertyContainer;
-	private PropertyModel property;
+	private ValidatorModel validator;
+	private ValidationModel validation;
 
-	public DeletePropertySelectionAdapter(List<Command> commands,
-			TableViewer viewer, IPropertyContainer propertyContainer) {
-		super(commands, viewer);
-		this.propertyContainer = propertyContainer;
-	}
 	
-	@Override
-	protected Command getCommand() {
-		if (propertyContainer != null){
-			new DeletePropertyCommand(propertyContainer, property);
-		}
-		return null;
+	/**
+	 * @param commands
+	 * @param viewer
+	 * @param validation
+	 */
+	public DeleteValidatorSelectionAdapter(List<Command> commands,
+			TableViewer viewer, ValidationModel validation) {
+		super(commands, viewer);
+		this.validation = validation;
 	}
 
 	@Override
 	public void handleDeleteData(Object element) {
-		property = (PropertyModel) element;
+		validator = (ValidatorModel) element;
+
 	}
+
+	@Override
+	protected Command getCommand() {
+		if (validator != null && validation != null)
+			return new DeleteValidatorCommand(validation, validator);
+		return null;
+	}
+
 }

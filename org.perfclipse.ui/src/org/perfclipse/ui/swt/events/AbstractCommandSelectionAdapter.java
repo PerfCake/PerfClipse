@@ -22,6 +22,7 @@ package org.perfclipse.ui.swt.events;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
@@ -34,13 +35,19 @@ public abstract class AbstractCommandSelectionAdapter extends SelectionAdapter {
 
 
 	private List<Command> commands;
+	private TableViewer viewer;
 
 	/**
 	 *
 	 * @param commands Commands created as response to user actions. This commands
 	 * are automatically executed in handleCommand() method.
+	 * @param viewer Table viewer instance for updating view
 	 */
-	public AbstractCommandSelectionAdapter(List<Command> commands) {
+	public AbstractCommandSelectionAdapter(List<Command> commands, TableViewer viewer) {
+		if (viewer == null){
+			throw new IllegalArgumentException("Viewer must not be null");
+		}
+		this.viewer = viewer;
 		this.commands = commands;
 	}
 	
@@ -101,8 +108,8 @@ public abstract class AbstractCommandSelectionAdapter extends SelectionAdapter {
 	public void widgetDefaultSelected(SelectionEvent e) {
 		handleCommand();
 	}
-	
-	
 
-
+	public TableViewer getViewer() {
+		return viewer;
+	}
 }

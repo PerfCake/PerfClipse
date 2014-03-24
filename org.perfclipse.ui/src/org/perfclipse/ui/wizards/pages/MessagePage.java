@@ -157,11 +157,11 @@ public class MessagePage extends AbstractPerfCakePage {
 		
 		propertyControl = new TableViewerControl(container, false, SWT.NONE);
 		propertyControl.getAddButton().addSelectionListener(
-				new AddPropertySelectionAdapter(propertyViewer,
-						getEditingSupportCommands(), message));
+				new AddPropertySelectionAdapter(getEditingSupportCommands(),
+						propertyViewer, message));
 		propertyControl.getDeleteButton().addSelectionListener(
-				new DeletePropertySelectionAdapter(propertyViewer,
-						getEditingSupportCommands(), message));
+				new DeletePropertySelectionAdapter(getEditingSupportCommands(),
+						propertyViewer, message));
 		
 		refViewer = new ValidatorRefTableViewer(container, getEditingSupportCommands());
 		refViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));

@@ -42,7 +42,6 @@ import org.perfclipse.ui.wizards.HeaderAddWizard;
  */
 public class AddHeaderSelectionAdapter extends AbstractCommandSelectionAdapter {
 
-	private TableViewer viewer;
 	private MessageModel message;
 	private ModelMapper mapper;
 	private Header header;
@@ -54,8 +53,7 @@ public class AddHeaderSelectionAdapter extends AbstractCommandSelectionAdapter {
 	 */
 	public AddHeaderSelectionAdapter(List<Command> commands,
 			TableViewer viewer, MessageModel message) {
-		super(commands);
-		this.viewer = viewer;
+		super(commands, viewer);
 		this.message = message;
 		if (message != null){
 			this.mapper = message.getMapper();
@@ -82,7 +80,7 @@ public class AddHeaderSelectionAdapter extends AbstractCommandSelectionAdapter {
 		header.setName(wizard.getName());
 		header.setValue(wizard.getValue());
 		
-		viewer.add(mapper.getModelContainer(header));
+		getViewer().add(mapper.getModelContainer(header));
 
 		super.widgetSelected(e);
 	}

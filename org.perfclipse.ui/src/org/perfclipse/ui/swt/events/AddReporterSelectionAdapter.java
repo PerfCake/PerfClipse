@@ -26,62 +26,56 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
 import org.perfcake.model.Scenario;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.model.ReporterModel;
+import org.perfclipse.model.ReportingModel;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.AddMessageCommand;
-import org.perfclipse.ui.wizards.MessageAddWizard;
+import org.perfclipse.ui.gef.commands.AddReporterCommand;
+import org.perfclipse.ui.wizards.ReporterAddWizard;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter {
+public class AddReporterSelectionAdapter extends AbstractCommandSelectionAdapter {
 
-	private MessagesModel messages;
-	private MessageModel message;
+	private ReportingModel reporting;
+	private ReporterModel reporter;
 	private ModelMapper mapper;
-	
 	/**
-	 * @param commands
 	 * @param viewer
-	 * @param messages
+	 * @param reporting
+	 * @param reporter
 	 */
-	public AddMessageSelectionAdapter(List<Command> commands,
-			TableViewer viewer, MessagesModel messages) {
+	public AddReporterSelectionAdapter(List<Command> commands,
+			TableViewer viewer, ReportingModel reporting) {
 		super(commands, viewer);
-		this.messages = messages;
-		if (messages != null)
-			mapper = messages.getMapper();
-		else
-			//TODO: dummy sceanrio since it is not needed
-			this.mapper = new ModelMapper(new ScenarioModel(new Scenario()));
+		this.reporting = reporting;
+		if (reporting == null){
+			mapper = new ModelMapper(new ScenarioModel(new Scenario()));
+		} else{
+			mapper = reporting.getMapper();
+		}
 	}
-
-	
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		MessageAddWizard wizard = new MessageAddWizard();
-		//TODO: undo editing support Commands?
+		ReporterAddWizard wizard = new ReporterAddWizard();
 		if (Utils.showWizardDialog(wizard) != Window.OK)
 			return;
 		
-		message = (MessageModel) mapper.getModelContainer(wizard.getMessage());
-		getViewer().add(message);
+		reporter = (ReporterModel) mapper.getModelContainer(wizard.getReporter());
+		getViewer().add(reporter);
 		super.widgetSelected(e);
 	}
-
-
-
+	
 	@Override
 	protected Command getCommand() {
-		if (messages != null && message != null){
-			return new AddMessageCommand(message.getMessage(), messages);
+		if (reporter != null && reporting != null){
+			return new AddReporterCommand(reporter.getReporter(), reporting);
 		}
 		return null;
 	}
-
+	
 }

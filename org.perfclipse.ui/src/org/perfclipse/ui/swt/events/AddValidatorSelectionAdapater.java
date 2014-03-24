@@ -26,60 +26,57 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
 import org.perfcake.model.Scenario;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.model.ValidationModel;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.AddMessageCommand;
-import org.perfclipse.ui.wizards.MessageAddWizard;
+import org.perfclipse.ui.gef.commands.AddValidatorCommand;
+import org.perfclipse.ui.wizards.ValidatorAddWizard;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter {
+public class AddValidatorSelectionAdapater extends
+		AbstractCommandSelectionAdapter {
 
-	private MessagesModel messages;
-	private MessageModel message;
+	private ValidatorModel validator;
+	private ValidationModel validation;
 	private ModelMapper mapper;
+	
 	
 	/**
 	 * @param commands
 	 * @param viewer
-	 * @param messages
+	 * @param validation
 	 */
-	public AddMessageSelectionAdapter(List<Command> commands,
-			TableViewer viewer, MessagesModel messages) {
+	public AddValidatorSelectionAdapater(List<Command> commands,
+			TableViewer viewer, ValidationModel validation) {
 		super(commands, viewer);
-		this.messages = messages;
-		if (messages != null)
-			mapper = messages.getMapper();
-		else
-			//TODO: dummy sceanrio since it is not needed
-			this.mapper = new ModelMapper(new ScenarioModel(new Scenario()));
+		this.validation = validation;
+		if (validation == null){
+			mapper = new ModelMapper(new ScenarioModel(new Scenario()));
+		} else {
+			mapper = validation.getMapper();
+		}
 	}
-
-	
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		MessageAddWizard wizard = new MessageAddWizard();
-		//TODO: undo editing support Commands?
+		ValidatorAddWizard wizard = new ValidatorAddWizard();
 		if (Utils.showWizardDialog(wizard) != Window.OK)
 			return;
 		
-		message = (MessageModel) mapper.getModelContainer(wizard.getMessage());
-		getViewer().add(message);
+		validator = (ValidatorModel) mapper.getModelContainer(wizard.getValidator());
+		getViewer().add(validator);
 		super.widgetSelected(e);
 	}
 
-
-
 	@Override
 	protected Command getCommand() {
-		if (messages != null && message != null){
-			return new AddMessageCommand(message.getMessage(), messages);
+		if (validation != null && validator != null){
+			return new AddValidatorCommand(validator.getValidator(), validation);
 		}
 		return null;
 	}
