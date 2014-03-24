@@ -30,7 +30,7 @@ import org.perfclipse.ui.wizards.pages.DestinationPage;
  * @author Jakub Knetl
  *
  */
-public class DestiantionAddWizard extends AbstractPerfCakeAddWizard {
+public class DestinationAddWizard extends AbstractPerfCakeAddWizard {
 
 	private DestinationPage destinationPage;
 	private Destination destination;
