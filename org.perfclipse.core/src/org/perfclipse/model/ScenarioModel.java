@@ -34,13 +34,13 @@ public class ScenarioModel extends PerfClipseModel {
 	private Scenario scenario;
 	private ModelMapper mapper;
 
-	public ScenarioModel(Scenario scenario, ModelMapper mapper) {
-		super(mapper);
+	public ScenarioModel(Scenario scenario) {
+		super(null);
 		if (scenario == null){
 			throw new IllegalArgumentException("Scenario must not be null");
 		}
 		this.scenario = scenario;
-		this.mapper = new ModelMapper();
+		this.mapper = new ModelMapper(this);
 	}
 
 	/**

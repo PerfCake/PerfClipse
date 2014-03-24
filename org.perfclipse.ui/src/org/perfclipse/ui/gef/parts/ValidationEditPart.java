@@ -29,7 +29,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ModelMapper;
-import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
@@ -77,8 +76,7 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 
 	@Override
 	protected void createEditPolicies() {
-		ScenarioModel scenarioModel = ((ScenarioEditPart) getParent()).getScenarioModel();
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ValidatorListEditPolicy(getValidationModel(), scenarioModel));
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ValidatorListEditPolicy(getValidationModel()));
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ValidationEditPolicy(getValidationModel()));
 
 

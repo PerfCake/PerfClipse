@@ -34,7 +34,7 @@ public class PerfClipseModel {
 	private ModelMapper mapper;
 
 	public PerfClipseModel(ModelMapper mapper) {
-		if (mapper == null){
+		if (mapper == null && !(this instanceof ScenarioModel)){
 			throw new IllegalArgumentException("ModelMapper is null");
 		}
 		this.mapper = mapper;

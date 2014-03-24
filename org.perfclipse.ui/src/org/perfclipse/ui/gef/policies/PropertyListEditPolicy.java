@@ -30,7 +30,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
 import org.perfclipse.model.PropertiesModel;
-import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.commands.AddPropertyCommand;
 import org.perfclipse.ui.wizards.PropertyAddWizard;
 
@@ -42,12 +41,9 @@ public class PropertyListEditPolicy extends AbstractListEditPolicy implements
 		EditPolicy {
 
 	PropertiesModel properties;
-	ScenarioModel scenario;
 
-	public PropertyListEditPolicy(PropertiesModel propertiesModel,
-			ScenarioModel scenarioModel) {
+	public PropertyListEditPolicy(PropertiesModel propertiesModel) {
 		this.properties = propertiesModel;
-		this.scenario = scenarioModel;
 	}
 
 	@Override
@@ -71,10 +67,7 @@ public class PropertyListEditPolicy extends AbstractListEditPolicy implements
 	@Override
 	protected Command getCreateCommand(CreateRequest request) {
 		if (request.getNewObjectType() == Property.class){
-			if (properties.getProperties() == null){
-				properties.createProperties();
-				scenario.setProperties(properties.getProperties());
-			}
+		
 			PropertyAddWizard wizard = new PropertyAddWizard();
 			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 			WizardDialog dialog = new WizardDialog(shell, wizard);

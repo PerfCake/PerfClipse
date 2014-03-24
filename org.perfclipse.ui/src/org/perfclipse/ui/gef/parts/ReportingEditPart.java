@@ -32,7 +32,6 @@ import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
-import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.ReporterListEditPolicy;
@@ -79,9 +78,8 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 	@Override
 	protected void createEditPolicies() {
 
-		ScenarioModel scenario = (ScenarioModel) getParent().getModel();
 		installEditPolicy(EditPolicy.LAYOUT_ROLE,
-				new ReporterListEditPolicy(getReportingModel(), scenario));
+				new ReporterListEditPolicy(getReportingModel()));
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
 				new ReportingEditPolicy(getReportingModel()));
 	}

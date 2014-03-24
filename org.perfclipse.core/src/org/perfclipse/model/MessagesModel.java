@@ -28,12 +28,18 @@ public class MessagesModel extends PerfClipseModel {
 	public  static final String PROPERTY_MESSAGE = "messages-message";
 
 	private Messages messages;
+	private ScenarioModel scenario;
 
-	public MessagesModel(Messages messages, ModelMapper mapper){
+	public MessagesModel(Messages messages, ScenarioModel scenario,
+			ModelMapper mapper){
 		super(mapper);
 //		if (messages == null){
 //			throw new IllegalArgumentException("Messages must not be null");
 //		}
+		if (scenario == null){
+			throw new IllegalArgumentException("Scenario must not be null.");
+		}
+		this.scenario = scenario;
 		this.messages = messages;
 	}
 	
@@ -49,9 +55,15 @@ public class MessagesModel extends PerfClipseModel {
 	}
 	
 	public void addMessage(Message m){
+		if (messages == null){
+			createMessages();
+		}
 		addMessage(getMessages().getMessage().size(), m);
 	}
 	public void addMessage(int index, Message m){
+		if (messages == null){
+			createMessages();
+		}
 		getMessages().getMessage().add(index, m);
 		getListeners().firePropertyChange(PROPERTY_MESSAGE, null, m);
 	}
@@ -60,14 +72,20 @@ public class MessagesModel extends PerfClipseModel {
 		if (getMessages().getMessage().remove(m)){
 			getListeners().firePropertyChange(PROPERTY_MESSAGE, m, null);
 		}
+		if (getMessages().getMessage().isEmpty()){
+			removeMessages();
+		}
 	}
 	
-	public void createMessages(){
-		//no need to fire property change since it wont change the view
-		if (messages == null){
-			ObjectFactory f = new ObjectFactory();
-			messages = f.createScenarioMessages(); 
-		}
+	private void createMessages(){
+		ObjectFactory f = new ObjectFactory();
+		messages = f.createScenarioMessages(); 
+		scenario.setMessages(messages);
+	}
+	
+	private void removeMessages(){
+		messages = null;
+		scenario.setMessages(messages);
 	}
 	
 	

@@ -29,8 +29,10 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Header;
+import org.perfcake.model.Scenario;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.commands.AddHeaderCommand;
 import org.perfclipse.ui.wizards.HeaderAddWizard;
 
@@ -59,7 +61,8 @@ public class AddHeaderSelectionAdapter extends AbstractCommandSelectionAdapter {
 			this.mapper = message.getMapper();
 		}
 		else{
-			this.mapper = new ModelMapper();
+			//TODO: dummy sceanrio since it is not needed
+			this.mapper = new ModelMapper(new ScenarioModel(new Scenario()));
 		}
 	}
 	

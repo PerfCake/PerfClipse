@@ -31,17 +31,14 @@ import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessagesModel;
-import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.commands.AddMessageCommand;
 
 public class MessagesListEditPolicy extends AbstractListEditPolicy {
 
 	private MessagesModel model;
-	private ScenarioModel parent;
 
-	public MessagesListEditPolicy(MessagesModel model, ScenarioModel parent) {
+	public MessagesListEditPolicy(MessagesModel model) {
 		this.model = model;
-		this.parent = parent;
 	}
 
 	@Override
@@ -53,10 +50,6 @@ public class MessagesListEditPolicy extends AbstractListEditPolicy {
 				return null;
 			}
 			Message message = (Scenario.Messages.Message) request.getNewObject();
-			if (model.getMessages() == null){
-				model.createMessages();
-				parent.setMessages(model.getMessages());
-			}
 			message.setUri(pathToMessage);
 			return new AddMessageCommand(message, model);
 		}

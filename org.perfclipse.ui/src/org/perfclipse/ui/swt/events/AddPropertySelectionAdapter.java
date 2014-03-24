@@ -29,8 +29,10 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
+import org.perfcake.model.Scenario;
 import org.perfclipse.model.IPropertyContainer;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.commands.AddPropertyCommand;
 import org.perfclipse.ui.wizards.PropertyAddWizard;
 
@@ -52,10 +54,13 @@ public class AddPropertySelectionAdapter extends AbstractCommandSelectionAdapter
 		super(commands);
 		this.viewer = viewer;
 		this.propertyContainer = propertyContainer;
-		if (propertyContainer != null)
+		if (propertyContainer != null){
 			mapper = propertyContainer.getMapper();
-		else
-			mapper = new ModelMapper();
+		}
+		else{
+			//TODO: dummy sceanrio since it is not needed
+			this.mapper = new ModelMapper(new ScenarioModel(new Scenario()));
+		}
 			
 	}
 

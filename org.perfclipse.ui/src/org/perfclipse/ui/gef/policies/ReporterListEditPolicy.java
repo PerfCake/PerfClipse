@@ -6,20 +6,16 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfclipse.model.ReportingModel;
-import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.ui.gef.commands.AddReporterCommand;
 
 public class ReporterListEditPolicy extends AbstractListEditPolicy {
 
 	ReportingModel reporting;
-	ScenarioModel scenario;
 	
 	
-	public ReporterListEditPolicy(ReportingModel reporting,
-			ScenarioModel scenario) {
+	public ReporterListEditPolicy(ReportingModel reporting) {
 		super();
 		this.reporting = reporting;
-		this.scenario = scenario;
 	}
 
 	@Override
@@ -45,11 +41,6 @@ public class ReporterListEditPolicy extends AbstractListEditPolicy {
 		Object type = request.getNewObjectType();
 		if (type == Reporter.class){
 			Reporter reporter = (Reporter) request.getNewObject();
-			if (reporting.getReporting() == null){
-				reporting.createReporting();
-				scenario.setReporting(reporting.getReporting());
-			}
-			
 			return new AddReporterCommand(reporter, reporting);
 		}
 		

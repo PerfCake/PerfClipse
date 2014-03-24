@@ -31,12 +31,18 @@ public class PropertiesModel extends PerfClipseModel implements IPropertyContain
 	public static final String PROPERTY_PROPERTIES = "properties-property";
 	
 	private Properties properties;
+	private ScenarioModel scenario;
 
-	public PropertiesModel(Properties properties, ModelMapper mapper) {
+	public PropertiesModel(Properties properties, ScenarioModel scenario,
+			ModelMapper mapper) {
 		super(mapper);
 //		if (properties == null){
 //			throw new IllegalArgumentException("Properties must not be null");
 //		}
+		if (scenario == null){
+			throw new IllegalArgumentException("Scenario must not be null.");
+		}
+		this.scenario = scenario;
 		this.properties = properties;
 	}
 
@@ -53,10 +59,16 @@ public class PropertiesModel extends PerfClipseModel implements IPropertyContain
 	}
 	
 	public void addProperty(Property Property){
+		if (properties == null){
+			createProperties();
+		}
 		addProperty(getProperties().getProperty().size(), Property);
 	}
 	
 	public void addProperty(int index, Property property){
+		if (properties == null){
+			createProperties();
+		}
 		getProperties().getProperty().add(index, property);
 		getListeners().firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
@@ -65,17 +77,24 @@ public class PropertiesModel extends PerfClipseModel implements IPropertyContain
 		if (getProperties().getProperty().remove(property)){
 			getListeners().firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}
+		if (getProperty().isEmpty()){
+			removeProperties();
+		}
 	}
 	
 	public List<Property> getProperty(){
 		return getProperties().getProperty();
 	}
 	
-	public void createProperties(){
-		//no need to fire property change since it will not change the view
-		if (properties == null){
-			ObjectFactory f = new ObjectFactory();
-			properties = f.createScenarioProperties();
-		}
+	private void createProperties(){
+		ObjectFactory f = new ObjectFactory();
+		properties = f.createScenarioProperties();
+		scenario.setProperties(properties);
 	}
+	
+	private void removeProperties(){
+		properties = null;
+		scenario.setProperties(properties);
+	}
+
 }

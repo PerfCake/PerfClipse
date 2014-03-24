@@ -28,12 +28,17 @@ public class ValidationModel extends PerfClipseModel {
 	public static final String PROPERTY_VALIDATORS = "validation-validators";
 	
 	private Validation validation;
+	private ScenarioModel scenario;
 	
-	public ValidationModel(Validation validation, ModelMapper mapper){
+	public ValidationModel(Validation validation, ScenarioModel scenario, ModelMapper mapper){
 		super(mapper);
 //		if (validation == null){
 //			throw new IllegalArgumentException("Validation must not be null");
 //		}
+		if (scenario == null){
+			throw new IllegalArgumentException("Scenario must not be null.");
+		}
+		this.scenario = scenario;
 		this.validation = validation;
 	}
 
@@ -48,18 +53,27 @@ public class ValidationModel extends PerfClipseModel {
 		return validation;
 	}
 	
-	public void createValidation(){
-		//no need to fire property change since it will not change the view
-		if (validation == null){
-			ObjectFactory f = new ObjectFactory();
-			validation = f.createScenarioValidation();
-		}
+	private void createValidation(){
+		ObjectFactory f = new ObjectFactory();
+		validation = f.createScenarioValidation();
+		scenario.setValidation(validation);
+	}
+	
+	private void removeValidation(){
+		validation = null;
+		scenario.setValidation(validation);
 	}
 	
 	public void addValidator(Validator validator){
+		if (validation == null){
+			createValidation();
+		}
 		addValidator(getValidation().getValidator().size(), validator);
 	}
 	public void addValidator(int index, Validator validator){
+		if (validation == null)
+			createValidation();
+
 		getValidation().getValidator().add(index, validator);
 		getListeners().firePropertyChange(PROPERTY_VALIDATORS, null, validator);
 	}
@@ -67,6 +81,9 @@ public class ValidationModel extends PerfClipseModel {
 	public void removeValidator(Validator validator){
 		if (getValidation().getValidator().remove(validator)){
 			getListeners().firePropertyChange(PROPERTY_VALIDATORS, validator, null);
+		}
+		if (getValidation().getValidator().isEmpty()){
+			removeValidation();
 		}
 	}
 

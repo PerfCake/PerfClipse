@@ -32,13 +32,18 @@ public class ReportingModel extends PerfClipseModel implements IPropertyContaine
 	public static final String PROPERTY_REPORTERS = "reporting-reporter";
 	
 	private Reporting reporting;
+	private ScenarioModel scenario;
 	
-	public ReportingModel(Reporting reporting, ModelMapper mapper){
+	public ReportingModel(Reporting reporting, ScenarioModel scenario, ModelMapper mapper){
 		super(mapper);
 //		if (reporting == null){
 //			throw new IllegalArgumentException("Reporting must not be null.");
 //		}
-	this.reporting = reporting;
+		if (scenario == null){
+			throw new IllegalArgumentException("Scenario must not be null.");
+		}
+		this.scenario = scenario;
+		this.reporting = reporting;
 	}
 	
 	/**
@@ -52,9 +57,15 @@ public class ReportingModel extends PerfClipseModel implements IPropertyContaine
 		return reporting;
 	}
 	public void addReporter(Reporter reporter){
+		if (reporting == null){
+			createReporting();
+		}
 		addReporter(getReporting().getReporter().size(), reporter);
 	}
 	public void addReporter(int index, Reporter reporter){
+		if (reporting == null){
+			createReporting();
+		}
 		getReporting().getReporter().add(index, reporter);
 		getListeners().firePropertyChange(PROPERTY_REPORTERS, null, reporter);
 	}
@@ -63,26 +74,38 @@ public class ReportingModel extends PerfClipseModel implements IPropertyContaine
 		if (getReporting().getReporter().remove(reporter)){
 			getListeners().firePropertyChange(PROPERTY_REPORTERS, reporter, null);
 		}
+		
+		if (getReporting().getReporter().isEmpty())
+			removeReporting();
 	}
 	
-	public void createReporting(){
-		//no need to fire property change since it will not change the view
-		if (reporting == null){
-			ObjectFactory f = new ObjectFactory();
-			reporting = f.createScenarioReporting();
-		}
+	private void createReporting(){
+		ObjectFactory f = new ObjectFactory();
+		reporting = f.createScenarioReporting();
+		scenario.setReporting(reporting);
+	}
+	
+	private void removeReporting(){
+		reporting = null;
+		scenario.setReporting(reporting);
 	}
 	
 	public void addProperty(Property Property){
+		if (reporting == null)
+			return;
 		addProperty(getReporting().getProperty().size(), Property);
 	}
 	
 	public void addProperty(int index, Property property){
+		if (reporting == null)
+			return;
 		getReporting().getProperty().add(index, property);
 		getListeners().firePropertyChange(PROPERTY_PROPERTIES, null, property);
 	}
 	
 	public void removeProperty(Property property){
+		if (reporting == null)
+			return;
 		if (getReporting().getProperty().remove(property)){
 			getListeners().firePropertyChange(PROPERTY_PROPERTIES, property, null);
 		}

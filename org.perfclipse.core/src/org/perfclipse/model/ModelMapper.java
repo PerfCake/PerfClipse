@@ -52,10 +52,15 @@ public class ModelMapper {
 	static final Logger log = LoggerFactory.getLogger(ModelMapper.class);
 
 	private Map<Object, Object> map;
+	private ScenarioModel scenario;
 
 	
-	public ModelMapper(){
+	public ModelMapper(ScenarioModel scenario){
+		if (scenario == null){
+			throw new IllegalArgumentException("Scenario must not be null");
+		}
 		map = new HashMap<>();
+		this.scenario = scenario;
 	};
 	
 	
@@ -99,7 +104,8 @@ public class ModelMapper {
 			return;
 		}
 		if (perfcakeModel instanceof Messages){
-			map.put(perfcakeModel, new MessagesModel((Messages) perfcakeModel, this));
+			map.put(perfcakeModel, new MessagesModel((Messages) perfcakeModel,
+					scenario, this));
 			return;
 		}
 		
@@ -109,7 +115,8 @@ public class ModelMapper {
 		}
 
 		if (perfcakeModel instanceof Properties){
-			map.put(perfcakeModel, new PropertiesModel((Properties) perfcakeModel, this));
+			map.put(perfcakeModel, new PropertiesModel((Properties) perfcakeModel,
+					scenario, this));
 			return;
 		}
 
@@ -124,7 +131,8 @@ public class ModelMapper {
 		}
 		
 		if (perfcakeModel instanceof Reporting){
-			map.put(perfcakeModel, new ReportingModel((Reporting) perfcakeModel, this));
+			map.put(perfcakeModel, new ReportingModel((Reporting) perfcakeModel,
+					scenario, this));
 			return;
 		}
 		
@@ -134,7 +142,7 @@ public class ModelMapper {
 		}
 		
 		if (perfcakeModel instanceof Scenario){
-			map.put(perfcakeModel, new ScenarioModel((Scenario) perfcakeModel, this));
+			map.put(perfcakeModel, scenario);
 			return;
 		}
 		
@@ -144,7 +152,8 @@ public class ModelMapper {
 		}
 		
 		if (perfcakeModel instanceof Validation){
-			map.put(perfcakeModel, new ValidationModel((Validation) perfcakeModel, this));
+			map.put(perfcakeModel, new ValidationModel((Validation) perfcakeModel,
+					scenario, this));
 			return;
 		}
 		

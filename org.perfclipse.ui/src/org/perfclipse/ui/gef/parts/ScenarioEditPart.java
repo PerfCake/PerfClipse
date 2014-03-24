@@ -70,22 +70,22 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 		
 		//TODO: Mapper and fake containers with empty binding to perfcake
 		if (getScenarioModel().getScenario().getMessages() == null){
-			modelChildren.add(new MessagesModel(getScenarioModel().getScenario().getMessages(), mapper));
+			modelChildren.add(new MessagesModel(getScenarioModel().getScenario().getMessages(), getScenarioModel(), mapper));
 		}else{
 			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getMessages()));
 		}
 		if (getScenarioModel().getScenario().getValidation() == null){
-			modelChildren.add(new ValidationModel(getScenarioModel().getScenario().getValidation(), mapper));
+			modelChildren.add(new ValidationModel(getScenarioModel().getScenario().getValidation(), getScenarioModel(), mapper));
 		} else {
 			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getValidation()));
 		}
 		if (getScenarioModel().getScenario().getReporting() == null){
-			modelChildren.add(new ReportingModel(getScenarioModel().getScenario().getReporting(), mapper));
+			modelChildren.add(new ReportingModel(getScenarioModel().getScenario().getReporting(), getScenarioModel(), mapper));
 		} else {
 			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getReporting()));
 		}
 		if (getScenarioModel().getScenario().getProperties() == null){
-			modelChildren.add(new PropertiesModel(getScenarioModel().getScenario().getProperties(), mapper));
+			modelChildren.add(new PropertiesModel(getScenarioModel().getScenario().getProperties(),getScenarioModel(), mapper));
 		} else {
 			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getProperties()));
 		}
