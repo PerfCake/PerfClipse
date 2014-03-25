@@ -112,6 +112,7 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 			GridData layoutData = new GridData();
 			layoutData.horizontalAlignment = SWT.FILL;
 			layoutData.widthHint = 300;
+			layoutData.verticalAlignment = SWT.FILL;
 //			layoutData.grabExcessHorizontalSpace = true;
 			IFigure figure = ((AbstractGraphicalEditPart) child).getFigure();
 			if (child instanceof AbstractPerfCakeSectionEditPart){
@@ -121,15 +122,12 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 					child instanceof SenderEditPart ||
 					child instanceof PropertiesEditPart){
 				layoutData.horizontalSpan = 2;
-				layoutData.horizontalAlignment = SWT.FILL;
 
 			}
 			
 			if (child instanceof ReportingEditPart){
 				layoutData.verticalSpan = 2;
-				layoutData.verticalAlignment = SWT.FILL;
 			}
-
 			layout.setConstraint(figure, layoutData);
 		}
 		super.addChild(child, index);
