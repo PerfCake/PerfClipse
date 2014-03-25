@@ -67,6 +67,11 @@ public class ValidationPage extends AbstractPerfCakePage {
 		this(VALIDATION_PAGE_NAME, true);
 		this.validation = validation;
 		
+		if (validation.getValidation() == null){
+			setEditMode(false);
+			return;
+		}
+		
 		ModelMapper mapper = validation.getMapper();
 		validators = new ArrayList<>(validation.getValidation().getValidator().size());
 		for (Validator v : validation.getValidation().getValidator()){

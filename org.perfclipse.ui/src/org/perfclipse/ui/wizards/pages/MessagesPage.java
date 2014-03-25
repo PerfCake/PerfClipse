@@ -59,6 +59,11 @@ public class MessagesPage extends AbstractPerfCakePage {
 	public MessagesPage(MessagesModel messagesModel){
 		super(MESSAGES_PAGE_NAME, true);
 		this.messagesModel = messagesModel;
+
+		if (messagesModel.getMessages() == null){
+			setEditMode(false);
+			return;
+		}
 		ModelMapper mapper = messagesModel.getMapper();
 		messagesList = new ArrayList<>(messagesModel.getMessages().getMessage().size());
 		

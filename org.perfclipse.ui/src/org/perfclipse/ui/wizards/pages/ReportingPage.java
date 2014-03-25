@@ -65,6 +65,11 @@ public class ReportingPage extends AbstractPerfCakePage {
 	public ReportingPage(ReportingModel reporting){
 		super(REPORTING_PAGE_NAME, true);
 		this.reporting = reporting;
+		
+		if (reporting.getReporting() == null){
+			setEditMode(false);
+			return;
+		}
 		reporters = new ArrayList<>(reporting.getReporting().getReporter().size());
 		ModelMapper mapper = reporting.getMapper();
 

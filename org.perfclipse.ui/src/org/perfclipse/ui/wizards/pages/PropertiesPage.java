@@ -59,6 +59,10 @@ public class PropertiesPage extends AbstractPerfCakePage {
 		this(PROPERTIES_PAGE_NAME, true);
 		this.properties = properties;
 		
+		if (properties.getProperties() == null){
+			setEditMode(false);
+			return;
+		}
 		ModelMapper m = properties.getMapper();
 		propertyList = new ArrayList<>(properties.getProperty().size());
 		for (Property p : properties.getProperty()){
@@ -72,12 +76,11 @@ public class PropertiesPage extends AbstractPerfCakePage {
 	 */
 	private PropertiesPage(String pageName, boolean edit) {
 		super(pageName, edit);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void createControl(Composite parent) {
-		container = new Composite(container, SWT.NONE);
+		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		container.setLayout(layout);
