@@ -65,7 +65,6 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 		ColorUtils colorUtils = ColorUtils.getInstance();
 		TwoPartRectangle figure = new TwoPartRectangle(getText(), 
 				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
-//		figure.setPreferredSize(EMPTY_WIDTH, EMPTY_HEIGHT);
 		return figure;
 	}
 

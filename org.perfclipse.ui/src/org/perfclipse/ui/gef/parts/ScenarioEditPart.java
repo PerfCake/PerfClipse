@@ -108,7 +108,7 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 //			layoutData.horizontalAlignment = SWT.FILL;
 //			layoutData.verticalAlignment = SWT.FILL;
 			layoutData.widthHint = 250;
-			layoutData.heightHint = 100;
+//			layoutData.heightHint = 100;
 			IFigure figure = ((AbstractGraphicalEditPart) child).getFigure();
 			if (child instanceof AbstractPerfCakeSectionEditPart){
 				
