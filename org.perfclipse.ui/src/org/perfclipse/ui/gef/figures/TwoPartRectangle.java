@@ -24,6 +24,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.ToolbarLayout;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 
 public class TwoPartRectangle extends PerfCakeRoundedRectangle implements ILabeledFigure {
@@ -45,6 +46,10 @@ public class TwoPartRectangle extends PerfCakeRoundedRectangle implements ILabel
 		
 		headerLayer = new Figure();
 		contentLayer = new Figure();
+
+		//TODO: Minimum size has no effect
+		Dimension d = new Dimension(10, 100);
+		contentLayer.setMinimumSize(d);
 
 		FlowLayout headerLayout = new FlowLayout();
 		headerLayout.setMajorAlignment(FlowLayout.ALIGN_CENTER);

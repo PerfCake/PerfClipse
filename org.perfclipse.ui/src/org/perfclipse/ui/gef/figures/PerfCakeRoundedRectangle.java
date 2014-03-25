@@ -21,16 +21,15 @@ package org.perfclipse.ui.gef.figures;
 
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.RoundedRectangle;
-import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.swt.graphics.Color;
 
 public class PerfCakeRoundedRectangle extends RoundedRectangle{
 
-	public static final int TOP_PADDING = 10;
-	public static final int LEFT_PADDING = 10; 
-	public static final int BOTTOM_PADDING = 10;
-	public static final int RIGHT_PADDING = 10;
+	private static final int TOP_PADDING = 10;
+	private static final int LEFT_PADDING = 10; 
+	private static final int BOTTOM_PADDING = 10;
+	private static final int RIGHT_PADDING = 10;
 
 	private static final org.eclipse.draw2d.geometry.Insets CLIENT_AREA_INSETS = new org.eclipse.draw2d.geometry.Insets(TOP_PADDING, LEFT_PADDING, BOTTOM_PADDING, RIGHT_PADDING);
 	
@@ -44,22 +43,14 @@ public class PerfCakeRoundedRectangle extends RoundedRectangle{
 		FlowLayout layout = new FlowLayout(true);
 		setLayoutManager(layout);
 	}
-	@Override
-	public Rectangle getClientArea(Rectangle rect){
-		Rectangle clientArea = super.getClientArea(rect);
-		clientArea.shrink(CLIENT_AREA_INSETS);
-		return clientArea;
-	}
 	
 	@Override
-	public Dimension getPreferredSize(int wHint, int hHint){
-		Dimension d = super.getPreferredSize(wHint, hHint).getCopy();
-		d.expand(new Dimension(LEFT_PADDING + RIGHT_PADDING, TOP_PADDING + BOTTOM_PADDING));
-		return d;
-	}
+	public Insets getInsets() {
 
-	protected static org.eclipse.draw2d.geometry.Insets getClientAreaInsets() {
 		return CLIENT_AREA_INSETS;
 	}
+	
+	
+
 	
 }

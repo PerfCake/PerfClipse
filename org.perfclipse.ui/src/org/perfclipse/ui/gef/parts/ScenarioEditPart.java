@@ -72,7 +72,6 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 		modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getGenerator()));
 		modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getSender()));
 		
-		//TODO: Mapper and fake containers with empty binding to perfcake
 		if (getScenarioModel().getScenario().getMessages() == null){
 			modelChildren.add(new MessagesModel(getScenarioModel().getScenario().getMessages(), getScenarioModel(), mapper));
 		}else{
@@ -105,10 +104,9 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 	protected void addChild(EditPart child, int index){
 		if (child instanceof AbstractGraphicalEditPart){
 			GridData layoutData = new GridData();
-//			layoutData.horizontalAlignment = SWT.FILL;
-//			layoutData.verticalAlignment = SWT.FILL;
-			layoutData.widthHint = 250;
-//			layoutData.heightHint = 100;
+			layoutData.horizontalAlignment = SWT.FILL;
+			layoutData.widthHint = 300;
+//			layoutData.grabExcessHorizontalSpace = true;
 			IFigure figure = ((AbstractGraphicalEditPart) child).getFigure();
 			if (child instanceof AbstractPerfCakeSectionEditPart){
 				
@@ -117,14 +115,12 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 					child instanceof SenderEditPart ||
 					child instanceof PropertiesEditPart){
 				layoutData.horizontalSpan = 2;
-//				layoutData.grabExcessHorizontalSpace = true;
 				layoutData.horizontalAlignment = SWT.FILL;
 
 			}
 			
 			if (child instanceof ReportingEditPart){
 				layoutData.verticalSpan = 2;
-//				layoutData.grabExcessVerticalSpace = true;
 				layoutData.verticalAlignment = SWT.FILL;
 			}
 
