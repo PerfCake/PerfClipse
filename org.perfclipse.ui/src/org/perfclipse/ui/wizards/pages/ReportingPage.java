@@ -164,4 +164,7 @@ public class ReportingPage extends AbstractPerfCakePage {
 		return reporterViewer;
 	}
 	
+	public TableViewer getPropertyViewer(){
+		return propertyViewer;
+	}
 }

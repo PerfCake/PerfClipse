@@ -28,6 +28,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -36,6 +37,10 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.part.FileEditorInput;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario;
+import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.PropertyModel;
+import org.perfclipse.model.ReporterModel;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
 import org.perfclipse.ui.wizards.pages.GeneratorPage;
@@ -81,18 +86,85 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 		//Generator section
 		Scenario.Generator generator = factory.createScenarioGenerator();
 		Scenario.Generator.Run run = factory.createScenarioGeneratorRun();
-		run.setType("time");
-		run.setValue("5000");
+		run.setType(generatorPage.getRunType());
+		run.setValue(String.valueOf(generatorPage.getRunValue()));
 		generator.setClazz(generatorPage.getGeneratorName());
 		generator.setRun(run);
-		generator.setThreads("1");
+		generator.setThreads(String.valueOf(generatorPage.getThreads()));
+		for (TableItem i : generatorPage.getPropertiesViewer().getTable().getItems()){
+			if (i.getData() instanceof PropertyModel){
+				PropertyModel p = (PropertyModel) i.getData();
+				generator.getProperty().add(p.getProperty());
+			}
+		}
 		scenario.setGenerator(generator);
 
 		//Sender section
 		Scenario.Sender sender = factory.createScenarioSender();
 		sender.setClazz(senderPage.getSenderName());
+		for (TableItem i : senderPage.getPropertyViewer().getTable().getItems()){
+			if (i.getData() instanceof PropertyModel){
+				PropertyModel p = (PropertyModel) i.getData();
+				sender.getProperty().add(p.getProperty());
+			}
+		}
 		scenario.setSender(sender);
+
+		//Messages section
+		Scenario.Messages messages = factory.createScenarioMessages();
+		for (TableItem i : messagesPage.getMessagesViewer().getTable().getItems()){
+			if (i.getData() instanceof MessageModel){
+				MessageModel m = (MessageModel) i.getData();
+				messages.getMessage().add(m.getMessage());
+			}
+		}
+		if (!messages.getMessage().isEmpty()){
+			scenario.setMessages(messages);
+		}
+
+		//Validation section
+		Scenario.Validation validation = factory.createScenarioValidation();
+		for (TableItem i : validationPage.getValidatorViewer().getTable().getItems()){
+			if (i.getData() instanceof ValidatorModel){
+				ValidatorModel v = (ValidatorModel) i.getData();
+				validation.getValidator().add(v.getValidator());
+			}
+		}
+		if (!validation.getValidator().isEmpty())
+			scenario.setValidation(validation);
+
+		//Reporting section
+		Scenario.Reporting reporting = factory.createScenarioReporting();
+		for (TableItem i : reportingPage.getReporterViewer().getTable().getItems()){
+			if (i.getData() instanceof ReporterModel){
+				ReporterModel r = (ReporterModel) i.getData();
+				reporting.getReporter().add(r.getReporter());
+			}
+		}
 		
+		for (TableItem i : reportingPage.getPropertyViewer().getTable().getItems()){
+			if (i.getData() instanceof PropertyModel){
+				PropertyModel p = (PropertyModel) i.getData();
+				reporting.getProperty().add(p.getProperty());
+			}
+		}
+		if (!reporting.getReporter().isEmpty()){
+			scenario.setReporting(reporting);
+		}
+		
+
+		//Properties section
+		Scenario.Properties properties = factory.createScenarioProperties();
+		for (TableItem i : propertiesPage.getPropertyViewer().getTable().getItems()){
+			if (i.getData() instanceof PropertyModel){
+				PropertyModel p = (PropertyModel) i.getData();
+				properties.getProperty().add(p.getProperty());
+			}
+		}
+		if (!properties.getProperty().isEmpty()){
+			scenario.setProperties(properties);
+		}
+
 		
 		try {
 			IFile scenarioFile = fileCreationPage.createNewFile();;
