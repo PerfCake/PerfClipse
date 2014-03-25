@@ -74,11 +74,12 @@ public class MessagesPage extends AbstractPerfCakePage {
 	
 	public MessagesPage(String pageName, boolean edit){
 		super(pageName, edit);
-		setTitle("Messages section");
 	}
 
 	@Override
 	public void createControl(Composite parent) {
+		setTitle("Messages section");
+		setDescription("Add messages.");
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;

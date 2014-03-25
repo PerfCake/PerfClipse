@@ -90,6 +90,8 @@ public class ValidationPage extends AbstractPerfCakePage {
 
 	@Override
 	public void createControl(Composite parent) {
+		setTitle("Validation section");
+		setDescription("Manage validators.");
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
@@ -116,9 +118,11 @@ public class ValidationPage extends AbstractPerfCakePage {
 				new DeleteValidatorSelectionAdapter(getEditingSupportCommands(), validatorViewer, validation));
 
 		setControl(container);
+		setPageComplete(true);
 		super.createControl(parent);
 	}
 
+	
 	@Override
 	protected void fillCurrentValues() {
 		if (validators != null)

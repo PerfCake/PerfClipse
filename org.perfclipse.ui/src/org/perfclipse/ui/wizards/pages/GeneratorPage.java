@@ -94,12 +94,13 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	
 	private GeneratorPage(String pageName, boolean edit) {
 		super(pageName, edit);
-		setTitle("Generator");
-		setDescription("Fill in neccessary information on this page");
+
 	}
 
 	@Override
 	public void createControl(Composite parent) {
+		setTitle("Generator");
+		setDescription("Fill in neccessary information on this page");
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 3;
@@ -138,11 +139,12 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		runValueLabel = new Label(container, SWT.NONE);
 		runValueLabel.setText("Duration: ");
 		runValueSpinner = new Spinner(container, SWT.NONE);
-		runValueSpinner.setMinimum(0);
+		runValueSpinner.setMinimum(1);
 		runValueSpinner.setMaximum(Integer.MAX_VALUE);
 
 		GridData runSpinnerGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		runSpinnerGridData.horizontalSpan = 2;
+		runSpinnerGridData.horizontalAlignment = SWT.FILL;
 		runSpinnerGridData.widthHint = SPINNER_DEFAULT_WIDTH;
 		runValueSpinner.setLayoutData(runSpinnerGridData);
 
@@ -150,10 +152,11 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		threadsLabel.setText("Number of threads: ");
 
 		threadsSpinner = new Spinner(container, SWT.NONE);
-		threadsSpinner.setMinimum(0);
+		threadsSpinner.setMinimum(1);
 		threadsSpinner.setMaximum(Integer.MAX_VALUE);
 		GridData threadsSpinnerGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		threadsSpinnerGridData.horizontalSpan = 2;
+		threadsSpinnerGridData.horizontalAlignment = SWT.FILL;
 		threadsSpinnerGridData.widthHint = SPINNER_DEFAULT_WIDTH;
 		threadsSpinner.setLayoutData(threadsSpinnerGridData);
 		
@@ -197,6 +200,7 @@ public class GeneratorPage extends AbstractPerfCakePage {
 			setPageComplete(false);
 			return;
 		}
+		
 		setDescription("Complete!");
 		setPageComplete(true);
 	}

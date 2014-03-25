@@ -32,6 +32,15 @@ public class PeriodAddWizard extends AbstractPerfCakeAddWizard {
 	private PeriodPage page;
 	private Period period;
 
+
+	/**
+	 * 
+	 */
+	public PeriodAddWizard() {
+		super();
+		setWindowTitle("Add period");
+	}
+
 	@Override
 	public boolean performFinish() {
 		period = new ObjectFactory().createScenarioReportingReporterDestinationPeriod();

@@ -62,7 +62,7 @@ public class PeriodTableViewer extends AbstractCommandTableViewer {
 	@Override
 	protected void initColumns() {
 		 typeColumn = new TableViewerColumn(this, SWT.NONE);
-		 typeColumn.getColumn().setText("Type: ");
+		 typeColumn.getColumn().setText("Period type: ");
 		 typeColumn.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override
@@ -95,7 +95,8 @@ public class PeriodTableViewer extends AbstractCommandTableViewer {
 		});
 		 
 		 valueColumn = new TableViewerColumn(this, SWT.NONE);
-		 valueColumn.getColumn().setText("Value");
+		 valueColumn.getColumn().setText("Period value");
+		 valueColumn.getColumn().setAlignment(SWT.CENTER);
 		 valueColumn.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override

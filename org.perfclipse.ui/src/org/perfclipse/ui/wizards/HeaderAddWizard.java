@@ -31,6 +31,15 @@ public class HeaderAddWizard extends AbstractPerfCakeAddWizard {
 	private String name;
 	private String value;
 
+
+	/**
+	 * 
+	 */
+	public HeaderAddWizard() {
+		super();
+		setWindowTitle("Add header");
+	}
+
 	@Override
 	public boolean performFinish() {
 		name = headerPage.getNameText().getText();

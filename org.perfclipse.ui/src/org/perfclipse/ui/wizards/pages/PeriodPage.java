@@ -72,6 +72,8 @@ public class PeriodPage extends AbstractPerfCakePage {
 
 	@Override
 	public void createControl(Composite parent) {
+		setTitle("Period");
+		setDescription("Fill in period type and value.");
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
@@ -91,6 +93,10 @@ public class PeriodPage extends AbstractPerfCakePage {
 		valueLabel = new Label(container, SWT.NONE);
 		valueLabel.setText("Value: ");
 		valueText = new Text(container, SWT.NONE);
+		data = new GridData();
+		data.horizontalAlignment = SWT.FILL;
+		data.grabExcessHorizontalSpace = true;
+		valueText.setLayoutData(data);
 		valueText.addModifyListener(new UpdateModifyListener(this));
 		
 		setControl(container);
@@ -99,8 +105,8 @@ public class PeriodPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void updateControls() {
-		if ("".equals(getPeriodName())){
-			setDescription("Fill in period type");
+		if (getPeriodName() == null || "".equals(getPeriodName())){
+			setDescription("Fill in period type.");
 			setPageComplete(false);
 			return;
 		}
@@ -109,6 +115,7 @@ public class PeriodPage extends AbstractPerfCakePage {
 			setPageComplete(false);
 			return;
 		}
+		setDescription("Complete!");
 		setPageComplete(true);
 		super.updateControls();
 	}
@@ -124,7 +131,7 @@ public class PeriodPage extends AbstractPerfCakePage {
 	
 	public String getPeriodName(){
 		IStructuredSelection sel = (IStructuredSelection) typeCombo.getSelection();
-		return String.valueOf(sel.getFirstElement());
+		return (String) sel.getFirstElement();
 	}
 
 	public String getPeriodValue(){

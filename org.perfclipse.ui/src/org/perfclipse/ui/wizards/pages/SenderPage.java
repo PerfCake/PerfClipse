@@ -83,12 +83,12 @@ public class SenderPage extends AbstractPerfCakePage {
 	
 	private SenderPage(String pageName, boolean edit) {
 		super(pageName, edit);
-		setTitle("Sender specification");
-		setDescription("Set sender type and sender properties");
 	}
 	
 	@Override
 	public void createControl(Composite parent) {
+		setTitle("Sender specification");
+		setDescription("Set sender type and sender properties");
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 3;
@@ -133,6 +133,7 @@ public class SenderPage extends AbstractPerfCakePage {
 	
 	
 	
+	
 	@Override
 	protected void fillDefaultValues() {
 		StructuredSelection sel = new StructuredSelection(senderTypeViewer.getElementAt(0));
@@ -152,17 +153,14 @@ public class SenderPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void updateControls() {
-		StructuredSelection sel = (StructuredSelection) senderTypeViewer.getSelection();
-		if (sel == null ||
-				"".equals(sel.getFirstElement())){
+		if (getSenderName() == null ||
+				"".equals(getSenderName())){
 			setDescription("Select sender type!");
 			setPageComplete(false);
-		}else{
-			setDescription("Complete!");
-			setPageComplete(true);
+			return;
 		}
-		
-
+		setDescription("Complete!");
+		setPageComplete(true);
 		super.updateControls();
 	}
 

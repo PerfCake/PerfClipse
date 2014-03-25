@@ -75,7 +75,7 @@ public class ValidatorPage extends AbstractPerfCakePage {
 	@Override
 	public void createControl(Composite parent) {
 		setTitle("Validator");
-		setTitle("Fill in validator type and its id.");
+		setDescription("Fill in validator type and its id.");
 		
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -99,12 +99,14 @@ public class ValidatorPage extends AbstractPerfCakePage {
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = SWT.FILL;
 		idText.setLayoutData(data);
+		idText.addModifyListener(new UpdateModifyListener(this));
 		
 		valueLabel = new Label(container, SWT.NONE);
 		valueLabel.setText("Value: ");
-		valueText = new  Text(container, SWT.NONE);
+		valueText = new  Text(container, SWT.MULTI);
 		data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		valueText.setLayoutData(data);
+		valueText.addModifyListener(new UpdateModifyListener(this));
 		
 		setControl(container);
 		super.createControl(parent);
@@ -123,19 +125,29 @@ public class ValidatorPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void updateControls() {
-		if ( "".equals(getValidatorName())){
+		if ( getValidatorName() == null || "".equals(getValidatorName())){
 			setDescription("Select validator type.");
 			setPageComplete(false);
 			return;
 		}
+		if ("".equals(getValidatorId())){
+			setDescription("Fill in validator id.");
+			setPageComplete(false);
+			return;
+		}
+//		if ("".equals(getValidatorValue())){
+//			setDescription("Fill in validator value.");
+//			setPageComplete(false);
+//			return;
+//		}
 		setPageComplete(true);
-
+		setDescription("Complete!");
 		super.updateControls();
 	}
 	
 	public String getValidatorName(){
 		IStructuredSelection sel = (IStructuredSelection) typeCombo.getSelection();
-		return String.valueOf(sel.getFirstElement());
+		return (String) sel.getFirstElement();
 	}
 	
 	public String getValidatorId(){

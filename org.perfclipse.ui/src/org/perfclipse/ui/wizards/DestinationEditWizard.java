@@ -42,6 +42,7 @@ public class DestinationEditWizard extends AbstractPerfCakeEditWizard {
 		super("Edit destination");
 		this.destination = destination;
 	}
+
 	@Override
 	public boolean performFinish() {
 		Destination d = destination.getDestination();

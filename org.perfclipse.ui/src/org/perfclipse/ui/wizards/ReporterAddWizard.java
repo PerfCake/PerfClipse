@@ -34,6 +34,12 @@ public class ReporterAddWizard extends AbstractPerfCakeAddWizard {
 	private ReporterPage page;
 	private Reporter reporter;
 	
+
+	public ReporterAddWizard() {
+		super();
+		setWindowTitle("Add reporter");
+	}
+
 	@Override
 	public boolean performFinish() {
 		reporter = new ObjectFactory().createScenarioReportingReporter();

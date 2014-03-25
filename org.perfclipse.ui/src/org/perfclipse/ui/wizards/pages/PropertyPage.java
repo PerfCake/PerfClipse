@@ -81,6 +81,7 @@ public class PropertyPage extends AbstractPerfCakePage {
 		data.horizontalAlignment = SWT.FILL;
 		data.grabExcessHorizontalSpace = true;
 		nameText.setLayoutData(data);
+		nameText.addModifyListener(new UpdateModifyListener(this));
 		
 		
 		valueLabel = new Label(container, SWT.NONE);
@@ -91,13 +92,28 @@ public class PropertyPage extends AbstractPerfCakePage {
 		data.horizontalAlignment = SWT.FILL;
 		data.grabExcessHorizontalSpace = true;
 		valueText.setLayoutData(data);
+		valueText.addModifyListener(new UpdateModifyListener(this));
 		
 		setControl(container);
 		super.createControl(parent);
 	}
 
-	
-	
+	@Override
+	protected void updateControls() {
+		if ("".equals(nameText.getText())){
+			setDescription("Fill in property name.");
+			setPageComplete(false);
+			return;
+		}
+		if ("".equals(valueText.getText())){
+			setDescription("Fill in property value.");
+			setPageComplete(false);
+			return;
+		}
+		setDescription("Complete!");
+		setPageComplete(true);
+	}
+
 	@Override
 	protected void fillCurrentValues() {
 		if (property.getProperty().getName() != null)

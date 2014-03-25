@@ -35,6 +35,15 @@ public class DestinationAddWizard extends AbstractPerfCakeAddWizard {
 	private DestinationPage destinationPage;
 	private Destination destination;
 
+
+	/**
+	 * 
+	 */
+	public DestinationAddWizard() {
+		super();
+		setWindowTitle("Add destination");
+	}
+
 	@Override
 	public boolean performFinish() {
 		destination = new ObjectFactory().createScenarioReportingReporterDestination();

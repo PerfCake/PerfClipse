@@ -94,12 +94,13 @@ public class ReportingPage extends AbstractPerfCakePage {
 
 	private ReportingPage(String pageName, boolean edit) {
 		super(pageName, edit);
-		setTitle("Reporting");
 	}
 
 
 	@Override
 	public void createControl(Composite parent) {
+		setTitle("Reporting");
+		setDescription("Manage reporters and properties.");
 		container = new Composite(parent, SWT.NONE);
 		
 		GridLayout layout = new GridLayout();

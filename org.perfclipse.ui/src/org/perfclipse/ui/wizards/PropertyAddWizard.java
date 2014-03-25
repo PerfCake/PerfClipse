@@ -35,6 +35,14 @@ public class PropertyAddWizard extends AbstractPerfCakeAddWizard {
 	
 	
 	
+	/**
+	 * 
+	 */
+	public PropertyAddWizard() {
+		super();
+		setWindowTitle("Add property");
+	}
+
 	@Override
 	public boolean performFinish() {
 		

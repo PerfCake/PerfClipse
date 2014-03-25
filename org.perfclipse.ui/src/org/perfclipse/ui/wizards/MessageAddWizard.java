@@ -41,6 +41,15 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 	private MessagePage messagePage;
 	private Message message;
 
+
+	/**
+	 * 
+	 */
+	public MessageAddWizard() {
+		super();
+		setWindowTitle("Add message");
+	}
+
 	@Override
 	public boolean performFinish() {
 		

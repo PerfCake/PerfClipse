@@ -36,9 +36,9 @@ import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
  */
 public class MessagesTableViewer extends AbstractCommandTableViewer {
 	
-	private static final int VALIDATOR_REF_COLUMN_WIDTH = 50;
+	private static final int VALIDATOR_REF_COLUMN_WIDTH = 60;
 	private static final int MULTIPLICITY_COLUMN_WIDTH = 50;
-	static final int URI_COLUMN_WIDTH = 220;
+	static final int URI_COLUMN_WIDTH = 350;
 	private TableViewerColumn multiplicity;
 	private TableViewerColumn validatorRef;
 	private TableViewerColumn uri;
@@ -96,6 +96,7 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 		
 		multiplicity = new TableViewerColumn(this, SWT.NONE);
 		multiplicity.getColumn().setText("Mulitplicity");
+		multiplicity.getColumn().setAlignment(SWT.CENTER);
 		multiplicity.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override
@@ -129,6 +130,7 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 		
 		validatorRef = new TableViewerColumn(this, SWT.NONE);
 		validatorRef.getColumn().setText("Validators");
+		validatorRef.getColumn().setAlignment(SWT.CENTER);
 		validatorRef.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override

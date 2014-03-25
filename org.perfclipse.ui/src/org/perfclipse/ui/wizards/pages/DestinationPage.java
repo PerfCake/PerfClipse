@@ -80,6 +80,9 @@ public class DestinationPage extends AbstractPerfCakePage {
 
 	public DestinationPage(DestinationModel destination){
 		this(DESTINATION_PAGE_NAME, true);
+		if (destination == null){
+			throw new IllegalArgumentException("Destination model must not be null");
+		}
 		this.destination = destination;
 		
 		ModelMapper m = destination.getMapper();
@@ -102,6 +105,8 @@ public class DestinationPage extends AbstractPerfCakePage {
 
 	@Override
 	public void createControl(Composite parent) {
+		setTitle("Destination");
+		setDescription("Fill in values.");
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 3;
@@ -162,11 +167,12 @@ public class DestinationPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void updateControls() {
-		if ("".equals(getDestinationType())){
+		if (getDestinationType() == null || "".equals(getDestinationType())){
 			setDescription("Select destination type.");
 			setPageComplete(false);
 			return;
 		}
+		setDescription("Complete!");
 		setPageComplete(true);
 		super.updateControls();
 	}
@@ -197,7 +203,7 @@ public class DestinationPage extends AbstractPerfCakePage {
 
 	public String getDestinationType(){
 		IStructuredSelection sel = (IStructuredSelection) clazzCombo.getSelection();
-		return String.valueOf(sel.getFirstElement());
+		return (String) sel.getFirstElement();
 	}
 	
 	public boolean getEnabled(){

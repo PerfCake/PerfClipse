@@ -102,6 +102,8 @@ public class ReporterPage extends AbstractPerfCakePage {
 
 	@Override
 	public void createControl(Composite parent) {
+		setTitle("Reporter");
+		setDescription("Fill in reporter type.");
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 3;
@@ -166,11 +168,12 @@ public class ReporterPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void updateControls() {
-		if ("".equals(getReporterType())){
+		if (getReporterType() == null || "".equals(getReporterType())){
 			setDescription("Select reporter type.");
 			setPageComplete(false);
 			return;
 		}
+		setDescription("Complete!");
 		setPageComplete(true);
 		super.updateControls();
 	}
@@ -200,7 +203,7 @@ public class ReporterPage extends AbstractPerfCakePage {
 
 	public String getReporterType(){
 		IStructuredSelection sel = (IStructuredSelection) clazzCombo.getSelection();
-		return String.valueOf(sel.getFirstElement());
+		return (String) sel.getFirstElement();
 	}
 	
 	public boolean getEnabled(){

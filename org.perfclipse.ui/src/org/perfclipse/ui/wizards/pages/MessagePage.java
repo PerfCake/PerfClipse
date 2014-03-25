@@ -110,11 +110,12 @@ public class MessagePage extends AbstractPerfCakePage {
 
 	private MessagePage(String pageName, boolean edit) {
 		super(pageName, edit);
-		setTitle("Message");
 	}
 
 	@Override
 	public void createControl(Composite parent) {
+		setTitle("Message");
+		setDescription("Fill in message data.");
 		container = new Composite(parent, SWT.NONE);
 		
 		GridData data;
@@ -129,6 +130,7 @@ public class MessagePage extends AbstractPerfCakePage {
 		data = new GridData();
 		data.horizontalSpan = 2;
 		data.horizontalAlignment = SWT.FILL;
+		uriText.addModifyListener(new UpdateModifyListener(this));
 		uriText.setLayoutData(data);
 
 		multiplicityLabel = new Label(container, SWT.NONE);
@@ -197,8 +199,10 @@ public class MessagePage extends AbstractPerfCakePage {
 		if ("".equals(uriText.getText())){
 			setDescription("Fill in message URI.");
 			setPageComplete(false);
+			return;
 		}
 		setPageComplete(true);
+		setDescription("Complete!");
 		super.updateControls();
 	}
 

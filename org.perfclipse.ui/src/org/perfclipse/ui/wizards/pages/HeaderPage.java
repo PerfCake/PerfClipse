@@ -82,6 +82,7 @@ public class HeaderPage extends AbstractPerfCakePage {
 		data.horizontalAlignment = SWT.FILL;
 		data.grabExcessHorizontalSpace = true;
 		nameText.setLayoutData(data);
+		nameText.addModifyListener(new UpdateModifyListener(this));
 		
 		
 		valueLabel = new Label(container, SWT.NONE);
@@ -92,6 +93,7 @@ public class HeaderPage extends AbstractPerfCakePage {
 		data.horizontalAlignment = SWT.FILL;
 		data.grabExcessHorizontalSpace = true;
 		valueText.setLayoutData(data);
+		valueText.addModifyListener(new UpdateModifyListener(this));
 		
 		setControl(container);
 		super.createControl(parent);
@@ -99,6 +101,23 @@ public class HeaderPage extends AbstractPerfCakePage {
 
 	
 	
+	@Override
+	protected void updateControls() {
+		if ("".equals(nameText.getText())){
+			setDescription("Fill in header name.");
+			setPageComplete(false);
+			return;
+		}
+		if ("".equals(valueText.getText())){
+			setDescription("Fill in header value.");
+			setPageComplete(false);
+			return;
+		}
+		setDescription("Complete!");
+		setPageComplete(true);
+		super.updateControls();
+	}
+
 	@Override
 	protected void fillCurrentValues() {
 		if (header.getHeader().getName() != null)

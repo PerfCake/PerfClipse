@@ -38,7 +38,7 @@ public class ValidatorTableViewer extends AbstractCommandTableViewer {
 
 
 	private static final int CLAZZ_COLUMN_WIDTH = 220;
-	private static final int ID_COLUMN_WIDTH = 50;
+	private static final int ID_COLUMN_WIDTH = 70;
 	private TableViewerColumn clazzColumn;
 	private TableViewerColumn idColumn;
 
@@ -63,7 +63,7 @@ public class ValidatorTableViewer extends AbstractCommandTableViewer {
 	@Override
 	protected void initColumns() {
 		idColumn = new TableViewerColumn(this, SWT.NONE);
-		idColumn.getColumn().setText("Id");
+		idColumn.getColumn().setText("Validator Id");
 		idColumn.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override

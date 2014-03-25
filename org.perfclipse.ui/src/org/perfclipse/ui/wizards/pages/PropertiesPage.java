@@ -80,6 +80,8 @@ public class PropertiesPage extends AbstractPerfCakePage {
 
 	@Override
 	public void createControl(Composite parent) {
+		setTitle("Properties");
+		setDescription("Edit properties.");
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
@@ -101,6 +103,7 @@ public class PropertiesPage extends AbstractPerfCakePage {
 				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
 		
 		setControl(container);
+		setPageComplete(true);
 		super.createControl(parent);
 	}
 

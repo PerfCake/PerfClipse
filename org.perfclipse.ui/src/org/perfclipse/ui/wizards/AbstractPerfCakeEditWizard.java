@@ -40,10 +40,15 @@ public abstract class AbstractPerfCakeEditWizard extends Wizard {
 	private List<Command> editingSupportCommands;
 	private CompoundCommand command;
 
-	public AbstractPerfCakeEditWizard(String commandLabel) {
+	/**
+	 * 
+	 * @param title Title is used as window title and also for command label.
+	 */
+	public AbstractPerfCakeEditWizard(String title) {
 		super();
+		setWindowTitle(title);
 		editingSupportCommands = new ArrayList<>();
-		command = new CompoundCommand(commandLabel);
+		command = new CompoundCommand(title);
 	}
 	
 	/**

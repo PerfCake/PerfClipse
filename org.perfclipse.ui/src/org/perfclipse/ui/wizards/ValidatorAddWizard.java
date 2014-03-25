@@ -31,6 +31,12 @@ public class ValidatorAddWizard extends AbstractPerfCakeAddWizard {
 
 	private ValidatorPage page;
 	private Validator validator;
+	
+	
+	public ValidatorAddWizard() {
+		super();
+		setWindowTitle("Add validator");
+	}
 
 	@Override
 	public boolean performFinish() {
