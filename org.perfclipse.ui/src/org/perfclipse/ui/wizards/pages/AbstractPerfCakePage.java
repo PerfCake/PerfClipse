@@ -26,6 +26,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
@@ -166,6 +168,21 @@ public abstract class AbstractPerfCakePage extends WizardPage {
 
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
+			page.updateControls();
+		}
+		
+	}
+	
+	protected static class UpdateModifyListener implements ModifyListener{
+
+		AbstractPerfCakePage page;
+
+		public UpdateModifyListener(AbstractPerfCakePage page) {
+			super();
+			this.page = page;
+		}
+		@Override
+		public void modifyText(ModifyEvent e) {
 			page.updateControls();
 		}
 		

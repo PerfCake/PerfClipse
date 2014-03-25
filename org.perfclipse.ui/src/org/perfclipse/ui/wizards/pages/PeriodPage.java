@@ -79,6 +79,7 @@ public class PeriodPage extends AbstractPerfCakePage {
 		
 		GridData data;
 		
+		typeLabel = new Label(container, SWT.NONE);
 		typeLabel.setText("Period type: ");
 		typeCombo = new StringComboViewer(container, Utils.getPeriodTypes());
 		typeCombo.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
@@ -90,6 +91,7 @@ public class PeriodPage extends AbstractPerfCakePage {
 		valueLabel = new Label(container, SWT.NONE);
 		valueLabel.setText("Value: ");
 		valueText = new Text(container, SWT.NONE);
+		valueText.addModifyListener(new UpdateModifyListener(this));
 		
 		setControl(container);
 		super.createControl(parent);
