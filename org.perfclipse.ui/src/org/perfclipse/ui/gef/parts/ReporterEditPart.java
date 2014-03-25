@@ -87,7 +87,7 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 		Dimension d = ((AbstractGraphicalEditPart) getParent()).getFigure().getClientArea().getSize().getCopy();
 		d.setHeight(150);
 		ColorUtils colorUtils = ColorUtils.getInstance();
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), d,
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), 
 				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
 		return figure;
 	}

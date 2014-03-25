@@ -77,7 +77,7 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	protected IFigure createFigure() {
 		
 		ColorUtils colorUtils = ColorUtils.getInstance();
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), getDefaultSize(),
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), 
 				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
 		return figure;
 	}

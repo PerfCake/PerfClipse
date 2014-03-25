@@ -24,22 +24,24 @@ import java.util.List;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
+import org.eclipse.draw2d.GridData;
+import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.swt.SWT;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.model.ValidationModel;
-import org.perfclipse.ui.gef.layout.ScenarioFreeformLayout;
 
 public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 
 //	private static final int BORDER_PADDING = 1;
 
+	private GridLayout layout;
 	
 	public ScenarioEditPart(ScenarioModel scenarioModel){
 		setModel(scenarioModel);
@@ -48,9 +50,11 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 	@Override
 	protected IFigure createFigure() {
 		Figure figure = new FreeformLayer();
-		ScenarioFreeformLayout layout = new ScenarioFreeformLayout();
+		layout = new GridLayout();
+		layout.numColumns = 2;
+		layout.horizontalSpacing = 10;
+		layout.verticalSpacing = 10;
 		figure.setLayoutManager(layout);
-//		figure.setBorder(new MarginBorder(BORDER_PADDING));
 
 		return figure;
 	}
@@ -74,16 +78,17 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 		}else{
 			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getMessages()));
 		}
-		if (getScenarioModel().getScenario().getValidation() == null){
-			modelChildren.add(new ValidationModel(getScenarioModel().getScenario().getValidation(), getScenarioModel(), mapper));
-		} else {
-			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getValidation()));
-		}
 		if (getScenarioModel().getScenario().getReporting() == null){
 			modelChildren.add(new ReportingModel(getScenarioModel().getScenario().getReporting(), getScenarioModel(), mapper));
 		} else {
 			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getReporting()));
 		}
+		if (getScenarioModel().getScenario().getValidation() == null){
+			modelChildren.add(new ValidationModel(getScenarioModel().getScenario().getValidation(), getScenarioModel(), mapper));
+		} else {
+			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getValidation()));
+		}
+		
 		if (getScenarioModel().getScenario().getProperties() == null){
 			modelChildren.add(new PropertiesModel(getScenarioModel().getScenario().getProperties(),getScenarioModel(), mapper));
 		} else {
@@ -98,21 +103,34 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 	
 	@Override
 	protected void addChild(EditPart child, int index){
-		ScenarioFreeformLayout layout = (ScenarioFreeformLayout) getFigure().getLayoutManager();
-
 		if (child instanceof AbstractGraphicalEditPart){
-			
-			Rectangle constraint;
-			if ((constraint = layout.getDefaultConstraint(child)) != null){
-				layout.setConstraint(((AbstractGraphicalEditPart) child).getFigure(), constraint);
+			GridData layoutData = new GridData();
+//			layoutData.horizontalAlignment = SWT.FILL;
+//			layoutData.verticalAlignment = SWT.FILL;
+			layoutData.widthHint = 250;
+			layoutData.heightHint = 100;
+			IFigure figure = ((AbstractGraphicalEditPart) child).getFigure();
+			if (child instanceof AbstractPerfCakeSectionEditPart){
+				
 			}
+			if (child instanceof GeneratorEditPart || 
+					child instanceof SenderEditPart ||
+					child instanceof PropertiesEditPart){
+				layoutData.horizontalSpan = 2;
+//				layoutData.grabExcessHorizontalSpace = true;
+				layoutData.horizontalAlignment = SWT.FILL;
+
+			}
+			
+			if (child instanceof ReportingEditPart){
+				layoutData.verticalSpan = 2;
+//				layoutData.grabExcessVerticalSpace = true;
+				layoutData.verticalAlignment = SWT.FILL;
+			}
+
+			layout.setConstraint(figure, layoutData);
 		}
 		super.addChild(child, index);
-		if (child instanceof AbstractGraphicalEditPart){
-			if (child instanceof ValidationEditPart)
-				layout.resizeSiblings(child); 
-			//TODO: move to refresh?
-		}
 		
 	}
 }
