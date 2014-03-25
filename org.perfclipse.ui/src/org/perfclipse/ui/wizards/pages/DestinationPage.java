@@ -130,11 +130,11 @@ public class DestinationPage extends AbstractPerfCakePage {
 		data.horizontalSpan = 2;
 		periodViewer.getTable().setLayoutData(data);
 		
-		periodControl = new TableViewerControl(container, false, SWT.NONE);
+		periodControl = new TableViewerControl(container, true, SWT.NONE);
 		periodControl.getAddButton().addSelectionListener(
 				new AddPeriodSelectionAdapter(getEditingSupportCommands(), periodViewer, destination));
 
-		periodControl.getEditButton().addSelectionListener(new AbstractEditCommandSelectionAdapter(getEditingSupportCommands(), propertyViewer) {
+		periodControl.getEditButton().addSelectionListener(new AbstractEditCommandSelectionAdapter(getEditingSupportCommands(), periodViewer) {
 			
 			@Override
 			protected AbstractPerfCakeEditWizard createWizard(
