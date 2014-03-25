@@ -47,7 +47,7 @@ AbstractDeleteCommandSelectionAdapter {
 	@Override
 	protected Command getCommand() {
 		if (propertyContainer != null){
-			new DeletePropertyCommand(propertyContainer, property);
+			return new DeletePropertyCommand(propertyContainer, property);
 		}
 		return null;
 	}

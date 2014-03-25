@@ -176,7 +176,7 @@ public class MessagePage extends AbstractPerfCakePage {
 		propertyControl.getDeleteButton().addSelectionListener(
 				new DeletePropertySelectionAdapter(getEditingSupportCommands(),
 						propertyViewer, message));
-		propertyControl.getDeleteButton().addSelectionListener(
+		propertyControl.getEditButton().addSelectionListener(
 				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
 		
 		refViewer = new ValidatorRefTableViewer(container, getEditingSupportCommands());

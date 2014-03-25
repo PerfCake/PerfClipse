@@ -66,8 +66,8 @@ public class HeaderPage extends AbstractPerfCakePage {
 	
 	@Override
 	public void createControl(Composite parent) {
-		setTitle("Property wizard");
-		setDescription("Fill in name and value.");
+		setTitle("Header wizard");
+		setDescription("Fill in header name and value.");
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		GridData data;

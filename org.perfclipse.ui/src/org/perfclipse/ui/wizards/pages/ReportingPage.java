@@ -29,14 +29,20 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
+import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
+import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.AddReporterSelectionAdapter;
+import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
 import org.perfclipse.ui.swt.events.DeleteReporterSelectionAdapter;
+import org.perfclipse.ui.swt.events.EditPropertySelectionAdapter;
+import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.perfclipse.ui.swt.jface.ReporterTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
 import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
@@ -52,11 +58,14 @@ public class ReportingPage extends AbstractPerfCakePage {
 
 	private ReportingModel reporting;
 	private List<ReporterModel> reporters;
+	private List<PropertyModel> properties;
 
 	private Composite container;
 	private TableViewer reporterViewer;
 	private TableViewerControl reporterViewerControl;
 
+	private TableViewer propertyViewer;
+	private TableViewerControl propertyControl;
 	public ReportingPage(){
 		super(REPORTING_PAGE_NAME, false);
 	}
@@ -76,6 +85,11 @@ public class ReportingPage extends AbstractPerfCakePage {
 		for (Reporter r : reporting.getReporting().getReporter()){
 			reporters.add((ReporterModel) mapper.getModelContainer(r));
 		}
+		
+		properties = new ArrayList<>(reporting.getProperty().size());
+		for (Property p : reporting.getProperty()){
+			properties.add((PropertyModel) mapper.getModelContainer(p));
+		}
 	}
 
 	private ReportingPage(String pageName, boolean edit) {
@@ -91,6 +105,7 @@ public class ReportingPage extends AbstractPerfCakePage {
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		container.setLayout(layout);
+		GridData data;
 		
 		reporterViewer = new ReporterTableViewer(container, getEditingSupportCommands());
 		reporterViewerControl = new TableViewerControl(container, true, SWT.NONE);
@@ -110,6 +125,22 @@ public class ReportingPage extends AbstractPerfCakePage {
 		final Table reporterTable = reporterViewer.getTable();
 		GridData tableData = Utils.getTableViewerGridData();
 		reporterTable.setLayoutData(tableData);
+		
+		
+		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
+		propertyViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
+		data = Utils.getTableViewerGridData();
+		propertyViewer.getTable().setLayoutData(data);
+		
+		propertyControl = new TableViewerControl(container, true, SWT.NONE);
+		propertyControl.getAddButton().addSelectionListener(
+				new AddPropertySelectionAdapter(getEditingSupportCommands(),
+						propertyViewer, reporting));
+		propertyControl.getDeleteButton().addSelectionListener(
+				new DeletePropertySelectionAdapter(getEditingSupportCommands(),
+						propertyViewer, reporting));
+		propertyControl.getEditButton().addSelectionListener(
+				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
 		
 		setControl(container);
 		super.createControl(parent);

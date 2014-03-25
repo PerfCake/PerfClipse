@@ -119,7 +119,7 @@ public class DestinationTableViewer extends AbstractCommandTableViewer {
 		
 		final StringComboCellEditor editor = 
 				new StringComboCellEditor(getTable(),
-						getPerfCakeComponents().getReporterNames());
+						getPerfCakeComponents().getDestinationNames());
 
 		
 		clazzColumn.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands(), editor) {

@@ -97,7 +97,7 @@ public class PropertiesPage extends AbstractPerfCakePage {
 		propertyControl.getDeleteButton().addSelectionListener(
 				new DeletePropertySelectionAdapter(getEditingSupportCommands(),
 						propertyViewer, properties));
-		propertyControl.getDeleteButton().addSelectionListener(
+		propertyControl.getEditButton().addSelectionListener(
 				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
 		
 		setControl(container);

@@ -52,7 +52,7 @@ public class DeleteHeaderSelectionAdapter extends
 	@Override
 	protected Command getCommand() {
 		if (message != null && header != null){
-			new DeleteHeaderCommand(message, header.getHeader());
+			return new DeleteHeaderCommand(message, header.getHeader());
 		}
 		return null;
 	}

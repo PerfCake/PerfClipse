@@ -19,7 +19,6 @@
 
 package org.perfclipse.ui.wizards;
 
-import org.eclipse.jface.wizard.IWizardPage;
 import org.perfclipse.ui.wizards.pages.HeaderPage;
 
 /**
@@ -41,10 +40,10 @@ public class HeaderAddWizard extends AbstractPerfCakeAddWizard {
 	}
 
 	@Override
-	public void addPage(IWizardPage page) {
+	public void addPages() {
 		headerPage = new HeaderPage();
 		addPage(headerPage);
-		super.addPage(page);
+		super.addPages();
 	}
 
 	public String getName() {

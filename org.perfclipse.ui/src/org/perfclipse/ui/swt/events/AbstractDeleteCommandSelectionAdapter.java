@@ -53,7 +53,7 @@ public abstract class AbstractDeleteCommandSelectionAdapter extends
 			while (it.hasNext()){
 				Object data = it.next();
 				handleDeleteData(data);
-				super.handleCommand();
+				handleCommand();
 				getViewer().remove(data);
 			}
 			

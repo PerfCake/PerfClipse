@@ -70,7 +70,7 @@ public abstract class AbstractEditCommandSelectionAdapter extends
 		
 		
 		super.widgetSelected(e);
-		getViewer().refresh();
+		getViewer().refresh(selection.getFirstElement());;
 	}
 
 	/**
