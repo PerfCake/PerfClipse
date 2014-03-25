@@ -111,12 +111,6 @@
             id="org.perfclipse.ui.preferences.perfclipse"
             name="PerfClipse">
       </page>
-      <page
-            category="org.perfclipse.ui.preferences.perfclipse"
-            class="org.perfclipse.ui.preferences.LayoutPreferencePage"
-            id="org.perfclipse.ui.preferences.layout"
-            name="Layout">
-      </page>
    </extension>
 
 </plugin>

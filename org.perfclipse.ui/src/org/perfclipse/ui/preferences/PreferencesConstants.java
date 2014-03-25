@@ -22,11 +22,38 @@ package org.perfclipse.ui.preferences;
 
 public class PreferencesConstants {
 	
-	public static final String GENERATOR_COLOR_FOREGROUND = "generator.color.foreground";
-	public static final String SENDER_COLOR_FOREGROUND = "sender.color.foreground";
-	public static final String MESSAGES_COLOR_FOREGROUND = "messages.color.foreground";
-	public static final String VALIDATION_COLOR_FOREGROUND = "validation.color.foreground";
-	public static final String REPORTING_COLOR_FOREGROUND = "reporting.color.foreground";
-	public static final String PROPERTIES_COLOR_FOREGROUND = "properties.color.foreground";
+	public static final String SCENARIO_COLOR_BACKGROUND = "scenario.color.background";
 
+	public static final String GENERATOR_COLOR_FOREGROUND = "generator.color.foreground";
+	public static final String GENERATOR_COLOR_BACKGROUND = "generator.color.background";
+
+	public static final String SENDER_COLOR_FOREGROUND = "sender.color.foreground";
+	public static final String SENDER_COLOR_BACKGROUND = "sender.color.background";
+
+	public static final String MESSAGES_COLOR_FOREGROUND = "messages.color.foreground";
+	public static final String MESSAGES_COLOR_BACKGROUND = "messages.color.background";
+
+	public static final String MESSAGE_COLOR_FOREGROUND = "message.color.foreground";
+	public static final String MESSAGE_COLOR_BACKGROUND = "message.color.background";
+
+	public static final String VALIDATION_COLOR_FOREGROUND = "validation.color.foreground";
+	public static final String VALIDATION_COLOR_BACKGROUND = "validation.color.background";
+
+	public static final String VALIDATOR_COLOR_FOREGROUND = "validator.color.foreground";
+	public static final String VALIDATOR_COLOR_BACKGROUND = "validator.color.background";
+
+	public static final String REPORTING_COLOR_FOREGROUND = "reporting.color.foreground";
+	public static final String REPORTING_COLOR_BACKGROUND = "reporting.color.background";
+
+	public static final String REPORTER_COLOR_FOREGROUND = "reporter.color.foreground";
+	public static final String REPORTER_COLOR_BACKGROUND = "reporter.color.background";
+	
+	public static final String DESTINATION_COLOR_FOREGROUND = "destination.color.foreground";
+	public static final String DESTINATION_COLOR_BACKGROUND = "destination.color.background";
+
+	public static final String PROPERTIES_COLOR_FOREGROUND = "properties.color.foreground";
+	public static final String PROPERTIES_COLOR_BACKGROUND = "properties.color.background";
+
+	public static final String PROPERTY_COLOR_FOREGROUND = "property.color.foreground";
+	public static final String PROPERTY_COLOR_BACKGROUND = "property.color.background";
 }

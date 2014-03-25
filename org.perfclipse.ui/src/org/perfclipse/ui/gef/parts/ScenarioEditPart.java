@@ -30,12 +30,14 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.model.ValidationModel;
+import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 
 public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 
@@ -50,6 +52,10 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 	@Override
 	protected IFigure createFigure() {
 		Figure figure = new FreeformLayer();
+		Color backgroundColor = ColorUtils.getInstance().getBackgroundColor(this);
+		if (backgroundColor != null){
+			getViewer().getControl().setBackground(backgroundColor);
+		}
 		layout = new GridLayout();
 		layout.numColumns = 2;
 		layout.horizontalSpacing = 10;
