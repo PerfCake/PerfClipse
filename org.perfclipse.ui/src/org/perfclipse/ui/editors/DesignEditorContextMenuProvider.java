@@ -44,15 +44,20 @@ public class DesignEditorContextMenuProvider extends ContextMenuProvider {
 
 	@Override
 	public void buildContextMenu(IMenuManager menu) {
-		 GEFActionConstants.addStandardActionGroups(menu);
-		 
-	        IAction action;
-	 
-	        action = actionRegistry.getAction(ActionFactory.UNDO.getId());
-	        menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
-	        action = actionRegistry.getAction(ActionFactory.REDO.getId());
-	        menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
-	        action = actionRegistry.getAction(EditDialogAction.SHOW_EDIT_DIALOG);
-	        menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		GEFActionConstants.addStandardActionGroups(menu);
+		
+		IAction action;
+
+		action = actionRegistry.getAction(ActionFactory.UNDO.getId());
+		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
+
+		action = actionRegistry.getAction(ActionFactory.REDO.getId());
+		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
+
+		action = actionRegistry.getAction(ActionFactory.DELETE.getId());
+		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+
+		action = actionRegistry.getAction(EditDialogAction.SHOW_EDIT_DIALOG);
+		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 	}
 }
