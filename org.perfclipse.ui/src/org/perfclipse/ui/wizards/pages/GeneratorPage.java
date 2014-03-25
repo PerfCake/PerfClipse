@@ -22,7 +22,6 @@ package org.perfclipse.ui.wizards.pages;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -208,9 +207,9 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	@Override
 	protected void fillDefaultValues() {
 
-		ISelection selection = new StructuredSelection(generatorTypeViewer.getElementAt(0));
-		generatorTypeViewer.setSelection(selection);
-		runTypeCombo.select(0);
+//		ISelection selection = new StructuredSelection(generatorTypeViewer.getElementAt(0));
+//		generatorTypeViewer.setSelection(selection);
+//		runTypeCombo.select(0);
 		runValueSpinner.setSelection(1);
 		threadsSpinner.setSelection(1);
 	}

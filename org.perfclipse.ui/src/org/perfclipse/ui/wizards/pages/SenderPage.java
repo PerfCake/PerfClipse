@@ -136,8 +136,8 @@ public class SenderPage extends AbstractPerfCakePage {
 	
 	@Override
 	protected void fillDefaultValues() {
-		StructuredSelection sel = new StructuredSelection(senderTypeViewer.getElementAt(0));
-		senderTypeViewer.setSelection(sel);
+//		StructuredSelection sel = new StructuredSelection(senderTypeViewer.getElementAt(0));
+//		senderTypeViewer.setSelection(sel);
 	}
 
 	@Override

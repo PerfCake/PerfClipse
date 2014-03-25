@@ -39,19 +39,28 @@ import org.perfcake.model.Scenario;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
 import org.perfclipse.ui.wizards.pages.GeneratorPage;
+import org.perfclipse.ui.wizards.pages.MessagesPage;
+import org.perfclipse.ui.wizards.pages.PropertiesPage;
+import org.perfclipse.ui.wizards.pages.ReportingPage;
 import org.perfclipse.ui.wizards.pages.ScenarioNewFilePage;
 import org.perfclipse.ui.wizards.pages.SenderPage;
+import org.perfclipse.ui.wizards.pages.ValidationPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ScenarioWizard extends Wizard implements INewWizard {
 
-	private GeneratorPage generatorAndSenderPage;
 	private WizardNewFileCreationPage fileCreationPage;
+	private GeneratorPage generatorPage;
+	private SenderPage senderPage;
+	private MessagesPage messagesPage;
+	private ValidationPage validationPage;
+	private ReportingPage reportingPage; 
+	private PropertiesPage propertiesPage;
+	
 	IStructuredSelection selection;
 	
 	static final Logger log = LoggerFactory.getLogger(ScenarioWizard.class);
-	private SenderPage senderPage;
 
 	public ScenarioWizard() {
 		super();
@@ -66,21 +75,21 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
-		ObjectFactory scenarioFactory = new ObjectFactory();
-		Scenario scenario = scenarioFactory.createScenario();
+		ObjectFactory factory = new ObjectFactory();
+		Scenario scenario = factory.createScenario();
 
 		//Generator section
-		Scenario.Generator generator = scenarioFactory.createScenarioGenerator();
-		Scenario.Generator.Run run = scenarioFactory.createScenarioGeneratorRun();
+		Scenario.Generator generator = factory.createScenarioGenerator();
+		Scenario.Generator.Run run = factory.createScenarioGeneratorRun();
 		run.setType("time");
 		run.setValue("5000");
-		generator.setClazz(generatorAndSenderPage.getGeneratorName());
+		generator.setClazz(generatorPage.getGeneratorName());
 		generator.setRun(run);
 		generator.setThreads("1");
 		scenario.setGenerator(generator);
 
 		//Sender section
-		Scenario.Sender sender = scenarioFactory.createScenarioSender();
+		Scenario.Sender sender = factory.createScenarioSender();
 		sender.setClazz(senderPage.getSenderName());
 		scenario.setSender(sender);
 		
@@ -118,18 +127,26 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 	@Override
 	public void addPages(){
 		fileCreationPage = new ScenarioNewFilePage("New Scenario file", selection);
-		generatorAndSenderPage = new GeneratorPage();
+		generatorPage = new GeneratorPage();
 		senderPage = new SenderPage();
+		messagesPage = new MessagesPage();
+		validationPage = new ValidationPage();
+		reportingPage = new ReportingPage();
+		propertiesPage = new PropertiesPage();
 
 		addPage(fileCreationPage);
-		addPage(generatorAndSenderPage);
+		addPage(generatorPage);
 		addPage(senderPage);
+		addPage(messagesPage);
+		addPage(validationPage);
+		addPage(reportingPage);
+		addPage(propertiesPage);
 	}
 
-	@Override
-	public boolean canFinish() {
-		return super.canFinish();
-	}
+//	@Override
+//	public boolean canFinish() {
+//		return super.canFinish();
+//	}
 	
 	
 
