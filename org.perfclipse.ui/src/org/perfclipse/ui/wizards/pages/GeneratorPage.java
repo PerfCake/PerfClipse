@@ -213,13 +213,19 @@ public class GeneratorPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void fillCurrentValues() {
-		ComboUtils.select(generatorTypeViewer, generator.getGenerator().getClazz());
+		if (generator.getGenerator().getClazz() != null)
+			ComboUtils.select(generatorTypeViewer, generator.getGenerator().getClazz());
 		
-		ComboUtils.select(runTypeCombo, generator.getGenerator().getRun().getType());
+		if (generator.getGenerator().getRun() != null)
+			ComboUtils.select(runTypeCombo, generator.getGenerator().getRun().getType());
 
-		runValueSpinner.setSelection(Integer.valueOf(generator.getGenerator().getRun().getValue()));
-		threadsSpinner.setSelection(Integer.valueOf(generator.getGenerator().getThreads()));
-		propertiesViewer.setInput(properties);
+		if (generator.getGenerator().getRun().getValue() != null)
+			runValueSpinner.setSelection(Integer.valueOf(generator.getGenerator().getRun().getValue()));
+		if (generator.getGenerator().getThreads() != null)
+			threadsSpinner.setSelection(Integer.valueOf(generator.getGenerator().getThreads()));
+
+		if (properties != null)
+			propertiesViewer.setInput(properties);
 	}
 
 	public String getGeneratorName(){

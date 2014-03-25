@@ -121,7 +121,8 @@ public class ValidationPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void fillCurrentValues() {
-		validatorViewer.setInput(validators);
+		if (validators != null)
+			validatorViewer.setInput(validators);
 		super.fillCurrentValues();
 	}
 

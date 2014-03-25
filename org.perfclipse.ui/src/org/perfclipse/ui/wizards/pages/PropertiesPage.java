@@ -106,7 +106,8 @@ public class PropertiesPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void fillCurrentValues() {
-		propertyViewer.setInput(propertyList);
+		if (propertyList != null)
+			propertyViewer.setInput(propertyList);
 		super.fillCurrentValues();
 	}
 

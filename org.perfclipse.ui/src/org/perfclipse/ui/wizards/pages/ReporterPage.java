@@ -178,11 +178,15 @@ public class ReporterPage extends AbstractPerfCakePage {
 	@Override
 	protected void fillCurrentValues() {
 
-		ComboUtils.select(clazzCombo, reporter.getReporter().getClazz());
+		if (reporter.getReporter().getClazz() != null)
+			ComboUtils.select(clazzCombo, reporter.getReporter().getClazz());
+
 		enabledButton.setSelection(reporter.getReporter().isEnabled());
 		
-		destinationViewer.setInput(destinations);
-		propertyViewer.setInput(properties);
+		if (destinations != null)
+			destinationViewer.setInput(destinations);
+		if (properties != null)
+			propertyViewer.setInput(properties);
 		super.fillCurrentValues();
 	}
 	

@@ -142,7 +142,8 @@ public class SenderPage extends AbstractPerfCakePage {
 	@Override
 	protected void fillCurrentValues() {
 		
-		ComboUtils.select(senderTypeViewer, sender.getSender().getClazz());
+		if (sender.getSender().getClazz() != null)
+			ComboUtils.select(senderTypeViewer, sender.getSender().getClazz());
 		
 		if (properties != null){
 			propertyViewer.setInput(properties);

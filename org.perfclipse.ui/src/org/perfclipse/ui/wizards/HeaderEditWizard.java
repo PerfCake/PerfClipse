@@ -45,9 +45,11 @@ public class HeaderEditWizard extends AbstractPerfCakeEditWizard {
 	@Override
 	public boolean performFinish() {
 		Header h = header.getHeader();
-		if (!h.getName().equals(headerPage.getNameText().getText()))
+		if (h.getName() == null || 
+				!h.getName().equals(headerPage.getNameText().getText()))
 			getCommand().add(new EditHeaderNameCommand(header, headerPage.getNameText().getText()));
-		if (!h.getValue().equals(headerPage.getValueText().getText()))
+		if (h.getValue() == null ||
+				!h.getValue().equals(headerPage.getValueText().getText()))
 			getCommand().add(new EditHeaderValueCommand(header, headerPage.getValueText().getText()));
 
 		return super.performFinish();

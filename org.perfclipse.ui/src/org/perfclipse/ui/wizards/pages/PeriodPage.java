@@ -115,8 +115,10 @@ public class PeriodPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void fillCurrentValues() {
-		ComboUtils.select(typeCombo, period.getPeriod().getType());
-		valueText.setText(period.getPeriod().getValue());
+		if (period.getPeriod().getType() != null)
+			ComboUtils.select(typeCombo, period.getPeriod().getType());
+		if (period.getPeriod().getValue() != null)
+			valueText.setText(period.getPeriod().getValue());
 		super.fillCurrentValues();
 	}
 	

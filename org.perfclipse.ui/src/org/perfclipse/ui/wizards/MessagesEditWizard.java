@@ -48,10 +48,5 @@ public class MessagesEditWizard extends AbstractPerfCakeEditWizard{
 		addPage(messagesPage);
 		super.addPages();
 	}
-	
-	
-	
-	
-	
-	
+
 }

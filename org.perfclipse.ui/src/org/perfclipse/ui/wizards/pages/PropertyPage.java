@@ -100,8 +100,10 @@ public class PropertyPage extends AbstractPerfCakePage {
 	
 	@Override
 	protected void fillCurrentValues() {
-		nameText.setText(property.getProperty().getName());
-		valueText.setText(property.getProperty().getValue());
+		if (property.getProperty().getName() != null)
+			nameText.setText(property.getProperty().getName());
+		if (property.getProperty().getValue() != null)
+			valueText.setText(property.getProperty().getValue());
 		super.fillCurrentValues();
 	}
 

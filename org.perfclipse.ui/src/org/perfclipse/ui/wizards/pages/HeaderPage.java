@@ -101,8 +101,11 @@ public class HeaderPage extends AbstractPerfCakePage {
 	
 	@Override
 	protected void fillCurrentValues() {
-		nameText.setText(header.getHeader().getName());
-		valueText.setText(header.getHeader().getValue());
+		if (header.getHeader().getName() != null)
+			nameText.setText(header.getHeader().getName());
+		if (header.getHeader().getValue() != null)
+			valueText.setText(header.getHeader().getValue());
+
 		super.fillCurrentValues();
 	}
 

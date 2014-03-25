@@ -110,7 +110,8 @@ public class MessagesPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void fillCurrentValues() {
-		messagesViewer.setInput(messagesList);
+		if (messagesList != null)
+			messagesViewer.setInput(messagesList);
 		super.fillCurrentValues();
 	}
 

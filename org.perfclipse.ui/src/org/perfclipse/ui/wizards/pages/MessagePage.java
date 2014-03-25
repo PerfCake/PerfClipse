@@ -214,9 +214,12 @@ public class MessagePage extends AbstractPerfCakePage {
 		} else{
 			multiplicitySpinner.setSelection(1);
 		}
-		propertyViewer.setInput(properties);
-		headerViewer.setInput(headers);
-		refViewer.setInput(refs);
+		if (properties != null)
+			propertyViewer.setInput(properties);
+		if (headers != null)
+			headerViewer.setInput(headers);
+		if (refs != null)
+			refViewer.setInput(refs);
 		super.fillCurrentValues();
 	}
 

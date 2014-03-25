@@ -40,7 +40,8 @@ public class SenderEditWizard extends AbstractPerfCakeEditWizard {
 	@Override
 	public boolean performFinish() {
 
-		if (!(sender.getSender().getClazz().equals(senderPage.getSenderName()))){
+		if (sender.getSender().getClazz() == null ||
+				!(sender.getSender().getClazz().equals(senderPage.getSenderName()))){
 			getCommand().add(new EditSenderTypeCommand(sender, senderPage.getSenderName()));
 		}
 		

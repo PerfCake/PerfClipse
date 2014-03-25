@@ -174,11 +174,16 @@ public class DestinationPage extends AbstractPerfCakePage {
 	@Override
 	protected void fillCurrentValues() {
 
-		ComboUtils.select(clazzCombo, destination.getDestination().getClazz());
+		if (destination.getDestination().getClazz() != null)
+			ComboUtils.select(clazzCombo, destination.getDestination().getClazz());
+
 		enabledButton.setSelection(destination.getDestination().isEnabled());
 		
-		periodViewer.setInput(periods);
-		propertyViewer.setInput(properties);
+		if (periods != null)
+			periodViewer.setInput(periods);
+		if (properties != null)
+			propertyViewer.setInput(properties);
+
 		super.fillCurrentValues();
 	}
 	

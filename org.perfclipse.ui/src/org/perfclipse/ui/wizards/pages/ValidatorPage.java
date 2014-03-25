@@ -112,9 +112,12 @@ public class ValidatorPage extends AbstractPerfCakePage {
 
 	@Override
 	protected void fillCurrentValues() {
-		ComboUtils.select(typeCombo, validator.getValidator().getClazz());
-		idText.setText(validator.getValidator().getId());
-		valueText.setText(validator.getValidator().getValue());
+		if (validator.getValidator().getClazz() != null)
+			ComboUtils.select(typeCombo, validator.getValidator().getClazz());
+		if (validator.getValidator().getId() != null)
+			idText.setText(validator.getValidator().getId());
+		if (validator.getValidator().getValue() != null)
+			valueText.setText(validator.getValidator().getValue());
 		super.fillCurrentValues();
 	}
 

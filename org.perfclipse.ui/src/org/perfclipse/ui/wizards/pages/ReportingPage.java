@@ -146,27 +146,18 @@ public class ReportingPage extends AbstractPerfCakePage {
 		super.createControl(parent);
 	}
 
-
 	@Override
 	protected void updateControls() {
 		setPageComplete(true);
 		super.updateControls();
 	}
 
-
-	@Override
-	protected void fillDefaultValues() {
-		// TODO Auto-generated method stub
-		super.fillDefaultValues();
-	}
-
-
 	@Override
 	protected void fillCurrentValues() {
-		reporterViewer.setInput(reporters);
+		if (reporters != null)
+			reporterViewer.setInput(reporters);
 		super.fillCurrentValues();
 	}
-
 
 	public TableViewer getReporterViewer() {
 		return reporterViewer;
