@@ -8,6 +8,12 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
 
+    <properties>
+    	<timestamp>${maven.build.timestamp}</timestamp>
+   		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+    	<perfcake.version>2.0</perfcake.version>
+    </properties>
+    
     <build>
         <plugins>
             <plugin>
@@ -22,10 +28,8 @@
                                 <artifact>
                                 	<id>org.perfcake:perfcake:2.0-SNAPSHOT</id>
                                 	<instructions>
-                                            <Require-Bundle>
-                                                log4j, org.apache.commons.beanutils, org.apache.commons.cli, org.apache.commons.collections, org.apache.commons.configuration, org.apache.commons.logging, javax.jms.api, org.apache.commons.math, org.testng
-<!--                                                 , org.drools.compiler, org.drools.core -->
-                                            </Require-Bundle>
+
+										<Import-Package>!org.drools.* , *</Import-Package>
                                 	</instructions>
                                 </artifact>
 		
@@ -50,6 +54,7 @@
             <url>http://repo.reficio.org/maven/</url>
         </pluginRepository>
     </pluginRepositories>
+
 
 </project>
 
