@@ -35,7 +35,7 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
-import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
+import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -113,7 +113,7 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	      super.configureGraphicalViewer();
 	      GraphicalViewer viewer = getGraphicalViewer();
 	      viewer.setEditPartFactory(new PerfCakeEditPartFactory());
-	      viewer.setRootEditPart(new ScalableFreeformRootEditPart());
+	      viewer.setRootEditPart(new ScalableRootEditPart());
 	      viewer.setContextMenu(new DesignEditorContextMenuProvider(getGraphicalViewer(), getActionRegistry()));
 
 	      // These two lines add support for drag and drop between palette and editor
@@ -138,8 +138,8 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 		viewer.setContents(model);
 
 		//TODO error handling for empty model - IndexOutOfBoundsException is thrown now
-		ScalableFreeformRootEditPart rootEditPart =
-				(ScalableFreeformRootEditPart) viewer.getRootEditPart();
+		ScalableRootEditPart rootEditPart =
+				 (ScalableRootEditPart) viewer.getRootEditPart();
 		ScenarioEditPart scenarioPart =
 				(ScenarioEditPart) rootEditPart.getChildren().get(0);
 		ConnectionLayer connectionLayer =

@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
@@ -51,7 +50,7 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 
 	@Override
 	protected IFigure createFigure() {
-		Figure figure = new FreeformLayer();
+		Figure figure = new Figure();
 		Color backgroundColor = ColorUtils.getInstance().getBackgroundColor(this);
 		if (backgroundColor != null){
 			getViewer().getControl().setBackground(backgroundColor);
@@ -102,6 +101,12 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 		return modelChildren;
 	}
 	
+	/**
+	 * Resizes Width of layout
+	 */
+	public void resize(){
+		layout.layout(figure);
+	}
 	public ScenarioModel getScenarioModel(){
 		return (ScenarioModel) getModel();
 	}
@@ -113,7 +118,7 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 			layoutData.horizontalAlignment = SWT.FILL;
 			layoutData.widthHint = 300;
 			layoutData.verticalAlignment = SWT.FILL;
-//			layoutData.grabExcessHorizontalSpace = true;
+			layoutData.grabExcessHorizontalSpace = true;
 			IFigure figure = ((AbstractGraphicalEditPart) child).getFigure();
 			if (child instanceof AbstractPerfCakeSectionEditPart){
 				
