@@ -31,32 +31,25 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.jface.window.Window;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
-import org.perfclipse.reflect.PerfCakeComponents;
-import org.perfclipse.reflect.PerfClipseScannerException;
-import org.perfclipse.ui.gef.directedit.ClassDirectEditManager;
-import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.DestinationListEditPolicy;
 import org.perfclipse.ui.gef.policies.ReporterEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.RenameReporterDirectEditPolicy;
+import org.perfclipse.ui.wizards.ReporterEditWizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
-
 	
-	private ClassDirectEditManager manager;
-
 	static final Logger log = LoggerFactory.getLogger(ReporterEditPart.class);
 
 	public ReporterEditPart(ReporterModel reporterModel){
@@ -96,19 +89,10 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 	public void performRequest(Request req) {
 		if (req.getType() == RequestConstants.REQ_OPEN ||
 				req.getType() == RequestConstants.REQ_DIRECT_EDIT){
-			PerfCakeComponents components;
-			try {
-				components = PerfCakeComponents.getInstance();
-				if (manager == null){
-					manager = new ClassDirectEditManager(this, ComboBoxViewerCellEditor.class,
-							new ComboViewerCellEditorLocator(((TwoPartRectangle) getFigure()).getLabel()),
-									components.getReporterNames());
-				}
-				manager.show();
-			} catch (PerfClipseScannerException e) {
-				log.error("Cannot parse PerfCake components.", e);
-				MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						"Cannot parse PerfCake components", "Edit is not possible");
+			ReporterEditWizard wizard = new ReporterEditWizard(getReporterModel());
+			if (Utils.showWizardDialog(wizard) == Window.OK){
+				if (!wizard.getCommand().isEmpty())
+					getViewer().getEditDomain().getCommandStack().execute(wizard.getCommand());
 			}
 		}
 	}

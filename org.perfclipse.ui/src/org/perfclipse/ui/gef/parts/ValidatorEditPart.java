@@ -29,20 +29,16 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.tools.DirectEditManager;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.jface.window.Window;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
-import org.perfclipse.reflect.PerfCakeComponents;
-import org.perfclipse.reflect.PerfClipseScannerException;
-import org.perfclipse.ui.gef.directedit.ClassDirectEditManager;
-import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.ValidatorEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.ValidatorDirectEditPolicy;
+import org.perfclipse.ui.wizards.ValidatorEditWizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,20 +87,11 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements P
 		if (request.getType() == RequestConstants.REQ_OPEN ||
 				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
 		{
-			PerfCakeComponents components;
-			try {
-				components = PerfCakeComponents.getInstance();
-				if (manager == null){
-					manager = new ClassDirectEditManager(this,
-							ComboBoxViewerCellEditor.class,
-							new ComboViewerCellEditorLocator(((LabeledRoundedRectangle) getFigure()).getLabel()),
-							components.getValidatorNames());
+			ValidatorEditWizard wizard = new ValidatorEditWizard(getValidatorModel());
+			if (Utils.showWizardDialog(wizard) == Window.OK){
+				if (! wizard.getCommand().isEmpty()){
+					getViewer().getEditDomain().getCommandStack().execute(wizard.getCommand());
 				}
-				manager.show();
-			} catch (PerfClipseScannerException e) {
-				log.error("Cannot parse PerfCake components.", e);
-				MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						"Cannot parse PerfCake components", "Edit is not possible");
 			}
 			
 		}

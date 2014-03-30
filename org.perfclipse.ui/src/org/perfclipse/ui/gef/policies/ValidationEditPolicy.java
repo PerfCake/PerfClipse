@@ -17,13 +17,12 @@
  * limitations under the License.
  */
 
-package org.perfclipse.ui.gef.parts;
+package org.perfclipse.ui.gef.policies;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.policies.AbstractPerfCakeComponentEditPolicy;
 import org.perfclipse.ui.wizards.ValidationEditWizard;
 
 /**

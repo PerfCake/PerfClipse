@@ -28,21 +28,20 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
-import org.eclipse.gef.tools.DirectEditManager;
-import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.window.Window;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
-import org.perfclipse.ui.gef.directedit.LabelCellEditorLocator;
-import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.MessageEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.MessageDirectEditPolicy;
+import org.perfclipse.ui.wizards.MessageEditWizard;
 
 public class MessageEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener{
 
-	protected DirectEditManager manager;
 
 	public MessageEditPart(MessageModel modelMessage){
 		setModel(modelMessage);
@@ -79,12 +78,13 @@ public class MessageEditPart extends AbstractPerfCakeNodeEditPart implements Pro
 		if (request.getType() == RequestConstants.REQ_OPEN ||
 				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
 		{
-			if (manager == null){
-				manager = new LabelDirectEditManager(this,
-						TextCellEditor.class,
-						new LabelCellEditorLocator(((LabeledRoundedRectangle) getFigure()).getLabel()));
+			MessageEditWizard wizard = new MessageEditWizard(getMessageModel());
+			if (Utils.showWizardDialog(wizard) == Window.OK){
+				CompoundCommand command = wizard.getCommand();
+				if (!command.isEmpty()){
+					getViewer().getEditDomain().getCommandStack().execute(command);
+				}
 			}
-			manager.show();
 			
 		}
 	}

@@ -27,13 +27,19 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.jface.window.Window;
 import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
+import org.perfclipse.ui.gef.policies.ValidationEditPolicy;
 import org.perfclipse.ui.gef.policies.ValidatorListEditPolicy;
+import org.perfclipse.ui.wizards.ValidationEditWizard;
 
 public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
@@ -80,6 +86,20 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 
 
 	}
+	
+	
+	@Override
+	public void performRequest(Request req) {
+		if (req.getType() == RequestConstants.REQ_OPEN ||
+				req.getType() == RequestConstants.REQ_DIRECT_EDIT){
+			ValidationEditWizard wizard = new ValidationEditWizard(getValidationModel());
+			if (Utils.showWizardDialog(wizard) == Window.OK){
+				if (!wizard.getCommand().isEmpty())
+					getViewer().getEditDomain().getCommandStack().execute(wizard.getCommand());
+			}
+		}
+	}
+	
 	
 	@Override
 	protected List<Object> getModelChildren(){

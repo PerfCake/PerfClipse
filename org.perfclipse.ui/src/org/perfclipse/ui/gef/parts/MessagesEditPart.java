@@ -27,14 +27,20 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.window.Window;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.MessagesEditPolicy;
 import org.perfclipse.ui.gef.policies.MessagesListEditPolicy;
+import org.perfclipse.ui.wizards.MessagesEditWizard;
 
 public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
@@ -69,6 +75,25 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 		TwoPartRectangle figure = new TwoPartRectangle(getText(),
 				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
 		return figure;
+	}
+	
+	
+
+	@Override
+	public void performRequest(Request request) {
+		if (request.getType() == RequestConstants.REQ_OPEN ||
+				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
+		{
+			MessagesEditWizard wizard = new MessagesEditWizard(getMessagesModel());
+			if (Utils.showWizardDialog(wizard) == Window.OK){
+				CompoundCommand command = wizard.getCommand();
+			
+				if (!command.isEmpty()){
+					getViewer().getEditDomain().getCommandStack().execute(command);
+				}
+			}
+			
+		}
 	}
 
 	@Override

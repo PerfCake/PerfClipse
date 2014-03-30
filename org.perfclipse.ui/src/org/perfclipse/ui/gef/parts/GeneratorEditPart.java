@@ -28,27 +28,21 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.window.Window;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.ModelMapper;
-import org.perfclipse.reflect.PerfCakeComponents;
-import org.perfclipse.reflect.PerfClipseScannerException;
-import org.perfclipse.ui.gef.directedit.ClassDirectEditManager;
-import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
-import org.perfclipse.ui.gef.figures.ILabeledFigure;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.GeneratorEditPolicy;
-import org.perfclipse.ui.gef.policies.directedit.GeneratorDirectEditPolicy;
+import org.perfclipse.ui.wizards.GeneratorEditWizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 //TODO : move implements to the superclass
 public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
-	private ClassDirectEditManager manager;
 	static final Logger log = LoggerFactory.getLogger(GeneratorEditPart.class);
 
 	public GeneratorEditPart(GeneratorModel generatorModel) {
@@ -86,27 +80,19 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	public void performRequest(Request req) {
 		if (req.getType() == RequestConstants.REQ_OPEN ||
 				req.getType() == RequestConstants.REQ_DIRECT_EDIT){
-			PerfCakeComponents components;
-			try {
-				components = PerfCakeComponents.getInstance();
-				if (manager == null){
-					manager = new ClassDirectEditManager(this, ComboBoxViewerCellEditor.class,
-							new ComboViewerCellEditorLocator(((ILabeledFigure) getFigure()).getLabel()),
-									components.getGeneratorNames());
+			
+			GeneratorEditWizard wizard = new GeneratorEditWizard(getGeneratorModel());
+			if (Utils.showWizardDialog(wizard) == Window.OK){
+				CompoundCommand command = wizard.getCommand();
+				if (!command.isEmpty()){
+					getViewer().getEditDomain().getCommandStack().execute(command);
 				}
-				manager.show();
-			} catch (PerfClipseScannerException e) {
-				log.error("Cannot parse PerfCake components.", e);
-				MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						"Cannot parse PerfCake components", "Edit is not possible");
 			}
 		}
 	}
 	
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
-				new GeneratorDirectEditPolicy(getGeneratorModel(), (ILabeledFigure) getFigure()));
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new GeneratorEditPolicy(getGeneratorModel()));
 
 	}

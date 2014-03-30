@@ -28,20 +28,16 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
-import org.eclipse.gef.tools.DirectEditManager;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.window.Window;
 import org.perfclipse.model.SenderModel;
-import org.perfclipse.reflect.PerfCakeComponents;
-import org.perfclipse.reflect.PerfClipseScannerException;
-import org.perfclipse.ui.gef.directedit.ClassDirectEditManager;
-import org.perfclipse.ui.gef.directedit.ComboViewerCellEditorLocator;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.SenderEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.SenderDirectEditPolicy;
+import org.perfclipse.ui.wizards.SenderEditWizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,8 +45,6 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 
 	static final Logger log = LoggerFactory.getLogger(SenderEditPart.class);
 
-	private DirectEditManager manager;
-	
 	@Override
 	public void activate() {
 		if (!isActive()){
@@ -90,19 +84,12 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 	public void performRequest(Request req) {
 		if (req.getType() == RequestConstants.REQ_OPEN ||
 				req.getType() == RequestConstants.REQ_DIRECT_EDIT){
-			PerfCakeComponents components;
-			try {
-				components = PerfCakeComponents.getInstance();
-				if (manager == null){
-					manager = new ClassDirectEditManager(this, ComboBoxViewerCellEditor.class,
-							new ComboViewerCellEditorLocator(((ILabeledFigure) getFigure()).getLabel()),
-									components.getSenderNames());
+			SenderEditWizard wizard = new SenderEditWizard(getSenderModel());
+			if (Utils.showWizardDialog(wizard) == Window.OK){
+				CompoundCommand command = wizard.getCommand();
+				if (!command.isEmpty()){
+					getViewer().getEditDomain().getCommandStack().execute(command);
 				}
-				manager.show();
-			} catch (PerfClipseScannerException e) {
-				log.error("Cannot parse PerfCake components.", e);
-				MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						"Cannot parse PerfCake components", "Edit is not possible");
 			}
 		}
 	}

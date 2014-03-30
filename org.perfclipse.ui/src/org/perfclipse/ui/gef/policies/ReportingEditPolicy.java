@@ -22,10 +22,8 @@ package org.perfclipse.ui.gef.policies;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 import org.perfclipse.model.ReportingModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.wizards.ReportingEditWizard;
 
 /**
@@ -43,13 +41,8 @@ public class ReportingEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
 	@Override
 	protected Command createPropertiesCommand() {
-		
-		
 		ReportingEditWizard wizard = new ReportingEditWizard(reporting);
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		WizardDialog dialog = new WizardDialog(shell, wizard);
-		dialog.open();
-		if (dialog.getReturnCode() == Window.OK){
+		if (Utils.showWizardDialog(wizard) == Window.OK){
 			CompoundCommand command = wizard.getCommand();
 			if (!command.isEmpty()){
 				return command;

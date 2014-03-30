@@ -23,11 +23,9 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.window.Window;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
 import org.perfclipse.ui.wizards.MessageEditWizard;
 
@@ -50,12 +48,8 @@ public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createPropertiesCommand() {
 	
-
 		MessageEditWizard wizard = new MessageEditWizard(message);
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		WizardDialog dialog = new WizardDialog(shell, wizard);
-		dialog.open();
-		if (dialog.getReturnCode() == Window.OK){
+		if (Utils.showWizardDialog(wizard) == Window.OK){
 			CompoundCommand command = wizard.getCommand();
 			if (!command.isEmpty()){
 				return command;

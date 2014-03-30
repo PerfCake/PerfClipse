@@ -7,21 +7,19 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
-import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.window.Window;
 import org.perfclipse.model.IPropertyContainer;
 import org.perfclipse.model.PropertyModel;
-import org.perfclipse.ui.gef.directedit.LabelCellEditorLocator;
-import org.perfclipse.ui.gef.directedit.LabelDirectEditManager;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.PropertyEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.RenamePropertyDirectEditPolicy;
+import org.perfclipse.ui.wizards.PropertyEditWizard;
 
 public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
 
-
-	private LabelDirectEditManager manager;
 
 	public PropertyEditPart(PropertyModel modelProperty){
 		setModel(modelProperty);
@@ -65,12 +63,11 @@ public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 		if (request.getType() == RequestConstants.REQ_OPEN ||
 				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
 		{
-			if (manager == null){
-				manager = new LabelDirectEditManager(this,
-						TextCellEditor.class,
-						new LabelCellEditorLocator(((LabeledRoundedRectangle) getFigure()).getLabel()));
+			PropertyEditWizard wizard = new PropertyEditWizard(getPropertyModel());
+			if (Utils.showWizardDialog(wizard) == Window.OK){
+				if (!wizard.getCommand().isEmpty())
+					getViewer().getEditDomain().getCommandStack().execute(wizard.getCommand());
 			}
-			manager.show();
 			
 		}
 	}

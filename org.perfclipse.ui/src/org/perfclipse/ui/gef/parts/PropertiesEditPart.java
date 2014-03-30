@@ -8,14 +8,19 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.jface.window.Window;
 import org.perfcake.model.Property;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertiesModel;
 import org.perfclipse.model.PropertyModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.PropertiesEditPolicy;
 import org.perfclipse.ui.gef.policies.PropertyListEditPolicy;
+import org.perfclipse.ui.wizards.PropertiesEditWizard;
 
 public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
@@ -51,6 +56,21 @@ public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implemen
 		return figure;
 	}
 	
+	
+	@Override
+	public void performRequest(Request request) {
+		if (request.getType() == RequestConstants.REQ_OPEN ||
+				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
+		{
+			PropertiesEditWizard wizard = new PropertiesEditWizard(getPropertiesModel());
+			if (Utils.showWizardDialog(wizard) == Window.OK){
+				if (!wizard.getCommand().isEmpty()){
+					getViewer().getEditDomain().getCommandStack().execute(wizard.getCommand());
+				}
+			}
+		}
+	}
+
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new PropertyListEditPolicy(getPropertiesModel()));

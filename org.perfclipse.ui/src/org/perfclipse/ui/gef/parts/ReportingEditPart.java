@@ -27,15 +27,21 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.jface.window.Window;
 import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.ReporterListEditPolicy;
 import org.perfclipse.ui.gef.policies.ReportingEditPolicy;
+import org.perfclipse.ui.wizards.ReportingEditWizard;
 
 public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener{
 
@@ -87,6 +93,22 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 	@Override
 	protected String getText() {
 		return REPORTING_SECTION_LABEL;
+	}
+	
+	
+
+	@Override
+	public void performRequest(Request req) {
+		if (req.getType() == RequestConstants.REQ_OPEN ||
+				req.getType() == RequestConstants.REQ_DIRECT_EDIT){
+			ReportingEditWizard wizard = new ReportingEditWizard(getReportingModel());
+			if (Utils.showWizardDialog(wizard) == Window.OK){
+				CompoundCommand command = wizard.getCommand();
+				if (!command.isEmpty()){
+					getViewer().getEditDomain().getCommandStack().execute(command);
+				}
+			}
+		}
 	}
 
 	@Override
