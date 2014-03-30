@@ -24,5 +24,6 @@ public class PerfCakeLaunchConstants {
 	public static final String LAUNCH_CONFIG_TYPE_ID = "org.perfclipse.ui.launching.perfcaketype";
 	public static  final String PROJECT = "project";
 	public static final String SCENARIO_FILE = "scenario file";
+	public static final String PERFCAKE_RUN_JOB_FAMILY = "org.perfclipse.ui.launching.PerfCakeRunJob";
 
 }

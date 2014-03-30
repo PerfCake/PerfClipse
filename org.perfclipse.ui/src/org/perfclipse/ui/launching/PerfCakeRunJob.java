@@ -24,7 +24,7 @@ import org.perfclipse.scenario.ScenarioManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class PerfCakeRunJob extends Job{
+final public class PerfCakeRunJob extends Job{
 	
 	static final Logger log = LoggerFactory.getLogger(PerfCakeRunJob.class); 
 
@@ -47,6 +47,17 @@ final class PerfCakeRunJob extends Job{
 		this.console = console;
 		this.shell = shell;
 	}
+
+	
+	@Override
+	public boolean belongsTo(Object family) {
+		if (PerfCakeLaunchConstants.PERFCAKE_RUN_JOB_FAMILY.equals(family)){
+			return true;	
+		}
+		
+		return false;
+	}
+
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
