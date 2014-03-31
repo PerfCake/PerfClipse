@@ -22,7 +22,7 @@ package org.perfclipse.ui.gef.policies;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
-import org.perfclipse.ui.actions.EditDialogAction;
+import org.perfclipse.ui.actions.PerfClipseActionConstants;
 
 /**
  * Component edit policy which supports handling Properties Action request
@@ -35,7 +35,7 @@ public class AbstractPerfCakeComponentEditPolicy extends ComponentEditPolicy {
 
 	@Override
 	public Command getCommand(Request request) {
-		if (request.getType().equals(EditDialogAction.REQ_SHOW_EDIT_DIALOG)){
+		if (request.getType().equals(PerfClipseActionConstants.REQ_SHOW_EDIT_DIALOG)){
 			return getPropertiesCommand();
 		}
 		return super.getCommand(request);

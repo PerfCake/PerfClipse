@@ -35,16 +35,14 @@ import org.perfclipse.ui.gef.policies.AbstractPerfCakeComponentEditPolicy;
  */
 public class EditDialogAction extends SelectionAction {
 
-	public static final String SHOW_EDIT_DIALOG = "org.perfclipse.ui.actions.EditAction";
-	public static final String REQ_SHOW_EDIT_DIALOG = "org.perfclipse.ui.actions.EditAction";
 	
 	private Request request;
 
 	public EditDialogAction(IWorkbenchPart part) {
 		super(part);
-		setId(SHOW_EDIT_DIALOG);
+		setId(PerfClipseActionConstants.SHOW_EDIT_DIALOG);
 		setText("Edit");
-		request = new Request(REQ_SHOW_EDIT_DIALOG);
+		request = new Request(PerfClipseActionConstants.REQ_SHOW_EDIT_DIALOG);
 	}
 	
 	
