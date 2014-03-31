@@ -19,11 +19,14 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.commands.AddMessageCommand;
+import org.perfclipse.ui.wizards.MessageAddWizard;
 import org.perfclipse.ui.wizards.MessagesEditWizard;
 
 /**
@@ -43,7 +46,7 @@ public class MessagesEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	}
 
 	@Override
-	protected Command createPropertiesCommand() {
+	protected Command createPropertiesCommand(Request request) {
 		MessagesEditWizard wizard = new MessagesEditWizard(messages);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
 			CompoundCommand command = wizard.getCommand();
@@ -56,5 +59,16 @@ public class MessagesEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 		return null;
 
 	}
+
+	@Override
+	protected Command createAddMessageCommand(Request request) {
+		MessageAddWizard wizard = new MessageAddWizard();
+		if (Utils.showWizardDialog(wizard) != Window.OK)
+			return null;
+		
+		return new AddMessageCommand(wizard.getMessage(), messages); 
+	}
+	
+	
 	
 }

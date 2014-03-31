@@ -30,8 +30,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.perfclipse.ui.gef.policies.AbstractPerfCakeComponentEditPolicy;
 
 /**
+ * Edit dialog action.
+ * 
  * @author Jakub Knetl
- *
  */
 public class EditDialogAction extends SelectionAction {
 

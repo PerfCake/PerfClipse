@@ -37,6 +37,7 @@ import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -50,6 +51,14 @@ import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
 import org.perfclipse.ui.Activator;
+import org.perfclipse.ui.actions.AddDestinationAction;
+import org.perfclipse.ui.actions.AddHeaderAction;
+import org.perfclipse.ui.actions.AddMessageAction;
+import org.perfclipse.ui.actions.AddPeriodAction;
+import org.perfclipse.ui.actions.AddPropertyAction;
+import org.perfclipse.ui.actions.AddReporterAction;
+import org.perfclipse.ui.actions.AddValidatorAction;
+import org.perfclipse.ui.actions.AttachValidatorAction;
 import org.perfclipse.ui.actions.EditDialogAction;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 import org.perfclipse.ui.gef.parts.ScenarioEditPart;
@@ -149,14 +158,30 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	}
 
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void createActions() {
-		EditDialogAction action = new EditDialogAction(this);
-		getActionRegistry().registerAction(action);
-		getSelectionActions().add(action.getId());
+		
+		addSelectionAction(new EditDialogAction(this));
+		addSelectionAction(new AddPropertyAction(this));
+		addSelectionAction(new AddMessageAction(this));
+		addSelectionAction(new AddHeaderAction(this));
+		addSelectionAction(new AttachValidatorAction(this));
+		addSelectionAction(new AddValidatorAction(this));
+		addSelectionAction(new AddReporterAction(this));
+		addSelectionAction(new AddDestinationAction(this));
+		addSelectionAction(new AddPeriodAction(this));
 
 		super.createActions();
+	}
+	
+	/**
+	 * registers selection action 
+	 * @param action Action to be added
+	 */
+	@SuppressWarnings("unchecked")
+	private void addSelectionAction(SelectionAction action){
+		getActionRegistry().registerAction(action);
+		getSelectionActions().add(action.getId());
 	}
 
 	@Override

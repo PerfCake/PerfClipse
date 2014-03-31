@@ -22,35 +22,167 @@ package org.perfclipse.ui.gef.policies;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
+import org.eclipse.jface.window.Window;
+import org.perfcake.model.ObjectFactory;
+import org.perfcake.model.Property;
+import org.perfclipse.model.IPropertyContainer;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.actions.PerfClipseActionConstants;
+import org.perfclipse.ui.gef.commands.AddPropertyCommand;
+import org.perfclipse.ui.wizards.PropertyAddWizard;
 
 /**
- * Component edit policy which supports handling Properties Action request
- * in addition.
+ * Component edit policy which supports custom PerfClipse requests in addition to
+ * inehrited actions.
  * 
  * @author Jakub Knetl
  *
  */
 public class AbstractPerfCakeComponentEditPolicy extends ComponentEditPolicy {
 
+	/**
+	 * Creates command for given request.
+	 * 
+	 * @return command to execute for given request.
+	 */
 	@Override
 	public Command getCommand(Request request) {
 		if (request.getType().equals(PerfClipseActionConstants.REQ_SHOW_EDIT_DIALOG)){
-			return getPropertiesCommand();
+			return createPropertiesCommand(request);
+		}
+		if (request.getType().equals(PerfClipseActionConstants.REQ_ADD_PROPERTY)){
+			return createAddPropertyCommand(request);
+		}
+		if (request.getType().equals(PerfClipseActionConstants.REQ_ADD_DESTINATION)){
+			return createAddDestinationCommand(request);
+		}
+		if (request.getType().equals(PerfClipseActionConstants.REQ_ADD_HEADER)){
+			return createAddHeaderCommand(request);
+		}
+		if (request.getType().equals(PerfClipseActionConstants.REQ_ADD_MESSAGE)){
+			return createAddMessageCommand(request);
+		}
+		if (request.getType().equals(PerfClipseActionConstants.REQ_ADD_PERIOD)){
+			return createAddPeriodCommand(request);
+		}
+		if (request.getType().equals(PerfClipseActionConstants.REQ_ADD_REPORTER)){
+			return createAddReporterCommand(request);
+		}
+		if (request.getType().equals(PerfClipseActionConstants.REQ_ADD_VALIDATOR)){
+			return createAddValidatorCommand(request);
+		}
+		if (request.getType().equals(PerfClipseActionConstants.REQ_ATTACH_VALIDATOR)){
+			return createAttachValidatorCommand(request);
 		}
 		return super.getCommand(request);
 	}
 
-	protected Command getPropertiesCommand() {
-		return createPropertiesCommand();
+	/**
+	 * Creates command for PerfClipse attach validator request. 
+	 * Subclass may override this method. Current implementation returns null.
+	 * 
+	 * @param request which invoked this method. 
+	 * @return Command as reaction to request.
+	 */
+	protected Command createAttachValidatorCommand(Request request) {
+		return null;
+	}
+
+	/**
+	 * Creates command for PerfClipse add validator request. 
+	 * Subclass may override this method. Current implementation returns null.
+	 * 
+	 * @param request which invoked this method. 
+	 * @return Command as reaction to request.
+	 */
+	protected Command createAddValidatorCommand(Request request) {
+		return null;
+	}
+
+	/**
+	 * Creates command for PerfClipse add reporter request. 
+	 * Subclass may override this method. Current implementation returns null.
+	 * 
+	 * @param request which invoked this method. 
+	 * @return Command as reaction to request.
+	 */
+	protected Command createAddReporterCommand(Request request) {
+		return null;
+	}
+
+	/**
+	 * Creates command for PerfClipse add period request. 
+	 * Subclass may override this method. Current implementation returns null.
+	 * 
+	 * @param request which invoked this method. 
+	 * @return Command as reaction to request.
+	 */
+	protected Command createAddPeriodCommand(Request request) {
+		return null;
+	}
+
+	/**
+	 * Creates command for PerfClipse add message request. 
+	 * Subclass may override this method. Current implementation returns null.
+	 * 
+	 * @param request which invoked this method. 
+	 * @return Command as reaction to request.
+	 */
+	protected Command createAddMessageCommand(Request request) {
+		return null;
+	}
+
+	/**
+	 * Creates command for PerfClipse add header request. 
+	 * Subclass may override this method. Current implementation returns null.
+	 * 
+	 * @param request which invoked this method. 
+	 * @return Command as reaction to request.
+	 */
+	protected Command createAddHeaderCommand(Request request) {
+		return null;
+	}
+
+	/**
+	 * Creates command for PerfClipse add destination request. 
+	 * Subclass may override this method. Current implementation returns null.
+	 * 
+	 * @param request which invoked this method. 
+	 * @return Command as reaction to request.
+	 */
+	protected Command createAddDestinationCommand(Request request) {
+		return null;
+	}
+
+	/**
+	 * Creates command for PerfClipse add property request. 
+	 * Subclass may override this method. 
+	 * 
+	 * @param request which invoked this method. 
+	 * @return Command as reaction to request.
+	 */
+	protected Command createAddPropertyCommand(Request request) {
+		Object model = getHost().getModel();
+		if (model instanceof IPropertyContainer){
+			PropertyAddWizard wizard = new PropertyAddWizard();
+			if (Utils.showWizardDialog(wizard) != Window.OK)
+				return null;
+			
+			Property p = new ObjectFactory().createProperty();
+			p.setName(wizard.getName());
+			p.setValue(wizard.getValue());
+			return new AddPropertyCommand(p, (IPropertyContainer) model);
+		}
+		return null;
 	}
 
 	/**
 	 * Subclass may override this method to create proper Command as a response
 	 * to property action. 
+	 * @param request 
 	 * @return Command which will react to property action request
 	 */
-	protected Command createPropertiesCommand() {
+	protected Command createPropertiesCommand(Request request) {
 		return null;
 	}
 

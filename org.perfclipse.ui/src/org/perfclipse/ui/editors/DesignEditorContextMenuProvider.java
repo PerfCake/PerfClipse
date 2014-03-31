@@ -20,12 +20,20 @@
 package org.perfclipse.ui.editors;
 
 import org.eclipse.gef.ContextMenuProvider;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
+import org.perfclipse.model.DestinationModel;
+import org.perfclipse.model.IPropertyContainer;
+import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ReporterModel;
+import org.perfclipse.model.ReportingModel;
+import org.perfclipse.model.ValidationModel;
 import org.perfclipse.ui.actions.PerfClipseActionConstants;
 
 /**
@@ -47,6 +55,7 @@ public class DesignEditorContextMenuProvider extends ContextMenuProvider {
 		GEFActionConstants.addStandardActionGroups(menu);
 		
 		IAction action;
+		
 
 		action = actionRegistry.getAction(ActionFactory.UNDO.getId());
 		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
@@ -59,5 +68,46 @@ public class DesignEditorContextMenuProvider extends ContextMenuProvider {
 
 		action = actionRegistry.getAction(PerfClipseActionConstants.SHOW_EDIT_DIALOG);
 		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		
+
+		if (getViewer().getSelectedEditParts().isEmpty())
+			return;
+
+		EditPart firstSelected = (EditPart) getViewer().getSelectedEditParts().get(0);
+
+
+		action = actionRegistry.getAction(PerfClipseActionConstants.ADD_PROPERTY);
+		if (firstSelected.getModel() instanceof IPropertyContainer)
+			menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		
+		action = actionRegistry.getAction(PerfClipseActionConstants.ADD_DESTINATION);
+
+		if (firstSelected.getModel() instanceof ReporterModel)
+			menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		
+		action = actionRegistry.getAction(PerfClipseActionConstants.ADD_HEADER);
+		if (firstSelected.getModel() instanceof MessageModel)
+			menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		
+		action = actionRegistry.getAction(PerfClipseActionConstants.ADD_MESSAGE);
+		if (firstSelected.getModel() instanceof MessagesModel)
+			menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		
+		action = actionRegistry.getAction(PerfClipseActionConstants.ADD_PERIOD);
+		if (firstSelected.getModel() instanceof DestinationModel)
+			menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		
+		action = actionRegistry.getAction(PerfClipseActionConstants.ADD_REPORTER);
+		if (firstSelected.getModel() instanceof ReportingModel)
+			menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		
+		action = actionRegistry.getAction(PerfClipseActionConstants.ADD_VALIDATOR);
+		if (firstSelected.getModel() instanceof ValidationModel)
+			menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		
+		action = actionRegistry.getAction(PerfClipseActionConstants.ATTACH_VALIDATOR);
+		if (firstSelected.getModel() instanceof MessageModel)
+			menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+
 	}
 }

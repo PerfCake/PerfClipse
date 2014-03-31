@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
@@ -39,7 +40,7 @@ public class GeneratorEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	}
 
 	@Override
-	protected Command createPropertiesCommand() {
+	protected Command createPropertiesCommand(Request request) {
 		
 		GeneratorEditWizard wizard = new GeneratorEditWizard(generator);
 		if (Utils.showWizardDialog(wizard) == Window.OK){

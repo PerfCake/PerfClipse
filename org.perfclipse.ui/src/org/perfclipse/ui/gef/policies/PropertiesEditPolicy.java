@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
 import org.perfclipse.model.PropertiesModel;
@@ -42,7 +43,7 @@ public class PropertiesEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	}
 
 	@Override
-	protected Command createPropertiesCommand() {
+	protected Command createPropertiesCommand(Request request) {
 		PropertiesEditWizard wizard = new PropertiesEditWizard(properties);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
 			if (!wizard.getCommand().isEmpty()){

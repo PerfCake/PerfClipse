@@ -19,14 +19,19 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.window.Window;
+import org.perfcake.model.Header;
+import org.perfcake.model.ObjectFactory;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.commands.AddHeaderCommand;
 import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
+import org.perfclipse.ui.wizards.HeaderAddWizard;
 import org.perfclipse.ui.wizards.MessageEditWizard;
 
 public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
@@ -46,7 +51,7 @@ public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	}
 
 	@Override
-	protected Command createPropertiesCommand() {
+	protected Command createPropertiesCommand(Request request) {
 	
 		MessageEditWizard wizard = new MessageEditWizard(message);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
@@ -57,4 +62,20 @@ public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 		}
 		return null;
 	}
+
+	@Override
+	protected Command createAddHeaderCommand(Request request) {
+		HeaderAddWizard wizard = new HeaderAddWizard();
+		
+		if (Utils.showWizardDialog(wizard) != Window.OK)
+			return null;
+		
+		Header h = new ObjectFactory().createHeader();
+		h.setName(wizard.getName());
+		h.setValue(wizard.getValue());
+		
+		return new AddHeaderCommand(message, h);
+	}
+	
+	
 }

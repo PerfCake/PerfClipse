@@ -19,13 +19,16 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.window.Window;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.commands.AddDestinationCommand;
 import org.perfclipse.ui.gef.commands.DeleteReporterCommand;
+import org.perfclipse.ui.wizards.DestinationAddWizard;
 import org.perfclipse.ui.wizards.ReporterEditWizard;
 
 /**
@@ -50,7 +53,7 @@ public class ReporterEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	}
 
 	@Override
-	protected Command createPropertiesCommand() {
+	protected Command createPropertiesCommand(Request request) {
 		ReporterEditWizard wizard = new ReporterEditWizard(reporter);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
 			if (!wizard.getCommand().isEmpty())
@@ -58,6 +61,16 @@ public class ReporterEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 		}
 		return null;
 	}
+
+	@Override
+	protected Command createAddDestinationCommand(Request request) {
+		DestinationAddWizard wizard = new DestinationAddWizard();
+		if (Utils.showWizardDialog(wizard) != Window.OK)
+			return null;
+		
+		return new AddDestinationCommand(wizard.getDestination(), reporter);
+	}
+	
 	
 	
 	

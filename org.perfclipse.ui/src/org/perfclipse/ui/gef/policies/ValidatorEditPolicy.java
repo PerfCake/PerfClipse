@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.window.Window;
@@ -50,7 +51,7 @@ public class ValidatorEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	}
 
 	@Override
-	protected Command createPropertiesCommand() {
+	protected Command createPropertiesCommand(Request request) {
 		ValidatorEditWizard wizard = new ValidatorEditWizard(validator);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
 			if (! wizard.getCommand().isEmpty()){

@@ -19,11 +19,14 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.commands.AddValidatorCommand;
 import org.perfclipse.ui.wizards.ValidationEditWizard;
+import org.perfclipse.ui.wizards.ValidatorAddWizard;
 
 /**
  * @author Jakub Knetl
@@ -42,7 +45,7 @@ public class ValidationEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	}
 
 	@Override
-	protected Command createPropertiesCommand() {
+	protected Command createPropertiesCommand(Request request) {
 		ValidationEditWizard wizard = new ValidationEditWizard(validation);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
 			if (!wizard.getCommand().isEmpty())
@@ -50,6 +53,15 @@ public class ValidationEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 		}
 		return null;
 	}
-	
-	
+
+	@Override
+	protected Command createAddValidatorCommand(Request request) {
+		ValidatorAddWizard wizard = new ValidatorAddWizard();
+		if (Utils.showWizardDialog(wizard) != Window.OK)
+			return null;
+		
+		return new AddValidatorCommand(wizard.getValidator(), validation);
+			
+	}
+
 }

@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.GroupRequest;
@@ -26,8 +27,10 @@ import org.eclipse.jface.window.Window;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.commands.AddPeriodCommand;
 import org.perfclipse.ui.gef.commands.DeleteDestinationCommand;
 import org.perfclipse.ui.wizards.DestinationEditWizard;
+import org.perfclipse.ui.wizards.PeriodAddWizard;
 
 /**
  * @author Jakub Knetl
@@ -51,7 +54,7 @@ public class DestionationEditPolicy extends AbstractPerfCakeComponentEditPolicy 
 	}
 
 	@Override
-	protected Command createPropertiesCommand() {
+	protected Command createPropertiesCommand(Request request) {
 		DestinationEditWizard wizard = new DestinationEditWizard(destination);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
 			CompoundCommand command = wizard.getCommand();
@@ -61,6 +64,16 @@ public class DestionationEditPolicy extends AbstractPerfCakeComponentEditPolicy 
 		}
 		return null;
 	}
+
+	@Override
+	protected Command createAddPeriodCommand(Request request) {
+		PeriodAddWizard wizard = new PeriodAddWizard();
+		if (Utils.showWizardDialog(wizard) != Window.OK)
+			return null;
+		
+		return new AddPeriodCommand(destination, wizard.getPeriod());
+	}
+	
 	
 	
 }

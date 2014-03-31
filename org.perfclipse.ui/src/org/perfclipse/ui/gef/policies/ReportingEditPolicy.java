@@ -19,11 +19,14 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.commands.AddReporterCommand;
+import org.perfclipse.ui.wizards.ReporterAddWizard;
 import org.perfclipse.ui.wizards.ReportingEditWizard;
 
 /**
@@ -40,7 +43,7 @@ public class ReportingEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	}
 
 	@Override
-	protected Command createPropertiesCommand() {
+	protected Command createPropertiesCommand(Request request) {
 		ReportingEditWizard wizard = new ReportingEditWizard(reporting);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
 			CompoundCommand command = wizard.getCommand();
@@ -52,6 +55,14 @@ public class ReportingEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 		return null;
 	}
 
+	@Override
+	protected Command createAddReporterCommand(Request request) {
+		ReporterAddWizard wizard = new ReporterAddWizard();
+		if (Utils.showWizardDialog(wizard) != Window.OK)
+			return null;
+		
+		return new AddReporterCommand(wizard.getReporter(), reporting);
+	}
 	
 
 }
