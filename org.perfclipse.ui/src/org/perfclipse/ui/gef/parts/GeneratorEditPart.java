@@ -29,6 +29,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.window.Window;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.ModelMapper;
@@ -94,6 +95,11 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new GeneratorEditPolicy(getGeneratorModel()));
+
+		// not used for any actions but only for making selection visible
+		NonResizableEditPolicy policy = new NonResizableEditPolicy();
+		policy.setDragAllowed(false);
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, policy);
 
 	}
 	

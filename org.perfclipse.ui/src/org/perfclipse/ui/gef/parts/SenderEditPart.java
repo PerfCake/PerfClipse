@@ -29,6 +29,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.window.Window;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.ui.Utils;
@@ -99,6 +100,11 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new SenderDirectEditPolicy(getSenderModel(), (ILabeledFigure) getFigure()));
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new SenderEditPolicy(getSenderModel()));
+		
+		// not used for any actions but only for making selection visible
+		NonResizableEditPolicy policy = new NonResizableEditPolicy();
+		policy.setDragAllowed(false);
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, policy);
 	}
 	
 

@@ -10,6 +10,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.window.Window;
 import org.perfcake.model.Property;
 import org.perfclipse.model.ModelMapper;
@@ -75,6 +76,11 @@ public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implemen
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new PropertyListEditPolicy(getPropertiesModel()));
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new PropertiesEditPolicy(getPropertiesModel()));
+		
+		// not used for any actions but only for making selection visible
+		NonResizableEditPolicy policy = new NonResizableEditPolicy();
+		policy.setDragAllowed(false);
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, policy);
 	}
 
 	@Override

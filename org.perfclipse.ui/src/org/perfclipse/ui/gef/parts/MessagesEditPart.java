@@ -30,6 +30,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.window.Window;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessageModel;
@@ -101,6 +102,11 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 		installEditPolicy(EditPolicy.LAYOUT_ROLE,
 				new MessagesListEditPolicy(getMessagesModel()));
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new MessagesEditPolicy(getMessagesModel()));
+		
+		// not used for any actions but only for making selection visible
+		NonResizableEditPolicy policy = new NonResizableEditPolicy();
+		policy.setDragAllowed(false);
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, policy);
 	}
 	
 	

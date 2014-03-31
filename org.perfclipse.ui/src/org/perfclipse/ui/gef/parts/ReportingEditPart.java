@@ -30,6 +30,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.window.Window;
 import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfclipse.model.MessagesModel;
@@ -88,6 +89,11 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 				new ReporterListEditPolicy(getReportingModel()));
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
 				new ReportingEditPolicy(getReportingModel()));
+		
+		// not used for any actions but only for making selection visible
+		NonResizableEditPolicy policy = new NonResizableEditPolicy();
+		policy.setDragAllowed(false);
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, policy);
 	}
 	
 	@Override
