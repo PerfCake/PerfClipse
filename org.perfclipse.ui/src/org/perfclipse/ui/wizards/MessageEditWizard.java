@@ -19,7 +19,10 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.List;
+
 import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.gef.commands.EditMessageMultiplicityCommand;
 import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
 import org.perfclipse.ui.wizards.pages.MessagePage;
@@ -33,6 +36,9 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 	private MessageModel message;
 	
 	private MessagePage messagePage;
+	
+	//List of validators which will be created invoked by Add message wizard.
+	private List<ValidatorModel> validators;
 	/**
 	 * @param commandLabel
 	 * @param message
@@ -61,7 +67,17 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 	@Override
 	public void addPages() {
 		messagePage = new MessagePage(message);
+		messagePage.setValidators(validators);
 		addPage(messagePage);
 		super.addPages();
+	}
+	
+	/**
+	 * Initializes list of validators to which new validators (created by wizard) will be added.
+	 * These validator are not currently in scenario, so it will be stored in this list.
+	 * @param validators non null list of validators (may be empty)
+	 */
+	public void setValidators(List<ValidatorModel> validators) {
+		this.validators = validators;
 	}
 }

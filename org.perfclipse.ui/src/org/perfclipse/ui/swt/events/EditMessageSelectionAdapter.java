@@ -25,6 +25,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
 import org.perfclipse.ui.wizards.MessageEditWizard;
 
@@ -35,6 +36,11 @@ import org.perfclipse.ui.wizards.MessageEditWizard;
 public class EditMessageSelectionAdapter extends
 		AbstractEditCommandSelectionAdapter {
 
+	
+	//List of validators which will be created invoked by Add message wizard.
+	private List<ValidatorModel> validators;
+	
+	
 	/**
 	 * 
 	 * @param commands
@@ -47,9 +53,19 @@ public class EditMessageSelectionAdapter extends
 
 	@Override
 	protected AbstractPerfCakeEditWizard createWizard(IStructuredSelection selection) {
-		return new MessageEditWizard((MessageModel) selection.getFirstElement());
+		MessageEditWizard wizard = new MessageEditWizard((MessageModel) selection.getFirstElement());
+		wizard.setValidators(validators);
+		return wizard;
 	}
 
+	/**
+	 * Initializes list of validators to which new validators (created by wizard) will be added.
+	 * These validator are not currently in scenario, so it will be stored in this list.
+	 * @param validators non null list of validators (may be empty)
+	 */
+	public void setValidators(List<ValidatorModel> validators) {
+		this.validators = validators;
+	}
 
 
 }

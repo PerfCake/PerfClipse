@@ -134,4 +134,10 @@ public class ValidationPage extends AbstractPerfCakePage {
 		return validatorViewer;
 	}
 
+	/**
+	 * @return list of validators in scenario.
+	 */
+	public List<ValidatorModel> getValidators() {
+		return validators;
+	}
 }

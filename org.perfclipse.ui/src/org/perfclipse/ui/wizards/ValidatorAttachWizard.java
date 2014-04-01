@@ -60,7 +60,9 @@ public class ValidatorAttachWizard extends AbstractPerfCakeEditWizard {
 		TableItem[] items = page.getValidatorViewer().getTable().getItems();
 		if  (validators != null && items != null){
 			for (TableItem i : items){
-				validators.add((ValidatorModel) i.getData());
+				ValidatorModel v = (ValidatorModel) i.getData();
+				if (!validators.contains(v))
+					validators.add(v);
 			}
 		}
 		return super.performFinish();
@@ -72,7 +74,7 @@ public class ValidatorAttachWizard extends AbstractPerfCakeEditWizard {
 			page = new AttachValidatorPage(validation);
 		else
 			page = new AttachValidatorPage();
-
+		page.setValidators(validators);
 		addPage(page);
 
 		super.addPages();

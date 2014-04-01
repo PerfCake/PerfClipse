@@ -19,9 +19,12 @@
 
 package org.perfclipse.ui.wizards.pages;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.ValidationModel;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.model.ValidatorRefModel;
 
 /**
@@ -30,6 +33,9 @@ import org.perfclipse.model.ValidatorRefModel;
  */
 public class AttachValidatorPage extends ValidationPage {
 
+	//validators added by user, which are not in scenario.
+	private List<ValidatorModel> validators;
+	
 	/**
 	 * 
 	 */
@@ -51,6 +57,25 @@ public class AttachValidatorPage extends ValidationPage {
 		setPageComplete(false);
 		getValidatorViewer().addSelectionChangedListener(new UpdateSelectionChangeListener(this));
 	}
+	
+
+	@Override
+	protected void fillValues() {
+		List<ValidatorModel> scenarioValidators = getValidators();
+		
+		if (scenarioValidators != null && validators != null){
+			scenarioValidators.removeAll(validators);
+			scenarioValidators.addAll(validators);;
+			getValidatorViewer().setInput(scenarioValidators);
+		}
+		
+		if (scenarioValidators != null && validators == null){
+			getValidatorViewer().setInput(scenarioValidators);
+		}
+		if (scenarioValidators == null && validators != null){
+			getValidatorViewer().setInput(validators);
+		}
+	}
 
 	@Override
 	protected void updateControls() {
@@ -66,4 +91,13 @@ public class AttachValidatorPage extends ValidationPage {
 		setPageComplete(true);
 	}
 
+	/**
+	 * Initializes list of validators to which new validators (created by wizard) will be added.
+	 * These validator are not currently in scenario, so it will be stored in this list.
+	 * @param validators non null list of validators (may be empty)
+	 */
+	public void setValidators(List<ValidatorModel> validators) {
+		this.validators = validators;
+	}
+	
 }
