@@ -62,7 +62,7 @@ public class MessagePage extends AbstractPerfCakePage {
 
 
 
-	private static final String MESSAGE_PAGE_NAME = "Message";
+	public static final String MESSAGE_PAGE_NAME = "Message";
 
 	private MessageModel message;
 	private List<HeaderModel> headers;

@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
 
 public class GeneratorPage extends AbstractPerfCakePage {
 	
-	private static final String GENERATOR_PAGE_NAME = "Genarator";
+	public static final String GENERATOR_PAGE_NAME = "Genarator";
 
 	final static org.slf4j.Logger log = LoggerFactory.getLogger(GeneratorPage.class);
 

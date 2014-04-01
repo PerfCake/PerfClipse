@@ -56,7 +56,7 @@ import org.perfclipse.ui.wizards.PeriodEditWizard;
  */
 public class DestinationPage extends AbstractPerfCakePage {
 
-	private static final String DESTINATION_PAGE_NAME = "Destination page";
+	public static final String DESTINATION_PAGE_NAME = "Destination page";
 	private DestinationModel destination;
 	private List<PeriodModel> periods;
 	private List<PropertyModel> properties;

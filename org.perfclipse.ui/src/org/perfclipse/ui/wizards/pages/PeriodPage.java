@@ -38,7 +38,7 @@ import org.perfclipse.ui.swt.jface.StringComboViewer;
 public class PeriodPage extends AbstractPerfCakePage {
 
 	
-	private static final String PERIOD_PAGE_NAME = "Period page";
+	public static final String PERIOD_PAGE_NAME = "Period page";
 
 	private PeriodModel period;
 	

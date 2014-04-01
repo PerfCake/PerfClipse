@@ -56,7 +56,7 @@ import org.perfclipse.ui.wizards.DestinationEditWizard;
  */
 public class ReporterPage extends AbstractPerfCakePage {
 
-	private static final String REPORTER_PAGE_NAME = "Reporter page";
+	public static final String REPORTER_PAGE_NAME = "Reporter page";
 	private ReporterModel reporter;
 	private List<DestinationModel> destinations;
 	private List<PropertyModel> properties;

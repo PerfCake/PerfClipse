@@ -33,7 +33,7 @@ import org.perfclipse.model.HeaderModel;
  */
 public class HeaderPage extends AbstractPerfCakePage {
 
-	private static final String HEADER_PAGE_NAME = "Property";
+	public static final String HEADER_PAGE_NAME = "Header";
 
 	private Composite container;
 	private Label nameLabel;

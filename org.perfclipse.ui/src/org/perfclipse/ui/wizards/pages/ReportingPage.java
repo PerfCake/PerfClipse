@@ -54,7 +54,7 @@ import org.perfclipse.ui.wizards.ReporterEditWizard;
  */
 public class ReportingPage extends AbstractPerfCakePage {
 
-	private static final String REPORTING_PAGE_NAME = "Reporting";
+	public static final String REPORTING_PAGE_NAME = "Reporting";
 
 	private ReportingModel reporting;
 	private List<ReporterModel> reporters;

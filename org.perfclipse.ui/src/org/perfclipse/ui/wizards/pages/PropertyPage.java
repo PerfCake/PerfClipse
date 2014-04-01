@@ -33,7 +33,7 @@ import org.perfclipse.model.PropertyModel;
  */
 public class PropertyPage extends AbstractPerfCakePage {
 
-	private static final String PROPERTY_PAGE_NAME = "Property";
+	public static final String PROPERTY_PAGE_NAME = "Property";
 	private Composite container;
 	private Label nameLabel;
 	private Text nameText;

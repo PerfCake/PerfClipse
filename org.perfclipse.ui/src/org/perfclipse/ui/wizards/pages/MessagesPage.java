@@ -45,7 +45,7 @@ import org.perfclipse.ui.swt.widgets.TableViewerControl;
 public class MessagesPage extends AbstractPerfCakePage {
 
 
-	private static final String MESSAGES_PAGE_NAME = "Messages";
+	public static final String MESSAGES_PAGE_NAME = "Messages";
 	private MessagesModel messagesModel;
 	private List<MessageModel> messagesList;
 	private Composite container;

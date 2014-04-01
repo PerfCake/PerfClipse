@@ -52,7 +52,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SenderPage extends AbstractPerfCakePage {
 	
-	private static final String SENDER_PAGE_NAME = "Sender";
+	public static final String SENDER_PAGE_NAME = "Sender";
 	private Composite container;
 	private Label senderLabel;
 	private StringComboViewer senderTypeViewer;

@@ -47,7 +47,7 @@ import org.perfclipse.ui.wizards.ValidatorEditWizard;
  */
 public class ValidationPage extends AbstractPerfCakePage {
 
-	private static final String VALIDATION_PAGE_NAME = "Validation page";
+	public static final String VALIDATION_PAGE_NAME = "Validation page";
 	private Composite container;
 	private ValidatorTableViewer validatorViewer;
 	private TableViewerControl validatorControl;

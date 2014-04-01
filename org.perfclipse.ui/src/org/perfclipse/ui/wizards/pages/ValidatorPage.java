@@ -37,7 +37,7 @@ import org.perfclipse.ui.swt.jface.StringComboViewer;
  */
 public class ValidatorPage extends AbstractPerfCakePage {
 
-	private static final String VALIDATOR_PAGE_NAME = "Validator page";
+	public static final String VALIDATOR_PAGE_NAME = "Validator page";
 
 	private ValidatorModel validator;
 	

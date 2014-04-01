@@ -43,7 +43,7 @@ import org.perfclipse.ui.swt.widgets.TableViewerControl;
  */
 public class PropertiesPage extends AbstractPerfCakePage {
 
-	private static final String PROPERTIES_PAGE_NAME = "Properties page";
+	public static final String PROPERTIES_PAGE_NAME = "Properties page";
 	private PropertiesModel properties;
 	private List<PropertyModel> propertyList;
 
