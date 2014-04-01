@@ -19,7 +19,10 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.TableItem;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfclipse.model.ValidationModel;
@@ -35,7 +38,10 @@ public class ValidatorAttachWizard extends AbstractPerfCakeEditWizard {
 	private ValidatorRef ref;
 	private AttachValidatorPage page;
 	private ValidationModel validation;
-
+	
+	//validators added by user, which are not in scenario.
+	private List<ValidatorModel> validators;
+	
 	public ValidatorAttachWizard(ValidationModel validation) {
 		super("Attach validator");
 		setWindowTitle("Attach validator");
@@ -49,6 +55,14 @@ public class ValidatorAttachWizard extends AbstractPerfCakeEditWizard {
 		ValidatorModel validator = (ValidatorModel) selection.getFirstElement();
 		ref = new ObjectFactory().createScenarioMessagesMessageValidatorRef();
 		ref.setId(validator.getValidator().getId());
+
+		// add created validators to the validators list if it is not null
+		TableItem[] items = page.getValidatorViewer().getTable().getItems();
+		if  (validators != null && items != null){
+			for (TableItem i : items){
+				validators.add((ValidatorModel) i.getData());
+			}
+		}
 		return super.performFinish();
 	}
 
@@ -66,6 +80,15 @@ public class ValidatorAttachWizard extends AbstractPerfCakeEditWizard {
 
 	public ValidatorRef getValidatorRef() {
 		return ref;
+	}
+	
+	/**
+	 * Initializes list of validators to which new validators (created by wizard) will be added.
+	 * These validator are not currently in scenario, so it will be stored in this list.
+	 * @param validators non null list of validators (may be empty)
+	 */
+	public void setValidators(List<ValidatorModel> validators) {
+		this.validators = validators;
 	}
 	
 	

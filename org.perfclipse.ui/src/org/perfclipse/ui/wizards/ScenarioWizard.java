@@ -22,11 +22,14 @@ package org.perfclipse.ui.wizards;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.INewWizard;
@@ -66,9 +69,15 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 	IStructuredSelection selection;
 	
 	static final Logger log = LoggerFactory.getLogger(ScenarioWizard.class);
+	
+	/**
+	 * Validator list (to synchronise it between pages).
+	 */
+	private List<ValidatorModel> validators;
 
 	public ScenarioWizard() {
 		super();
+		validators = new ArrayList<>();
 	}
 
 	@Override
@@ -202,6 +211,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 		generatorPage = new GeneratorPage();
 		senderPage = new SenderPage();
 		messagesPage = new MessagesPage();
+		messagesPage.setValidators(validators);
 		validationPage = new ValidationPage();
 		reportingPage = new ReportingPage();
 		propertiesPage = new PropertiesPage();
@@ -215,11 +225,20 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 		addPage(propertiesPage);
 	}
 
-//	@Override
-//	public boolean canFinish() {
-//		return super.canFinish();
-//	}
-	
-	
+	@Override
+	public IWizardPage getNextPage(IWizardPage page) {
+		IWizardPage next = super.getNextPage(page);
+		if (ValidationPage.VALIDATION_PAGE_NAME.equals(next.getName())){
+
+			for (TableItem i : validationPage.getValidatorViewer().getTable().getItems()){
+				if (!validators.contains(i.getData())){
+					validators.add((ValidatorModel) i.getData());
+				}
+			}
+
+			validationPage.getValidatorViewer().setInput(validators);
+		}
+		return next;
+	}
 
 }

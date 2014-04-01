@@ -37,6 +37,7 @@ import org.perfclipse.model.HeaderModel;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertyModel;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.model.ValidatorRefModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
@@ -83,6 +84,10 @@ public class MessagePage extends AbstractPerfCakePage {
 	private TableViewerControl propertyControl;
 	private TableViewerControl refControl;
 
+	
+	//list of validators which will be possibly created and which are not contained in model.
+	private List<ValidatorModel> validators;
+	
 	public MessagePage(){
 		this(MESSAGE_PAGE_NAME, false);
 	}
@@ -192,9 +197,10 @@ public class MessagePage extends AbstractPerfCakePage {
 		//TODO: figure out ValidatorRef control
 		refControl = new TableViewerControl(container, false, SWT.NONE);
 		refControl.getAddButton().setText("Attach");
-		refControl.getAddButton().addSelectionListener(
-				new AttachValidatorSelectionAdapter(getEditingSupportCommands(),
-						refViewer, message));
+		AttachValidatorSelectionAdapter attachAdapter = new AttachValidatorSelectionAdapter(getEditingSupportCommands(),
+				refViewer, message);
+		attachAdapter.setValidators(validators);
+		refControl.getAddButton().addSelectionListener(attachAdapter);
 		refControl.getDeleteButton().setText("Detach");
 		refControl.getDeleteButton().addSelectionListener(
 				new DetachValidatorSelectionAdapter(getEditingSupportCommands(),
@@ -263,4 +269,12 @@ public class MessagePage extends AbstractPerfCakePage {
 		return refViewer;
 	}
 	
+	/**
+	 * Initializes list of validators to which new validators (created by wizard) will be added.
+	 * These validator are not currently in scenario, so it will be stored in this list.
+	 * @param validators non null list of validators (may be empty)
+	 */
+	public void setValidators(List<ValidatorModel> validators) {
+		this.validators = validators;
+	}
 }

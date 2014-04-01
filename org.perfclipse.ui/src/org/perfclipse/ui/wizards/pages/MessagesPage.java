@@ -31,6 +31,7 @@ import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.events.AddMessageSelectionAdapter;
 import org.perfclipse.ui.swt.events.DeleteMessageSelectionAdapter;
@@ -51,6 +52,9 @@ public class MessagesPage extends AbstractPerfCakePage {
 	private Composite container;
 	private TableViewer messagesViewer;
 	private TableViewerControl messagesViewerControls;
+	
+	//validators added by user, which are not in scenario.
+	private List<ValidatorModel> validators;
 
 	public MessagesPage(){
 		super(MESSAGES_PAGE_NAME, false);
@@ -93,8 +97,10 @@ public class MessagesPage extends AbstractPerfCakePage {
 		messagesViewer.getTable().setLayoutData(data);
 		
 		messagesViewerControls = new TableViewerControl(container, true, SWT.NONE);
-		messagesViewerControls.getAddButton().addSelectionListener(
-				new AddMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, messagesModel));
+		AddMessageSelectionAdapter addMessageAdapter = new AddMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, messagesModel);
+		addMessageAdapter.setValidators(validators);
+		messagesViewerControls.getAddButton().addSelectionListener(addMessageAdapter); 
+
 		messagesViewerControls.getEditButton().addSelectionListener(
 				new EditMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer));
 		messagesViewerControls.getDeleteButton().addSelectionListener(
@@ -118,5 +124,14 @@ public class MessagesPage extends AbstractPerfCakePage {
 
 	public TableViewer getMessagesViewer() {
 		return messagesViewer;
+	}
+
+	/**
+	 * Initializes list of validators to which new validators (created by wizard) will be added.
+	 * These validator are not currently in scenario, so it will be stored in this list.
+	 * @param validators non null list of validators (may be empty)
+	 */
+	public void setValidators(List<ValidatorModel> validators) {
+		this.validators = validators;
 	}
 }

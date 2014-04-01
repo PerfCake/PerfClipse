@@ -31,6 +31,7 @@ import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.model.ValidationModel;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.model.ValidatorRefModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.AddValidatorRefCommand;
@@ -47,7 +48,10 @@ public class AttachValidatorSelectionAdapter extends
 	private ValidatorRefModel ref;
 	private ModelMapper mapper;
 	private ValidatorAttachWizard wizard;
-
+	
+	
+	private List<ValidatorModel> validators;
+	
 	public AttachValidatorSelectionAdapter(List<Command> commands,
 			TableViewer viewer, MessageModel message) {
 		super(commands, viewer);
@@ -64,6 +68,7 @@ public class AttachValidatorSelectionAdapter extends
 		ValidationModel validation = mapper.getValidation();
 
 		wizard = new ValidatorAttachWizard(validation);
+		wizard.setValidators(validators);
 		if (Utils.showWizardDialog(wizard) != Window.OK)
 			return;
 		
@@ -98,4 +103,12 @@ public class AttachValidatorSelectionAdapter extends
 		return null;
 	}
 
+	/**
+	 * Initializes list of validators to which new validators (created by wizard) will be added.
+	 * These validator are not currently in scenario, so it will be stored in this list.
+	 * @param validators non null list of validators (may be empty)
+	 */
+	public void setValidators(List<ValidatorModel> validators) {
+		this.validators = validators;
+	}
 }

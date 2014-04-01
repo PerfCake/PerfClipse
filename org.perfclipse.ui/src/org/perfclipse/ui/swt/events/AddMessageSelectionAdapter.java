@@ -30,6 +30,7 @@ import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ScenarioModel;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.AddMessageCommand;
 import org.perfclipse.ui.wizards.MessageAddWizard;
@@ -44,6 +45,9 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 	private MessageModel message;
 	private ModelMapper mapper;
 	
+	
+	//List of validators which will be created invoked by Add message wizard.
+	private List<ValidatorModel> validators;
 	/**
 	 * @param commands
 	 * @param viewer
@@ -65,9 +69,11 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
 		MessageAddWizard wizard = new MessageAddWizard();
+		wizard.setValidators(validators);
 		//TODO: undo editing support Commands?
 		if (Utils.showWizardDialog(wizard) != Window.OK)
 			return;
+		
 		
 		message = (MessageModel) mapper.getModelContainer(wizard.getMessage());
 		getViewer().add(message);
@@ -84,4 +90,12 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 		return null;
 	}
 
+	/**
+	 * Initializes list of validators to which new validators (created by wizard) will be added.
+	 * These validator are not currently in scenario, so it will be stored in this list.
+	 * @param validators non null list of validators (may be empty)
+	 */
+	public void setValidators(List<ValidatorModel> validators) {
+		this.validators = validators;
+	}
 }

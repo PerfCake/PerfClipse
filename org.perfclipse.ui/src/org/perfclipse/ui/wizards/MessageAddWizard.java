@@ -19,11 +19,14 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.List;
+
 import org.eclipse.swt.widgets.TableItem;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.HeaderModel;
 import org.perfclipse.model.PropertyModel;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.model.ValidatorRefModel;
 import org.perfclipse.ui.wizards.pages.MessagePage;
 
@@ -41,6 +44,8 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 	private MessagePage messagePage;
 	private Message message;
 
+	//list of validators which will be possibly created and which are not contained in model.
+	private List<ValidatorModel> validators;
 
 	/**
 	 * 
@@ -82,6 +87,7 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 	@Override
 	public void addPages() {
 		messagePage = new MessagePage();
+		messagePage.setValidators(validators);
 		addPage(messagePage);
 		super.addPages();
 	}
@@ -89,4 +95,15 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 	public Message getMessage() {
 		return message;
 	}
+
+	/**
+	 * Initializes list of validators to which new validators (created by wizard) will be added.
+	 * These validator are not currently in scenario, so it will be stored in this list.
+	 * @param validators non null list of validators (may be empty)
+	 */
+	public void setValidators(List<ValidatorModel> validators) {
+		this.validators = validators;
+	}
+	
+	
 }
