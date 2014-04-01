@@ -26,6 +26,9 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.perfcake.model.Scenario.Validation;
+import org.perfcake.model.Scenario.Validation.Validator;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidatorRefModel;
 
 /**
@@ -36,8 +39,9 @@ public class ValidatorRefTableViewer extends AbstractCommandTableViewer {
 
 
 	
-	private static final int ID_COLUMN_WIDTH = 80;
+	private static final int ID_COLUMN_WIDTH = 100;
 	private TableViewerColumn refColumn;
+	private TableViewerColumn clazzColumn;
 
 	/**
 	 * @param parent
@@ -73,12 +77,38 @@ public class ValidatorRefTableViewer extends AbstractCommandTableViewer {
 			}
 			
 		});
+		
+		clazzColumn = new TableViewerColumn(this, SWT.NONE);
+		clazzColumn.getColumn().setText("Type");
+		clazzColumn.setLabelProvider(new ColumnLabelProvider(){
+
+			@Override
+			public String getText(Object element) {
+				ValidatorRefModel ref = (ValidatorRefModel) element;
+
+				ModelMapper mapper = ref.getMapper();
+				Validation validation = mapper.getScenario().getScenario().getValidation();
+				if (validation != null){
+					List<Validator> validators = validation.getValidator();
+				
+					for (Validator v : validators){
+						if (ref.getValidatorRef().getId().equals(v.getId())){
+							return v.getClazz();
+						}
+					}
+				}
+				
+				return "No such validator with given ID exists";
+			}
+
+		});
 	}
 
 	@Override
 	protected void setColumnsSize() {
 
 		refColumn.getColumn().setWidth(ID_COLUMN_WIDTH);
+		clazzColumn.getColumn().setWidth(140);
 		super.setColumnsSize();
 	}
 	

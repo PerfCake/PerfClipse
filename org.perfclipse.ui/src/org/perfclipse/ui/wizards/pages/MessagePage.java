@@ -42,8 +42,10 @@ import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
 import org.perfclipse.ui.swt.events.AddHeaderSelectionAdapter;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
+import org.perfclipse.ui.swt.events.AttachValidatorSelectionAdapter;
 import org.perfclipse.ui.swt.events.DeleteHeaderSelectionAdapter;
 import org.perfclipse.ui.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.ui.swt.events.DetachValidatorSelectionAdapter;
 import org.perfclipse.ui.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.ui.swt.jface.HeaderTableViewer;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
@@ -188,7 +190,15 @@ public class MessagePage extends AbstractPerfCakePage {
 		refViewer.getTable().setLayoutData(data);
 		
 		//TODO: figure out ValidatorRef control
-		refControl = new TableViewerControl(container, true, SWT.NONE);
+		refControl = new TableViewerControl(container, false, SWT.NONE);
+		refControl.getAddButton().setText("Attach");
+		refControl.getAddButton().addSelectionListener(
+				new AttachValidatorSelectionAdapter(getEditingSupportCommands(),
+						refViewer, message));
+		refControl.getDeleteButton().setText("Detach");
+		refControl.getDeleteButton().addSelectionListener(
+				new DetachValidatorSelectionAdapter(getEditingSupportCommands(),
+						refViewer, message));
 		
 		setControl(container);
 		super.createControl(parent);
