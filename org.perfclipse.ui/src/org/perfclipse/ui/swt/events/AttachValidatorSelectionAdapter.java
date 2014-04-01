@@ -22,11 +22,11 @@ package org.perfclipse.ui.swt.events;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
 import org.perfcake.model.Scenario;
-import org.perfcake.model.Scenario.Validation;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ScenarioModel;
@@ -46,6 +46,7 @@ public class AttachValidatorSelectionAdapter extends
 	private MessageModel message;
 	private ValidatorRefModel ref;
 	private ModelMapper mapper;
+	private ValidatorAttachWizard wizard;
 
 	public AttachValidatorSelectionAdapter(List<Command> commands,
 			TableViewer viewer, MessageModel message) {
@@ -60,18 +61,18 @@ public class AttachValidatorSelectionAdapter extends
 	
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		ValidationModel validation = null;
-		if (message != null){
+		ValidationModel validation = mapper.getValidation();
 
-			ModelMapper mapper = message.getMapper();
-			Validation v = mapper.getScenario().getScenario().getValidation();
-			if (v != null)
-				validation = (ValidationModel) mapper.getModelContainer(v);
-		}
-
-		ValidatorAttachWizard wizard = new ValidatorAttachWizard(validation);
+		wizard = new ValidatorAttachWizard(validation);
 		if (Utils.showWizardDialog(wizard) != Window.OK)
 			return;
+		
+		//Execute wizard command (since validator must exist at the time when
+		//message adds reference to the validator.
+		CompoundCommand command = wizard.getCommand();
+		if (!command.isEmpty()){
+			command.execute();
+		}
 		
 		ref = (ValidatorRefModel) mapper.getModelContainer(wizard.getValidatorRef());
 		getViewer().add(ref);
@@ -80,8 +81,19 @@ public class AttachValidatorSelectionAdapter extends
 
 	@Override
 	protected Command getCommand() {
+		CompoundCommand command = wizard.getCommand();
+		/*
+		 * Command was executed before but in order to new command can be added
+		 * and executed within the context of this command the command have to 
+		 * call undo. (It will be executed later on)
+		 * */
+		command.undo();
+
 		if (ref != null && message != null)
-			return new AddValidatorRefCommand(message, ref.getValidatorRef());
+			command.add(new AddValidatorRefCommand(message, ref.getValidatorRef()));
+
+		if (!command.isEmpty())
+			return command;
 		
 		return null;
 	}

@@ -49,7 +49,7 @@ public class ValidatorAttachWizard extends AbstractPerfCakeEditWizard {
 		ValidatorModel validator = (ValidatorModel) selection.getFirstElement();
 		ref = new ObjectFactory().createScenarioMessagesMessageValidatorRef();
 		ref.setId(validator.getValidator().getId());
-		return true;
+		return super.performFinish();
 	}
 
 	@Override

@@ -88,7 +88,9 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getReporting()));
 		}
 		if (getScenarioModel().getScenario().getValidation() == null){
-			modelChildren.add(new ValidationModel(getScenarioModel().getScenario().getValidation(), getScenarioModel(), mapper));
+			ValidationModel validation = new ValidationModel(getScenarioModel().getScenario().getValidation(), getScenarioModel(), mapper);
+			mapper.addValidationModel(validation);
+			modelChildren.add(validation);
 		} else {
 			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getValidation()));
 		}

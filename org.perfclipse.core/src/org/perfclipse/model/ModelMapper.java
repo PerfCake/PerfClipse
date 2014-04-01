@@ -52,7 +52,9 @@ public class ModelMapper {
 	static final Logger log = LoggerFactory.getLogger(ModelMapper.class);
 
 	private Map<Object, Object> map;
+
 	private ScenarioModel scenario;
+	private ValidationModel validation;
 
 	
 	public ModelMapper(ScenarioModel scenario){
@@ -194,6 +196,10 @@ public class ModelMapper {
 		if (perfcakeModel instanceof Validation){
 			result = new ValidationModel((Validation) perfcakeModel, scenario, this);
 			map.put(perfcakeModel, result);
+			//Since PerfCake model of validation can be null. It is
+			//then unable to get PerfClipse model (which is not null) using 
+			//getModelContainer so the reference must be stored.
+			validation = (ValidationModel) result;
 			return result;
 		}
 
@@ -213,4 +219,23 @@ public class ModelMapper {
 		throw new IllegalArgumentException("Unknown PerfCake model.");
 	}
 
+
+	public ScenarioModel getScenario() {
+		return scenario;
+	}
+
+
+	/**
+	 * @return Returns validation model in scenario.
+	 */
+	public ValidationModel getValidation() {
+		return validation;
+	}
+	
+	/**
+	 * Sets validationModel instance for scenario.
+	 */
+	public void addValidationModel(ValidationModel model){
+		validation = model;
+	}
 }
