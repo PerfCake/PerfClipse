@@ -31,11 +31,14 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.window.Window;
+import org.perfcake.model.Property;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
+import org.perfclipse.ui.gef.policies.PropertyListEditPolicy;
 import org.perfclipse.ui.gef.policies.SenderEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.SenderDirectEditPolicy;
 import org.perfclipse.ui.wizards.SenderEditWizard;
@@ -105,12 +108,21 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 		NonResizableEditPolicy policy = new NonResizableEditPolicy();
 		policy.setDragAllowed(false);
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, policy);
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new PropertyListEditPolicy(getSenderModel()));
 	}
 	
 
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<Object>();
+
+		ModelMapper mapper = getSenderModel().getMapper();
+
+		if (getSenderModel().getSender().getProperty() != null){
+			for (Property p : getSenderModel().getSender().getProperty()){
+				modelChildren.add(mapper.getModelContainer(p));
+			}
+		}
 		return modelChildren;
 	}
 
@@ -118,6 +130,9 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(SenderModel.PROPERTY_CLASS)){
 			refreshVisuals();
+		}
+		if (evt.getPropertyName().equals(SenderModel.PROPERTY_PROPERTIES)){
+			refreshChildren();
 		}
 	}
 

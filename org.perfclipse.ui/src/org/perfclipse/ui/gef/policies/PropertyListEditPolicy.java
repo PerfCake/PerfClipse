@@ -29,7 +29,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
-import org.perfclipse.model.PropertiesModel;
+import org.perfclipse.model.IPropertyContainer;
 import org.perfclipse.ui.gef.commands.AddPropertyCommand;
 import org.perfclipse.ui.wizards.PropertyAddWizard;
 
@@ -40,9 +40,9 @@ import org.perfclipse.ui.wizards.PropertyAddWizard;
 public class PropertyListEditPolicy extends AbstractListEditPolicy implements
 		EditPolicy {
 
-	PropertiesModel properties;
+	IPropertyContainer properties;
 
-	public PropertyListEditPolicy(PropertiesModel propertiesModel) {
+	public PropertyListEditPolicy(IPropertyContainer propertiesModel) {
 		this.properties = propertiesModel;
 	}
 
