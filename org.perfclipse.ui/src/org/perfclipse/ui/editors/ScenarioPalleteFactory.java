@@ -68,7 +68,7 @@ public class ScenarioPalleteFactory {
 
 		MessageFactory factory = new MessageFactory(Message.class);
 
-		CombinedTemplateCreationEntry messageComponent = new CombinedTemplateCreationEntry("Create message", "Add new message", factory, null, null);
+		CombinedTemplateCreationEntry messageComponent = new CombinedTemplateCreationEntry("Message", "Add new message", factory, null, null);
 		messageDrawer.add(messageComponent);
 
 		return messageDrawer;

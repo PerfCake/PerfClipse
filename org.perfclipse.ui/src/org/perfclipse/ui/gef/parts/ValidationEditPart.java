@@ -46,7 +46,7 @@ import org.perfclipse.ui.wizards.ValidationEditWizard;
 
 public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
-	private static final String VALIDATION_SECTION_LABEL = "Validation section";
+	private static final String VALIDATION_SECTION_LABEL = "Validation";
 
 	public ValidationEditPart(ValidationModel validationModel){
 		setModel(validationModel);
