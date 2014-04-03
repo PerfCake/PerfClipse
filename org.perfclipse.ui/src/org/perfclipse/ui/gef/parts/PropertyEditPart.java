@@ -48,8 +48,16 @@ public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 	@Override
 	protected IFigure createFigure() {
 		ColorUtils colorUtils = ColorUtils.getInstance();
-		Color fg = colorUtils.getColor(PreferencesConstants.PROPERTY_COLOR_FOREGROUND);
-		Color bg = colorUtils.getColor(PreferencesConstants.PROPERTY_COLOR_BACKGROUND);
+		Color fg; 
+		Color bg;
+		if (getParent() instanceof SenderEditPart){
+			fg = colorUtils.getColor(PreferencesConstants.SENDER_PROPERTY_COLOR_FOREGROUND);
+			bg = colorUtils.getColor(PreferencesConstants.SENDER_PROPERTY_COLOR_BACKGROUND);
+		}
+		else{
+			fg = colorUtils.getColor(PreferencesConstants.PROPERTY_COLOR_FOREGROUND);
+			bg = colorUtils.getColor(PreferencesConstants.PROPERTY_COLOR_BACKGROUND);
+		}
 		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText(), fg, bg);
 
 		return figure;

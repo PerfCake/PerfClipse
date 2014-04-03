@@ -20,6 +20,12 @@
 
 package org.perfclipse.ui.preferences;
 
+/**
+ * String constants used as a key in PerfClipse preferences.
+ * 
+ * @author Jakub Knetl
+ *
+ */
 public class PreferencesConstants {
 	
 	public static final String SCENARIO_COLOR_BACKGROUND = "scenario.color.background";
@@ -29,6 +35,9 @@ public class PreferencesConstants {
 
 	public static final String SENDER_COLOR_FOREGROUND = "sender.color.foreground";
 	public static final String SENDER_COLOR_BACKGROUND = "sender.color.background";
+
+	public static final String SENDER_PROPERTY_COLOR_FOREGROUND = "sender.property.color.foreground";
+	public static final String SENDER_PROPERTY_COLOR_BACKGROUND = "sender.property.color.background";
 
 	public static final String MESSAGES_COLOR_FOREGROUND = "messages.color.foreground";
 	public static final String MESSAGES_COLOR_BACKGROUND = "messages.color.background";

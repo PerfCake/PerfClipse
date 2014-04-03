@@ -102,6 +102,8 @@ public class ColorPreferencePage extends PreferencePage implements
 				PreferencesConstants.GENERATOR_COLOR_BACKGROUND, table);
 		initRow("Sender", PreferencesConstants.SENDER_COLOR_FOREGROUND,
 				PreferencesConstants.SENDER_COLOR_BACKGROUND, table);
+		initRow("Sender properties", PreferencesConstants.SENDER_PROPERTY_COLOR_FOREGROUND,
+				PreferencesConstants.SENDER_PROPERTY_COLOR_BACKGROUND, table);
 		initRow("Messages section", PreferencesConstants.MESSAGES_COLOR_FOREGROUND,
 				PreferencesConstants.MESSAGES_COLOR_BACKGROUND, table);
 		initRow("Message", PreferencesConstants.MESSAGE_COLOR_FOREGROUND,
