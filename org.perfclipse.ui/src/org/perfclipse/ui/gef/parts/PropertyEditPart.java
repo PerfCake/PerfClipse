@@ -8,6 +8,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Color;
 import org.perfclipse.model.IPropertyContainer;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.ui.Utils;
@@ -16,6 +17,7 @@ import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.PropertyEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.RenamePropertyDirectEditPolicy;
+import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.PropertyEditWizard;
 
 public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
@@ -46,8 +48,9 @@ public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 	@Override
 	protected IFigure createFigure() {
 		ColorUtils colorUtils = ColorUtils.getInstance();
-		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText(),
-				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
+		Color fg = colorUtils.getColor(PreferencesConstants.PROPERTY_COLOR_FOREGROUND);
+		Color bg = colorUtils.getColor(PreferencesConstants.PROPERTY_COLOR_BACKGROUND);
+		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText(), fg, bg);
 
 		return figure;
 	}

@@ -32,6 +32,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Color;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ModelMapper;
@@ -44,6 +45,7 @@ import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.DestinationListEditPolicy;
 import org.perfclipse.ui.gef.policies.ReporterEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.RenameReporterDirectEditPolicy;
+import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.ReporterEditWizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,8 +82,9 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 		Dimension d = ((AbstractGraphicalEditPart) getParent()).getFigure().getClientArea().getSize().getCopy();
 		d.setHeight(150);
 		ColorUtils colorUtils = ColorUtils.getInstance();
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), 
-				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
+		Color fg = colorUtils.getColor(PreferencesConstants.REPORTER_COLOR_FOREGROUND);
+		Color bg = colorUtils.getColor(PreferencesConstants.REPORTER_COLOR_BACKGROUND);
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), fg, bg);
 		return figure;
 	}
 

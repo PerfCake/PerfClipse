@@ -32,6 +32,7 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Color;
 import org.perfcake.model.Scenario.Reporting.Reporter;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
@@ -42,6 +43,7 @@ import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.ReporterListEditPolicy;
 import org.perfclipse.ui.gef.policies.ReportingEditPolicy;
+import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.ReportingEditWizard;
 
 public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener{
@@ -77,8 +79,11 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 	@Override
 	protected IFigure createFigure() {
 		ColorUtils colorUtils = ColorUtils.getInstance();
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), 
-				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
+		
+		Color fg = colorUtils.getColor(PreferencesConstants.REPORTING_COLOR_FOREGROUND);
+		Color bg = colorUtils.getColor(PreferencesConstants.REPORTING_COLOR_BACKGROUND);
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), fg, bg);
+
 		return figure;
 	}
 

@@ -37,6 +37,7 @@ import org.perfclipse.model.ReportingModel;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
+import org.perfclipse.ui.preferences.PreferencesConstants;
 
 public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 
@@ -51,7 +52,8 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 	@Override
 	protected IFigure createFigure() {
 		Figure figure = new Figure();
-		Color backgroundColor = ColorUtils.getInstance().getBackgroundColor(this);
+		ColorUtils utils = ColorUtils.getInstance();
+		Color backgroundColor = utils.getColor(PreferencesConstants.SCENARIO_COLOR_BACKGROUND);
 		if (backgroundColor != null){
 			getViewer().getControl().setBackground(backgroundColor);
 		}

@@ -31,6 +31,7 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Color;
 import org.perfcake.model.Property;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.SenderModel;
@@ -41,6 +42,7 @@ import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.PropertyListEditPolicy;
 import org.perfclipse.ui.gef.policies.SenderEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.SenderDirectEditPolicy;
+import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.SenderEditWizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,8 +76,9 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 	@Override
 	protected IFigure createFigure() {
 		ColorUtils colorUtils = ColorUtils.getInstance();
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), 
-				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
+		Color fg = colorUtils.getColor(PreferencesConstants.SENDER_COLOR_FOREGROUND);
+		Color bg = colorUtils.getColor(PreferencesConstants.SENDER_COLOR_BACKGROUND);
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), fg, bg);
 		return figure;
 	}
 

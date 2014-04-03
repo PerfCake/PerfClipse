@@ -30,6 +30,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Color;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.Utils;
@@ -38,6 +39,7 @@ import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.DestionationEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.DestinationDirectEditPolicy;
+import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.DestinationEditWizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,9 +73,9 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart implements
 	@Override
 	protected IFigure createFigure() {
 		ColorUtils colorUtils = ColorUtils.getInstance();
-		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText(),
-				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
-//		figure.setPreferredSize(EMPTY_WIDHT, EMPTY_HEIGHT);
+		Color fg = colorUtils.getColor(PreferencesConstants.DESTINATION_COLOR_FOREGROUND);
+		Color bg = colorUtils.getColor(PreferencesConstants.DESTINATION_COLOR_BACKGROUND);
+		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText(), fg, bg);
 		return figure;
 	}
 

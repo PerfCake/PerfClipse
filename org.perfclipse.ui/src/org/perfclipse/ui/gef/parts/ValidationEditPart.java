@@ -31,6 +31,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Color;
 import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidationModel;
@@ -40,6 +41,7 @@ import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.ValidationEditPolicy;
 import org.perfclipse.ui.gef.policies.ValidatorListEditPolicy;
+import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.ValidationEditWizard;
 
 public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
@@ -70,8 +72,9 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 	@Override
 	protected IFigure createFigure() {
 		ColorUtils colorUtils = ColorUtils.getInstance();
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), 
-				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
+		Color fg = colorUtils.getColor(PreferencesConstants.VALIDATION_COLOR_FOREGROUND);
+		Color bg = colorUtils.getColor(PreferencesConstants.VALIDATION_COLOR_BACKGROUND);
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), fg, bg);
 		return figure;
 	}
 

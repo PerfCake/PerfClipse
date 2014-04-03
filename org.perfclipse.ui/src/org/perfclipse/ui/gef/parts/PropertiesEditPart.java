@@ -12,6 +12,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Color;
 import org.perfcake.model.Property;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertiesModel;
@@ -21,6 +22,7 @@ import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.PropertiesEditPolicy;
 import org.perfclipse.ui.gef.policies.PropertyListEditPolicy;
+import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.PropertiesEditWizard;
 
 public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
@@ -52,8 +54,9 @@ public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implemen
 	@Override
 	protected IFigure createFigure() {
 		ColorUtils colorUtils = ColorUtils.getInstance();
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), 
-				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
+		Color fg = colorUtils.getColor(PreferencesConstants.PROPERTIES_COLOR_FOREGROUND);
+		Color bg = colorUtils.getColor(PreferencesConstants.PROPERTIES_COLOR_BACKGROUND);
+		TwoPartRectangle figure = new TwoPartRectangle(getText(), fg, bg);
 		return figure;
 	}
 	

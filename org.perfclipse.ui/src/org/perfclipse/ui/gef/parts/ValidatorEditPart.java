@@ -30,6 +30,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Color;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.Utils;
@@ -38,6 +39,7 @@ import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.ValidatorEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.ValidatorDirectEditPolicy;
+import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.ValidatorEditWizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,8 +74,9 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements P
 	@Override
 	protected IFigure createFigure() {
 		ColorUtils colorUtils = ColorUtils.getInstance();
-		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText(),
-				colorUtils.getForegroundColor(this), colorUtils.getBackgroundColor(this));
+		Color fg = colorUtils.getColor(PreferencesConstants.VALIDATOR_COLOR_FOREGROUND);
+		Color bg = colorUtils.getColor(PreferencesConstants.VALIDATOR_COLOR_BACKGROUND);
+		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText(), fg, bg);
 		return figure;
 	}
 
