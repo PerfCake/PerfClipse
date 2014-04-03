@@ -21,12 +21,22 @@ package org.perfclipse.ui.gef.policies;
 
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
+import org.perfcake.model.Scenario.Messages;
+import org.perfcake.model.Scenario.Messages.Message;
+import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
+import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.DeleteValidatorCommand;
+import org.perfclipse.ui.gef.commands.DeleteValidatorRefCommand;
 import org.perfclipse.ui.wizards.ValidatorEditWizard;
 
 /**
@@ -47,7 +57,39 @@ public class ValidatorEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
 	@Override
 	protected Command createDeleteCommand(GroupRequest request) {
-		return new DeleteValidatorCommand(validation, validator);
+		Command deleteValidatorCommand = new DeleteValidatorCommand(validation, validator);
+		CompoundCommand command = new CompoundCommand(deleteValidatorCommand.getLabel());
+		command.add(deleteValidatorCommand);
+		
+		// find references to this validator from messages and extend command to
+		// delete this references too.
+		ModelMapper mapper = validation.getMapper();
+		Messages messages = mapper.getScenario().getScenario().getMessages();
+		if (messages != null){
+			for (Message m : messages.getMessage()){
+				MessageModel messageModel = (MessageModel) mapper.getModelContainer(m);
+				for (ValidatorRef ref : m.getValidatorRef()){
+					if (ref.getId() == validator.getValidator().getId()){
+						command.add(new DeleteValidatorRefCommand(messageModel, ref));
+					}
+				}
+			}
+		}
+		
+		// if no message references this validator then command can be executed
+		if (command.getChildren().length == 1){
+			return command;
+		}
+		
+		// some messages references currently selected validator
+		// ask user if program should continue to delete validator.
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		boolean dialog = MessageDialog.openConfirm(shell , "Warning - some message will be modified", "There are messages which references currently deleted validator. Deletion of selected validator will cause removing reference to this validator of the messages. Do you wish to continue?");
+
+		if (dialog)
+			return command; 
+		else
+			return null;
 	}
 
 	@Override
