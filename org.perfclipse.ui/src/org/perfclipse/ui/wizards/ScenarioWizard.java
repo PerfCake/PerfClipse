@@ -228,7 +228,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 	@Override
 	public IWizardPage getNextPage(IWizardPage page) {
 		IWizardPage next = super.getNextPage(page);
-		if (ValidationPage.VALIDATION_PAGE_NAME.equals(next.getName())){
+		if (next != null && ValidationPage.VALIDATION_PAGE_NAME.equals(next.getName())){
 
 			for (TableItem i : validationPage.getValidatorViewer().getTable().getItems()){
 				if (!validators.contains(i.getData())){
