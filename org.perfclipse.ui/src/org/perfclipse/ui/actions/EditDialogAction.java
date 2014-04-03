@@ -19,18 +19,17 @@
 
 package org.perfclipse.ui.actions;
 
-import java.util.List;
-
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 import org.perfclipse.ui.gef.policies.AbstractPerfCakeComponentEditPolicy;
 
 /**
  * Edit dialog action.
+ * 
+ * Opens edit dialog for last selected component.
  * 
  * @author Jakub Knetl
  */
@@ -50,14 +49,11 @@ public class EditDialogAction extends SelectionAction {
 
 	@Override
 	public void run() {
-		@SuppressWarnings("unchecked")
-		List<EditPart> selectedParts = getSelectedObjects();
-		CompoundCommand command = new CompoundCommand();
-		for (EditPart selected : selectedParts){
-			command.add(selected.getCommand(request));
-		}
 		
-		execute(command);
+		Object lastSelected = getSelectedObjects().get(getSelectedObjects().size() - 1);
+
+		if (lastSelected instanceof EditPart)
+			execute(((EditPart) lastSelected).getCommand(request));
 	}
 
 	@Override
@@ -67,20 +63,17 @@ public class EditDialogAction extends SelectionAction {
 			return false;
 		}
 
-		//check if all selected objects are instance of editPart
-		for (Object selected : getSelectedObjects()){
-			if (!(selected instanceof EditPart)){
-				return false;
-			}
+		//check if all last object is instance of editPart
+		Object selected = getSelectedObjects().get(getSelectedObjects().size() - 1);
+		if (!(selected instanceof EditPart)){
+			return false;
 		}
 
-		//Check if all selected eidtParts has installed edit policy with edit properties
-		for (Object selected : getSelectedObjects()){
-			EditPart part = (EditPart) selected;
-			EditPolicy policy = part.getEditPolicy(EditPolicy.COMPONENT_ROLE);
-			if (!(policy instanceof AbstractPerfCakeComponentEditPolicy)){
-				return false;
-			}
+		//Check if last selected eidtParts has installed edit policy with edit properties
+		EditPart part = (EditPart) selected;
+		EditPolicy policy = part.getEditPolicy(EditPolicy.COMPONENT_ROLE);
+		if (!(policy instanceof AbstractPerfCakeComponentEditPolicy)){
+			return false;
 		}
 		
 		return true;
