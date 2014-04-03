@@ -22,6 +22,7 @@ package org.perfclipse.ui.wizards;
 import org.eclipse.swt.widgets.TableItem;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Reporting.Reporter;
+import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.ui.wizards.pages.ReporterPage;
 
@@ -46,6 +47,13 @@ public class ReporterAddWizard extends AbstractPerfCakeAddWizard {
 		
 		reporter.setClazz(page.getReporterType());
 		reporter.setEnabled(page.getEnabled());
+		
+		for (TableItem i : page.getDestinationViewer().getTable().getItems()){
+			if (i.getData() instanceof DestinationModel){
+				DestinationModel d = (DestinationModel) i.getData();
+				reporter.getDestination().add(d.getDestination());
+			}
+		}
 		
 		for (TableItem i : page.getPropertyViewer().getTable().getItems()){
 			if (i.getData() instanceof PropertyModel){
