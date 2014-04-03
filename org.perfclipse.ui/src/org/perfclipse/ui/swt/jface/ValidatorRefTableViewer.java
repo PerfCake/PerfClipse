@@ -37,9 +37,6 @@ import org.perfclipse.model.ValidatorRefModel;
  */
 public class ValidatorRefTableViewer extends AbstractCommandTableViewer {
 
-
-	
-	private static final int ID_COLUMN_WIDTH = 100;
 	private TableViewerColumn refColumn;
 	private TableViewerColumn clazzColumn;
 
@@ -65,7 +62,7 @@ public class ValidatorRefTableViewer extends AbstractCommandTableViewer {
 	@Override
 	protected void initColumns() {
 
-		refColumn = new TableViewerColumn(this, SWT.NONE);
+		refColumn = new TableViewerColumn(this, SWT.CENTER);
 		//TODO: Connect with validator using its name and enable to go to edit validator wizard.
 		refColumn.getColumn().setText("Validator id");
 		refColumn.setLabelProvider(new ColumnLabelProvider(){
@@ -107,7 +104,7 @@ public class ValidatorRefTableViewer extends AbstractCommandTableViewer {
 	@Override
 	protected void setColumnsSize() {
 
-		refColumn.getColumn().setWidth(ID_COLUMN_WIDTH);
+		refColumn.getColumn().pack();
 		clazzColumn.getColumn().setWidth(140);
 		super.setColumnsSize();
 	}

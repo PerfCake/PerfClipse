@@ -27,7 +27,6 @@ import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.gef.commands.EditReporterEnabledCommand;
@@ -42,7 +41,7 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 	private static final int CLASS_COLUMN_WIDTH = 220;
 	private TableViewerColumn classColumn;
 	private TableViewerColumn enabledColumn;
-
+	
 	public ReporterTableViewer(Composite parent, int style,
 			List<Command> commands) {
 		super(parent, style, commands);
@@ -56,15 +55,9 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 
 	@Override
 	protected void initColumns() {
-		enabledColumn = new TableViewerColumn(this, SWT.NONE);
-		enabledColumn.getColumn().setText("On");
+		enabledColumn = new TableViewerColumn(this, SWT.CENTER);
+		enabledColumn.getColumn().setText("Enabled");
 		enabledColumn.setLabelProvider(new ColumnLabelProvider(){
-
-			@Override
-			public Image getImage(Object element) {
-				// TODO: override to display image instead of text!
-				return super.getImage(element);
-			}
 
 			@Override
 			public String getText(Object element) {
@@ -138,7 +131,7 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 
 	@Override
 	protected void setColumnsSize() {
-		enabledColumn.getColumn().setWidth(30);
+		enabledColumn.getColumn().pack();
 		classColumn.getColumn().setWidth(CLASS_COLUMN_WIDTH);
 	}
 }

@@ -27,7 +27,6 @@ import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.ui.gef.commands.EditDestinationEnabledCommand;
@@ -65,16 +64,10 @@ public class DestinationTableViewer extends AbstractCommandTableViewer {
 
 	@Override
 	protected void initColumns() {
-		enabledColumn = new TableViewerColumn(this, SWT.NONE);
-		enabledColumn.getColumn().setText("On");
+		enabledColumn = new TableViewerColumn(this, SWT.CENTER);
+		enabledColumn.getColumn().setText("Enabled");
 		enabledColumn.setLabelProvider(new ColumnLabelProvider(){
-
-			@Override
-			public Image getImage(Object element) {
-				// TODO: override to display image instead of text!
-				return super.getImage(element);
-			}
-
+			
 			@Override
 			public String getText(Object element) {
 				DestinationModel destination =  (DestinationModel) element;
@@ -148,7 +141,7 @@ public class DestinationTableViewer extends AbstractCommandTableViewer {
 	
 	@Override
 	protected void setColumnsSize() {
-		enabledColumn.getColumn().setWidth(30);
+		enabledColumn.getColumn().pack();
 		clazzColumn.getColumn().setWidth(CLAZZ_COLUMN_WIDTH);
 	}
 	

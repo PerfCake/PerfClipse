@@ -37,7 +37,7 @@ import org.perfclipse.ui.gef.commands.EditPeriodValue;
  */
 public class PeriodTableViewer extends AbstractCommandTableViewer {
 
-	private static final int TYPE_COLUMN_WIDTH = 100;
+	private static final int TYPE_COLUMN_WIDTH = 200;
 	private static final int VALUE_COLUMN_WIDTH = 200;
 
 	private TableViewerColumn typeColumn;
