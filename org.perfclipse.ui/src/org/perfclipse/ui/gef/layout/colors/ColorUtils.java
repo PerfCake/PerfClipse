@@ -1,5 +1,8 @@
 package org.perfclipse.ui.gef.layout.colors;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
@@ -11,17 +14,26 @@ import org.perfclipse.ui.Activator;
  * Sigleton class which is able to parse colors for components from eclipse 
  * preferences store.
  * 
+ * Created colors are stored in a map and can be disposed by calling {@link ColorUtils#dispose()} method.
+ * 
  * @author Jakub Knetl
  */
 public class ColorUtils {
 
 	private static ColorUtils instance;
+	
+	private Map<RGB, Color> map;
 
 	private ColorUtils()
-	{}
+	{
+		map = new HashMap<>();
+	}
 	
 	/**
-	 * Obtain color from the PerfClipse preferences.
+	 * Obtain color from the PerfClipse preferences. If Color with same rgb was
+	 * created before than it is reused. It implies that clients should not
+	 *  dispose this color since it can be used by other components.
+	 * 
 	 * @param key Key of preference
 	 * @return Color instance for given component or null if the key cannot be 
 	 * found in preferences store or value for the given key cannot be parsed to
@@ -32,8 +44,17 @@ public class ColorUtils {
 		IPreferenceStore prefsStore = Activator.getDefault().getPreferenceStore();
 		String color = prefsStore.getString(key);
 		RGB rgb = parseRGB(color);
-		if (rgb != null)
-			return new Color(display, rgb);
+		if (rgb != null){
+			Color c = map.get(rgb);
+			
+			if (c == null){
+				//puts rgb to map so color could be disposed
+				c = new Color(display, rgb);
+				map.put(rgb, c);
+			}
+
+			return c;
+		}
 		
 		return null;
 	}
@@ -67,5 +88,16 @@ public class ColorUtils {
 		
 		return null;
 		
+	}
+	
+	/**
+	 * Disposes all Color instances which was created using getColor() method.
+	 * It also empty map of colors.
+	 */
+	public void dispose(){
+		for (Color c : map.values()){
+			c.dispose();
+		}
+		map.clear();
 	}
 }

@@ -24,6 +24,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
+import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,11 @@ import org.slf4j.LoggerFactory;
 public class Activator extends AbstractUIPlugin {
 	
 	final static Logger log = LoggerFactory.getLogger(Activator.class);
+
+	/**
+	 * ColorUtils instance. Used for disposing colors.
+	 */
+	private ColorUtils colorUtils;
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.perfclipse.ui"; //$NON-NLS-1$
@@ -61,6 +67,7 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		colorUtils = ColorUtils.getInstance();
 	}
 
 	/*
@@ -69,6 +76,8 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
+		colorUtils.dispose();
+		log.debug("Colors were successfully disposed.");
 		super.stop(context);
 	}
 
