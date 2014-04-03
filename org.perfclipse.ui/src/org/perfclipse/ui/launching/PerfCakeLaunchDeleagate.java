@@ -152,7 +152,8 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 	
 	private IFile getScenarioResourceForEditor(IEditorPart editor) {
 		if (editor.getEditorInput() instanceof FileEditorInput){
-			// find out if this file is scenario file and the return IFile instance
+			FileEditorInput input = (FileEditorInput) editor.getEditorInput();
+			return input.getFile();
 		}
 		return null;
 	}
