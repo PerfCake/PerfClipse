@@ -83,7 +83,6 @@ public class MessagePage extends AbstractPerfCakePage {
 	private TableViewerControl headerControl;
 	private TableViewerControl propertyControl;
 	private TableViewerControl refControl;
-
 	
 	//list of validators which will be possibly created and which are not contained in model.
 	private List<ValidatorModel> validators;
@@ -189,6 +188,9 @@ public class MessagePage extends AbstractPerfCakePage {
 				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
 		
 		refViewer = new ValidatorRefTableViewer(container, getEditingSupportCommands());
+		if (validators != null){
+			refViewer.setAlternativeValidators(validators);
+		}
 		refViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
 		data = Utils.getTableViewerGridData();
 		data.horizontalSpan = 2;

@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.perfcake.model.Scenario.Validation;
 import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.model.ValidatorRefModel;
 
 /**
@@ -40,6 +41,16 @@ public class ValidatorRefTableViewer extends AbstractCommandTableViewer {
 	private TableViewerColumn refColumn;
 	private TableViewerColumn clazzColumn;
 
+	
+	/**
+	 * This field is used for constructing new scenario, where validators
+	 * are not yet in the model so type of the validator in the viewer 
+	 * cannot be resolved. Then this List is used as validator input and validator
+	 * is searched in this list.
+	 */
+	private List<ValidatorModel> alternativeValidators;
+	
+	
 	/**
 	 * @param parent
 	 * @param style
@@ -59,6 +70,14 @@ public class ValidatorRefTableViewer extends AbstractCommandTableViewer {
 	}
 	
 
+	/**
+	 * Crates two column. First column with ValidatorRef id.
+	 * Second column with validator class type. If validator with given
+	 * ID is not found. It searches for validator also in AlternativeValidators
+	 * 
+	 * @see ValidatorRefTableViewer#setAlternativeValidators(List)
+	 * 
+	 */
 	@Override
 	protected void initColumns() {
 
@@ -94,8 +113,18 @@ public class ValidatorRefTableViewer extends AbstractCommandTableViewer {
 						}
 					}
 				}
+
+
+				// search for validator in alternative list
+				if (alternativeValidators != null){
+					for (ValidatorModel v : alternativeValidators){
+						if (ref.getValidatorRef().getId().equals(v.getValidator().getId())){
+							return v.getValidator().getClazz();
+						}
+					}
+				}
 				
-				return "No such validator with given ID exists";
+				return "No such validator with given ID exists. Please add validator with this ID";
 			}
 
 		});
@@ -108,7 +137,11 @@ public class ValidatorRefTableViewer extends AbstractCommandTableViewer {
 		clazzColumn.getColumn().setWidth(140);
 		super.setColumnsSize();
 	}
-	
-	
 
+	/**
+	 * This method is used for adding alternative validators list.
+	 */
+	public void setAlternativeValidators(List<ValidatorModel> alternativeValidators) {
+		this.alternativeValidators = alternativeValidators;
+	}
 }
