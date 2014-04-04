@@ -26,6 +26,7 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.ui.gef.commands.EditMessageMultiplicityCommand;
 import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
@@ -127,14 +128,23 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 		});
 		
 		validatorRef = new TableViewerColumn(this, SWT.NONE);
-		validatorRef.getColumn().setText("Validators");
+		validatorRef.getColumn().setText("Attached validators");
 		validatorRef.getColumn().setAlignment(SWT.CENTER);
 		validatorRef.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override
 			public String getText(Object element) {
 				MessageModel message = (MessageModel) element;
-				return String.valueOf(message.getMessage().getValidatorRef().size());
+				StringBuilder builder = new StringBuilder();
+				for (int i = 0 ; i < message.getMessage().getValidatorRef().size(); i++){
+					ValidatorRef ref = message.getMessage().getValidatorRef().get(i); 
+					if (i != 0){
+						builder.append(", ");
+					}
+					builder.append(ref.getId());
+				}
+
+				return builder.toString();
 			}
 			
 		});
