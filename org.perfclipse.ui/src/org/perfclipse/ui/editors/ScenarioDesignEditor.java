@@ -39,6 +39,7 @@ import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -46,6 +47,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.FileEditorInput;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.scenario.ScenarioException;
@@ -60,6 +62,7 @@ import org.perfclipse.ui.actions.AddReporterAction;
 import org.perfclipse.ui.actions.AddValidatorAction;
 import org.perfclipse.ui.actions.AttachValidatorAction;
 import org.perfclipse.ui.actions.EditDialogAction;
+import org.perfclipse.ui.actions.PerfClipseDeleteAction;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 import org.perfclipse.ui.gef.parts.ScenarioEditPart;
 import org.slf4j.LoggerFactory;
@@ -170,8 +173,16 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 		addSelectionAction(new AddReporterAction(this));
 		addSelectionAction(new AddDestinationAction(this));
 		addSelectionAction(new AddPeriodAction(this));
-
+		
 		super.createActions();
+
+		//remove standard delete actin and replace it with PerfclipseDeleteAction
+		IAction deleteAction = getActionRegistry().getAction(ActionFactory.DELETE.getId());
+		if (deleteAction != null){
+			getActionRegistry().removeAction(deleteAction);
+		}
+		addSelectionAction(new PerfClipseDeleteAction(this));
+
 	}
 	
 	/**
