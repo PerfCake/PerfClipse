@@ -20,19 +20,21 @@
 package org.perfclipse.ui.gef.policies;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
+import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
-import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.model.ValidatorRefModel;
 import org.perfclipse.ui.gef.commands.AddValidatorRefCommand;
+import org.perfclipse.ui.gef.commands.EditValidatorRefCommand;
+import org.perfclipse.ui.gef.parts.ValidatorRefEditPart;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class ValidatorGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
+public class ValidatorGraphicalNodeEditPolicy extends ValidatorRefGraphicalNodeEditPolicy {
 
 	
 	private ValidatorModel validator;
@@ -63,19 +65,13 @@ public class ValidatorGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 		AddValidatorRefCommand c = (AddValidatorRefCommand) request.getStartCommand();
 		c.setValidatorRef(ref);
 		
-		//check if connection is unique
-		MessageModel message = c.getMessage();
-		if (message.getMessage().getValidatorRef() != null){
-			for (ValidatorRef currentRef : message.getMessage().getValidatorRef()){
-				if (ref.getId().equals(currentRef.getId()))
-					return null;
-			}
-		}
-
-		return c;
+		if (isReferenceUnique(c.getMessage().getMessage(), ref.getId()))
+			return c;
+		else
+			return null;
 
 	}
-
+	
 	@Override
 	protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
 		// TODO Auto-generated method stub
@@ -84,7 +80,20 @@ public class ValidatorGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	@Override
 	protected Command getReconnectTargetCommand(ReconnectRequest request) {
-		// TODO Auto-generated method stub
+		if (request.getConnectionEditPart() instanceof ValidatorRefEditPart){
+			ValidatorRefEditPart connectionPart = (ValidatorRefEditPart) request.getConnectionEditPart();
+			ValidatorRefModel ref =  connectionPart.getValidatorRefModel();
+			
+			Message message = findParentMessage(ref.getValidatorRef(), validator.getMapper());
+
+			Command c = new EditValidatorRefCommand(ref, validator.getValidator().getId());
+			
+			if (message == null)
+				return c;
+			
+			if (isReferenceUnique(message, validator.getValidator().getId()))
+				return c;
+		}
 		return null;
 	}
 

@@ -20,18 +20,22 @@
 package org.perfclipse.ui.gef.policies;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
+import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.ValidatorRefModel;
 import org.perfclipse.ui.gef.commands.AddValidatorRefCommand;
+import org.perfclipse.ui.gef.commands.RelocateValidatorRefCommand;
+import org.perfclipse.ui.gef.parts.MessageEditPart;
+import org.perfclipse.ui.gef.parts.ValidatorRefEditPart;
 
 /**
  * @author Jakub Knetl
  *
  */
-public class MessageGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
+public class MessageGraphicalNodeEditPolicy extends ValidatorRefGraphicalNodeEditPolicy {
 
 	private MessageModel message;
 	
@@ -67,6 +71,21 @@ public class MessageGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	@Override
 	protected Command getReconnectSourceCommand(ReconnectRequest request) {
+		if (request.getConnectionEditPart() instanceof ValidatorRefEditPart){
+			ValidatorRefEditPart connectionPart = (ValidatorRefEditPart) request.getConnectionEditPart();
+			ValidatorRefModel ref = connectionPart.getValidatorRefModel();
+			Message oldMessage =  findParentMessage(ref.getValidatorRef(), message.getMapper());
+
+			if (!(request.getTarget() instanceof MessageEditPart))
+				return null;
+			
+
+			if (!isReferenceUnique(message.getMessage(), ref.getValidatorRef().getId()))
+				return null;
+			
+			return new RelocateValidatorRefCommand(message, 
+					(MessageModel) message.getMapper().getModelContainer(oldMessage), ref);
+		}
 		return null;
 	}
 	

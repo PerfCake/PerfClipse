@@ -19,6 +19,9 @@
 
 package org.perfclipse.ui.gef.parts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.EditPolicy;
@@ -33,11 +36,24 @@ import org.perfclipse.model.ValidatorRefModel;
  * @author Jakub Knetl
  *
  */
-public class ValidatorRefEditPart extends AbstractConnectionEditPart {
+public class ValidatorRefEditPart extends AbstractConnectionEditPart implements PropertyChangeListener {
 
 
 	public ValidatorRefEditPart(ValidatorRefModel model) {
 		setModel(model);
+	}
+	@Override
+	public void activate() {
+		if (!isActive()){
+			getValidatorRefModel().addPropertyChangeListener(this);
+		}
+		super.activate();
+	}
+	
+	@Override
+	public void deactivate() {
+		getValidatorRefModel().removePropertyChangeListener(this);
+		super.deactivate();
 	}
 	
 	public ValidatorRefModel getValidatorRefModel(){
@@ -55,6 +71,15 @@ public class ValidatorRefEditPart extends AbstractConnectionEditPart {
 		connection.setLineStyle(SWT.LINE_DASH);
 
 		return connection;
+	}
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(ValidatorRefModel.PROPERTY_ID)){
+			//TODO: just call refresh connections instead of refreshing whole subtree
+			getTarget().refresh();
+			getSource().refresh();
+		}
+		
 	}
 	
 	
