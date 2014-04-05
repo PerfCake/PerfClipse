@@ -46,6 +46,10 @@ public abstract class AbstractListEditPolicy extends OrderedLayoutEditPolicy {
 	protected EditPart getInsertionReference(Request request) {
 		if (request instanceof ChangeBoundsRequest){
 			List<?> parts = getHost().getChildren();
+
+			if (parts.isEmpty())
+				return null;
+
 			ChangeBoundsRequest req = (ChangeBoundsRequest) request;
 			Point p = req.getLocation();
 			

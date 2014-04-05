@@ -1,12 +1,15 @@
 package org.perfclipse.ui.gef.policies;
 
+import java.util.List;
+
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
+import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.gef.commands.AddDestinationCommand;
+import org.perfclipse.ui.gef.commands.MoveDestinationCommand;
 
 public class DestinationListEditPolicy extends AbstractListEditPolicy {
 	
@@ -26,14 +29,13 @@ public class DestinationListEditPolicy extends AbstractListEditPolicy {
 
 	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		List<?> list = getHost().getChildren();
+		int newIndex = list.indexOf(after);
 
-	@Override
-	protected EditPart getInsertionReference(Request request) {
-		// TODO Auto-generated method stub
-		return null;
+		if (newIndex < 0 || newIndex == list.indexOf(child))
+			return null;
+		
+		return new MoveDestinationCommand(reporter, newIndex, (DestinationModel) child.getModel());
 	}
 
 	@Override

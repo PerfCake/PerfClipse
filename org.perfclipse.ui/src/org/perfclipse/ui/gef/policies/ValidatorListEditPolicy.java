@@ -1,16 +1,19 @@
 package org.perfclipse.ui.gef.policies;
 
+import java.util.List;
+
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ValidationModel;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.gef.commands.AddValidatorCommand;
+import org.perfclipse.ui.gef.commands.MoveValidatorCommand;
 
 public class ValidatorListEditPolicy extends AbstractListEditPolicy {
 
-	ValidationModel model;
+	private ValidationModel model;
 	
 	public ValidatorListEditPolicy(ValidationModel model) {
 		super();
@@ -25,14 +28,13 @@ public class ValidatorListEditPolicy extends AbstractListEditPolicy {
 
 	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		List<?> list = getHost().getChildren();
+		int newIndex = list.indexOf(after);
 
-	@Override
-	protected EditPart getInsertionReference(Request request) {
-		// TODO Auto-generated method stub
-		return null;
+		if (newIndex < 0 || newIndex == list.indexOf(child))
+			return null;
+		
+		return new MoveValidatorCommand(model, newIndex, (ValidatorModel) child.getModel());
 	}
 
 	@Override

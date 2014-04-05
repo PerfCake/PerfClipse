@@ -19,9 +19,10 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import java.util.List;
+
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.window.Window;
@@ -30,7 +31,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
 import org.perfclipse.model.IPropertyContainer;
+import org.perfclipse.model.PropertyModel;
 import org.perfclipse.ui.gef.commands.AddPropertyCommand;
+import org.perfclipse.ui.gef.commands.MovePropertyCommand;
 import org.perfclipse.ui.wizards.PropertyAddWizard;
 
 /**
@@ -54,14 +57,14 @@ public class PropertyListEditPolicy extends AbstractListEditPolicy implements
 
 	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		List<?> list = getHost().getChildren();
+		int newIndex = list.indexOf(after);
 
-	@Override
-	protected EditPart getInsertionReference(Request request) {
-		// TODO Auto-generated method stub
-		return null;
+		if (newIndex < 0 || newIndex == list.indexOf(child))
+			return null;
+		
+		return new MovePropertyCommand(properties, newIndex, (PropertyModel) child.getModel());
+
 	}
 
 	@Override
