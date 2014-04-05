@@ -19,8 +19,6 @@
 
 package org.perfclipse.ui.gef.policies;
 
-import java.util.List;
-
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -57,10 +55,8 @@ public class PropertyListEditPolicy extends AbstractListEditPolicy implements
 
 	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
-		List<?> list = getHost().getChildren();
-		int newIndex = list.indexOf(after);
-
-		if (newIndex < 0 || newIndex == list.indexOf(child))
+		int newIndex = calculateNewIndex(child, after);
+		if (newIndex < 0)
 			return null;
 		
 		return new MovePropertyCommand(properties, newIndex, (PropertyModel) child.getModel());

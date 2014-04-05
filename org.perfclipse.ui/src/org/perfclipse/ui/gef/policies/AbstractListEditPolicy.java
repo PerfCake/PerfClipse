@@ -69,9 +69,33 @@ public abstract class AbstractListEditPolicy extends OrderedLayoutEditPolicy {
 				
 				return (EditPart) e;
 			}
-			return (EditPart) parts.get(parts.size() - 1);
 		}
 		return null;
+	}
+
+	/**
+	 * Calculates new index after move.
+	 * @return new Index position of component. Or negative if move is not neccessary
+	 */
+	protected int calculateNewIndex(EditPart child, EditPart after) {
+		List<?> list = getHost().getChildren();
+	
+		int newIndex = list.indexOf(after);
+		
+		if (newIndex < 0)
+			newIndex = list.size();
+		
+		if (newIndex > list.indexOf(child)){
+			newIndex--;
+		}
+	
+		if (newIndex < 0)
+			return -1;
+		if (newIndex == list.indexOf(child))
+			return -2;
+		
+		return newIndex;
+		
 	}
 
 }

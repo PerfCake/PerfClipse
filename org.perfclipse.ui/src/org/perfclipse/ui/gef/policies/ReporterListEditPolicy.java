@@ -1,7 +1,5 @@
 package org.perfclipse.ui.gef.policies;
 
-import java.util.List;
-
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
@@ -29,10 +27,8 @@ public class ReporterListEditPolicy extends AbstractListEditPolicy {
 
 	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
-		List<?> list = getHost().getChildren();
-		int newIndex = list.indexOf(after);
-
-		if (newIndex < 0 || newIndex == list.indexOf(child))
+		int newIndex = calculateNewIndex(child, after);
+		if (newIndex < 0)
 			return null;
 
 		return new MoveReporterCommand(reporting, newIndex, (ReporterModel) child.getModel());
