@@ -22,8 +22,8 @@ package org.perfclipse.ui.gef.policies;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
-import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
+import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.model.ValidatorRefModel;
 import org.perfclipse.ui.gef.commands.AddValidatorRefCommand;
@@ -84,14 +84,14 @@ public class ValidatorGraphicalNodeEditPolicy extends ValidatorRefGraphicalNodeE
 			ValidatorRefEditPart connectionPart = (ValidatorRefEditPart) request.getConnectionEditPart();
 			ValidatorRefModel ref =  connectionPart.getValidatorRefModel();
 			
-			Message message = findParentMessage(ref.getValidatorRef(), validator.getMapper());
+			MessageModel message = connectionPart.findParentMessage(ref);
 
 			Command c = new EditValidatorRefCommand(ref, validator.getValidator().getId());
 			
 			if (message == null)
 				return c;
 			
-			if (isReferenceUnique(message, validator.getValidator().getId()))
+			if (isReferenceUnique(message.getMessage(), validator.getValidator().getId()))
 				return c;
 		}
 		return null;

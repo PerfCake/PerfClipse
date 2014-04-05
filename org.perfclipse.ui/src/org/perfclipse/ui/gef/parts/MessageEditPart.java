@@ -132,32 +132,42 @@ implements PropertyChangeListener, NodeEditPart{
 		}
 		if (e.getPropertyName().equals(MessageModel.PROPERTY_VALIDATOR_REFS)){
 			refreshSourceConnections();
+			// refresh validator part with deleted reference
+			if (e.getOldValue() != null && e.getOldValue() instanceof ValidatorRef){
+				ValidatorRef oldRef = (ValidatorRef) e.getOldValue();
+				refreshReferencedValidator(oldRef.getId());
+			}
 		}
 	}
 	
-	
+	/**
+	 * Refreshes all connection of validator with given id
+	 * @param id Id of validator to be refreshed
+	 */
+	protected void refreshReferencedValidator(String id){
+		ModelMapper mapper = getMessageModel().getMapper();
+		if (mapper.getValidation().getValidation() == null)
+			return;
+		for (Validator v : mapper.getValidation().getValidation().getValidator()){
+			//validator v is connected to this message
+			if (id.equals(v.getId())){
+				ValidatorModel validatorModel = (ValidatorModel) mapper.getModelContainer(v);
+				ValidatorEditPart validatorPart = (ValidatorEditPart) getViewer().getEditPartRegistry().get(validatorModel);
+				
+				//if validator edit part exists.
+				if (validatorPart != null)
+					validatorPart.refreshValidatorConnections();
+			}
+		}
+	}
 
 	@Override
 	protected void refreshSourceConnections() {
 		super.refreshSourceConnections();
 		
 		//refresh target connections 
-		ModelMapper mapper = getMessageModel().getMapper();
 		for (ValidatorRef ref : getMessageModel().getMessage().getValidatorRef()){
-			if (mapper.getValidation().getValidation() == null)
-				return;
-			for (Validator v : mapper.getValidation().getValidation().getValidator()){
-				//validator v is connected to this message
-				if (ref.getId().equals(v.getId())){
-					ValidatorModel validatorModel = (ValidatorModel) mapper.getModelContainer(v);
-					ValidatorEditPart validatorPart = (ValidatorEditPart) getViewer().getEditPartRegistry().get(validatorModel);
-					
-					//if validator edit part exists.
-					if (validatorPart != null)
-						validatorPart.refreshValidatorConnections();
-				}
-			}
-						
+			refreshReferencedValidator(ref.getId());
 		}
 		
 	}

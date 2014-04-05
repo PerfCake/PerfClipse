@@ -22,7 +22,6 @@ package org.perfclipse.ui.gef.policies;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
-import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ValidatorRefModel;
@@ -74,7 +73,7 @@ public class MessageGraphicalNodeEditPolicy extends ValidatorRefGraphicalNodeEdi
 		if (request.getConnectionEditPart() instanceof ValidatorRefEditPart){
 			ValidatorRefEditPart connectionPart = (ValidatorRefEditPart) request.getConnectionEditPart();
 			ValidatorRefModel ref = connectionPart.getValidatorRefModel();
-			Message oldMessage =  findParentMessage(ref.getValidatorRef(), message.getMapper());
+			MessageModel oldMessage =  connectionPart.findParentMessage(ref);
 
 			if (!(request.getTarget() instanceof MessageEditPart))
 				return null;
@@ -83,8 +82,7 @@ public class MessageGraphicalNodeEditPolicy extends ValidatorRefGraphicalNodeEdi
 			if (!isReferenceUnique(message.getMessage(), ref.getValidatorRef().getId()))
 				return null;
 			
-			return new RelocateValidatorRefCommand(message, 
-					(MessageModel) message.getMapper().getModelContainer(oldMessage), ref);
+			return new RelocateValidatorRefCommand(message, oldMessage, ref);
 		}
 		return null;
 	}

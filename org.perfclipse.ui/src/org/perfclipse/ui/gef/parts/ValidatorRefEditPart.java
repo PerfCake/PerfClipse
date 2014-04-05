@@ -28,7 +28,12 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.swt.SWT;
+import org.perfcake.model.Scenario.Messages.Message;
+import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
+import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ValidatorRefModel;
+import org.perfclipse.ui.gef.policies.ValidatorRefEditPolicy;
 
 /**
  * Edit part which handles connections in the model.
@@ -63,6 +68,8 @@ public class ValidatorRefEditPart extends AbstractConnectionEditPart implements 
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
+		MessageModel message = findParentMessage(getValidatorRefModel());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ValidatorRefEditPolicy(message, getValidatorRefModel()));
 	}
 
 	@Override
@@ -80,6 +87,25 @@ public class ValidatorRefEditPart extends AbstractConnectionEditPart implements 
 			getSource().refresh();
 		}
 		
+	}
+	
+	/**
+	 * Searches for instance of Message which has assigned same validatorRef instance
+	 * @param validatorRef  validator ref whose parent message is searched for.
+	 * @param mapper ModelMapper for given scenario
+	 * @return PerfClipse model of the message. or null if no message with given validator ref.
+	 */
+	public MessageModel findParentMessage(ValidatorRefModel validatorRef) {
+		MessagesModel messages = validatorRef.getMapper().getMessagesModel();
+		
+		for (Message m : messages.getMessages().getMessage()){
+			for (ValidatorRef ref : m.getValidatorRef()){
+				if (ref == validatorRef.getValidatorRef())
+					return (MessageModel) validatorRef.getMapper().getModelContainer(m);
+			}
+		}
+		
+		return null;
 	}
 	
 	

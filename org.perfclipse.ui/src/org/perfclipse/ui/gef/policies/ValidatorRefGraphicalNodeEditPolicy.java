@@ -3,8 +3,6 @@ package org.perfclipse.ui.gef.policies;
 import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
-import org.perfclipse.model.MessagesModel;
-import org.perfclipse.model.ModelMapper;
 
 public abstract class ValidatorRefGraphicalNodeEditPolicy extends
 		GraphicalNodeEditPolicy {
@@ -30,25 +28,6 @@ public abstract class ValidatorRefGraphicalNodeEditPolicy extends
 		}
 		
 		return true;
-	}
-
-	/**
-	 * Searches for instance of Message which has assigned same validatorRef instance
-	 * @param validatorRef  validator ref whose parent message is searched for.
-	 * @param mapper ModelMapper for given scenario
-	 * @return PerfCake model of the message. or null if no message with given validator ref.
-	 */
-	protected Message findParentMessage(ValidatorRef validatorRef, ModelMapper mapper) {
-		MessagesModel messages = mapper.getMessagesModel();
-		
-		for (Message m : messages.getMessages().getMessage()){
-			for (ValidatorRef ref : m.getValidatorRef()){
-				if (ref == validatorRef)
-					return m;
-			}
-		}
-		
-		return null;
 	}
 
 }
