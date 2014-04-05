@@ -22,18 +22,28 @@ package org.perfclipse.ui.gef.parts;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Color;
+import org.perfcake.model.Scenario.Messages.Message;
+import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
+import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.model.ValidatorRefModel;
 import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.figures.IAnchorFigure;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
@@ -44,7 +54,8 @@ import org.perfclipse.ui.wizards.ValidatorEditWizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
+public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements
+PropertyChangeListener, NodeEditPart {
 
 	static final Logger log = LoggerFactory.getLogger(ValidatorEditPart.class);
 
@@ -120,6 +131,58 @@ public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements P
 		if (e.getPropertyName().equals(ValidatorModel.PROPERTY_CLASS)){
 			refreshVisuals();
 		}
+	}
+	
+	@Override
+	protected List<?> getModelSourceConnections() {
+		// TODO Auto-generated method stub
+		return super.getModelSourceConnections();
+	}
+
+	@Override
+	protected List<?> getModelTargetConnections() {
+		ModelMapper mapper = getValidatorModel().getMapper();
+		MessagesModel messages = mapper.getMessagesModel();
+		
+		List<ValidatorRefModel> references = new ArrayList<>();
+		
+		if (messages == null)
+			return Collections.EMPTY_LIST;
+
+		for (Message m : messages.getMessages().getMessage()){
+			
+			for (ValidatorRef ref : m.getValidatorRef()){
+				if (ref.getId().equals(getValidatorModel().getValidator().getId())){
+					references.add((ValidatorRefModel) mapper.getModelContainer(ref));
+				}
+			}
+		}
+
+		return references;
+	}
+
+	@Override
+	public ConnectionAnchor getSourceConnectionAnchor(
+			ConnectionEditPart connection) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ConnectionAnchor getTargetConnectionAnchor(
+			ConnectionEditPart connection) {
+		return ((IAnchorFigure) getFigure()).getConnectionAnchor();
+	}
+
+	@Override
+	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
+		return ((IAnchorFigure) getFigure()).getConnectionAnchor();
 	}
 
 }

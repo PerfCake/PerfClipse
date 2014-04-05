@@ -34,6 +34,7 @@ import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.model.SenderModel;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.model.ValidatorRefModel;
 
 public class PerfCakeEditPartFactory implements EditPartFactory {
 
@@ -80,6 +81,9 @@ public class PerfCakeEditPartFactory implements EditPartFactory {
 		}
 		if (model instanceof PropertyModel){
 			return new PropertyEditPart((PropertyModel) model);
+		}
+		if (model instanceof ValidatorRefModel){
+			return new ValidatorRefEditPart((ValidatorRefModel) model);
 		}
 		return null;
 	}

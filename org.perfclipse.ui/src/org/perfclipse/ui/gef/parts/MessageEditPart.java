@@ -24,16 +24,23 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Color;
+import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ModelMapper;
+import org.perfclipse.model.ValidatorRefModel;
 import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.figures.IAnchorFigure;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
@@ -42,7 +49,8 @@ import org.perfclipse.ui.gef.policies.directedit.MessageDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.MessageEditWizard;
 
-public class MessageEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener{
+public class MessageEditPart extends AbstractPerfCakeNodeEditPart 
+implements PropertyChangeListener, NodeEditPart{
 
 
 	public MessageEditPart(MessageModel modelMessage){
@@ -118,5 +126,44 @@ public class MessageEditPart extends AbstractPerfCakeNodeEditPart implements Pro
 		if (e.getPropertyName().equals(MessageModel.PROPERTY_URI)){
 			refreshVisuals();
 		}
+	}
+
+	@Override
+	protected List<?> getModelSourceConnections() {
+		List<ValidatorRefModel> connections = new ArrayList<>();
+		ModelMapper mapper = getMessageModel().getMapper();
+		for (ValidatorRef ref : getMessageModel().getMessage().getValidatorRef()){
+			connections.add((ValidatorRefModel) mapper.getModelContainer(ref));
+		}
+		
+		return connections;
+	}
+
+	@Override
+	protected List<?> getModelTargetConnections() {
+		return super.getModelTargetConnections();
+	}
+
+	@Override
+	public ConnectionAnchor getSourceConnectionAnchor(
+			ConnectionEditPart connection) {
+		return ((IAnchorFigure) getFigure()).getConnectionAnchor();
+	}
+
+	@Override
+	public ConnectionAnchor getTargetConnectionAnchor(
+			ConnectionEditPart connection) {
+		return null;
+	}
+
+	@Override
+	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		return ((IAnchorFigure) getFigure()).getConnectionAnchor();
+	}
+
+	@Override
+	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

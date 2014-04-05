@@ -80,7 +80,9 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 		modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getSender()));
 		
 		if (getScenarioModel().getScenario().getMessages() == null){
-			modelChildren.add(new MessagesModel(getScenarioModel().getScenario().getMessages(), getScenarioModel(), mapper));
+			MessagesModel messages = new MessagesModel(getScenarioModel().getScenario().getMessages(), mapper.getScenario(), mapper);
+			mapper.setMessagesModel(messages);
+			modelChildren.add(messages);
 		}else{
 			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getMessages()));
 		}
@@ -91,7 +93,7 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 		}
 		if (getScenarioModel().getScenario().getValidation() == null){
 			ValidationModel validation = new ValidationModel(getScenarioModel().getScenario().getValidation(), getScenarioModel(), mapper);
-			mapper.addValidationModel(validation);
+			mapper.setValidationModel(validation);
 			modelChildren.add(validation);
 		} else {
 			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getValidation()));
