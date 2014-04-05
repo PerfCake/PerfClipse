@@ -71,6 +71,24 @@ public class Logger {
 	}
 	
 	/**
+	 * Log message at ok level
+	 * @param msg message to be logged
+	 */
+	public void ok(String msg){
+		log(IStatus.OK, msg);
+	}
+	
+	/**
+	 * Log message at ok level
+	 * @param msg message to be logged
+	 * @param e exception related to the logged event
+	 */
+	public void ok(String msg, Throwable e){
+		log(IStatus.OK, msg, e);
+	}
+	
+	
+	/**
 	 * Log message at info level
 	 * @param msg message to be logged
 	 */
