@@ -19,37 +19,19 @@
 
 package org.perfclipse.ui.gef.figures;
 
-import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
-import org.eclipse.draw2d.Label;
-import org.eclipse.swt.graphics.Color;
 
-public class LabeledRoundedRectangle extends PerfCakeRoundedRectangle 
-	implements ILabeledFigure, IAnchorFigure{
+/**
+ * Class which implements this interface can return GEF figure {@link ConnectionAnchor}
+ * 
+ * @author Jakub Knetl
+ *
+ */
+public interface IAnchorFigure {
 	
-	private Label label;
-	private ChopboxAnchor anchor;
-
-	public LabeledRoundedRectangle(String name, Color foregroundColor, Color backgroundColor) {
-		super(name, foregroundColor, backgroundColor);
-		label = new Label();
-		label.setText(name);
-		add(label);
-	}
-
-	@Override
-	public final Label getLabel() {
-		return label;
-	}
-
-	@Override
-	public ConnectionAnchor getConnectionAnchor() {
-		if (anchor == null){
-			anchor = new ChopboxAnchor(this);
-		}
-		
-		return anchor;
-	}
-	
-	
+	/**
+	 * 
+	 * @return connection anchor
+	 */
+	public ConnectionAnchor getConnectionAnchor();
 }
