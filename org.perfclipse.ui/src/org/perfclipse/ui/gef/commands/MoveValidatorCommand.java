@@ -20,43 +20,44 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ValidationModel;
+import org.perfclipse.model.ValidatorModel;
 
 /**
- * Command for changing message position in the list
  * @author Jakub Knetl
  *
  */
-public class MoveMessageCommand extends Command {
-	
-	private MessagesModel messages;
+public class MoveValidatorCommand extends Command {
+
+	private ValidationModel validation;
 	private int newIndex;
 	private int oldIndex;
-	private MessageModel message;
-
+	private ValidatorModel validator;
 	/**
-	 * @param messages
+	 * @param validation
 	 * @param newIndex
+	 * @param validator
 	 */
-	public MoveMessageCommand(MessagesModel messages, MessageModel message,
-			int newIndex) {
-		super("Move message");
-		this.messages = messages;
+	public MoveValidatorCommand(ValidationModel validation, int newIndex,
+			ValidatorModel validator) {
+		super("Move validator");
+		this.validation = validation;
 		this.newIndex = newIndex;
-		this.message = message;
-		oldIndex = messages.getMessages().getMessage().indexOf(message);
+		this.validator = validator;
+		oldIndex = validation.getValidation().getValidator().indexOf(validator.getValidator());
 	}
-
 	@Override
 	public void execute() {
-		messages.removeMessage(message.getMessage());
-		messages.addMessage(newIndex, message.getMessage());
+		validation.removeValidator(validator.getValidator());
+		validation.addValidator(newIndex, validator.getValidator());
 	}
-
 	@Override
 	public void undo() {
-		messages.removeMessage(message.getMessage());
-		messages.addMessage(oldIndex, message.getMessage());
+		validation.removeValidator(validator.getValidator());
+		validation.addValidator(oldIndex, validator.getValidator());
 	}
+	
+	
+	
+	
 }

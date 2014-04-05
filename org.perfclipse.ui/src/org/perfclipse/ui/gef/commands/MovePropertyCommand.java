@@ -20,43 +20,44 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.IPropertyContainer;
+import org.perfclipse.model.PropertyModel;
 
 /**
- * Command for changing message position in the list
  * @author Jakub Knetl
  *
  */
-public class MoveMessageCommand extends Command {
-	
-	private MessagesModel messages;
+public class MovePropertyCommand extends Command {
+
+	private IPropertyContainer propertyContainer;
 	private int newIndex;
 	private int oldIndex;
-	private MessageModel message;
-
+	private PropertyModel property;
 	/**
-	 * @param messages
+	 * @param propertyContainer
 	 * @param newIndex
+	 * @param property
 	 */
-	public MoveMessageCommand(MessagesModel messages, MessageModel message,
-			int newIndex) {
-		super("Move message");
-		this.messages = messages;
+	public MovePropertyCommand(IPropertyContainer propertyContainer,
+			int newIndex, PropertyModel property) {
+		super("Move property");
+		this.propertyContainer = propertyContainer;
 		this.newIndex = newIndex;
-		this.message = message;
-		oldIndex = messages.getMessages().getMessage().indexOf(message);
+		this.property = property;
+		oldIndex = propertyContainer.getProperty().indexOf(property.getProperty());
 	}
-
 	@Override
 	public void execute() {
-		messages.removeMessage(message.getMessage());
-		messages.addMessage(newIndex, message.getMessage());
+		propertyContainer.removeProperty(property.getProperty());
+		propertyContainer.addProperty(newIndex, property.getProperty());;
 	}
-
 	@Override
 	public void undo() {
-		messages.removeMessage(message.getMessage());
-		messages.addMessage(oldIndex, message.getMessage());
+		propertyContainer.removeProperty(property.getProperty());
+		propertyContainer.addProperty(oldIndex, property.getProperty());;
 	}
+	
+	
+
+	
 }

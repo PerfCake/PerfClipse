@@ -20,43 +20,41 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
+import org.perfclipse.model.ReporterModel;
+import org.perfclipse.model.ReportingModel;
 
 /**
- * Command for changing message position in the list
  * @author Jakub Knetl
  *
  */
-public class MoveMessageCommand extends Command {
-	
-	private MessagesModel messages;
+public class MoveReporterCommand extends Command {
+
+	private ReportingModel reporting;
 	private int newIndex;
 	private int oldIndex;
-	private MessageModel message;
-
+	private ReporterModel reporter;
 	/**
-	 * @param messages
+	 * @param reporting
 	 * @param newIndex
+	 * @param reporter
 	 */
-	public MoveMessageCommand(MessagesModel messages, MessageModel message,
-			int newIndex) {
-		super("Move message");
-		this.messages = messages;
+	public MoveReporterCommand(ReportingModel reporting, int newIndex,
+			ReporterModel reporter) {
+		super("Move reporter");
+		this.reporting = reporting;
 		this.newIndex = newIndex;
-		this.message = message;
-		oldIndex = messages.getMessages().getMessage().indexOf(message);
+		this.reporter = reporter;
+		oldIndex = reporting.getReporting().getReporter().indexOf(reporter.getReporter());
 	}
-
 	@Override
 	public void execute() {
-		messages.removeMessage(message.getMessage());
-		messages.addMessage(newIndex, message.getMessage());
+		reporting.removeReporter(reporter.getReporter());
+		reporting.addReporter(newIndex, reporter.getReporter());
 	}
-
 	@Override
 	public void undo() {
-		messages.removeMessage(message.getMessage());
-		messages.addMessage(oldIndex, message.getMessage());
+		reporting.removeReporter(reporter.getReporter());
+		reporting.addReporter(oldIndex, reporter.getReporter());
 	}
+	
 }
