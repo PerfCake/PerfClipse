@@ -34,10 +34,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
 import org.perfcake.model.Property;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.reflect.PerfCakeComponents;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.events.AddPropertySelectionAdapter;
@@ -46,13 +48,12 @@ import org.perfclipse.ui.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.perfclipse.ui.swt.jface.StringComboViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
-import org.slf4j.LoggerFactory;
 
 public class GeneratorPage extends AbstractPerfCakePage {
 	
 	public static final String GENERATOR_PAGE_NAME = "Genarator";
 
-	final static org.slf4j.Logger log = LoggerFactory.getLogger(GeneratorPage.class);
+	static final Logger log = Activator.getDefault().getLogger();
 
 	private final static int SPINNER_DEFAULT_WIDTH = 33;
 	

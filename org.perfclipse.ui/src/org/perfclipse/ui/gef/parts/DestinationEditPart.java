@@ -31,8 +31,10 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Color;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ReporterModel;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
@@ -41,12 +43,10 @@ import org.perfclipse.ui.gef.policies.DestionationEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.DestinationDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.DestinationEditWizard;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DestinationEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
 
-	static final Logger log = LoggerFactory.getLogger(DestinationEditPart.class);
+	static final Logger log = Activator.getDefault().getLogger();
 
 
 	public DestinationEditPart(DestinationModel destinationModel){

@@ -30,15 +30,16 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.perfclipse.logging.Logger;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.PerfClipseConstants;
 import org.perfclipse.ui.wizards.pages.PerfcakeProjectFirstPage;
-import org.slf4j.LoggerFactory;
 
 public class PerfcakeProjectWizard extends Wizard implements INewWizard {
 	
 	private static final String[] defaultFolders = {PerfClipseConstants.SCENARIO_DIR_NAME, PerfClipseConstants.MESSAGE_DIR_NAME};
 	
-	final static org.slf4j.Logger log = LoggerFactory.getLogger(PerfcakeProjectWizard.class);
+	static final Logger log = Activator.getDefault().getLogger();
 
 	private PerfcakeProjectFirstPage firstPage;
 	private IWorkbench workbench;
@@ -76,11 +77,12 @@ public class PerfcakeProjectWizard extends Wizard implements INewWizard {
 					log.warn("Cannot delete resources: " + project.getProjectRelativePath());
 					MessageDialog.openError(shell, "Cannot delete resources", project.getProjectRelativePath().toString());
 				}
-					
+
 				MessageDialog.openError(shell, "Error", "Project cannot be created.");
-				log.warn("Cannot create project due to CoreException: " + e.toString());}
-				return false;
+				log.warn("Cannot create project due to CoreException: ", e);
 			}
+			return false;
+		}
 
 		return true;
 	}

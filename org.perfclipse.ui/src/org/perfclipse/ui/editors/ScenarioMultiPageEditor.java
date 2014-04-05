@@ -35,7 +35,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
-import org.slf4j.LoggerFactory;
+import org.perfclipse.logging.Logger;
+import org.perfclipse.ui.Activator;
 
 public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IResourceChangeListener{
 	
@@ -45,7 +46,7 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 
 	private static final String DESIGN_EDITOR_TAB_LABEL = "Designer";
 
-	final static org.slf4j.Logger log = LoggerFactory.getLogger(ScenarioMultiPageEditor.class);
+	final static Logger log = Activator.getDefault().getLogger();
 
 	private StructuredTextEditor textEditor;
 	private int textEditorIndex;
@@ -130,7 +131,7 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 			designEditorIndex = addPage(designEditor, editorInput);
 			setPageText(designEditorIndex, DESIGN_EDITOR_TAB_LABEL);
 		} catch (PartInitException e) {
-			log.warn("Cannot create Scenario design editor: " + e);
+			log.warn("Cannot create Scenario design editor: ", e);
 			ErrorDialog.openError(getSite().getShell(), "Error",
 					"Error creating scenario design editor.", e.getStatus());
 		}
@@ -144,7 +145,7 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 		textEditorIndex = addPage(textEditor, getEditorInput());
 		setPageText(textEditorIndex, XML_EDITOR_TAB_LABEL);
 		} catch (PartInitException e){
-			log.warn("Cannot create Scenario text editor: " + e);
+			log.warn("Cannot create Scenario text editor", e);
 			ErrorDialog.openError(getSite().getShell(), "Error",
 					"Error creating scenario text editor.", e.getStatus());
 			

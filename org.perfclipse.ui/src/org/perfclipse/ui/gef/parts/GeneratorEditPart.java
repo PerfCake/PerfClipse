@@ -32,21 +32,21 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Color;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.GeneratorEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.GeneratorEditWizard;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 //TODO : move implements to the superclass
 public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
-	static final Logger log = LoggerFactory.getLogger(GeneratorEditPart.class);
+	static final Logger log = Activator.getDefault().getLogger();
 
 	public GeneratorEditPart(GeneratorModel generatorModel) {
 		setModel(generatorModel);

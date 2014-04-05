@@ -19,14 +19,15 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.console.MessageConsole;
 import org.perfcake.PerfCakeConst;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.perfclipse.ui.Activator;
 
 final public class PerfCakeRunJob extends Job{
 	
-	static final Logger log = LoggerFactory.getLogger(PerfCakeRunJob.class); 
+	static final Logger log = Activator.getDefault().getLogger();
+	
 
 	private static final long CHECK_INTERVAL = 500;
 	private IFile file;
@@ -104,14 +105,14 @@ final public class PerfCakeRunJob extends Job{
 			}
 			monitor.done();
 		} catch (MalformedURLException e) {
-			log.warn("Wrong url to scenario." + e);
+			log.warn("Wrong url to scenario.", e);
 			Display.getDefault().asyncExec(new ErrorDialog("Scenario URL error", e.getMessage()));
 		} finally {
 			System.setOut(standardOut); //set System.out to standard output
 			try {
 				out.close();
 			} catch (IOException e) {
-				log.warn("Cannot close stream to eclipse consolse!" + e);
+				log.warn("Cannot close stream to eclipse consolse!", e);
 			}
 		}
 		return Status.OK_STATUS;

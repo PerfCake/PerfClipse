@@ -11,14 +11,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.perfclipse.ui.Activator;
 
 public abstract class AbstractCommandTableViewer extends TableViewer {
 
-	static final Logger log = LoggerFactory.getLogger(AbstractCommandTableViewer.class);
+	static final Logger log = Activator.getDefault().getLogger();
 	private List<Command> commands;
 
 	public AbstractCommandTableViewer(Composite parent, List<Command> commands) {

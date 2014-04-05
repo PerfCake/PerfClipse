@@ -49,6 +49,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.FileEditorInput;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
@@ -65,11 +66,10 @@ import org.perfclipse.ui.actions.EditDialogAction;
 import org.perfclipse.ui.actions.PerfClipseDeleteAction;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 import org.perfclipse.ui.gef.parts.ScenarioEditPart;
-import org.slf4j.LoggerFactory;
 
 public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	
-	final static org.slf4j.Logger log = LoggerFactory.getLogger(ScenarioDesignEditor.class);
+	final static Logger log = Activator.getDefault().getLogger();
 
 	private ScenarioModel model;
 	private ScenarioMultiPageEditor parent;
@@ -212,7 +212,7 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 				getEditDomain().getCommandStack().markSaveLocation();
 			} catch (CoreException e) {
 				MessageDialog.openError(getSite().getShell(), "Write error", "Cannot write data into file.");
-				log.error("Write error", "Cannot write data into file", e);
+				log.error("Write error: cannot write data into file", e);
 			} finally {
 				try {
 					if (in != null){

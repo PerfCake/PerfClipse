@@ -22,18 +22,17 @@ package org.perfclipse.ui;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The activator class controls the plug-in life cycle
  */
 public class Activator extends AbstractUIPlugin {
 	
-	final static Logger log = LoggerFactory.getLogger(Activator.class);
+	private Logger logger;
 
 	/**
 	 * ColorUtils instance. Used for disposing colors.
@@ -51,10 +50,12 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public Activator() {
 		// creates singleton of PerfCake components
+		logger = new Logger(getLog(), PLUGIN_ID);
+		plugin = this;
 		try {
 			PerfCakeComponents.getInstance();
 		} catch (PerfClipseScannerException e) {
-			log.error("Cannot parse PerfCake components", e);
+			logger.error("Cannot parse PerfCake components", e);
 			MessageDialog.openError(getWorkbench().getActiveWorkbenchWindow().getShell(),
 					"Cannot parse PerfCake components", "Automatically loaded components from PerfCake will not be available");
 		}
@@ -66,8 +67,7 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		log.debug("PerfClipse UI bundle has been running");
-		plugin = this;
+		logger.info("PerfClipse UI bundle has been running");
 		colorUtils = ColorUtils.getInstance();
 	}
 
@@ -78,7 +78,7 @@ public class Activator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		colorUtils.dispose();
-		log.debug("Colors were successfully disposed.");
+		logger.info("Colors were successfully disposed.");
 		super.stop(context);
 	}
 
@@ -89,6 +89,14 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+	
+	/**
+	 * 
+	 * @return returns logger instance
+	 */
+	public Logger getLogger() {
+		return logger;
 	}
 
 }

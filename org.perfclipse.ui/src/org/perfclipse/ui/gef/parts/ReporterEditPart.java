@@ -34,10 +34,12 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Color;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
@@ -47,12 +49,10 @@ import org.perfclipse.ui.gef.policies.ReporterEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.RenameReporterDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.ReporterEditWizard;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
 	
-	static final Logger log = LoggerFactory.getLogger(ReporterEditPart.class);
+	static final Logger log = Activator.getDefault().getLogger();
 
 	public ReporterEditPart(ReporterModel reporterModel){
 		setModel(reporterModel);

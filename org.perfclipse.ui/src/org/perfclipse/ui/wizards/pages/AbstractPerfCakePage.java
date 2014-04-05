@@ -31,11 +31,11 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractPerfCakePage extends WizardPage {
 	
-	static Logger logger = LoggerFactory.getLogger(AbstractPerfCakePage.class);
+	static final Logger log = Activator.getDefault().getLogger();
 	
 	private boolean editMode;
 
@@ -66,7 +66,7 @@ public abstract class AbstractPerfCakePage extends WizardPage {
 		try {
 			components = PerfCakeComponents.getInstance();
 		} catch (PerfClipseScannerException e) {
-			logger.error("Cannot parse PerfCake components", e);
+			log.error("Cannot parse PerfCake components", e);
 			MessageDialog.openError(getShell(), "Cannot parse PerfCake components",
 					"Automatically loaded components from PerfCake will not be available");
 		}

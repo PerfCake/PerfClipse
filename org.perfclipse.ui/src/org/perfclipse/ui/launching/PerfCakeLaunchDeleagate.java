@@ -47,13 +47,13 @@ import org.eclipse.ui.console.IConsoleConstants;
 import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.part.FileEditorInput;
+import org.perfclipse.logging.Logger;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, ILaunchShortcut {
 
-	final static Logger log = LoggerFactory.getLogger(PerfCakeLaunchDeleagate.class);
+	static final Logger log = Activator.getDefault().getLogger();
 
 	@Override
 	public void launch(ILaunchConfiguration configuration, String mode,
@@ -188,11 +188,11 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 						IConsoleView view = (IConsoleView) page.showView(id);
 						view.display(perfclipseConsole);
 					} catch (PartInitException e1) {
-						log.warn("Cannot show console view." + e1);
+						log.warn("Cannot show console view.", e1);
 					}
 				} catch (NullPointerException e){
 					log.warn("Cannot show console view since "
-							+ "getActiveWorkbenchWindow() is null." + e);
+							+ "getActiveWorkbenchWindow() is null.", e);
 				}
 			}
 			

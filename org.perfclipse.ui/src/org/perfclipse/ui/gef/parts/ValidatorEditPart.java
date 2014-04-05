@@ -37,11 +37,13 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Color;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.model.ValidatorRefModel;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.IAnchorFigure;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
@@ -52,13 +54,11 @@ import org.perfclipse.ui.gef.policies.ValidatorGraphicalNodeEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.ValidatorDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.ValidatorEditWizard;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements
 PropertyChangeListener, NodeEditPart {
 
-	static final Logger log = LoggerFactory.getLogger(ValidatorEditPart.class);
+	static final Logger log = Activator.getDefault().getLogger();
 
 	protected DirectEditManager manager;
 

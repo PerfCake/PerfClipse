@@ -26,14 +26,15 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
-import org.slf4j.LoggerFactory;
+import org.perfclipse.ui.Activator;
 
 public class ScenarioDesignEditorInput extends FileEditorInput {
 
-	final static org.slf4j.Logger log = LoggerFactory.getLogger(ScenarioDesignEditorInput.class);
+	final static Logger log = Activator.getDefault().getLogger();
 	private ScenarioModel model;
 	
 	public ScenarioDesignEditorInput(IFile file) {

@@ -33,8 +33,10 @@ import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Color;
 import org.perfcake.model.Property;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.SenderModel;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
@@ -44,12 +46,10 @@ import org.perfclipse.ui.gef.policies.SenderEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.SenderDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.SenderEditWizard;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
-	static final Logger log = LoggerFactory.getLogger(SenderEditPart.class);
+	static final Logger log = Activator.getDefault().getLogger();
 
 	@Override
 	public void activate() {

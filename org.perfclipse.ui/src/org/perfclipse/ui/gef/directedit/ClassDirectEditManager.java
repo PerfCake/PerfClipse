@@ -28,12 +28,12 @@ import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.perfclipse.logging.Logger;
+import org.perfclipse.ui.Activator;
 
 public class ClassDirectEditManager extends DirectEditManager {
 
-	static final Logger log = LoggerFactory.getLogger(ClassDirectEditManager.class);
+	static final Logger log = Activator.getDefault().getLogger();
 
 	private Label label;
 	

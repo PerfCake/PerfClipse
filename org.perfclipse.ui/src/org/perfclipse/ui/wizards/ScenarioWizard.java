@@ -40,12 +40,14 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.part.FileEditorInput;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.wizards.pages.GeneratorPage;
 import org.perfclipse.ui.wizards.pages.MessagesPage;
 import org.perfclipse.ui.wizards.pages.PropertiesPage;
@@ -53,8 +55,6 @@ import org.perfclipse.ui.wizards.pages.ReportingPage;
 import org.perfclipse.ui.wizards.pages.ScenarioNewFilePage;
 import org.perfclipse.ui.wizards.pages.SenderPage;
 import org.perfclipse.ui.wizards.pages.ValidationPage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ScenarioWizard extends Wizard implements INewWizard {
 
@@ -68,7 +68,8 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 	
 	IStructuredSelection selection;
 	
-	static final Logger log = LoggerFactory.getLogger(ScenarioWizard.class);
+	
+	static final Logger log = Activator.getDefault().getLogger();
 	
 	/**
 	 * Validator list (to synchronise it between pages).

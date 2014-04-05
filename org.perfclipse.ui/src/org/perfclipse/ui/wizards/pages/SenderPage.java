@@ -43,8 +43,6 @@ import org.perfclipse.ui.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.ui.swt.jface.PropertyTableViewer;
 import org.perfclipse.ui.swt.jface.StringComboViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Jakub Knetl
@@ -56,7 +54,6 @@ public class SenderPage extends AbstractPerfCakePage {
 	private Composite container;
 	private Label senderLabel;
 	private StringComboViewer senderTypeViewer;
-	static final Logger log = LoggerFactory.getLogger(SenderPage.class);
 	
 	private TableViewer propertyViewer;
 	private TableViewerControl propertyViewerControls;

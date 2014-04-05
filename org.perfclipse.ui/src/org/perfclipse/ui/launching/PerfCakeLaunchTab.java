@@ -43,15 +43,15 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.perfclipse.logging.Logger;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.PerfClipseConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 	
 	public static final String TAB_NAME = "PerfCake configuration";
 	
-	final static Logger log = LoggerFactory.getLogger(PerfCakeLaunchTab.class);
+	static final Logger log = Activator.getDefault().getLogger();
 
 	Composite container;
 	GridLayout layout;
