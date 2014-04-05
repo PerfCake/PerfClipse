@@ -35,9 +35,10 @@ import org.perfcake.PerfCakeException;
 import org.perfcake.Scenario;
 import org.perfcake.ScenarioBuilder;
 import org.perfcake.parser.ScenarioParser;
+import org.perfclipse.Activator;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.model.ScenarioModel;
 import org.perfclipse.reflect.SchemaScanner;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 /**
@@ -47,7 +48,7 @@ import org.xml.sax.SAXException;
  */
 public class ScenarioManager {
 
-	final static org.slf4j.Logger log = LoggerFactory.getLogger(ScenarioManager.class);
+	final static Logger log = Activator.getDefault().getLogger();
 	
 	//TODO : scenario is initialized in runScenario method and used for
 	// stop in stopSceanario method which will be called from different threads
@@ -76,7 +77,7 @@ public class ScenarioManager {
 		}
 
 		try {
-			log.debug("Trying to execute scenario");
+			log.info("Trying to execute scenario");
 			scenario.init();
 			scenario.run();
 		} catch (PerfCakeException e) {
@@ -133,16 +134,16 @@ public class ScenarioManager {
 			marshaller.marshal(model, out);
 		} catch (JAXBException e) {
 			log.error("JAXB error", e);
-			throw new ScenarioException("JAXB error" ,e.getCause());
+			throw new ScenarioException("JAXB error" ,e);
 		} catch (MalformedURLException e) {
 			log.error("Malformed url", e);
-			throw new ScenarioException("Malformed url", e.getCause());
+			throw new ScenarioException("Malformed url", e);
 		} catch (SAXException e) {
 			log.error("Cannot obtain schema definition", e);
-			throw new ScenarioException("Cannot obtain schema definition", e.getCause());
+			throw new ScenarioException("Cannot obtain schema definition", e);
 		} catch (IOException e) {
 			log.error("Cannot obtain XML schema file", e);
-			throw new ScenarioException("Cannot obtain XML schema file", e.getCause());
+			throw new ScenarioException("Cannot obtain XML schema file", e);
 		}
 	}
 

@@ -30,8 +30,8 @@ import java.util.Set;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.perfclipse.Activator;
+import org.perfclipse.logging.Logger;
 
 /**
  * ComponentScanner class is able to parse  bundle installed in eclipse
@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ComponentScanner {
 	
-	final static Logger log = LoggerFactory.getLogger(ComponentScanner.class);
+	final static Logger log = Activator.getDefault().getLogger();
 	private String bundle;
 	
 	

@@ -38,8 +38,8 @@ import org.perfcake.model.Scenario.Reporting.Reporter.Destination.Period;
 import org.perfcake.model.Scenario.Sender;
 import org.perfcake.model.Scenario.Validation;
 import org.perfcake.model.Scenario.Validation.Validator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.perfclipse.Activator;
+import org.perfclipse.logging.Logger;
 
 /**
  * This Class maps between PerfCake model object and PerfClipse model object container 
@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ModelMapper {
 	
-	static final Logger log = LoggerFactory.getLogger(ModelMapper.class);
+	static final Logger log = Activator.getDefault().getLogger();
 
 	private Map<Object, Object> map;
 
@@ -221,7 +221,7 @@ public class ModelMapper {
 			return result;
 		}
 		
-		log.warn("Unknown PerfCake model.", perfcakeModel);
+		log.warn("Unknown PerfCake model." + perfcakeModel.toString());
 		throw new IllegalArgumentException("Unknown PerfCake model.");
 	}
 

@@ -27,13 +27,13 @@ import org.perfcake.message.sender.AbstractSender;
 import org.perfcake.reporting.destinations.Destination;
 import org.perfcake.reporting.reporters.Reporter;
 import org.perfcake.validation.MessageValidator;
+import org.perfclipse.Activator;
 import org.perfclipse.PerfClipseConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.perfclipse.logging.Logger;
 
 public class PerfCakeComponents {
 	
-	final static Logger log = LoggerFactory.getLogger(PerfCakeComponents.class);
+	final static Logger log = Activator.getDefault().getLogger();
 
 	private static PerfCakeComponents instance;
 	
@@ -64,7 +64,7 @@ public class PerfCakeComponents {
 		destinationNames = getStringReperesentation(destinations);
 		validatorNames = getStringReperesentation(validators); 
 
-		log.debug("Components included in PerfCake has been loaded.");
+		log.info("Components included in PerfCake has been loaded.");
 	}
 	
 	private <T> Set<String> getStringReperesentation(Set<Class<? extends T>> components) {

@@ -21,10 +21,9 @@ package org.perfclipse;
 
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
+import org.perfclipse.logging.Logger;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Jakub Knetl
@@ -32,7 +31,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Activator extends Plugin {
 	
-	final static Logger log = LoggerFactory.getLogger(Activator.class);
+	private Logger logger;
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.perfclipse.core"; 
@@ -44,10 +43,12 @@ public class Activator extends Plugin {
 	 */
 	public Activator() {
 		super();
+		logger = new Logger(getLog(), PLUGIN_ID);
+		plugin = this;
 		try {
 			PerfCakeComponents.getInstance();
 		} catch (PerfClipseScannerException e) {
-			log.error("Cannot parse PerfCake components", e);
+			logger.error("Cannot parse PerfCake components", e);
 		}
 	}
 	
@@ -55,7 +56,7 @@ public class Activator extends Plugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		log.debug("Core bundle has been running");
+		logger.info("PerfClipse plugin bundle started");
 		plugin = this;
 	}
 
@@ -63,6 +64,7 @@ public class Activator extends Plugin {
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
+		logger = null;
 		super.stop(context);
 	}
 	
@@ -75,6 +77,13 @@ public class Activator extends Plugin {
 		return plugin;
 	}
 
-	
+
+	/**
+	 * 
+	 * @return returns logger instance
+	 */
+	public Logger getLogger() {
+		return logger;
+	}
 
 }
