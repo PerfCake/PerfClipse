@@ -21,6 +21,7 @@ package org.perfclipse.ui.editors;
 
 
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
+import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteDrawer;
@@ -60,8 +61,10 @@ public class ScenarioPalleteFactory {
 		palette.add(createReporterDrawer());
 		palette.add(createDestinationDrawer());
 		palette.add(createPropertyDrawer());
+		palette.add(createValidatorRefDrawer());
 		return palette;
 	}
+
 
 	private static PaletteEntry createMessageDrawer() {
 		PaletteDrawer messageDrawer = new PaletteDrawer("Messages");
@@ -143,4 +146,15 @@ public class ScenarioPalleteFactory {
 		return propertyDrawer;
 	}
 	   
+	private static PaletteEntry createValidatorRefDrawer() {
+		PaletteDrawer connectionDrawer = new PaletteDrawer("Connections");
+
+		ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry("Attach validator",
+				"Attach validator to message", new ValidatorRefFactory(), null, null);
+		
+		connectionDrawer.add(entry);
+
+		return connectionDrawer;
+	}
+
 }

@@ -47,4 +47,21 @@ public class AddValidatorRefCommand extends Command {
 	public void undo() {
 		message.removeValidatorRef(ref);
 	}
+
+	public MessageModel getMessage() {
+		return message;
+	}
+
+	public void setMessage(MessageModel message) {
+		this.message = message;
+	}
+
+	public ValidatorRef getValidatorRef() {
+		return ref;
+	}
+
+	public void setValidatorRef(ValidatorRef ref) {
+		this.ref = ref;
+	}
+	
 }

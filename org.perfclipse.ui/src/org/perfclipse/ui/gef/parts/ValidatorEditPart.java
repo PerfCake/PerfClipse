@@ -48,6 +48,7 @@ import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.ValidatorEditPolicy;
+import org.perfclipse.ui.gef.policies.ValidatorGraphicalNodeEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.ValidatorDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.ValidatorEditWizard;
@@ -117,6 +118,7 @@ PropertyChangeListener, NodeEditPart {
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new ValidatorDirectEditPolicy(getValidatorModel(), (ILabeledFigure) getFigure()));
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ValidatorEditPolicy(validation, getValidatorModel()));
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ValidatorGraphicalNodeEditPolicy(getValidatorModel()));
 
 	}
 
@@ -159,6 +161,10 @@ PropertyChangeListener, NodeEditPart {
 		}
 
 		return references;
+	}
+	
+	public void refreshValidatorConnections(){
+		refreshTargetConnections();
 	}
 
 	@Override

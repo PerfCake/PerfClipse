@@ -35,9 +35,11 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Color;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
+import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.model.ValidatorRefModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.IAnchorFigure;
@@ -45,6 +47,7 @@ import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.MessageEditPolicy;
+import org.perfclipse.ui.gef.policies.MessageGraphicalNodeEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.MessageDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
 import org.perfclipse.ui.wizards.MessageEditWizard;
@@ -106,6 +109,7 @@ implements PropertyChangeListener, NodeEditPart{
 
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new MessageDirectEditPolicy(getMessageModel(), (ILabeledFigure) getFigure()));
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new MessageGraphicalNodeEditPolicy(getMessageModel()));
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new MessageEditPolicy(messages, getMessageModel()));
 	}
 
@@ -126,6 +130,36 @@ implements PropertyChangeListener, NodeEditPart{
 		if (e.getPropertyName().equals(MessageModel.PROPERTY_URI)){
 			refreshVisuals();
 		}
+		if (e.getPropertyName().equals(MessageModel.PROPERTY_VALIDATOR_REFS)){
+			refreshSourceConnections();
+		}
+	}
+	
+	
+
+	@Override
+	protected void refreshSourceConnections() {
+		super.refreshSourceConnections();
+		
+		//refresh target connections 
+		ModelMapper mapper = getMessageModel().getMapper();
+		for (ValidatorRef ref : getMessageModel().getMessage().getValidatorRef()){
+			if (mapper.getValidation().getValidation() == null)
+				return;
+			for (Validator v : mapper.getValidation().getValidation().getValidator()){
+				//validator v is connected to this message
+				if (ref.getId().equals(v.getId())){
+					ValidatorModel validatorModel = (ValidatorModel) mapper.getModelContainer(v);
+					ValidatorEditPart validatorPart = (ValidatorEditPart) getViewer().getEditPartRegistry().get(validatorModel);
+					
+					//if validator edit part exists.
+					if (validatorPart != null)
+						validatorPart.refreshValidatorConnections();
+				}
+			}
+						
+		}
+		
 	}
 
 	@Override
