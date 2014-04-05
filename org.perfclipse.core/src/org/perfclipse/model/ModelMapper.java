@@ -56,6 +56,8 @@ public class ModelMapper {
 	private ScenarioModel scenario;
 	private ValidationModel validation;
 
+	private MessagesModel messages;
+
 	
 	public ModelMapper(ScenarioModel scenario){
 		if (scenario == null){
@@ -143,6 +145,10 @@ public class ModelMapper {
 		if (perfcakeModel instanceof Messages){
 			result = new MessagesModel((Messages) perfcakeModel, scenario, this);
 			map.put(perfcakeModel, result);
+			//Since PerfCake model of messages can be null. It is
+			//then unable to get PerfClipse model (which is not null) using 
+			//getModelContainer so the reference must be stored.
+			messages = (MessagesModel) result;
 			return result;
 		}
 
@@ -235,7 +241,22 @@ public class ModelMapper {
 	/**
 	 * Sets validationModel instance for scenario.
 	 */
-	public void addValidationModel(ValidationModel model){
+	public void setValidationModel(ValidationModel model){
 		validation = model;
+	}
+	/**
+	 * Sets MessagesModel instance for scenario.
+	 */
+	public void setMessagesModel(MessagesModel model){
+		messages = model;
+	}
+
+
+	/**
+	 * 
+	 * @return Returns messages model in scenario.
+	 */
+	public MessagesModel getMessagesModel() {
+		return messages;
 	}
 }
