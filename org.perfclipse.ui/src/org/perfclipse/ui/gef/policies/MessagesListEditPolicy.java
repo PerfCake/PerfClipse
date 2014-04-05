@@ -21,8 +21,9 @@
 package org.perfclipse.ui.gef.policies;
 
 
+import java.util.List;
+
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.dialogs.InputDialog;
@@ -30,8 +31,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Messages.Message;
+import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.ui.gef.commands.AddMessageCommand;
+import org.perfclipse.ui.gef.commands.MoveMessageCommand;
 
 public class MessagesListEditPolicy extends AbstractListEditPolicy {
 
@@ -57,15 +60,14 @@ public class MessagesListEditPolicy extends AbstractListEditPolicy {
 	}
 	
 	@Override
-	protected EditPart getInsertionReference(Request request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
-		// TODO Auto-generated method stub
-		return null;
+		List<?> list = getHost().getChildren();
+		int newIndex = list.indexOf(after);
+		
+		if (newIndex < 0 || newIndex == list.indexOf(child))
+			return null;
+
+		return new MoveMessageCommand(model, (MessageModel) child.getModel(), newIndex);
 	}
 	
 	@Override

@@ -20,12 +20,54 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import java.util.List;
+
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy;
+import org.eclipse.gef.requests.ChangeBoundsRequest;
 
 public abstract class AbstractListEditPolicy extends OrderedLayoutEditPolicy {
 
 	public AbstractListEditPolicy() {
 		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * Computes EditPart position.
+	 * 
+	 * @return EditPart which should be right of selected edit part 
+	 * after move.
+	 */
+	@Override
+	protected EditPart getInsertionReference(Request request) {
+		if (request instanceof ChangeBoundsRequest){
+			List<?> parts = getHost().getChildren();
+			ChangeBoundsRequest req = (ChangeBoundsRequest) request;
+			Point p = req.getLocation();
+			
+			for (Object e : parts){
+				if (!(e instanceof GraphicalEditPart))
+					continue;
+	
+				Rectangle b = ((GraphicalEditPart) e).getFigure().getBounds();
+				
+				if (p.y > b.y + b.height)
+					continue;
+				
+				//x coordinate in the middle of the figure
+				int middle = b.x + (b.width/2);
+				if (p.x >  middle)
+					continue;
+				
+				return (EditPart) e;
+			}
+			return (EditPart) parts.get(parts.size() - 1);
+		}
+		return null;
 	}
 
 }
