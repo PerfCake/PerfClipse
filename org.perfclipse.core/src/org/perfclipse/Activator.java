@@ -1,8 +1,8 @@
 /*
- * Perfclispe
+ * PerfClispe
  * 
- * 
- * Copyright (c) 2013 Jakub Knetl
+ *
+ * Copyright (c) 2014 Jakub Knetl
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,71 +17,55 @@
  * limitations under the License.
  */
 
-package org.perfclipse.ui;
+package org.perfclipse;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 import org.perfclipse.reflect.PerfCakeComponents;
 import org.perfclipse.reflect.PerfClipseScannerException;
-import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The activator class controls the plug-in life cycle
+ * @author Jakub Knetl
+ *
  */
-public class Activator extends AbstractUIPlugin {
+public class Activator extends Plugin {
 	
 	final static Logger log = LoggerFactory.getLogger(Activator.class);
 
-	/**
-	 * ColorUtils instance. Used for disposing colors.
-	 */
-	private ColorUtils colorUtils;
-
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.perfclipse.ui"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.perfclipse.core"; 
 
 	// The shared instance
 	private static Activator plugin;
-	
 	/**
-	 * The constructor
+	 * 
 	 */
 	public Activator() {
-		// creates singleton of PerfCake components
+		super();
 		try {
 			PerfCakeComponents.getInstance();
 		} catch (PerfClipseScannerException e) {
 			log.error("Cannot parse PerfCake components", e);
-			MessageDialog.openError(getWorkbench().getActiveWorkbenchWindow().getShell(),
-					"Cannot parse PerfCake components", "Automatically loaded components from PerfCake will not be available");
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
+	
+	
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		log.debug("PerfClipse UI bundle has been running");
+		log.debug("Core bundle has been running");
 		plugin = this;
-		colorUtils = ColorUtils.getInstance();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
+
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
-		colorUtils.dispose();
-		log.debug("Colors were successfully disposed.");
 		super.stop(context);
 	}
-
+	
 	/**
 	 * Returns the shared instance
 	 *
@@ -90,5 +74,7 @@ public class Activator extends AbstractUIPlugin {
 	public static Activator getDefault() {
 		return plugin;
 	}
+
+	
 
 }
