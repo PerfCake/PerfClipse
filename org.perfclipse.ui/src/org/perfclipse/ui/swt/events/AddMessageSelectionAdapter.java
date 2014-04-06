@@ -21,6 +21,7 @@ package org.perfclipse.ui.swt.events;
 
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
@@ -48,15 +49,20 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 	
 	//List of validators which will be created invoked by Add message wizard.
 	private List<ValidatorModel> validators;
+	
+	//scenario file
+	private IFile scenarioFile;
+	
 	/**
 	 * @param commands
 	 * @param viewer
 	 * @param messages
 	 */
 	public AddMessageSelectionAdapter(List<Command> commands,
-			TableViewer viewer, MessagesModel messages) {
+			TableViewer viewer, MessagesModel messages, IFile scenarioFile) {
 		super(commands, viewer);
 		this.messages = messages;
+		this.scenarioFile = scenarioFile;
 		if (messages != null)
 			mapper = messages.getMapper();
 		else
@@ -68,7 +74,7 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		MessageAddWizard wizard = new MessageAddWizard();
+		MessageAddWizard wizard = new MessageAddWizard(scenarioFile);
 		wizard.setValidators(validators);
 		//TODO: undo editing support Commands?
 		if (Utils.showWizardDialog(wizard) != Window.OK)

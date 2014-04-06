@@ -26,6 +26,7 @@ import org.eclipse.jface.window.Window;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.AddMessageCommand;
+import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 import org.perfclipse.ui.wizards.MessageAddWizard;
 import org.perfclipse.ui.wizards.MessagesEditWizard;
 
@@ -47,7 +48,8 @@ public class MessagesEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
 	@Override
 	protected Command createPropertiesCommand(Request request) {
-		MessagesEditWizard wizard = new MessagesEditWizard(messages);
+		PerfCakeEditPartFactory factory = (PerfCakeEditPartFactory) getHost().getViewer().getEditPartFactory();
+		MessagesEditWizard wizard = new MessagesEditWizard(messages, factory.getScenarioFile());
 		if (Utils.showWizardDialog(wizard) == Window.OK){
 			CompoundCommand command = wizard.getCommand();
 		
@@ -62,7 +64,8 @@ public class MessagesEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
 	@Override
 	protected Command createAddMessageCommand(Request request) {
-		MessageAddWizard wizard = new MessageAddWizard();
+		PerfCakeEditPartFactory factory = (PerfCakeEditPartFactory) getHost().getViewer().getEditPartFactory();
+		MessageAddWizard wizard = new MessageAddWizard(factory.getScenarioFile());
 		if (Utils.showWizardDialog(wizard) != Window.OK)
 			return null;
 		

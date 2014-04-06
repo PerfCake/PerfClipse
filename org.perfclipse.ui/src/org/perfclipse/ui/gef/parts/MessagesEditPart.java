@@ -88,7 +88,8 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 		if (request.getType() == RequestConstants.REQ_OPEN ||
 				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
 		{
-			MessagesEditWizard wizard = new MessagesEditWizard(getMessagesModel());
+			PerfCakeEditPartFactory factory = (PerfCakeEditPartFactory) getViewer().getEditPartFactory();
+			MessagesEditWizard wizard = new MessagesEditWizard(getMessagesModel(), factory.getScenarioFile());
 			if (Utils.showWizardDialog(wizard) == Window.OK){
 				CompoundCommand command = wizard.getCommand();
 			

@@ -21,8 +21,13 @@ package org.perfclipse.ui.wizards;
 
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.EditMessageMultiplicityCommand;
 import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
 import org.perfclipse.ui.wizards.pages.MessagePage;
@@ -39,6 +44,10 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 	
 	//List of validators which will be created invoked by Add message wizard.
 	private List<ValidatorModel> validators;
+	
+	//Project of the current scenario.
+	private IFile scenarioFile;
+	
 	/**
 	 * @param commandLabel
 	 * @param message
@@ -46,14 +55,17 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 	 * @param headers
 	 * @param refs
 	 */
-	public MessageEditWizard(MessageModel message) {
+	public MessageEditWizard(MessageModel message, IFile scenarioFile) {
 		super("Edit Message");
 		this.message = message;
+		this.scenarioFile = scenarioFile;
 	}
 	@Override
 	public boolean performFinish() {
+		boolean uriChanged = false;
 		if (message.getMessage().getUri() == null
 				|| !message.getMessage().getUri().equals(messagePage.getUri())){
+			uriChanged = true;
 			getCommand().add(new EditMessageUriCommand(message, messagePage.getUri()));
 		}
 		
@@ -62,6 +74,11 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 			String multiplicity = String.valueOf(messagePage.getMultiplicity());
 			getCommand().add(new EditMessageMultiplicityCommand(message, multiplicity));
 		}
+		
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		IProject project = scenarioFile.getProject();
+		if (uriChanged && project != null)
+			Utils.handleCreateMessage(message.getMessage().getUri(), project, shell);
 		return super.performFinish();
 	}
 	@Override

@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.wizards;
 
+import org.eclipse.core.resources.IFile;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.ui.wizards.pages.MessagesPage;
 
@@ -30,12 +31,17 @@ public class MessagesEditWizard extends AbstractPerfCakeEditWizard{
 
 	private MessagesPage messagesPage;
 	private MessagesModel messagesModel;
+	
+	//scenario file
+	private IFile scenarioFile;
+
 	/**
 	 * @param messagesModel
 	 */
-	public MessagesEditWizard(MessagesModel messagesModel) {
+	public MessagesEditWizard(MessagesModel messagesModel, IFile scenarioFile) {
 		super("Edit Messages");
 		this.messagesModel = messagesModel;
+		this.scenarioFile = scenarioFile;
 	}
 	@Override
 	public boolean performFinish() {
@@ -44,7 +50,7 @@ public class MessagesEditWizard extends AbstractPerfCakeEditWizard{
 	}
 	@Override
 	public void addPages() {
-		messagesPage = new MessagesPage(messagesModel);
+		messagesPage = new MessagesPage(messagesModel, scenarioFile);
 		addPage(messagesPage);
 		super.addPages();
 	}

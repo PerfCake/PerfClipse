@@ -21,6 +21,7 @@ package org.perfclipse.ui.swt.events;
 
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -41,19 +42,24 @@ public class EditMessageSelectionAdapter extends
 	private List<ValidatorModel> validators;
 	
 	
+	//Project of the current scenario.
+	private IFile scenarioFile;
+	
 	/**
 	 * 
 	 * @param commands
 	 * @param viewer
+	 * @param scenarioFile
 	 */
-	public EditMessageSelectionAdapter(List<Command> commands, TableViewer viewer) {
+	public EditMessageSelectionAdapter(List<Command> commands, TableViewer viewer, IFile scenarioFile) {
 		super(commands, viewer);
+		this.scenarioFile = scenarioFile;
 	}
 
 
 	@Override
 	protected AbstractPerfCakeEditWizard createWizard(IStructuredSelection selection) {
-		MessageEditWizard wizard = new MessageEditWizard((MessageModel) selection.getFirstElement());
+		MessageEditWizard wizard = new MessageEditWizard((MessageModel) selection.getFirstElement(), scenarioFile);
 		wizard.setValidators(validators);
 		return wizard;
 	}

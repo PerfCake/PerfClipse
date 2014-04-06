@@ -66,7 +66,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 	private ReportingPage reportingPage; 
 	private PropertiesPage propertiesPage;
 	
-	IStructuredSelection selection;
+	private IStructuredSelection selection;
 	
 	
 	static final Logger log = Activator.getDefault().getLogger();
@@ -75,6 +75,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 	 * Validator list (to synchronise it between pages).
 	 */
 	private List<ValidatorModel> validators;
+	private IFile scenarioFile;
 
 	public ScenarioWizard() {
 		super();
@@ -206,12 +207,25 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 		return false;
 	}
 	
+	
+	
+	@Override
+	public boolean performCancel() {
+		if (scenarioFile != null)
+			try {
+				scenarioFile.delete(true, null);
+			} catch (CoreException e) {
+				log.error("Cannot delete file created for new scenario.", e);
+			}
+		return super.performCancel();
+	}
+
 	@Override
 	public void addPages(){
 		fileCreationPage = new ScenarioNewFilePage("New Scenario file", selection);
 		generatorPage = new GeneratorPage();
 		senderPage = new SenderPage();
-		messagesPage = new MessagesPage();
+		messagesPage = new MessagesPage(scenarioFile);
 		messagesPage.setValidators(validators);
 		validationPage = new ValidationPage();
 		reportingPage = new ReportingPage();
@@ -229,6 +243,10 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 	@Override
 	public IWizardPage getNextPage(IWizardPage page) {
 		IWizardPage next = super.getNextPage(page);
+		if (next != null && fileCreationPage.getName().equals(next.getName())){
+			if (scenarioFile == null)
+				scenarioFile = fileCreationPage.createNewFile();
+		}
 		if (next != null && ValidationPage.VALIDATION_PAGE_NAME.equals(next.getName())){
 
 			for (TableItem i : validationPage.getValidatorViewer().getTable().getItems()){

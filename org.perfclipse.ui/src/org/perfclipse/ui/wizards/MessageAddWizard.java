@@ -21,13 +21,18 @@ package org.perfclipse.ui.wizards;
 
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.HeaderModel;
 import org.perfclipse.model.PropertyModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.model.ValidatorRefModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.wizards.pages.MessagePage;
 
 
@@ -46,13 +51,17 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 
 	//list of validators which will be possibly created and which are not contained in model.
 	private List<ValidatorModel> validators;
+	
+	//Project of the current scenario.
+	private IFile scenarioFile;
 
 	/**
 	 * 
 	 */
-	public MessageAddWizard() {
+	public MessageAddWizard(IFile scenarioFile) {
 		super();
 		setWindowTitle("Add message");
+		this.scenarioFile = scenarioFile;
 	}
 
 	@Override
@@ -81,6 +90,10 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 				message.getValidatorRef().add(v.getValidatorRef());
 			}
 		}
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		IProject project = scenarioFile.getProject();
+		if (project != null)
+			Utils.handleCreateMessage(message.getUri(), project, shell);
 		return true;
 	}
 

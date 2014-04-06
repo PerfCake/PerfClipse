@@ -22,6 +22,7 @@ package org.perfclipse.ui.wizards.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -55,13 +56,17 @@ public class MessagesPage extends AbstractPerfCakePage {
 	
 	//validators added by user, which are not in scenario.
 	private List<ValidatorModel> validators;
+	
 
-	public MessagesPage(){
-		super(MESSAGES_PAGE_NAME, false);
+	//scenario file
+	private IFile scenarioFile;
+
+	public MessagesPage(IFile scenarioFile){
+		this(MESSAGES_PAGE_NAME, false, scenarioFile);
 	}
 	
-	public MessagesPage(MessagesModel messagesModel){
-		super(MESSAGES_PAGE_NAME, true);
+	public MessagesPage(MessagesModel messagesModel, IFile scenarioFile){
+		this(MESSAGES_PAGE_NAME, true, scenarioFile);
 		this.messagesModel = messagesModel;
 
 		if (messagesModel.getMessages() == null){
@@ -76,8 +81,9 @@ public class MessagesPage extends AbstractPerfCakePage {
 		}
 	}
 	
-	public MessagesPage(String pageName, boolean edit){
+	private MessagesPage(String pageName, boolean edit, IFile scenarioFile){
 		super(pageName, edit);
+		this.scenarioFile = scenarioFile;
 	}
 
 	@Override
@@ -97,11 +103,13 @@ public class MessagesPage extends AbstractPerfCakePage {
 		messagesViewer.getTable().setLayoutData(data);
 		
 		messagesViewerControls = new TableViewerControl(container, true, SWT.NONE);
-		AddMessageSelectionAdapter addMessageAdapter = new AddMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, messagesModel);
+		AddMessageSelectionAdapter addMessageAdapter = 
+				new AddMessageSelectionAdapter(getEditingSupportCommands(),
+						messagesViewer, messagesModel, scenarioFile);
 		addMessageAdapter.setValidators(validators);
 		messagesViewerControls.getAddButton().addSelectionListener(addMessageAdapter); 
 
-		EditMessageSelectionAdapter editMessageAdapter = new EditMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer);
+		EditMessageSelectionAdapter editMessageAdapter = new EditMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, scenarioFile);
 		editMessageAdapter.setValidators(validators);
 		messagesViewerControls.getEditButton().addSelectionListener(editMessageAdapter);
 		messagesViewerControls.getDeleteButton().addSelectionListener(
