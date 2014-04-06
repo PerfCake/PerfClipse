@@ -21,6 +21,7 @@
 package org.perfclipse.ui.gef.policies;
 
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
@@ -31,8 +32,10 @@ import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.AddMessageCommand;
 import org.perfclipse.ui.gef.commands.MoveMessageCommand;
+import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 
 public class MessagesListEditPolicy extends AbstractListEditPolicy {
 
@@ -52,6 +55,13 @@ public class MessagesListEditPolicy extends AbstractListEditPolicy {
 			}
 			Message message = (Scenario.Messages.Message) request.getNewObject();
 			message.setUri(pathToMessage);
+			
+			PerfCakeEditPartFactory factory = (PerfCakeEditPartFactory) getHost().getViewer().getEditPartFactory();
+			IProject project = factory.getScenarioFile().getProject();
+			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			if (project != null)
+				Utils.handleCreateMessage(pathToMessage, project, shell);
+
 			return new AddMessageCommand(message, model);
 		}
 		return null;

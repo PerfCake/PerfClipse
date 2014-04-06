@@ -138,6 +138,9 @@ public class Utils {
 	 * @return true if message exists in messages directory of the project. Else otherwise
 	 */
 	public static boolean messageExists(String name, IProject project){
+		if (name == null){
+			throw new IllegalArgumentException("Name cannot be null");
+		}
 		if (project == null){
 			throw new IllegalArgumentException("Project cannot be null");
 		}
@@ -151,8 +154,12 @@ public class Utils {
 	 * Creates message with file name in messages directory of the project
 	 * @param name name of the message file
 	 * @param project project in which message should be created
+	 * @param shell
 	 */
-	public static void createMessage(String name, IProject project){
+	public static void createMessage(String name, IProject project, Shell shell){
+		if (name == null){
+			throw new IllegalArgumentException("Name cannot be null");
+		}
 		if (project == null){
 			throw new IllegalArgumentException("Project cannot be null");
 		}
@@ -168,8 +175,34 @@ public class Utils {
 			message.create(new ByteArrayInputStream(content.getBytes()), false, null);
 		} catch (CoreException e) {
 			log.error("Cannot create empty message file", e);
-			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 			MessageDialog.openError(shell, "Cannot create message", "Cannot create empty file in messages directory.");
 		}
+	}
+	
+	/**
+	 * Checks if the message is local and if it does not exits. THen asks user if
+	 * he wants to create message resource and creates resource.
+	 * @param name name of the message
+	 * @param project project in which message should be created.
+	 * @param shell
+	 * @return True if message resource exists (It was created or it existed before calling this method). 
+	 * Return false if message is not present and it was not created.
+	 */
+	public static boolean handleCreateMessage(String name, IProject project, Shell shell){
+		if (!Utils.isMessageLocal(name))
+			return false;
+
+		if (Utils.messageExists(name, project))
+			return true;
+		
+		boolean create = MessageDialog.openQuestion(shell, "Message does not exits.",
+				"Message has local path and does not exists in the messages directory. "
+				+ "Do you want to create empty file " + name + " in Messages directory?");
+		if (create){
+			Utils.createMessage(name, project, shell);
+			return true;
+		}
+
+		return false;
 	}
 }
