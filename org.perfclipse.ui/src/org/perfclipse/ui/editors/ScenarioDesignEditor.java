@@ -124,7 +124,7 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	protected void configureGraphicalViewer() {
 	      super.configureGraphicalViewer();
 	      GraphicalViewer viewer = getGraphicalViewer();
-	      viewer.setEditPartFactory(new PerfCakeEditPartFactory());
+	      viewer.setEditPartFactory(new PerfCakeEditPartFactory(this));
 	      viewer.setRootEditPart(new ScalableRootEditPart());
 	      viewer.setContextMenu(new DesignEditorContextMenuProvider(getGraphicalViewer(), getActionRegistry()));
 

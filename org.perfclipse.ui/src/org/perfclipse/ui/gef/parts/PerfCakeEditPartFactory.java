@@ -19,8 +19,11 @@
 
 package org.perfclipse.ui.gef.parts;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
+import org.eclipse.gef.ui.parts.GraphicalEditor;
+import org.eclipse.ui.part.FileEditorInput;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.GeneratorModel;
 import org.perfclipse.model.MessageModel;
@@ -37,6 +40,22 @@ import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.model.ValidatorRefModel;
 
 public class PerfCakeEditPartFactory implements EditPartFactory {
+
+	/**
+	 * Instance of editor which uses this edit Part factory.
+	 */
+	private GraphicalEditor editor;
+	
+	
+	/**
+	 * @param editor
+	 */
+	public PerfCakeEditPartFactory(GraphicalEditor editor) {
+		super();
+		if (editor == null)
+			throw new IllegalArgumentException("Editor cannot be null");
+		this.editor = editor;
+	}
 
 	@Override
 	public EditPart createEditPart(EditPart context, Object model) {
@@ -86,6 +105,17 @@ public class PerfCakeEditPartFactory implements EditPartFactory {
 			return new ValidatorRefEditPart((ValidatorRefModel) model);
 		}
 		return null;
+	}
+	
+	
+	/**
+	 * Returns IFile instance of the scenario
+	 * @return
+	 */
+	public IFile getScenarioFile(){
+		FileEditorInput input = (FileEditorInput) editor.getEditorInput();
+
+		return input.getFile();
 	}
 
 }
