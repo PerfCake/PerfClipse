@@ -113,7 +113,7 @@ public class MessagesPage extends AbstractPerfCakePage {
 		editMessageAdapter.setValidators(validators);
 		messagesViewerControls.getEditButton().addSelectionListener(editMessageAdapter);
 		messagesViewerControls.getDeleteButton().addSelectionListener(
-				new DeleteMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, messagesModel));
+				new DeleteMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, messagesModel, scenarioFile));
 		setControl(container);
 		super.createControl(parent);
 	}

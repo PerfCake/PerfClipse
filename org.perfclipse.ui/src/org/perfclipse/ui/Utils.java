@@ -27,6 +27,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -144,10 +146,34 @@ public class Utils {
 		if (project == null){
 			throw new IllegalArgumentException("Project cannot be null");
 		}
-		IFolder messagesFolder = project.getFolder(PerfClipseConstants.MESSAGE_DIR_NAME);
 		
-		IFile message = messagesFolder.getFile(name);
+		IFile message = getMessageFileByName(name, project);
+		if (message == null)
+			return false;
 		return message.exists();
+	}
+	
+	/**
+	 * Finds message file resource for given message specified by name.
+	 * @param name
+	 * @param project
+	 * @return {@link IFolder#getFile(String)}.
+	 */
+	private static IFile getMessageFileByName(String name, IProject project){
+		if (name == null){
+			throw new IllegalArgumentException("Name cannot be null");
+		}
+		if (project == null){
+			throw new IllegalArgumentException("Project cannot be null");
+		}
+		
+		IFolder messagesFolder = project.getFolder(PerfClipseConstants.MESSAGE_DIR_NAME);
+		if (messagesFolder == null || !messagesFolder.exists())
+			return null;
+			
+		IFile message = messagesFolder.getFile(name);
+
+		return message;
 	}
 	
 	/**
@@ -155,28 +181,87 @@ public class Utils {
 	 * @param name name of the message file
 	 * @param project project in which message should be created
 	 * @param shell
+	 * @return True if the message was successfuly created.
 	 */
-	public static void createMessage(String name, IProject project, Shell shell){
+	public static boolean createMessage(String name, IProject project, Shell shell){
 		if (name == null){
 			throw new IllegalArgumentException("Name cannot be null");
 		}
 		if (project == null){
 			throw new IllegalArgumentException("Project cannot be null");
 		}
-		IFolder messagesFolder = project.getFolder(PerfClipseConstants.MESSAGE_DIR_NAME);
 		
-		if (!messagesFolder.exists()){
-			throw new IllegalArgumentException("Project does not contain messages folder.");
-		}
-		
-		IFile message = messagesFolder.getFile(name);
+		IFile message = getMessageFileByName(name, project);
 		String content = "";
 		try {
+			//TODO: progressmonitor
 			message.create(new ByteArrayInputStream(content.getBytes()), false, null);
 		} catch (CoreException e) {
 			log.error("Cannot create empty message file", e);
 			MessageDialog.openError(shell, "Cannot create message", "Cannot create empty file in messages directory.");
+			return false;
 		}
+		
+		return true;
+	}
+	
+	
+	/**
+	 * Removes message with given file name in the project
+	 * 
+	 * @param message File with the message 
+	 * @param shell
+	 * 
+	 * @return true if the message was successfully deleted
+	 */
+	public static boolean deleteMessage(IFile message, Shell shell){
+		if (message == null){
+			throw new IllegalArgumentException("Name cannot be null");
+		}
+
+		try {
+			//TODO: progressmonitor
+			message.delete(true, null);
+		} catch (CoreException e) {
+			log.error("Cannot delete message file", e);
+			MessageDialog.openError(shell, "Cannot delete file", "File containing message cannot be deleted.");
+			return false;
+		}
+		
+		
+		return true;
+		
+	}
+	
+	/**
+	 * Change message resource name.
+	 * @param oldName
+	 * @param newName
+	 * @param project
+	 * @param shell
+	 * @return true if message was moved (renamed).
+	 */
+	public static boolean moveMessage(String oldName, String newName, IProject project, Shell shell){
+		if (oldName == null || newName == null){
+			throw new IllegalArgumentException("Name cannot be null.");
+		}
+	
+		IFile file = getMessageFileByName(oldName, project);
+		if (file == null)
+			return false;
+		
+		IPath newPath = new Path(newName);
+		
+		try {
+			//TODO: progressmonitor
+			file.move(newPath, false, null);
+		} catch (CoreException e) {
+			log.error("Cannot move message resource", e);
+			MessageDialog.openError(shell, "Cannot move resource",
+					"Cannot move message resource");
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -200,6 +285,61 @@ public class Utils {
 				+ "Do you want to create empty file " + name + " in Messages directory?");
 		if (create){
 			Utils.createMessage(name, project, shell);
+			return true;
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Conditionally moves message resource to different file.
+	 * 
+	 * @param oldName Name of the resource
+	 * @param project  Project in which resource is located
+	 * @param shell
+	 * @return True if new resource exists and old one is not.
+	 */
+	public static boolean handleMoveMessage(String oldName, String newName, IProject project, Shell shell){
+		if (!Utils.isMessageLocal(oldName) || !Utils.isMessageLocal(newName))
+			return false;
+		
+		if (!Utils.messageExists(oldName, project))
+			return false;
+		
+		boolean move = MessageDialog.openQuestion(shell, "Move message file",
+				"Message has associated file resource in messages directory. Do"
+				+ "you want to rename the file to be in sync with message object?");
+		
+		if (move){
+			Utils.moveMessage(oldName, newName, project, shell);
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Check if local resource exists in the project for the message. If it does it
+	 * conditionally (shows question dialog) deletes resource.
+	 * @param name Name of the message resource
+	 * @param project project in which resource would be placed
+	 * @param shell 
+	 * @return True if the resource is not present after this method (it means it was deleted
+	 * by this method or ti was not exists before this method was called). False otherwise
+	 */
+	public static boolean handleDeleteMessage(String name, IProject project, Shell shell){
+		if (!Utils.isMessageLocal(name))
+			return true;
+
+		if (!Utils.messageExists(name, project))
+			return true;
+		
+		boolean delete = MessageDialog.openQuestion(shell, "Message has resource file.",
+				"There is file in messages folder with name " + name + " which is"
+						+ "same as currently deleted message. Do you want to delete"
+						+ "this file also?");
+		if (delete){
+			IFile message = getMessageFileByName(name, project);
+			Utils.deleteMessage(message, shell);
 			return true;
 		}
 

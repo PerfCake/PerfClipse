@@ -19,12 +19,18 @@
 
 package org.perfclipse.ui.actions;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.DeleteAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
+import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
 import org.perfclipse.ui.gef.commands.DeleteValidatorCommand;
 
 /**
@@ -49,6 +55,7 @@ public class PerfClipseDeleteAction extends DeleteAction {
 	 */
 	@Override
 	public void run() {
+		showMessageResourceDialogs();
 		if (calculateShowDialog()){
 			if (showDialog()){
 				super.run();
@@ -57,6 +64,26 @@ public class PerfClipseDeleteAction extends DeleteAction {
 			super.run();
 		}
 
+	}
+
+	private void showMessageResourceDialogs() {
+
+		CompoundCommand command = (CompoundCommand) createDeleteCommand(getSelectedObjects());
+		if (command != null){
+			for (Object c : command.getCommands()){
+				Command cmd = (Command) c;
+				if (c instanceof DeleteMessageCommand){
+					DeleteMessageCommand deleteCommand = (DeleteMessageCommand) cmd ;
+					Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+					IEditorInput input = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput();
+					if (input instanceof FileEditorInput){
+						IProject project = ((FileEditorInput) input).getFile().getProject();
+						Utils.handleDeleteMessage(deleteCommand.getMessage().getMessage().getUri(),
+								project, shell);
+					}
+				}
+			}
+		}
 	}
 
 	/**

@@ -47,4 +47,10 @@ public class DeleteMessageCommand extends Command {
 	public void undo() {
 		messages.addMessage(index, message.getMessage());
 	}
+
+	public MessageModel getMessage() {
+		return message;
+	}
+	
+	
 }

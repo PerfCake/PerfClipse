@@ -92,7 +92,8 @@ implements PropertyChangeListener, NodeEditPart{
 		if (request.getType() == RequestConstants.REQ_OPEN ||
 				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
 		{
-			MessageEditWizard wizard = new MessageEditWizard(getMessageModel());
+			PerfCakeEditPartFactory factory = (PerfCakeEditPartFactory) getViewer().getEditPartFactory();
+			MessageEditWizard wizard = new MessageEditWizard(getMessageModel(), factory.getScenarioFile());
 			if (Utils.showWizardDialog(wizard) == Window.OK){
 				CompoundCommand command = wizard.getCommand();
 				if (!command.isEmpty()){

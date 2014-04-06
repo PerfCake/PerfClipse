@@ -62,10 +62,8 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 	}
 	@Override
 	public boolean performFinish() {
-		boolean uriChanged = false;
 		if (message.getMessage().getUri() == null
 				|| !message.getMessage().getUri().equals(messagePage.getUri())){
-			uriChanged = true;
 			getCommand().add(new EditMessageUriCommand(message, messagePage.getUri()));
 		}
 		
@@ -77,8 +75,8 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 		
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		IProject project = scenarioFile.getProject();
-		if (uriChanged && project != null)
-			Utils.handleCreateMessage(message.getMessage().getUri(), project, shell);
+		if (!message.getMessage().getUri().equals(messagePage.getUri()) && project != null)
+			Utils.handleMoveMessage(message.getMessage().getUri(), messagePage.getUri(), project, shell);
 		return super.performFinish();
 	}
 	@Override
