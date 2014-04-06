@@ -177,4 +177,18 @@ public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IRes
 		return (getActiveEditor() == editor);
 	}
 
+
+	@Override
+	protected void pageChange(int newPageIndex) {
+		// TODO Auto-generated method stub
+		super.pageChange(newPageIndex);
+		//TODO set active editor for contributor
+		if (newPageIndex == designEditorIndex){
+			getEditorSite().getActionBarContributor().setActiveEditor(getEditor(newPageIndex));
+			getEditorSite().getActionBars().updateActionBars();
+		}
+	}
+	
+	
+
 }
