@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.swt.events;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
@@ -27,6 +28,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
 import org.perfcake.model.Scenario;
+import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ScenarioModel;
@@ -45,7 +47,10 @@ public class AttachValidatorSelectionAdapter extends
 		AbstractCommandSelectionAdapter {
 
 	private MessageModel message;
-	private ValidatorRefModel ref;
+	/**
+	 * freshly attached validators by this selection adapter
+	 */
+	private List<ValidatorRefModel> validatorRefs = new ArrayList<>();
 	private ModelMapper mapper;
 	private ValidatorAttachWizard wizard;
 	
@@ -79,8 +84,14 @@ public class AttachValidatorSelectionAdapter extends
 			command.execute();
 		}
 		
-		ref = (ValidatorRefModel) mapper.getModelContainer(wizard.getValidatorRef());
-		getViewer().add(ref);
+		if (wizard.getValidatorRef() != null){
+			for (ValidatorRef ref : wizard.getValidatorRef()){
+				ValidatorRefModel model =  (ValidatorRefModel) mapper.getModelContainer(ref);
+				validatorRefs.add(model);
+				getViewer().add(model);
+
+			}
+		}
 		super.widgetSelected(e);
 	}
 
@@ -94,8 +105,10 @@ public class AttachValidatorSelectionAdapter extends
 		 * */
 		command.undo();
 
-		if (ref != null && message != null)
-			command.add(new AddValidatorRefCommand(message, ref.getValidatorRef()));
+		for (ValidatorRefModel ref : validatorRefs){
+			if (message != null)
+				command.add(new AddValidatorRefCommand(message, ref.getValidatorRef()));
+		}
 
 		if (!command.isEmpty())
 			return command;

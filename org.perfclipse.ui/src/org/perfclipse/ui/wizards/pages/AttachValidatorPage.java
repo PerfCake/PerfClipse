@@ -19,13 +19,13 @@
 
 package org.perfclipse.ui.wizards.pages;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
-import org.perfclipse.model.ValidatorRefModel;
 
 /**
  * @author Jakub Knetl
@@ -80,13 +80,23 @@ public class AttachValidatorPage extends ValidationPage {
 	@Override
 	protected void updateControls() {
 		IStructuredSelection selection;
-		if (! (getValidatorViewer().getSelection() instanceof IStructuredSelection))
+		if (! (getValidatorViewer().getSelection() instanceof IStructuredSelection)){
+			setDescription("Select validator to attach.");
 			setPageComplete(false);
+			return;
+		}
 
 		selection = (IStructuredSelection) getValidatorViewer().getSelection();
 			
-		if (!(selection.getFirstElement() instanceof ValidatorRefModel))
-			setPageComplete(false);
+		Iterator<?> it = selection.iterator();
+		while (it.hasNext()){
+			Object selected = it.next();
+			if (!(selected instanceof ValidatorModel)){
+				setPageComplete(false);
+				setDescription("Select validator to attach.");
+				return;
+			}
+		}
 
 		setPageComplete(true);
 	}

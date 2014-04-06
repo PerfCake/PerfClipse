@@ -19,6 +19,8 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -35,7 +37,10 @@ import org.perfclipse.ui.wizards.pages.AttachValidatorPage;
  */
 public class ValidatorAttachWizard extends AbstractPerfCakeEditWizard {
 
-	private ValidatorRef ref;
+	/**
+	 * newly attached validatorrefs by this wizard
+	 */
+	private List<ValidatorRef> validatorRefs = new ArrayList<>();
 	private AttachValidatorPage page;
 	private ValidationModel validation;
 	
@@ -51,11 +56,6 @@ public class ValidatorAttachWizard extends AbstractPerfCakeEditWizard {
 	@Override
 	public boolean performFinish() {
 		
-		IStructuredSelection selection = (IStructuredSelection) page.getValidatorViewer().getSelection();
-		ValidatorModel validator = (ValidatorModel) selection.getFirstElement();
-		ref = new ObjectFactory().createScenarioMessagesMessageValidatorRef();
-		ref.setId(validator.getValidator().getId());
-
 		// add created validators to the validators list if it is not null
 		TableItem[] items = page.getValidatorViewer().getTable().getItems();
 		if  (validators != null && items != null){
@@ -65,6 +65,18 @@ public class ValidatorAttachWizard extends AbstractPerfCakeEditWizard {
 					validators.add(v);
 			}
 		}
+		
+		
+		IStructuredSelection selection = (IStructuredSelection) page.getValidatorViewer().getSelection();
+		
+		Iterator<?> it = selection.iterator();
+		while (it.hasNext()){
+			ValidatorModel validator = (ValidatorModel) it.next();
+			ValidatorRef ref = new ObjectFactory().createScenarioMessagesMessageValidatorRef();
+			ref.setId(validator.getValidator().getId());
+			validatorRefs.add(ref);
+		}
+
 		return super.performFinish();
 	}
 
@@ -80,8 +92,8 @@ public class ValidatorAttachWizard extends AbstractPerfCakeEditWizard {
 		super.addPages();
 	}
 
-	public ValidatorRef getValidatorRef() {
-		return ref;
+	public List<ValidatorRef> getValidatorRef() {
+		return validatorRefs;
 	}
 	
 	/**
