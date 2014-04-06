@@ -19,6 +19,9 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.gef.commands.EditValidatorIdCommand;
@@ -57,7 +60,12 @@ public class ValidatorEditWizard extends AbstractPerfCakeEditWizard {
 	}
 	@Override
 	public void addPages() {
-		validatorPage = new ValidatorPage(validator);
+		List<ValidatorModel> validators = new ArrayList<>();
+		for (Validator v : validator.getMapper().getValidation().getValidation().getValidator()){
+			if (v != validator.getValidator())
+				validators.add((ValidatorModel) validator.getMapper().getModelContainer(v));
+		}
+		validatorPage = new ValidatorPage(validator, validators);
 		addPage(validatorPage);
 		super.addPages();
 	}

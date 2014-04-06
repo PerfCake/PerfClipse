@@ -20,6 +20,8 @@
 package org.perfclipse.ui.wizards.pages;
 
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -40,6 +42,7 @@ public class ValidatorPage extends AbstractPerfCakePage {
 	public static final String VALIDATOR_PAGE_NAME = "Validator page";
 
 	private ValidatorModel validator;
+	private List<ValidatorModel> otherValidators;
 	
 	private Composite container;
 	private Label typeLabel;
@@ -49,17 +52,17 @@ public class ValidatorPage extends AbstractPerfCakePage {
 	private Label valueLabel;
 	private Text valueText;
 	
-	public ValidatorPage(){
-		this(VALIDATOR_PAGE_NAME, false);
+	public ValidatorPage(List<ValidatorModel> otherValidators){
+		this(VALIDATOR_PAGE_NAME, false, otherValidators);
 	}
 	
 	/**
-	 * @param pageName
-	 * @param edit
+	 * 
 	 * @param validator
+	 * @param otherValidators
 	 */
-	public ValidatorPage(ValidatorModel validator) {
-		super(VALIDATOR_PAGE_NAME, true);
+	public ValidatorPage(ValidatorModel validator, List<ValidatorModel> otherValidators) {
+		this(VALIDATOR_PAGE_NAME, true, otherValidators);
 		this.validator = validator;
 	}
 
@@ -68,8 +71,9 @@ public class ValidatorPage extends AbstractPerfCakePage {
 	 * @param pageName
 	 * @param edit
 	 */
-	private ValidatorPage(String pageName, boolean edit) {
+	private ValidatorPage(String pageName, boolean edit, List<ValidatorModel> otherValidators) {
 		super(pageName, edit);
+		this.otherValidators = otherValidators;
 	}
 
 	@Override
@@ -135,6 +139,11 @@ public class ValidatorPage extends AbstractPerfCakePage {
 			setPageComplete(false);
 			return;
 		}
+		if (!isValidatorIdUnique(getValidatorId())){
+			setDescription("Validator id is not unique. Please enter another ID.");
+			setPageComplete(false);
+			return;
+		}
 //		if ("".equals(getValidatorValue())){
 //			setDescription("Fill in validator value.");
 //			setPageComplete(false);
@@ -145,6 +154,23 @@ public class ValidatorPage extends AbstractPerfCakePage {
 		super.updateControls();
 	}
 	
+	/**
+	 * Checks if id is unique
+	 * @param validatorId
+	 * 
+	 * @return True if id is unique. False otherwise
+	 * 
+	 */
+	private boolean isValidatorIdUnique(String validatorId) {
+		if (otherValidators == null)
+			return true;
+		for (ValidatorModel v : otherValidators){
+			if (v.getValidator().getId().equals(validatorId))
+				return false;
+		}
+		return true;
+	}
+
 	public String getValidatorName(){
 		IStructuredSelection sel = (IStructuredSelection) typeCombo.getSelection();
 		return (String) sel.getFirstElement();

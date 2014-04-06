@@ -19,12 +19,14 @@
 
 package org.perfclipse.ui.swt.events;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.TableItem;
 import org.perfcake.model.Scenario;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ScenarioModel;
@@ -64,7 +66,11 @@ public class AddValidatorSelectionAdapater extends
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		ValidatorAddWizard wizard = new ValidatorAddWizard();
+		List<ValidatorModel> validators = new ArrayList<>();
+		for (TableItem i : getViewer().getTable().getItems()){
+			validators.add((ValidatorModel) i.getData());
+		}
+		ValidatorAddWizard wizard = new ValidatorAddWizard(validators);
 		if (Utils.showWizardDialog(wizard) != Window.OK)
 			return;
 		

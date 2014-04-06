@@ -19,10 +19,15 @@
 
 package org.perfclipse.ui.gef.policies;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
+import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.model.ValidationModel;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.AddValidatorCommand;
 import org.perfclipse.ui.wizards.ValidationEditWizard;
@@ -56,7 +61,11 @@ public class ValidationEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
 	@Override
 	protected Command createAddValidatorCommand(Request request) {
-		ValidatorAddWizard wizard = new ValidatorAddWizard();
+		List<ValidatorModel> validators = new ArrayList<>();
+		for (Validator v : validation.getValidation().getValidator()){
+			validators.add((ValidatorModel) validation.getMapper().getModelContainer(v));
+		}
+		ValidatorAddWizard wizard = new ValidatorAddWizard(validators);
 		if (Utils.showWizardDialog(wizard) != Window.OK)
 			return null;
 		

@@ -19,8 +19,11 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.List;
+
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Validation.Validator;
+import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.wizards.pages.ValidatorPage;
 
 /**
@@ -31,10 +34,12 @@ public class ValidatorAddWizard extends AbstractPerfCakeAddWizard {
 
 	private ValidatorPage page;
 	private Validator validator;
+	private List<ValidatorModel> validators;
 	
 	
-	public ValidatorAddWizard() {
+	public ValidatorAddWizard(List<ValidatorModel> validators) {
 		super();
+		this.validators = validators;
 		setWindowTitle("Add validator");
 	}
 
@@ -50,7 +55,7 @@ public class ValidatorAddWizard extends AbstractPerfCakeAddWizard {
 
 	@Override
 	public void addPages() {
-		page = new ValidatorPage();
+		page = new ValidatorPage(validators);
 		addPage(page);
 		super.addPages();
 	}
