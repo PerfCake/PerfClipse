@@ -19,9 +19,15 @@
 
 package org.perfclipse.ui;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
@@ -33,10 +39,12 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.perfcake.common.PeriodType;
+import org.perfclipse.logging.Logger;
 
 public class Utils {
 
-	public static final String PERFCLIPSE_STDOUT_CONSOLE = "Perfclipse standard output:";
+	
+	static final Logger log = Activator.getDefault().getLogger();
 
 	/**
 	 * Find eclipse console with given name. If not found then create new
@@ -55,7 +63,7 @@ public class Utils {
 		}
 		
 		//Console was not found. Create new one.
-		MessageConsole newConsole = new MessageConsole(PERFCLIPSE_STDOUT_CONSOLE, null);
+		MessageConsole newConsole = new MessageConsole(PerfClipseConstants.PERFCLIPSE_STDOUT_CONSOLE, null);
 		consoleManager.addConsoles(new IConsole[]{newConsole});
 		return newConsole;
 		
@@ -94,5 +102,74 @@ public class Utils {
 		GridData data =  new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.minimumWidth = 120;
 		return data;
+	}
+	
+	/**
+	 * Check if message is local with no path. It means it contains only filename
+	 * and thus it should be placed in the messages directory
+	 * @param url url to be checked
+	 * @return
+	 */
+	public static boolean isMessageLocal(String url){
+		if (url == null){
+			throw new IllegalArgumentException("url cannot be null");
+		}
+		// if there is no slash than url is just name
+		if (url.indexOf("/") < 0)
+			return true;
+		
+//		//check if url is not name like ./name.msg
+//		if (url.length() > 2){
+//				//check if message starts with ./
+//				if (url.charAt(0) == '.' && url.charAt(1) == '/'){
+//					//check if there is no other slash than on the second position 
+//					if (url.indexOf("/", 2) < 0)
+//						return true;
+//			}
+//		}
+		
+		return false;
+	}
+	
+	/**
+	 * Checks if message with given name exits in the project's messages directory.
+	 * @param name name of the message
+	 * @param project name of the project
+	 * @return true if message exists in messages directory of the project. Else otherwise
+	 */
+	public static boolean messageExists(String name, IProject project){
+		if (project == null){
+			throw new IllegalArgumentException("Project cannot be null");
+		}
+		IFolder messagesFolder = project.getFolder(PerfClipseConstants.MESSAGE_DIR_NAME);
+		
+		IFile message = messagesFolder.getFile(name);
+		return message.exists();
+	}
+	
+	/**
+	 * Creates message with file name in messages directory of the project
+	 * @param name name of the message file
+	 * @param project project in which message should be created
+	 */
+	public static void createMessage(String name, IProject project){
+		if (project == null){
+			throw new IllegalArgumentException("Project cannot be null");
+		}
+		IFolder messagesFolder = project.getFolder(PerfClipseConstants.MESSAGE_DIR_NAME);
+		
+		if (!messagesFolder.exists()){
+			throw new IllegalArgumentException("Project does not contain messages folder.");
+		}
+		
+		IFile message = messagesFolder.getFile(name);
+		String content = "";
+		try {
+			message.create(new ByteArrayInputStream(content.getBytes()), false, null);
+		} catch (CoreException e) {
+			log.error("Cannot create empty message file", e);
+			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			MessageDialog.openError(shell, "Cannot create message", "Cannot create empty file in messages directory.");
+		}
 	}
 }

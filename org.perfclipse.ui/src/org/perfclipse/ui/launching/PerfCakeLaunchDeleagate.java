@@ -49,6 +49,7 @@ import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.part.FileEditorInput;
 import org.perfclipse.logging.Logger;
 import org.perfclipse.ui.Activator;
+import org.perfclipse.ui.PerfClipseConstants;
 import org.perfclipse.ui.Utils;
 
 public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, ILaunchShortcut {
@@ -168,7 +169,7 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 	
 	private void runScenario(IFile file) {
 		//redirect System.out to Eclipse console
-		MessageConsole perfclipseConsole = Utils.findConsole(Utils.PERFCLIPSE_STDOUT_CONSOLE);
+		MessageConsole perfclipseConsole = Utils.findConsole(PerfClipseConstants.PERFCLIPSE_STDOUT_CONSOLE);
 		
 		//show console view
 		//TODO: check if shell is always initialized
@@ -182,7 +183,7 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 				try{
 					IWorkbenchWindow win = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 					IWorkbenchPage page = win.getActivePage();
-					MessageConsole perfclipseConsole = Utils.findConsole(Utils.PERFCLIPSE_STDOUT_CONSOLE);
+					MessageConsole perfclipseConsole = Utils.findConsole(PerfClipseConstants.PERFCLIPSE_STDOUT_CONSOLE);
 					String id = IConsoleConstants.ID_CONSOLE_VIEW;
 					try {
 						IConsoleView view = (IConsoleView) page.showView(id);

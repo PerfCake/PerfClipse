@@ -23,4 +23,5 @@ public class PerfClipseConstants {
 
 	public static final String SCENARIO_DIR_NAME = "scenarios";
 	public static final String MESSAGE_DIR_NAME = "messages";
+	public static final String PERFCLIPSE_STDOUT_CONSOLE = "Perfclipse standard output:";
 }
