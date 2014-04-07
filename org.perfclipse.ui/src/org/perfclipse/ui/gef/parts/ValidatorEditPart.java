@@ -148,7 +148,7 @@ PropertyChangeListener, NodeEditPart {
 		
 		List<ValidatorRefModel> references = new ArrayList<>();
 		
-		if (messages == null)
+		if (messages == null || messages.getMessages() == null)
 			return Collections.EMPTY_LIST;
 
 		for (Message m : messages.getMessages().getMessage()){
