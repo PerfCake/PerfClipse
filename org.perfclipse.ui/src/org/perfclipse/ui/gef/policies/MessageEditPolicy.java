@@ -26,14 +26,17 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.window.Window;
 import org.perfcake.model.Header;
 import org.perfcake.model.ObjectFactory;
+import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.AddHeaderCommand;
+import org.perfclipse.ui.gef.commands.AddValidatorRefCommand;
 import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 import org.perfclipse.ui.wizards.HeaderAddWizard;
 import org.perfclipse.ui.wizards.MessageEditWizard;
+import org.perfclipse.ui.wizards.ValidatorAttachWizard;
 
 public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
@@ -78,6 +81,26 @@ public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 		
 		return new AddHeaderCommand(message, h);
 	}
+
+	@Override
+	protected Command createAttachValidatorCommand(Request request) {
+		if (messages.getMapper().getValidation() == null)
+			return null;
+		ValidatorAttachWizard wizard = new ValidatorAttachWizard(messages.getMapper().getValidation());
+		if (Utils.showWizardDialog(wizard) != Window.OK)
+			return null;
+		if (wizard.getValidatorRef() == null && wizard.getValidatorRef().isEmpty())
+			return null;
+		
+		CompoundCommand c = new CompoundCommand("Attach validator");
+		c.add(wizard.getCommand());
+		for (ValidatorRef ref : wizard.getValidatorRef()){
+			c.add(new AddValidatorRefCommand(message, ref));
+		}
+		
+		return c;
+	}
+
 	
 	
 }
