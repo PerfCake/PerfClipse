@@ -94,7 +94,7 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 		IProject project = scenarioFile.getProject();
 		if (project != null){
 			if (Utils.calculateSyncAddMessage(message.getUri(), project, shell))
-				Utils.createMessage(message.getUri(), "", project, shell);
+				Utils.createMessage(message.getUri(), new byte[0], project, shell);
 		}
 		return true;
 	}

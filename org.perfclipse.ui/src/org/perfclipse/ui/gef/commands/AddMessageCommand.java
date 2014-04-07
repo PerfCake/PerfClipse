@@ -27,6 +27,7 @@ public class AddMessageCommand extends MessageCommand {
 
 	private Scenario.Messages.Message newMessage;
 	private MessagesModel messages;
+	private byte[] contents = new byte[0];
 	public AddMessageCommand(Scenario.Messages.Message newMessage, MessagesModel messages) {
 		super("Add message");
 		this.newMessage = newMessage;
@@ -38,13 +39,16 @@ public class AddMessageCommand extends MessageCommand {
 	public void execute() {
 		messages.addMessage(newMessage);
 		if (syncResource)
-			Utils.createMessage(newMessage.getUri(), "", project, shell);
+			Utils.createMessage(newMessage.getUri(), contents, project, shell);
 	}
 
 	@Override
 	public void undo() {
 		messages.removeMessage(newMessage);
-		if(syncResource)
-			Utils.deleteMessage(newMessage.getUri(), project, shell);
+		if(syncResource){
+			contents = Utils.deleteMessage(newMessage.getUri(), project, shell);
+			if (contents == null)
+				contents = new byte[0];
+		}
 	}
 }

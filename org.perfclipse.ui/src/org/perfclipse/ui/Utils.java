@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -47,7 +48,6 @@ import org.perfclipse.logging.Logger;
 
 public class Utils {
 
-	
 	static final Logger log = Activator.getDefault().getLogger();
 
 	/**
@@ -186,7 +186,7 @@ public class Utils {
 	 * @param shell
 	 * @return True if the message was successfuly created.
 	 */
-	public static boolean createMessage(String name, String contents,
+	public static boolean createMessage(String name, byte[] contents,
 			IProject project, Shell shell){
 		if (name == null){
 			throw new IllegalArgumentException("Name cannot be null");
@@ -198,7 +198,7 @@ public class Utils {
 		IFile message = getMessageFileByName(name, project);
 		ByteArrayInputStream in = null;
 		try {
-			in = new ByteArrayInputStream(contents.getBytes());
+			in = new ByteArrayInputStream(contents);
 			message.create(in, false, null);
 		} catch (CoreException e) {
 			log.error("Cannot create empty message file", e);
@@ -225,14 +225,14 @@ public class Utils {
 	 * @param name message name 
 	 * @param shell
 	 * 
-	 * @return Contents of the deleted file of null if the file was not deleted.
+	 * @return Contents of the deleted file or null if the file was not deleted.
 	 */
-	public static String deleteMessage(String name, IProject project, Shell shell){
+	public static byte[] deleteMessage(String name, IProject project, Shell shell){
 		if (name == null){
 			throw new IllegalArgumentException("Name cannot be null");
 		}
 		
-		String contents = null;
+		byte[] contents = new byte[0];
 
 		IFile messageFile = getMessageFileByName(name, project);
 
@@ -242,11 +242,16 @@ public class Utils {
 		InputStream in = null;
 		try{
 			in = messageFile.getContents();
-			contents = in.toString();
+			contents = IOUtils.toByteArray(in);
+			if (contents == null)
+				contents = new byte[0];
 		} catch (CoreException e) {
 			log.error("Cannot get contents of the file", e);
 			MessageDialog.openError(shell, "Cannot delete file", "Contents of the deleted file cannot be stored.");
 			return null;
+		} catch (IOException e) {
+			log.error("Cannot store contents of the file", e);
+			MessageDialog.openError(shell, "Cannot delete file", "Contents of the deleted file cannot be stored.");
 		} finally {
 			if (in != null){
 				try {

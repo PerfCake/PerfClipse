@@ -28,7 +28,7 @@ public class DeleteMessageCommand extends MessageCommand {
 	private MessagesModel messages;
 	private MessageModel message;
 	private int index;
-	private String resourceContents;
+	private byte[] resourceContents;
 	
 
 	public DeleteMessageCommand(MessagesModel messages,
@@ -38,14 +38,18 @@ public class DeleteMessageCommand extends MessageCommand {
 		this.messages = messages;
 		this.message = message;
 		syncResource = false;
+		resourceContents = new byte[0];
 	}
 
 	@Override
 	public void execute() {
 		index = messages.getMessages().getMessage().indexOf(message.getMessage());
-		if (syncResource)
+		if (syncResource){
 			resourceContents = Utils.deleteMessage(message.getMessage().getUri(),
 					project, shell);
+			if (resourceContents == null)
+				resourceContents = new byte[0];
+		}
 		messages.removeMessage(message.getMessage());
 	}
 
