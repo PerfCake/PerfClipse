@@ -36,8 +36,8 @@ import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.figures.DestinationFigure;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
-import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.DestionationEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.DestinationDirectEditPolicy;
@@ -75,11 +75,18 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart implements
 		ColorUtils colorUtils = ColorUtils.getInstance();
 		Color fg = colorUtils.getColor(PreferencesConstants.DESTINATION_COLOR_FOREGROUND);
 		Color bg = colorUtils.getColor(PreferencesConstants.DESTINATION_COLOR_BACKGROUND);
-		LabeledRoundedRectangle figure = new LabeledRoundedRectangle(getText(), fg, bg);
+		DestinationFigure figure = new DestinationFigure(getText(), fg, bg);
 		return figure;
 	}
-
 	
+	
+	@Override
+	protected void refreshVisuals() {
+		super.refreshVisuals();
+		DestinationFigure figure = (DestinationFigure) getFigure();
+		figure.setSwitch(getDestinationModel().getDestination().isEnabled());
+	}
+
 	@Override
 	public void performRequest(Request req) {
 		if (req.getType() == RequestConstants.REQ_OPEN ||

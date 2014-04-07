@@ -94,7 +94,8 @@ PropertyChangeListener, NodeEditPart {
 
 	@Override
 	protected String getText() {
-		return getValidatorModel().getValidator().getClazz();
+		return "(" + getValidatorModel().getValidator().getId() + ") "
+				+ getValidatorModel().getValidator().getClazz() ;
 	}
 
 	@Override

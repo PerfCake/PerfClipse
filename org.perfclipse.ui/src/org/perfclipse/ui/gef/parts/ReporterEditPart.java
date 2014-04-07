@@ -42,7 +42,7 @@ import org.perfclipse.model.ReportingModel;
 import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
-import org.perfclipse.ui.gef.figures.TwoPartRectangle;
+import org.perfclipse.ui.gef.figures.ReporterRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.DestinationListEditPolicy;
 import org.perfclipse.ui.gef.policies.ReporterEditPolicy;
@@ -84,7 +84,7 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 		ColorUtils colorUtils = ColorUtils.getInstance();
 		Color fg = colorUtils.getColor(PreferencesConstants.REPORTER_COLOR_FOREGROUND);
 		Color bg = colorUtils.getColor(PreferencesConstants.REPORTER_COLOR_BACKGROUND);
-		TwoPartRectangle figure = new TwoPartRectangle(getText(), fg, bg);
+		ReporterRectangle figure = new ReporterRectangle(getText(), fg, bg);
 		return figure;
 	}
 
@@ -116,6 +116,17 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 	protected String getText() {
 		return getReporterModel().getReporter().getClazz();
 	}
+	
+	
+
+	@Override
+	protected void refreshVisuals() {
+		super.refreshVisuals();
+		ReporterRectangle figure = (ReporterRectangle) getFigure();
+		figure.setSwitch(getReporterModel().getReporter().isEnabled());
+		
+	}
+
 
 	@Override
 	protected List<Object> getModelChildren(){
@@ -157,7 +168,8 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 			}
 		}
 		
-		if (evt.getPropertyName().equals(ReporterModel.PROPERTY_CLASS)){
+		if (evt.getPropertyName().equals(ReporterModel.PROPERTY_CLASS) ||
+				evt.getPropertyName().equals(ReporterModel.PROPERTY_ENABLED)){
 			refreshVisuals();
 		}
 		
