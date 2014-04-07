@@ -60,6 +60,9 @@ public class MessagesPage extends AbstractPerfCakePage {
 
 	//scenario file
 	private IFile scenarioFile;
+	private AddMessageSelectionAdapter addMessageAdapter;
+	private EditMessageSelectionAdapter editMessageAdapter;
+	private DeleteMessageSelectionAdapter deleteMessageAdapter;
 
 	public MessagesPage(IFile scenarioFile){
 		this(MESSAGES_PAGE_NAME, false, scenarioFile);
@@ -97,23 +100,23 @@ public class MessagesPage extends AbstractPerfCakePage {
 		GridData data;
 		
 		messagesViewer = new MessagesTableViewer(container, getEditingSupportCommands());
+
 		messagesViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
 		data = Utils.getTableViewerGridData();
 		data.grabExcessHorizontalSpace = true;
 		messagesViewer.getTable().setLayoutData(data);
-		
+
 		messagesViewerControls = new TableViewerControl(container, true, SWT.NONE);
-		AddMessageSelectionAdapter addMessageAdapter = 
-				new AddMessageSelectionAdapter(getEditingSupportCommands(),
-						messagesViewer, messagesModel, scenarioFile);
+		addMessageAdapter = new AddMessageSelectionAdapter(getEditingSupportCommands(),
+				messagesViewer, messagesModel, scenarioFile);
 		addMessageAdapter.setValidators(validators);
 		messagesViewerControls.getAddButton().addSelectionListener(addMessageAdapter); 
 
-		EditMessageSelectionAdapter editMessageAdapter = new EditMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, scenarioFile);
+		editMessageAdapter = new EditMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, scenarioFile);
 		editMessageAdapter.setValidators(validators);
 		messagesViewerControls.getEditButton().addSelectionListener(editMessageAdapter);
-		messagesViewerControls.getDeleteButton().addSelectionListener(
-				new DeleteMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, messagesModel, scenarioFile));
+		deleteMessageAdapter = new DeleteMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, messagesModel, scenarioFile); 
+		messagesViewerControls.getDeleteButton().addSelectionListener(deleteMessageAdapter);
 		setControl(container);
 		super.createControl(parent);
 	}
@@ -143,4 +146,18 @@ public class MessagesPage extends AbstractPerfCakePage {
 	public void setValidators(List<ValidatorModel> validators) {
 		this.validators = validators;
 	}
+
+	public IFile getScenarioFile() {
+		return scenarioFile;
+	}
+
+	public void setScenarioFile(IFile scenarioFile) {
+		this.scenarioFile = scenarioFile;
+		//pass scenariofile to selection adapters
+		addMessageAdapter.setScenarioFile(scenarioFile);
+		editMessageAdapter.setScenarioFile(scenarioFile);
+		deleteMessageAdapter.setScenarioFile(scenarioFile);
+	}
+	
+	
 }

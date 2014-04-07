@@ -20,6 +20,8 @@
 package org.perfclipse.ui;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -179,11 +181,13 @@ public class Utils {
 	/**
 	 * Creates message with file name in messages directory of the project
 	 * @param name name of the message file
+	 * @param contents Contents of the new created file.
 	 * @param project project in which message should be created
 	 * @param shell
 	 * @return True if the message was successfuly created.
 	 */
-	public static boolean createMessage(String name, IProject project, Shell shell){
+	public static boolean createMessage(String name, String contents,
+			IProject project, Shell shell){
 		if (name == null){
 			throw new IllegalArgumentException("Name cannot be null");
 		}
@@ -192,15 +196,24 @@ public class Utils {
 		}
 		
 		IFile message = getMessageFileByName(name, project);
-		String content = "";
+		ByteArrayInputStream in = null;
 		try {
-			//TODO: progressmonitor
-			message.create(new ByteArrayInputStream(content.getBytes()), false, null);
+			in = new ByteArrayInputStream(contents.getBytes());
+			message.create(in, false, null);
 		} catch (CoreException e) {
 			log.error("Cannot create empty message file", e);
 			MessageDialog.openError(shell, "Cannot create message", "Cannot create empty file in messages directory.");
 			return false;
+		} finally {
+			if (in != null){
+				try {
+					in.close();
+				} catch (IOException e) {
+					log.error("Cannot close input stream for newly created message", e);
+				}
+			}
 		}
+		
 		
 		return true;
 	}
@@ -209,27 +222,50 @@ public class Utils {
 	/**
 	 * Removes message with given file name in the project
 	 * 
-	 * @param message File with the message 
+	 * @param name message name 
 	 * @param shell
 	 * 
-	 * @return true if the message was successfully deleted
+	 * @return Contents of the deleted file of null if the file was not deleted.
 	 */
-	public static boolean deleteMessage(IFile message, Shell shell){
-		if (message == null){
+	public static String deleteMessage(String name, IProject project, Shell shell){
+		if (name == null){
 			throw new IllegalArgumentException("Name cannot be null");
 		}
+		
+		String contents = null;
 
-		try {
-			//TODO: progressmonitor
-			message.delete(true, null);
+		IFile messageFile = getMessageFileByName(name, project);
+
+		if (messageFile == null || !messageFile.exists())
+			return null;
+
+		InputStream in = null;
+		try{
+			in = messageFile.getContents();
+			contents = in.toString();
+		} catch (CoreException e) {
+			log.error("Cannot get contents of the file", e);
+			MessageDialog.openError(shell, "Cannot delete file", "Contents of the deleted file cannot be stored.");
+			return null;
+		} finally {
+			if (in != null){
+				try {
+					in.close();
+				} catch (IOException e) {
+					log.error("Cannot close message contents stream.", e);
+				}
+			}
+		}
+
+		try{
+			messageFile.delete(true, null);
 		} catch (CoreException e) {
 			log.error("Cannot delete message file", e);
 			MessageDialog.openError(shell, "Cannot delete file", "File containing message cannot be deleted.");
-			return false;
+			return null;
 		}
 		
-		
-		return true;
+		return contents;
 		
 	}
 	
@@ -265,41 +301,36 @@ public class Utils {
 	}
 	
 	/**
-	 * Checks if the message is local and if it does not exits. THen asks user if
-	 * he wants to create message resource and creates resource.
+	 * Calculate if message should be kept in sync with resource in Messages directory
+	 * 
 	 * @param name name of the message
-	 * @param project project in which message should be created.
-	 * @param shell
-	 * @return True if message resource exists (It was created or it existed before calling this method). 
-	 * Return false if message is not present and it was not created.
+	 * @param project project which message should belong to
+	 * 
+	 * @return True if message should be in sync with messages directory.
 	 */
-	public static boolean handleCreateMessage(String name, IProject project, Shell shell){
+	public static boolean calculateSyncAddMessage(String name, IProject project, Shell shell){
 		if (!Utils.isMessageLocal(name))
 			return false;
 
 		if (Utils.messageExists(name, project))
-			return true;
+			return false;
 		
 		boolean create = MessageDialog.openQuestion(shell, "Message does not exits.",
 				"Message has local path and does not exists in the messages directory. "
 				+ "Do you want to create empty file " + name + " in Messages directory?");
-		if (create){
-			Utils.createMessage(name, project, shell);
-			return true;
-		}
-
-		return false;
+		
+		return create;
 	}
 	
 	/**
-	 * Conditionally moves message resource to different file.
+	 * Calculates if message location should be kept in sync with Messages directory
 	 * 
 	 * @param oldName Name of the resource
 	 * @param project  Project in which resource is located
 	 * @param shell
-	 * @return True if new resource exists and old one is not.
+	 * @return True if message should be moved.
 	 */
-	public static boolean handleMoveMessage(String oldName, String newName, IProject project, Shell shell){
+	public static boolean calculateMoveMessage(String oldName, String newName, IProject project, Shell shell){
 		if (!Utils.isMessageLocal(oldName) || !Utils.isMessageLocal(newName))
 			return false;
 		
@@ -310,39 +341,30 @@ public class Utils {
 				"Message has associated file resource in messages directory. Do"
 				+ "you want to rename the file to be in sync with message object?");
 		
-		if (move){
-			Utils.moveMessage(oldName, newName, project, shell);
-			return true;
-		}
-		return false;
+		return  move;
 	}
 	
 	/**
-	 * Check if local resource exists in the project for the message. If it does it
-	 * conditionally (shows question dialog) deletes resource.
+	 * Calculates if message resource should be deleted.
+	 * 
 	 * @param name Name of the message resource
 	 * @param project project in which resource would be placed
 	 * @param shell 
-	 * @return True if the resource is not present after this method (it means it was deleted
-	 * by this method or ti was not exists before this method was called). False otherwise
+	 * 
+	 * @return True if message should be deleted. Else if it does not.
 	 */
-	public static boolean handleDeleteMessage(String name, IProject project, Shell shell){
+	public static boolean calculateDeleteMessage(String name, IProject project, Shell shell){
 		if (!Utils.isMessageLocal(name))
-			return true;
+			return false;
 
 		if (!Utils.messageExists(name, project))
-			return true;
+			return false;
 		
 		boolean delete = MessageDialog.openQuestion(shell, "Message has resource file.",
 				"There is file in messages folder with name " + name + " which is"
 						+ "same as currently deleted message. Do you want to delete"
 						+ "this file also?");
-		if (delete){
-			IFile message = getMessageFileByName(name, project);
-			Utils.deleteMessage(message, shell);
-			return true;
-		}
-
-		return false;
+		
+		return delete;
 	}
 }

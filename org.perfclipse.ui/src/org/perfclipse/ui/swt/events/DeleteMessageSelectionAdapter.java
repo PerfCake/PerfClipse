@@ -60,11 +60,22 @@ public class DeleteMessageSelectionAdapter extends
 
 	@Override
 	protected Command getCommand() {
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		boolean deleteResource = Utils.calculateDeleteMessage(
+				message.getMessage().getUri(), scenarioFile.getProject(), shell);
 		if (message != null && messages != null){
-			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-			Utils.handleDeleteMessage(message.getMessage().getUri(), scenarioFile.getProject(), shell);
-			return new DeleteMessageCommand(messages, message);
+			DeleteMessageCommand c = new DeleteMessageCommand(messages, message);
+
+			if (deleteResource)
+				c.setsyncMessage(scenarioFile.getProject(), shell);
+
+			return c;
 		}
+		// if command was not executed since the wizard does not use commands then
+		// we need to sync messages resource
+		if (deleteResource)
+			Utils.deleteMessage(message.getMessage().getUri(), scenarioFile.getProject(), shell);
+		
 		return null;
 	}
 
@@ -73,4 +84,13 @@ public class DeleteMessageSelectionAdapter extends
 		message = (MessageModel) element;
 	}
 
+	public IFile getScenarioFile() {
+		return scenarioFile;
+	}
+
+	public void setScenarioFile(IFile scenarioFile) {
+		this.scenarioFile = scenarioFile;
+	}
+
+	
 }

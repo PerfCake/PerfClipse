@@ -59,10 +59,13 @@ public class MessagesListEditPolicy extends AbstractListEditPolicy {
 			PerfCakeEditPartFactory factory = (PerfCakeEditPartFactory) getHost().getViewer().getEditPartFactory();
 			IProject project = factory.getScenarioFile().getProject();
 			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-			if (project != null)
-				Utils.handleCreateMessage(pathToMessage, project, shell);
 
-			return new AddMessageCommand(message, model);
+			AddMessageCommand c = new AddMessageCommand(message, model);
+			if (project != null && Utils.calculateSyncAddMessage(pathToMessage, project, shell)){
+				c.setsyncMessage(project, shell);
+			}
+
+			return c;
 		}
 		return null;
 	}

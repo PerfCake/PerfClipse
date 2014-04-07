@@ -104,4 +104,18 @@ public class AddMessageSelectionAdapter extends AbstractCommandSelectionAdapter 
 	public void setValidators(List<ValidatorModel> validators) {
 		this.validators = validators;
 	}
+
+
+
+	public IFile getScenarioFile() {
+		return scenarioFile;
+	}
+
+
+
+	public void setScenarioFile(IFile scenarioFile) {
+		this.scenarioFile = scenarioFile;
+	}
+	
+	
 }

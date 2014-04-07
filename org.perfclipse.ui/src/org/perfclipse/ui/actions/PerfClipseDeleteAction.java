@@ -55,18 +55,23 @@ public class PerfClipseDeleteAction extends DeleteAction {
 	 */
 	@Override
 	public void run() {
-		showMessageResourceDialogs();
+		Command c = modifyDeleteCommand();
 		if (calculateShowDialog()){
 			if (showDialog()){
-				super.run();
+				execute(c);
 			}
 		} else {
-			super.run();
+			execute(c);
 		}
 
 	}
 
-	private void showMessageResourceDialogs() {
+	/**
+	 * Creates delete command and asks user for every local message if it should be kept
+	 * in sync with messages resources.
+	 * @return Command to be executed
+	 */
+	private Command modifyDeleteCommand() {
 
 		CompoundCommand command = (CompoundCommand) createDeleteCommand(getSelectedObjects());
 		if (command != null){
@@ -78,12 +83,13 @@ public class PerfClipseDeleteAction extends DeleteAction {
 					IEditorInput input = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput();
 					if (input instanceof FileEditorInput){
 						IProject project = ((FileEditorInput) input).getFile().getProject();
-						Utils.handleDeleteMessage(deleteCommand.getMessage().getMessage().getUri(),
-								project, shell);
+						if (Utils.calculateDeleteMessage(deleteCommand.getMessage().getMessage().getUri(), project, shell))
+							deleteCommand.setsyncMessage(project, shell);
 					}
 				}
 			}
 		}
+		return command;
 	}
 
 	/**

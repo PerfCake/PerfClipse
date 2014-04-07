@@ -19,28 +19,32 @@
 
 package org.perfclipse.ui.gef.commands;
 
-import org.eclipse.gef.commands.Command;
 import org.perfcake.model.Scenario;
 import org.perfclipse.model.MessagesModel;
+import org.perfclipse.ui.Utils;
 
-public class AddMessageCommand extends Command {
+public class AddMessageCommand extends MessageCommand {
 
 	private Scenario.Messages.Message newMessage;
 	private MessagesModel messages;
-
 	public AddMessageCommand(Scenario.Messages.Message newMessage, MessagesModel messages) {
 		super("Add message");
 		this.newMessage = newMessage;
 		this.messages = messages;
+		syncResource = false;
 	}
 
 	@Override
 	public void execute() {
 		messages.addMessage(newMessage);
+		if (syncResource)
+			Utils.createMessage(newMessage.getUri(), "", project, shell);
 	}
 
 	@Override
 	public void undo() {
 		messages.removeMessage(newMessage);
+		if(syncResource)
+			Utils.deleteMessage(newMessage.getUri(), project, shell);
 	}
 }

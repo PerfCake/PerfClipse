@@ -62,9 +62,20 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 	}
 	@Override
 	public boolean performFinish() {
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		IProject project = scenarioFile.getProject();
+
 		if (message.getMessage().getUri() == null
 				|| !message.getMessage().getUri().equals(messagePage.getUri())){
-			getCommand().add(new EditMessageUriCommand(message, messagePage.getUri()));
+
+			boolean moveResource = Utils.calculateMoveMessage(message.getMessage().getUri(),
+					messagePage.getUri(), project, shell);
+			EditMessageUriCommand editCommand = new EditMessageUriCommand(message, messagePage.getUri());
+			if (project != null){
+				if (moveResource)
+					editCommand.setsyncMessage(project, shell);
+			}
+			getCommand().add(editCommand);
 		}
 		
 		if (message.getMessage().getMultiplicity() == null ||
@@ -72,11 +83,6 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 			String multiplicity = String.valueOf(messagePage.getMultiplicity());
 			getCommand().add(new EditMessageMultiplicityCommand(message, multiplicity));
 		}
-		
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		IProject project = scenarioFile.getProject();
-		if (!message.getMessage().getUri().equals(messagePage.getUri()) && project != null)
-			Utils.handleMoveMessage(message.getMessage().getUri(), messagePage.getUri(), project, shell);
 		return super.performFinish();
 	}
 	@Override

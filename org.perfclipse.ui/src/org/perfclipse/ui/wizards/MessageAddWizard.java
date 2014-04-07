@@ -92,8 +92,10 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 		}
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		IProject project = scenarioFile.getProject();
-		if (project != null)
-			Utils.handleCreateMessage(message.getUri(), project, shell);
+		if (project != null){
+			if (Utils.calculateSyncAddMessage(message.getUri(), project, shell))
+				Utils.createMessage(message.getUri(), "", project, shell);
+		}
 		return true;
 	}
 

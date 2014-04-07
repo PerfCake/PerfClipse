@@ -19,10 +19,10 @@
 
 package org.perfclipse.ui.gef.commands;
 
-import org.eclipse.gef.commands.Command;
 import org.perfclipse.model.MessageModel;
+import org.perfclipse.ui.Utils;
 
-public class EditMessageUriCommand extends Command {
+public class EditMessageUriCommand extends MessageCommand {
 
 	private String newUri;
 	private String oldUri;
@@ -33,15 +33,20 @@ public class EditMessageUriCommand extends Command {
 		this.messageModel = message;
 		this.oldUri = message.getMessage().getUri();
 		this.newUri = newUri;
+		syncResource = false;
 	}
 	
 	@Override
 	public void execute() {
+		if (syncResource)
+			Utils.moveMessage(oldUri, newUri, project, shell);
 		messageModel.setUri(newUri);
 	}
 
 	@Override
 	public void undo() {
+		if (syncResource)
+			Utils.moveMessage(newUri, oldUri, project, shell);
 		messageModel.setUri(oldUri);
 	}
 

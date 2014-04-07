@@ -225,7 +225,8 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 		fileCreationPage = new ScenarioNewFilePage("New Scenario file", selection);
 		generatorPage = new GeneratorPage();
 		senderPage = new SenderPage();
-		messagesPage = new MessagesPage(scenarioFile);
+		//scenario file will be set after it is created
+		messagesPage = new MessagesPage(null);
 		messagesPage.setValidators(validators);
 		validationPage = new ValidationPage();
 		reportingPage = new ReportingPage();
@@ -243,9 +244,12 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 	@Override
 	public IWizardPage getNextPage(IWizardPage page) {
 		IWizardPage next = super.getNextPage(page);
-		if (next != null && fileCreationPage.getName().equals(next.getName())){
-			if (scenarioFile == null)
+		if (next != null && messagesPage.getName().equals(next.getName())){
+			if (scenarioFile == null){
 				scenarioFile = fileCreationPage.createNewFile();
+				//re-init tableviewer Listeners since it is referencing sceanrioFile
+				messagesPage.setScenarioFile(scenarioFile);
+			}
 		}
 		if (next != null && ValidationPage.VALIDATION_PAGE_NAME.equals(next.getName())){
 

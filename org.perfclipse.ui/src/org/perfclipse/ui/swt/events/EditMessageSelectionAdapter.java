@@ -74,4 +74,15 @@ public class EditMessageSelectionAdapter extends
 	}
 
 
+	public IFile getScenarioFile() {
+		return scenarioFile;
+	}
+
+
+	public void setScenarioFile(IFile scenarioFile) {
+		this.scenarioFile = scenarioFile;
+	}
+
+	
+
 }
