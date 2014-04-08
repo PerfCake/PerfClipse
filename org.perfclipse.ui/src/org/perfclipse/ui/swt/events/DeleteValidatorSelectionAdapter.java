@@ -22,10 +22,14 @@ package org.perfclipse.ui.swt.events;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.TableViewer;
+import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
+import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.gef.commands.DeleteValidatorCommand;
+import org.perfclipse.ui.gef.commands.DeleteValidatorRefCommand;
 
 /**
  * @author Jakub Knetl
@@ -37,7 +41,7 @@ public class DeleteValidatorSelectionAdapter extends
 	private ValidatorModel validator;
 	private ValidationModel validation;
 
-	
+	private List<MessageModel> messages;
 	/**
 	 * @param commands
 	 * @param viewer
@@ -57,9 +61,31 @@ public class DeleteValidatorSelectionAdapter extends
 
 	@Override
 	protected Command getCommand() {
-		if (validator != null && validation != null)
-			return new DeleteValidatorCommand(validation, validator);
+		if (validator != null && validation != null){
+			Command deleteValidator = new DeleteValidatorCommand(validation, validator);
+			CompoundCommand command = new CompoundCommand(deleteValidator.getLabel());
+			command.add(deleteValidator);
+			if (messages != null){
+				for (MessageModel m : messages){
+					for (ValidatorRef ref : m.getMessage().getValidatorRef()){
+						if (ref.getId().equals(validator.getValidator().getId())){
+							command.add(new DeleteValidatorRefCommand(m, ref));
+						}
+					}
+				}
+			}
+				
+
+			return command;
+		}
 		return null;
 	}
 
+	public List<MessageModel> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<MessageModel> messages) {
+		this.messages = messages;
+	}
 }

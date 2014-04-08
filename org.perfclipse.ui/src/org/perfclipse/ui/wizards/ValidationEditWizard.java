@@ -19,6 +19,12 @@
 
 package org.perfclipse.ui.wizards;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.perfcake.model.Scenario.Messages.Message;
+import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.ui.wizards.pages.ValidationPage;
 
@@ -42,7 +48,17 @@ public class ValidationEditWizard extends AbstractPerfCakeEditWizard {
 	public void addPages() {
 		validationPage = new ValidationPage(validation);
 		addPage(validationPage);
+		validationPage.setMessages(parseMessages());
 		super.addPages();
+	}
+	private List<MessageModel> parseMessages() {
+		MessagesModel messagesModel = validation.getMapper().getMessagesModel();
+		List<MessageModel> messages = new ArrayList<>();
+		for (Message m : messagesModel.getMessages().getMessage()){
+			messages.add((MessageModel) validation.getMapper().getModelContainer(m));
+		}
+		
+		return messages;
 	}
 	
 }

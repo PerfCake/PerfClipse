@@ -29,6 +29,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.perfcake.model.Scenario.Validation.Validator;
+import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
@@ -54,6 +55,9 @@ public class ValidationPage extends AbstractPerfCakePage {
 	
 	private ValidationModel validation;
 	private List<ValidatorModel> validators;
+	
+	private List<MessageModel> messages;
+	private DeleteValidatorSelectionAdapter deleteValidatorAdapter;
 	
 	public ValidationPage(){
 		this(VALIDATION_PAGE_NAME, false);
@@ -113,9 +117,12 @@ public class ValidationPage extends AbstractPerfCakePage {
 					IStructuredSelection selection) {
 				return new ValidatorEditWizard((ValidatorModel) selection.getFirstElement());
 			}
+			
 		});
-		validatorControl.getDeleteButton().addSelectionListener(
-				new DeleteValidatorSelectionAdapter(getEditingSupportCommands(), validatorViewer, validation));
+		deleteValidatorAdapter = new DeleteValidatorSelectionAdapter(getEditingSupportCommands(), validatorViewer, validation);
+		if (messages != null)
+			deleteValidatorAdapter.setMessages(messages);
+		validatorControl.getDeleteButton().addSelectionListener(deleteValidatorAdapter);
 
 		setControl(container);
 		setPageComplete(true);
@@ -140,4 +147,16 @@ public class ValidationPage extends AbstractPerfCakePage {
 	public List<ValidatorModel> getValidators() {
 		return validators;
 	}
+
+	public List<MessageModel> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<MessageModel> messages) {
+		if (deleteValidatorAdapter != null)
+			deleteValidatorAdapter.setMessages(messages);
+		this.messages = messages;
+	}
+	
+	
 }
