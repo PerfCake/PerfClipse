@@ -25,7 +25,7 @@ import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination.Period;
 
-public class DestinationModel extends PerfClipseModel implements IPropertyContainer {
+public class DestinationModel extends PerfClipseModel implements IPropertyContainer, IEnableable {
 	
 	public static final String PROPERTY_PERIOD = "destination-period";
 	public static final String PROPERTY_CLASS = "destination-class";
@@ -98,6 +98,11 @@ public class DestinationModel extends PerfClipseModel implements IPropertyContai
 			getDestination().setEnabled(enabled);
 			getListeners().firePropertyChange(PROPERTY_ENABLED, !enabled, enabled);
 		}
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return getDestination().isEnabled();
 	}
 	
 }
