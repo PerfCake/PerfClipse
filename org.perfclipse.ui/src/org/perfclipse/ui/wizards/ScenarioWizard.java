@@ -251,6 +251,7 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 				messagesPage.setScenarioFile(scenarioFile);
 			}
 		}
+		// when swaping to validation page keep messages and references to validators in sync
 		if (next != null && ValidationPage.VALIDATION_PAGE_NAME.equals(next.getName())){
 
 			for (TableItem i : validationPage.getValidatorViewer().getTable().getItems()){
@@ -260,6 +261,15 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 			}
 
 			validationPage.getValidatorViewer().setInput(validators);
+			
+			//save messages
+			List<MessageModel> messages = new ArrayList<>();
+			for (TableItem i : messagesPage.getMessagesViewer().getTable().getItems()){
+				if (i.getData() instanceof MessageModel){
+					messages.add((MessageModel) i.getData());
+				}
+			}
+			validationPage.setMessages(messages);
 		}
 		return next;
 	}

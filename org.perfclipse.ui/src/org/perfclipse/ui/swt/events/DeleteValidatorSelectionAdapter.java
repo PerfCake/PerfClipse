@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.swt.events;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
@@ -57,8 +58,19 @@ public class DeleteValidatorSelectionAdapter extends
 	public void handleDeleteData(Object element) {
 		validator = (ValidatorModel) element;
 
+		//if this is in new scenario wizard, then delete validatorRefs
+		if (messages != null){
+			for (MessageModel m : messages){
+				List<ValidatorRef> toRemove = new ArrayList<>();
+				for (ValidatorRef ref : m.getMessage().getValidatorRef()){
+					if (ref.getId().equals(validator.getValidator().getId()))
+						toRemove.add(ref);
+				}
+				m.getMessage().getValidatorRef().removeAll(toRemove);
+			}
+		}
 	}
-
+	
 	@Override
 	protected Command getCommand() {
 		if (validator != null && validation != null){
