@@ -142,6 +142,16 @@ public class ValidationPage extends AbstractPerfCakePage {
 	public List<ValidatorModel> getValidators() {
 		return validators;
 	}
+	
+	public void setValidators(List<ValidatorModel> validators) {
+		if (this.validators == null){
+			this.validators = new ArrayList<>();
+		}
+		if (validators != null){
+			this.validators.addAll(validators);
+			validatorViewer.setInput(validators);
+		}
+	}
 
 	public List<MessageModel> getMessages() {
 		return messages;

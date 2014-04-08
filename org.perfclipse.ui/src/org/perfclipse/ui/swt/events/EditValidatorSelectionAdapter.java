@@ -19,11 +19,13 @@
 
 package org.perfclipse.ui.swt.events;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.widgets.TableItem;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
@@ -46,7 +48,13 @@ public class EditValidatorSelectionAdapter extends
 	@Override
 	protected AbstractPerfCakeEditWizard createWizard(
 			IStructuredSelection selection) {
-		return new ValidatorEditWizard((ValidatorModel) selection.getFirstElement(), messages);
+		List<ValidatorModel> otherValidators = new ArrayList<>();
+		for (TableItem i : getViewer().getTable().getItems()){
+			if (i.getData() instanceof ValidatorModel){
+				otherValidators.add((ValidatorModel) i.getData());
+			}
+		}
+		return new ValidatorEditWizard((ValidatorModel) selection.getFirstElement(), messages, otherValidators);
 	}
 
 	public List<MessageModel> getMessages() {

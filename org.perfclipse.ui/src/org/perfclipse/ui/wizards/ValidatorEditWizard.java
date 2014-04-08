@@ -19,7 +19,6 @@
 
 package org.perfclipse.ui.wizards;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
@@ -44,13 +43,16 @@ public class ValidatorEditWizard extends AbstractPerfCakeEditWizard {
 	private ValidatorPage validatorPage;
 	
 	private List<MessageModel> messages;
+	private List<ValidatorModel> otherValidators;
 	/**
 	 * @param validator
 	 */
-	public ValidatorEditWizard(ValidatorModel validator, List<MessageModel> messages) {
+	public ValidatorEditWizard(ValidatorModel validator, List<MessageModel> messages,
+			List<ValidatorModel> otherValidators) {
 		super("Edit validator");
 		this.validator = validator;
 		this.messages = messages;
+		this.otherValidators = otherValidators;
 	}
 	@Override
 	public boolean performFinish() {
@@ -65,10 +67,12 @@ public class ValidatorEditWizard extends AbstractPerfCakeEditWizard {
 			if (messages != null){
 				for (MessageModel m : messages){
 					for (ValidatorRef ref : m.getMessage().getValidatorRef()){
-						ModelMapper mapper = validator.getMapper();
-						getCommand().add(new EditValidatorRefCommand(
-								(ValidatorRefModel) mapper.getModelContainer(ref),
-								validatorPage.getValidatorId()));
+						if (ref.getId().equals(validator.getValidator().getId())){
+							ModelMapper mapper = validator.getMapper();
+							getCommand().add(new EditValidatorRefCommand(
+									(ValidatorRefModel) mapper.getModelContainer(ref),
+									validatorPage.getValidatorId()));
+						}
 					}
 						
 				}
@@ -81,16 +85,7 @@ public class ValidatorEditWizard extends AbstractPerfCakeEditWizard {
 	}
 	@Override
 	public void addPages() {
-		List<ValidatorModel> validators = new ArrayList<>();
-		if (validator.getMapper().getValidation() != null && 
-				validator.getMapper().getValidation().getValidation() != null){
-			for (Validator v : validator.getMapper().getValidation().getValidation().getValidator()){
-				if (v != validator.getValidator())
-					validators.add((ValidatorModel) validator.getMapper().getModelContainer(v));
-			}
-		}
-		//TODO: in new sceanrio wizard validators will be always empty!!!???
-		validatorPage = new ValidatorPage(validator, validators);
+		validatorPage = new ValidatorPage(validator, otherValidators);
 		addPage(validatorPage);
 		super.addPages();
 	}

@@ -92,7 +92,8 @@ public class ValidatorEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createPropertiesCommand(Request request) {
 		List<MessageModel> messages = ((ValidatorEditPart) getHost()).parseMessages();
-		ValidatorEditWizard wizard = new ValidatorEditWizard(validator, messages);
+		List<ValidatorModel> validators = ((ValidatorEditPart) getHost()).parseValidators();
+		ValidatorEditWizard wizard = new ValidatorEditWizard(validator, messages, validators);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
 			if (! wizard.getCommand().isEmpty()){
 				return wizard.getCommand();

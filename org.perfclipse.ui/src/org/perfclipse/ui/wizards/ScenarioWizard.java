@@ -254,13 +254,13 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 		// when swaping to validation page keep messages and references to validators in sync
 		if (next != null && ValidationPage.VALIDATION_PAGE_NAME.equals(next.getName())){
 
+			//add validators created using validation page
 			for (TableItem i : validationPage.getValidatorViewer().getTable().getItems()){
 				if (!validators.contains(i.getData())){
 					validators.add((ValidatorModel) i.getData());
 				}
 			}
-
-			validationPage.getValidatorViewer().setInput(validators);
+			validationPage.setValidators(validators);
 			
 			//save messages
 			List<MessageModel> messages = new ArrayList<>();
