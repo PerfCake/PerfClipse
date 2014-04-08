@@ -124,7 +124,8 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart implements
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(DestinationModel.PROPERTY_CLASS)){
+		if (evt.getPropertyName().equals(DestinationModel.PROPERTY_CLASS) ||
+				evt.getPropertyName().equals(DestinationModel.PROPERTY_ENABLED)){
 			refreshVisuals();
 		}
 	
