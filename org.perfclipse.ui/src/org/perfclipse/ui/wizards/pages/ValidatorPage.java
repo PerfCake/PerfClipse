@@ -165,8 +165,13 @@ public class ValidatorPage extends AbstractPerfCakePage {
 		if (otherValidators == null)
 			return true;
 		for (ValidatorModel v : otherValidators){
-			if (v.getValidator().getId().equals(validatorId))
+			//if edited validator is not null and it is same instance as 
+			// validator v then continue
+			if (validator != null && validator == v)
+				continue;
+			if (v.getValidator().getId().equals(validatorId)){
 				return false;
+			}
 		}
 		return true;
 	}
