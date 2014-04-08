@@ -23,7 +23,6 @@ package org.perfclipse.ui.wizards.pages;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -34,13 +33,11 @@ import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidationModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.swt.events.AbstractEditCommandSelectionAdapter;
 import org.perfclipse.ui.swt.events.AddValidatorSelectionAdapater;
 import org.perfclipse.ui.swt.events.DeleteValidatorSelectionAdapter;
+import org.perfclipse.ui.swt.events.EditValidatorSelectionAdapter;
 import org.perfclipse.ui.swt.jface.ValidatorTableViewer;
 import org.perfclipse.ui.swt.widgets.TableViewerControl;
-import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
-import org.perfclipse.ui.wizards.ValidatorEditWizard;
 
 /**
  * @author Jakub Knetl
@@ -58,6 +55,7 @@ public class ValidationPage extends AbstractPerfCakePage {
 	
 	private List<MessageModel> messages;
 	private DeleteValidatorSelectionAdapter deleteValidatorAdapter;
+	private EditValidatorSelectionAdapter editValidatorAdapter;
 	
 	public ValidationPage(){
 		this(VALIDATION_PAGE_NAME, false);
@@ -109,20 +107,17 @@ public class ValidationPage extends AbstractPerfCakePage {
 		validatorControl = new TableViewerControl(container, true, SWT.NONE);
 		validatorControl.getAddButton().addSelectionListener(
 				new AddValidatorSelectionAdapater(getEditingSupportCommands(), validatorViewer, validation));
-		validatorControl.getEditButton().addSelectionListener(
-				new AbstractEditCommandSelectionAdapter(getEditingSupportCommands(), validatorViewer) {
-			
-			@Override
-			protected AbstractPerfCakeEditWizard createWizard(
-					IStructuredSelection selection) {
-				return new ValidatorEditWizard((ValidatorModel) selection.getFirstElement());
-			}
-			
-		});
+		editValidatorAdapter = new EditValidatorSelectionAdapter(getEditingSupportCommands(), validatorViewer);
+		validatorControl.getEditButton().addSelectionListener(editValidatorAdapter);
+
 		deleteValidatorAdapter = new DeleteValidatorSelectionAdapter(getEditingSupportCommands(), validatorViewer, validation);
-		if (messages != null)
-			deleteValidatorAdapter.setMessages(messages);
 		validatorControl.getDeleteButton().addSelectionListener(deleteValidatorAdapter);
+
+		//set messages in adapters
+		if (messages != null){
+			deleteValidatorAdapter.setMessages(messages);
+			editValidatorAdapter.setMessages(messages);
+		}
 
 		setControl(container);
 		setPageComplete(true);
@@ -155,6 +150,8 @@ public class ValidationPage extends AbstractPerfCakePage {
 	public void setMessages(List<MessageModel> messages) {
 		if (deleteValidatorAdapter != null)
 			deleteValidatorAdapter.setMessages(messages);
+		if (editValidatorAdapter != null)
+			editValidatorAdapter.setMessages(messages);
 		this.messages = messages;
 	}
 	
