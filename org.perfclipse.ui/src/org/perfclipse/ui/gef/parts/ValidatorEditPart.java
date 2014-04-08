@@ -131,7 +131,8 @@ PropertyChangeListener, NodeEditPart {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent e) {
-		if (e.getPropertyName().equals(ValidatorModel.PROPERTY_CLASS)){
+		if (e.getPropertyName().equals(ValidatorModel.PROPERTY_CLASS) ||
+				e.getPropertyName().equals(ValidatorModel.PROPERTY_ID)){
 			refreshVisuals();
 		}
 	}
