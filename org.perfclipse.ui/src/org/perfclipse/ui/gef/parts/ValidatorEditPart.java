@@ -38,6 +38,7 @@ import org.eclipse.swt.graphics.Color;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfclipse.logging.Logger;
+import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidationModel;
@@ -103,7 +104,7 @@ PropertyChangeListener, NodeEditPart {
 		if (request.getType() == RequestConstants.REQ_OPEN ||
 				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
 		{
-			ValidatorEditWizard wizard = new ValidatorEditWizard(getValidatorModel());
+			ValidatorEditWizard wizard = new ValidatorEditWizard(getValidatorModel(), parseMessages());
 			if (Utils.showWizardDialog(wizard) == Window.OK){
 				if (! wizard.getCommand().isEmpty()){
 					getViewer().getEditDomain().getCommandStack().execute(wizard.getCommand());
@@ -191,6 +192,19 @@ PropertyChangeListener, NodeEditPart {
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return ((IAnchorFigure) getFigure()).getConnectionAnchor();
+	}
+	
+	public List<MessageModel> parseMessages(){
+		List<MessageModel> result = new ArrayList<>(); 
+		MessagesModel messagesModel = getValidatorModel().getMapper().getMessagesModel();
+		if (messagesModel == null || messagesModel.getMessages() == null)
+			return result;
+		
+		for (Message m : messagesModel.getMessages().getMessage()){
+			result.add((MessageModel) getValidatorModel().getMapper().getModelContainer(m));
+		}
+		
+		return result;
 	}
 
 }

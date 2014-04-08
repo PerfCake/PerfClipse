@@ -19,6 +19,9 @@
 
 package org.perfclipse.ui.gef.policies;
 
+
+import java.util.List;
+
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -34,6 +37,7 @@ import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.DeleteValidatorCommand;
 import org.perfclipse.ui.gef.commands.DeleteValidatorRefCommand;
+import org.perfclipse.ui.gef.parts.ValidatorEditPart;
 import org.perfclipse.ui.wizards.ValidatorEditWizard;
 
 /**
@@ -87,7 +91,8 @@ public class ValidatorEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
 	@Override
 	protected Command createPropertiesCommand(Request request) {
-		ValidatorEditWizard wizard = new ValidatorEditWizard(validator);
+		List<MessageModel> messages = ((ValidatorEditPart) getHost()).parseMessages();
+		ValidatorEditWizard wizard = new ValidatorEditWizard(validator, messages);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
 			if (! wizard.getCommand().isEmpty()){
 				return wizard.getCommand();

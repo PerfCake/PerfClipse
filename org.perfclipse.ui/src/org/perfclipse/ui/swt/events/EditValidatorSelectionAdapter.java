@@ -46,7 +46,7 @@ public class EditValidatorSelectionAdapter extends
 	@Override
 	protected AbstractPerfCakeEditWizard createWizard(
 			IStructuredSelection selection) {
-		return new ValidatorEditWizard((ValidatorModel) selection.getFirstElement());
+		return new ValidatorEditWizard((ValidatorModel) selection.getFirstElement(), messages);
 	}
 
 	public List<MessageModel> getMessages() {

@@ -22,9 +22,14 @@ package org.perfclipse.ui.wizards;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfcake.model.Scenario.Validation.Validator;
+import org.perfclipse.model.MessageModel;
+import org.perfclipse.model.ModelMapper;
 import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.model.ValidatorRefModel;
 import org.perfclipse.ui.gef.commands.EditValidatorIdCommand;
+import org.perfclipse.ui.gef.commands.EditValidatorRefCommand;
 import org.perfclipse.ui.gef.commands.EditValidatorTypeCommand;
 import org.perfclipse.ui.gef.commands.EditValidatorValueCommand;
 import org.perfclipse.ui.wizards.pages.ValidatorPage;
@@ -37,12 +42,15 @@ public class ValidatorEditWizard extends AbstractPerfCakeEditWizard {
 
 	private ValidatorModel validator;
 	private ValidatorPage validatorPage;
+	
+	private List<MessageModel> messages;
 	/**
 	 * @param validator
 	 */
-	public ValidatorEditWizard(ValidatorModel validator) {
+	public ValidatorEditWizard(ValidatorModel validator, List<MessageModel> messages) {
 		super("Edit validator");
 		this.validator = validator;
+		this.messages = messages;
 	}
 	@Override
 	public boolean performFinish() {
@@ -51,8 +59,21 @@ public class ValidatorEditWizard extends AbstractPerfCakeEditWizard {
 				!v.getClazz().equals(validatorPage.getValidatorName()))
 			getCommand().add(new EditValidatorTypeCommand(validator, validatorPage.getValidatorName()));
 		if (v.getId() == null ||
-				!v.getId().equals(validatorPage.getValidatorId()))
+				!v.getId().equals(validatorPage.getValidatorId())){
 			getCommand().add(new EditValidatorIdCommand(validator, validatorPage.getValidatorId()));
+			//check and change validatorRefs
+			if (messages != null){
+				for (MessageModel m : messages){
+					for (ValidatorRef ref : m.getMessage().getValidatorRef()){
+						ModelMapper mapper = validator.getMapper();
+						getCommand().add(new EditValidatorRefCommand(
+								(ValidatorRefModel) mapper.getModelContainer(ref),
+								validatorPage.getValidatorId()));
+					}
+						
+				}
+			}
+		}
 		if (v.getValue() == null || 
 				!v.getValue().equals(validatorPage.getValidatorValue()))
 			getCommand().add(new EditValidatorValueCommand(validator, validatorPage.getValidatorValue()));
@@ -61,16 +82,18 @@ public class ValidatorEditWizard extends AbstractPerfCakeEditWizard {
 	@Override
 	public void addPages() {
 		List<ValidatorModel> validators = new ArrayList<>();
-		for (Validator v : validator.getMapper().getValidation().getValidation().getValidator()){
-			if (v != validator.getValidator())
-				validators.add((ValidatorModel) validator.getMapper().getModelContainer(v));
+		if (validator.getMapper().getValidation() != null && 
+				validator.getMapper().getValidation().getValidation() != null){
+			for (Validator v : validator.getMapper().getValidation().getValidation().getValidator()){
+				if (v != validator.getValidator())
+					validators.add((ValidatorModel) validator.getMapper().getModelContainer(v));
+			}
 		}
+		//TODO: in new sceanrio wizard validators will be always empty!!!???
 		validatorPage = new ValidatorPage(validator, validators);
 		addPage(validatorPage);
 		super.addPages();
 	}
-	
-	
 	
 	
 }
