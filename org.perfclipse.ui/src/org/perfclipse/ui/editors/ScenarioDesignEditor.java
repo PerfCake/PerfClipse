@@ -64,6 +64,7 @@ import org.perfclipse.ui.actions.AddValidatorAction;
 import org.perfclipse.ui.actions.AttachValidatorAction;
 import org.perfclipse.ui.actions.EditDialogAction;
 import org.perfclipse.ui.actions.PerfClipseDeleteAction;
+import org.perfclipse.ui.actions.SwitchAction;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 import org.perfclipse.ui.gef.parts.ScenarioEditPart;
 
@@ -173,6 +174,7 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 		addSelectionAction(new AddReporterAction(this));
 		addSelectionAction(new AddDestinationAction(this));
 		addSelectionAction(new AddPeriodAction(this));
+		addSelectionAction(new SwitchAction(this));
 		
 		super.createActions();
 

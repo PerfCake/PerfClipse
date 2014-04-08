@@ -118,5 +118,15 @@ public class PerfClipseActionConstants {
 	 * Add period request id
 	 */
 	public static final String REQ_ADD_PERIOD = "org.perfclipse.ui.requests.AddPeriod";
+
+	/**
+	 * Switch action id
+	 */
+	public static final String SWITCH = "org.perfclipse.ui.actions.Switch";
+
+	/**
+	 * Switch request id
+	 */
+	public static final String REQ_SWITCH = "org.perfclipse.ui.requests.Switch";
 	
 }

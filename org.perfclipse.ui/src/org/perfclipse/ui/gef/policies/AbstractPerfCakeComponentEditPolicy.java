@@ -74,7 +74,19 @@ public class AbstractPerfCakeComponentEditPolicy extends ComponentEditPolicy {
 		if (request.getType().equals(PerfClipseActionConstants.REQ_ATTACH_VALIDATOR)){
 			return createAttachValidatorCommand(request);
 		}
+		if (request.getType().equals(PerfClipseActionConstants.REQ_SWITCH)){
+			return createSwitchCommand(request);
+		}
 		return super.getCommand(request);
+	}
+
+	/**
+	 * Creates switch command
+	 * @param request
+	 * @return command which causes switch
+	 */
+	protected Command createSwitchCommand(Request request) {
+		return null;
 	}
 
 	/**

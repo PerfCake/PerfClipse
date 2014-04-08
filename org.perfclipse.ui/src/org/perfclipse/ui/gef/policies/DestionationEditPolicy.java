@@ -29,6 +29,7 @@ import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.AddPeriodCommand;
 import org.perfclipse.ui.gef.commands.DeleteDestinationCommand;
+import org.perfclipse.ui.gef.commands.EditDestinationEnabledCommand;
 import org.perfclipse.ui.wizards.DestinationEditWizard;
 import org.perfclipse.ui.wizards.PeriodAddWizard;
 
@@ -73,6 +74,14 @@ public class DestionationEditPolicy extends AbstractPerfCakeComponentEditPolicy 
 		
 		return new AddPeriodCommand(destination, wizard.getPeriod());
 	}
+
+	@Override
+	protected Command createSwitchCommand(Request request) {
+		boolean enable = !destination.isEnabled();
+		return new EditDestinationEnabledCommand(destination, enable);
+	}
+	
+	
 	
 	
 	

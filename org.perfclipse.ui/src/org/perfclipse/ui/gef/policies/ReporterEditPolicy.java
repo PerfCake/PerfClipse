@@ -28,6 +28,7 @@ import org.perfclipse.model.ReportingModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.AddDestinationCommand;
 import org.perfclipse.ui.gef.commands.DeleteReporterCommand;
+import org.perfclipse.ui.gef.commands.EditReporterEnabledCommand;
 import org.perfclipse.ui.wizards.DestinationAddWizard;
 import org.perfclipse.ui.wizards.ReporterEditWizard;
 
@@ -70,8 +71,10 @@ public class ReporterEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 		
 		return new AddDestinationCommand(wizard.getDestination(), reporter);
 	}
-	
-	
-	
-	
+
+	@Override
+	protected Command createSwitchCommand(Request request) {
+		boolean enabled = !reporter.isEnabled();
+		return new EditReporterEnabledCommand(reporter, enabled);
+	}
 }
