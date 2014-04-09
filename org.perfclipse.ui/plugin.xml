@@ -18,6 +18,7 @@
       <wizard
             category="org.perfclipse.ui.wizards.category.perfcake"
             class="org.perfclipse.ui.wizards.ScenarioWizard"
+            icon="icons/perfcake.ico"
             id="org.perfclipse.ui.wizards.scenario"
             name="PerfCake scenario">
       </wizard>
