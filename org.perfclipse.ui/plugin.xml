@@ -30,6 +30,7 @@
             contributorClass="org.perfclipse.ui.editors.DesignEditorActionBarContributor"
             default="false"
             extensions="xml"
+            icon="icons/perfcake.ico"
             id="org.perfclipse.ui.editors.scenario"
             name="Scenario editor">
          <contentTypeBinding
