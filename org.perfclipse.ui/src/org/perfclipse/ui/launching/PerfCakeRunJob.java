@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.perfcake.PerfCakeConst;
 import org.perfclipse.logging.Logger;
 import org.perfclipse.scenario.ScenarioException;
@@ -29,6 +30,7 @@ final public class PerfCakeRunJob extends Job{
 	private static final long CHECK_INTERVAL = 500;
 	private IFile file;
 	private MessageConsole console;
+	private MessageConsoleStream errorStream;
 
 	public PerfCakeRunJob(String name, IFile file, MessageConsole console) {
 		super(name);
@@ -42,6 +44,7 @@ final public class PerfCakeRunJob extends Job{
 			} 
 		this.file = file;
 		this.console = console;
+		errorStream = console.newMessageStream();
 	}
 
 	
@@ -129,6 +132,7 @@ final public class PerfCakeRunJob extends Job{
 				manager.runScenario(scenarioURL);
 			} catch (ScenarioException e) {
 				log.error("Cannot run scenario", e);
+				errorStream.print("Cannot run scenario. See error log for more details.");
 			}
 		}
 	}
