@@ -19,6 +19,7 @@
 
 package org.perfclipse.ui.gef.figures;
 
+import org.eclipse.draw2d.Figure;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -44,6 +45,10 @@ public class DestinationFigure extends LabeledRoundedRectangle implements
 	@Override
 	public void setSwitch(boolean enabled) {
 		switchFigure.setSwitch(enabled);
+	}
+
+	public Figure getSwitchFigure() {
+		return switchFigure;
 	}
 
 }

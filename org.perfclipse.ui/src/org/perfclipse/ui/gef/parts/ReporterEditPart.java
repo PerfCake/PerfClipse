@@ -24,13 +24,17 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.gef.requests.LocationRequest;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Color;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
@@ -41,6 +45,7 @@ import org.perfclipse.model.ReporterModel;
 import org.perfclipse.model.ReportingModel;
 import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.commands.EditReporterEnabledCommand;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.ReporterRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
@@ -91,10 +96,32 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 	@Override
 	public void performRequest(Request req) {
 		if (req.getType() == RequestConstants.REQ_OPEN){
-			ReporterEditWizard wizard = new ReporterEditWizard(getReporterModel());
-			if (Utils.showWizardDialog(wizard) == Window.OK){
-				if (!wizard.getCommand().isEmpty())
-					getViewer().getEditDomain().getCommandStack().execute(wizard.getCommand());
+
+			if (!(req instanceof LocationRequest)){
+				return;
+			}
+			LocationRequest locationReq = (LocationRequest) req;
+
+			Point p = locationReq.getLocation();
+
+			ReporterRectangle figure = (ReporterRectangle) getFigure();
+			Figure switchFigure = figure.getSwitchFigure();
+			Command command = null;
+			if (switchFigure.getBounds().contains(p)){
+				//do switch
+				command = new EditReporterEnabledCommand(getReporterModel(), !getReporterModel().getReporter().isEnabled());
+			}
+			else{
+				//do edit
+				ReporterEditWizard wizard = new ReporterEditWizard(getReporterModel());
+				if (Utils.showWizardDialog(wizard) == Window.OK){
+					if (!wizard.getCommand().isEmpty())
+						command = wizard.getCommand();
+				}
+			}
+			
+			if (command != null){
+				getViewer().getEditDomain().getCommandStack().execute(command);
 			}
 		}
 	}

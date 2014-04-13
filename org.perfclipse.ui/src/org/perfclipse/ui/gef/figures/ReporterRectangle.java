@@ -50,4 +50,9 @@ public class ReporterRectangle extends TwoPartRectangle implements ISwitchable {
 	public void setSwitch(boolean enabled){
 		switchFigure.setSwitch(enabled);
 	}
+
+
+	public SwitchFigure getSwitchFigure() {
+		return switchFigure;
+	}
 }

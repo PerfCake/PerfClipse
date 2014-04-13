@@ -24,11 +24,14 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
-import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.requests.LocationRequest;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Color;
 import org.perfclipse.logging.Logger;
@@ -36,6 +39,7 @@ import org.perfclipse.model.DestinationModel;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.Utils;
+import org.perfclipse.ui.gef.commands.EditDestinationEnabledCommand;
 import org.perfclipse.ui.gef.figures.DestinationFigure;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
@@ -90,12 +94,33 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart implements
 	@Override
 	public void performRequest(Request req) {
 		if (req.getType() == RequestConstants.REQ_OPEN){
-			DestinationEditWizard wizard = new DestinationEditWizard(getDestinationModel());
-			if (Utils.showWizardDialog(wizard) == Window.OK){
-				CompoundCommand command = wizard.getCommand();
-				if (!command.isEmpty()){
-					getViewer().getEditDomain().getCommandStack().execute(command);
+
+			if (!(req instanceof LocationRequest)){
+				return;
+			}
+			LocationRequest locationReq = (LocationRequest) req;
+
+			Point p = locationReq.getLocation();
+
+			DestinationFigure figure = (DestinationFigure) getFigure();
+			Figure switchFigure = figure.getSwitchFigure();
+			Command command = null;
+			if (switchFigure.getBounds().contains(p)){
+				//do switch
+				command = new EditDestinationEnabledCommand(getDestinationModel(),
+						!getDestinationModel().getDestination().isEnabled());
+			}
+			else{
+				//do edit
+				DestinationEditWizard wizard = new DestinationEditWizard(getDestinationModel());
+				if (Utils.showWizardDialog(wizard) == Window.OK){
+					if (!wizard.getCommand().isEmpty())
+						command = wizard.getCommand();
 				}
+			}
+			
+			if (command != null){
+				getViewer().getEditDomain().getCommandStack().execute(command);
 			}
 		}
 	}
