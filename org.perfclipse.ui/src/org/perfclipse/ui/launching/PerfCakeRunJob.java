@@ -14,9 +14,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.console.MessageConsole;
 import org.perfcake.PerfCakeConst;
 import org.perfclipse.logging.Logger;
@@ -32,9 +29,8 @@ final public class PerfCakeRunJob extends Job{
 	private static final long CHECK_INTERVAL = 500;
 	private IFile file;
 	private MessageConsole console;
-	private Shell shell;
 
-	public PerfCakeRunJob(String name, IFile file, MessageConsole console, Shell shell) {
+	public PerfCakeRunJob(String name, IFile file, MessageConsole console) {
 		super(name);
 		if (file == null){
 			log.warn("File with scenario is null.");
@@ -46,7 +42,6 @@ final public class PerfCakeRunJob extends Job{
 			} 
 		this.file = file;
 		this.console = console;
-		this.shell = shell;
 	}
 
 	
@@ -106,7 +101,6 @@ final public class PerfCakeRunJob extends Job{
 			monitor.done();
 		} catch (MalformedURLException e) {
 			log.warn("Wrong url to scenario.", e);
-			Display.getDefault().asyncExec(new ErrorDialog("Scenario URL error", e.getMessage()));
 		} finally {
 			System.setOut(standardOut); //set System.out to standard output
 			try {
@@ -116,23 +110,6 @@ final public class PerfCakeRunJob extends Job{
 			}
 		}
 		return Status.OK_STATUS;
-	}
-	
-	final class ErrorDialog implements Runnable{
-		
-		private String title;
-		private String message;
-
-		public ErrorDialog(String title, String message){
-			this.title = title;
-			this.message = message;
-		}
-
-		@Override
-		public void run() {
-			MessageDialog.openError(shell, title, message);
-			
-		}
 	}
 	
 	final class PerfCakeRun implements Runnable{
@@ -151,7 +128,6 @@ final public class PerfCakeRunJob extends Job{
 			try {
 				manager.runScenario(scenarioURL);
 			} catch (ScenarioException e) {
-				Display.getDefault().asyncExec(new ErrorDialog("Scenario error", e.getMessage()));
 				log.error("Cannot run scenario", e);
 			}
 		}

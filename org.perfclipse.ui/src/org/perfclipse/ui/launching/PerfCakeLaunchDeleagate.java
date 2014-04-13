@@ -171,11 +171,9 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 		//redirect System.out to Eclipse console
 		MessageConsole perfclipseConsole = Utils.findConsole(PerfClipseConstants.PERFCLIPSE_STDOUT_CONSOLE);
 		
-		//show console view
-		//TODO: check if shell is always initialized
-		IWorkbench wb = PlatformUI.getWorkbench();
 		
 		//show console view in UI thread:
+		IWorkbench wb = PlatformUI.getWorkbench();
 		wb.getDisplay().syncExec(new Runnable(){
 
 			@Override
@@ -200,7 +198,7 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 		});
 
 		
-		PerfCakeRunJob job = new PerfCakeRunJob("PerfCake run job", file, perfclipseConsole, wb.getActiveWorkbenchWindow().getShell());
+		PerfCakeRunJob job = new PerfCakeRunJob("PerfCake run job", file, perfclipseConsole);
 		job.schedule();
 	}
 	
