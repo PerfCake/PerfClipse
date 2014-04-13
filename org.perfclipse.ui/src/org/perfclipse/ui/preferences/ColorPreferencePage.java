@@ -67,6 +67,9 @@ public class ColorPreferencePage extends PreferencePage implements
 	protected Control createContents(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 
+		//sets background of widgets transparent
+		container.setBackgroundMode(SWT.INHERIT_FORCE);
+
 		GridData data;
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
