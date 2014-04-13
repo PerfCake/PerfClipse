@@ -31,8 +31,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Text;
 import org.perfcake.model.Property;
 import org.perfclipse.logging.Logger;
 import org.perfclipse.model.GeneratorModel;
@@ -62,14 +62,14 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	private Label generatorLabel;
 	private StringComboViewer generatorTypeViewer;
 
-	private Spinner threadsSpinner;
+	private Text threadsText;
 	private Label threadsLabel;
 
 	private Label runTypeLabel;
 	private Combo runTypeCombo;
 	
 	private Label runValueLabel;
-	private Spinner runValueSpinner;
+	private Text runValueText;
 	
 	private TableViewer propertiesViewer;
 	private TableViewerControl propertiesControls;
@@ -138,27 +138,25 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		
 		runValueLabel = new Label(container, SWT.NONE);
 		runValueLabel.setText("Duration: ");
-		runValueSpinner = new Spinner(container, SWT.NONE);
-		runValueSpinner.setMinimum(1);
-		runValueSpinner.setMaximum(Integer.MAX_VALUE);
+		runValueText = new Text(container, SWT.NONE);
+		runValueText.addModifyListener(new UpdateModifyListener(this));
 
 		GridData runSpinnerGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		runSpinnerGridData.horizontalSpan = 2;
 		runSpinnerGridData.horizontalAlignment = SWT.FILL;
 		runSpinnerGridData.widthHint = SPINNER_DEFAULT_WIDTH;
-		runValueSpinner.setLayoutData(runSpinnerGridData);
+		runValueText.setLayoutData(runSpinnerGridData);
 
 		threadsLabel = new Label(container, SWT.NONE);
 		threadsLabel.setText("Number of threads: ");
 
-		threadsSpinner = new Spinner(container, SWT.NONE);
-		threadsSpinner.setMinimum(1);
-		threadsSpinner.setMaximum(Integer.MAX_VALUE);
+		threadsText = new Text(container, SWT.NONE);
+		threadsText.addModifyListener(new UpdateModifyListener(this));
 		GridData threadsSpinnerGridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		threadsSpinnerGridData.horizontalSpan = 2;
 		threadsSpinnerGridData.horizontalAlignment = SWT.FILL;
 		threadsSpinnerGridData.widthHint = SPINNER_DEFAULT_WIDTH;
-		threadsSpinner.setLayoutData(threadsSpinnerGridData);
+		threadsText.setLayoutData(threadsSpinnerGridData);
 		
 
 		propertiesViewer = new PropertyTableViewer(container, getEditingSupportCommands());
@@ -200,21 +198,21 @@ public class GeneratorPage extends AbstractPerfCakePage {
 			setPageComplete(false);
 			return;
 		}
+		if (threadsText.getText() == null || "".equals(threadsText.getText())){
+			setDescription("Fill in number of threads.");
+			setPageComplete(false);
+			return;
+		}
+		if (runValueText.getText() == null || "".equals(runValueText.getText())){
+			setDescription("Fill in run length.");
+			setPageComplete(false);
+			return;
+		}
 		
 		setDescription("Complete!");
 		setPageComplete(true);
 	}
 	
-	@Override
-	protected void fillDefaultValues() {
-
-//		ISelection selection = new StructuredSelection(generatorTypeViewer.getElementAt(0));
-//		generatorTypeViewer.setSelection(selection);
-//		runTypeCombo.select(0);
-		runValueSpinner.setSelection(1);
-		threadsSpinner.setSelection(1);
-	}
-
 	@Override
 	protected void fillCurrentValues() {
 		if (generator.getGenerator().getClazz() != null)
@@ -224,9 +222,9 @@ public class GeneratorPage extends AbstractPerfCakePage {
 			ComboUtils.select(runTypeCombo, generator.getGenerator().getRun().getType());
 
 		if (generator.getGenerator().getRun().getValue() != null)
-			runValueSpinner.setSelection(Integer.valueOf(generator.getGenerator().getRun().getValue()));
+			runValueText.setText(generator.getGenerator().getRun().getValue());
 		if (generator.getGenerator().getThreads() != null)
-			threadsSpinner.setSelection(Integer.valueOf(generator.getGenerator().getThreads()));
+			threadsText.setText(generator.getGenerator().getThreads());
 
 		if (properties != null)
 			propertiesViewer.setInput(properties);
@@ -241,12 +239,12 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		return runTypeCombo.getText();
 	}
 	
-	public int getRunValue(){
-		return runValueSpinner.getSelection();
+	public String getRunValue(){
+		return runValueText.getText();
 	}
 	
-	public int getThreads(){
-		return threadsSpinner.getSelection();
+	public String getThreads(){
+		return threadsText.getText();
 	}
 
 	public TableViewer getPropertiesViewer() {
