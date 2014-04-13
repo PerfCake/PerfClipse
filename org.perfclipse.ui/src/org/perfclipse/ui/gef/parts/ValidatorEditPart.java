@@ -102,8 +102,7 @@ PropertyChangeListener, NodeEditPart {
 
 	@Override
 	public void performRequest(Request request){
-		if (request.getType() == RequestConstants.REQ_OPEN ||
-				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
+		if (request.getType() == RequestConstants.REQ_OPEN)
 		{
 			ValidatorEditWizard wizard = new ValidatorEditWizard(getValidatorModel(), parseMessages(), parseValidators());
 			if (Utils.showWizardDialog(wizard) == Window.OK){

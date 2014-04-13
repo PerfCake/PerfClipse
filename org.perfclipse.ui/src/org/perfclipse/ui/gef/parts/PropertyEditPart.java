@@ -71,8 +71,7 @@ public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 
 	@Override
 	public void performRequest(Request request){
-		if (request.getType() == RequestConstants.REQ_OPEN ||
-				request.getType() == RequestConstants.REQ_DIRECT_EDIT)
+		if (request.getType() == RequestConstants.REQ_OPEN)
 		{
 			PropertyEditWizard wizard = new PropertyEditWizard(getPropertyModel());
 			if (Utils.showWizardDialog(wizard) == Window.OK){

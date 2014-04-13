@@ -89,8 +89,7 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 
 	@Override
 	public void performRequest(Request req) {
-		if (req.getType() == RequestConstants.REQ_OPEN ||
-				req.getType() == RequestConstants.REQ_DIRECT_EDIT){
+		if (req.getType() == RequestConstants.REQ_OPEN){
 			SenderEditWizard wizard = new SenderEditWizard(getSenderModel());
 			if (Utils.showWizardDialog(wizard) == Window.OK){
 				CompoundCommand command = wizard.getCommand();

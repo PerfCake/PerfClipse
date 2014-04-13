@@ -90,8 +90,7 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 
 	@Override
 	public void performRequest(Request req) {
-		if (req.getType() == RequestConstants.REQ_OPEN ||
-				req.getType() == RequestConstants.REQ_DIRECT_EDIT){
+		if (req.getType() == RequestConstants.REQ_OPEN){
 			ReporterEditWizard wizard = new ReporterEditWizard(getReporterModel());
 			if (Utils.showWizardDialog(wizard) == Window.OK){
 				if (!wizard.getCommand().isEmpty())

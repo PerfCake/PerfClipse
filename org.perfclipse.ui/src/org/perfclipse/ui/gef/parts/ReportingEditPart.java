@@ -110,8 +110,7 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 
 	@Override
 	public void performRequest(Request req) {
-		if (req.getType() == RequestConstants.REQ_OPEN ||
-				req.getType() == RequestConstants.REQ_DIRECT_EDIT){
+		if (req.getType() == RequestConstants.REQ_OPEN){
 			ReportingEditWizard wizard = new ReportingEditWizard(getReportingModel());
 			if (Utils.showWizardDialog(wizard) == Window.OK){
 				CompoundCommand command = wizard.getCommand();

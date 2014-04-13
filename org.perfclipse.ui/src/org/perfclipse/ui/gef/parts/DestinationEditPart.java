@@ -89,8 +89,7 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart implements
 
 	@Override
 	public void performRequest(Request req) {
-		if (req.getType() == RequestConstants.REQ_OPEN ||
-				req.getType() == RequestConstants.REQ_DIRECT_EDIT){
+		if (req.getType() == RequestConstants.REQ_OPEN){
 			DestinationEditWizard wizard = new DestinationEditWizard(getDestinationModel());
 			if (Utils.showWizardDialog(wizard) == Window.OK){
 				CompoundCommand command = wizard.getCommand();

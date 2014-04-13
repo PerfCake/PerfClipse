@@ -82,8 +82,7 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 
 	@Override
 	public void performRequest(Request req) {
-		if (req.getType() == RequestConstants.REQ_OPEN ||
-				req.getType() == RequestConstants.REQ_DIRECT_EDIT){
+		if (req.getType() == RequestConstants.REQ_OPEN){
 			
 			GeneratorEditWizard wizard = new GeneratorEditWizard(getGeneratorModel());
 			if (Utils.showWizardDialog(wizard) == Window.OK){
