@@ -35,9 +35,14 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.ILaunchConfigurationDelegate;
 import org.eclipse.debug.ui.ILaunchShortcut;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -167,11 +172,43 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 		return project.getFile(filePath);
 	}
 	
-	private void runScenario(IFile file) {
+	private void runScenario(final IFile file) {
 		//redirect System.out to Eclipse console
 		MessageConsole perfclipseConsole = Utils.findConsole(PerfClipseConstants.PERFCLIPSE_STDOUT_CONSOLE);
 		
 		
+		// Ask save in UI thread
+		Display.getDefault().syncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				IEditorReference[] editors = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences();
+
+				for (IEditorReference editor : editors){
+
+					try {
+						IEditorInput input = editor.getEditorInput();
+						if (input instanceof FileEditorInput){
+							IFileEditorInput fileInput = (IFileEditorInput) input;
+							if (file.equals(fileInput.getFile())){
+								IEditorPart editorPart = editor.getEditor(true);
+								if (editorPart != null && editorPart.isDirty()){
+									//TODO: Progress monitor
+									boolean save = MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Save editor",
+											"Scenario was modified in the editor but not saved. Do you want to save changes before launching scenario?");
+									if (save)
+										editorPart.doSave(null);
+								}
+							}
+						}
+					} catch (PartInitException e) {
+						log.error("Cannot obtain editor input since it cannod be restored", e);
+					}
+				}
+
+			}
+		});
+
 		//show console view in UI thread:
 		IWorkbench wb = PlatformUI.getWorkbench();
 		wb.getDisplay().syncExec(new Runnable(){
