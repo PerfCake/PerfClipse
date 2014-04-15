@@ -32,6 +32,8 @@ import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -64,6 +66,8 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 	Text scenarioText;
 	Button scenarioBrowseButton;
 	
+	Label propertyLabel;
+	Text propertyText;
 
 	@Override
 	public void createControl(final Composite parent) {
@@ -141,6 +145,23 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 		});
 		
 		
+		propertyLabel = new Label(container, SWT.NONE);
+		propertyLabel.setText("PerfCake system properties: ");
+		
+		propertyText = new Text(container, SWT.MULTI);
+		propertyText.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				updateLaunchConfigurationDialog();
+				
+			}
+		});
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+		data.horizontalSpan = 2;
+		propertyText.setLayoutData(data);
+
+		
 		setControl(container);
 	}
 
@@ -148,6 +169,7 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(PerfCakeLaunchConstants.PROJECT,	"");
 		configuration.setAttribute(PerfCakeLaunchConstants.SCENARIO_FILE, "");
+		configuration.setAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES, "");
 
 	}
 
@@ -155,11 +177,14 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		projectText.setText("");
 		scenarioText.setText("");
+		propertyText.setText("");
 		
 		
 		try{
 			projectText.setText(configuration.getAttribute(PerfCakeLaunchConstants.PROJECT, ""));
 			scenarioText.setText(configuration.getAttribute(PerfCakeLaunchConstants.SCENARIO_FILE, ""));
+			propertyText.setText(configuration.getAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES, ""));
+
 		} catch (CoreException e){
 			log.error("Cannot obtain attributes from launch configuration", e);
 			MessageDialog.openError(getShell(), "Cannot obtain configureation", "Launch configuration cannot be loaded from stored attributes.");
@@ -171,6 +196,7 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(PerfCakeLaunchConstants.PROJECT, projectText.getText());
 		configuration.setAttribute(PerfCakeLaunchConstants.SCENARIO_FILE, scenarioText.getText());
+		configuration.setAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES, propertyText.getText());
 	}
 	
 	 @Override
@@ -196,7 +222,6 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public boolean canSave() {
-		// TODO Auto-generated method stub
 		return (!scenarioText.getText().isEmpty() && ! scenarioText.getText().isEmpty()); 
 	}
 
