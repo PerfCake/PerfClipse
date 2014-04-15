@@ -21,7 +21,15 @@ package org.perfclipse.ui.launching;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Properties;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -67,7 +75,7 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 
 		IFile scenario = getScenarioResource(configuration);
 
-		runScenario(scenario);
+		runScenario(scenario, configuration);
 		
 	}
 
@@ -172,7 +180,7 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 		return project.getFile(filePath);
 	}
 	
-	private void runScenario(final IFile file) {
+	private void runScenario(final IFile file, ILaunchConfiguration configuration) {
 		//redirect System.out to Eclipse console
 		MessageConsole perfclipseConsole = Utils.findConsole(PerfClipseConstants.PERFCLIPSE_STDOUT_CONSOLE);
 		
@@ -234,11 +242,90 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 			
 		});
 
+		//TODO: parse system properties from configuration
+		String properties = null;
+		try {
+			properties = configuration.getAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES, "");
+		} catch (CoreException e) {
+			log.warn("Cannot parse properties from launch configuration", e);
+		}
+
 		
-		PerfCakeRunJob job = new PerfCakeRunJob("PerfCake run job", file, perfclipseConsole);
+		PerfCakeRunJob job = new PerfCakeRunJob("PerfCake run job", file, perfclipseConsole, parseSystemProperties(properties));
 		job.schedule();
 	}
+
+	/**
+	 * Parses system properties in format -D<property.name>=<property.value>
+	 * 
+	 * @param properties
+	 * @param sysProperties
+	 * 
+	 * @return List of system properties or empty list if no properties was found.
+	 */
+	private List<SystemProperty> parseSystemProperties(String properties) {
+		List<SystemProperty> sysProperties = new ArrayList<>(); 
+		if (properties == null)
+			return sysProperties;
+		Options options = new Options();
+		options.addOption(OptionBuilder.withArgName("property=value").hasArgs(2).withValueSeparator().withDescription("system properties").create("D"));
+
+		CommandLineParser parser = new GnuParser();
+		CommandLine commandLine;
+		try {
+			commandLine = parser.parse(options, properties.split(" "));
+			Properties props = new Properties();
+			props.putAll(commandLine.getOptionProperties("D"));
+			for(Entry<Object, Object> entry : props.entrySet()){
+				sysProperties.add(new SystemProperty(entry.getKey().toString(), entry.getValue().toString()));
+			}
+		} catch (ParseException e) {
+			log.warn("Cannot parse system properties", e);
+			return sysProperties;
+		}
+		
+		return sysProperties;
+	}
 	
+	/**
+	 * Represents PerfCake system property
+	 * @author Jakub Knetl
+	 *
+	 */
+	public static class SystemProperty{
+		private String name;
+		private String value;
+		/**
+		 * @param name
+		 * @param value
+		 */
+		public SystemProperty(String name, String value) {
+			super();
+			this.name = name;
+			this.value = value;
+		}
+		/**
+		 * 
+		 */
+		public SystemProperty() {
+			super();
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getValue() {
+			return value;
+		}
+		public void setValue(String value) {
+			this.value = value;
+		}
+		
+		
+		
+	}
 
 
 }

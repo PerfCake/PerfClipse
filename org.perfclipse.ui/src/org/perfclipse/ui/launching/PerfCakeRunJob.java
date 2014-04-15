@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.ConsoleAppender;
@@ -21,6 +22,7 @@ import org.perfclipse.logging.Logger;
 import org.perfclipse.scenario.ScenarioException;
 import org.perfclipse.scenario.ScenarioManager;
 import org.perfclipse.ui.Activator;
+import org.perfclipse.ui.launching.PerfCakeLaunchDeleagate.SystemProperty;
 
 final public class PerfCakeRunJob extends Job{
 	
@@ -31,8 +33,16 @@ final public class PerfCakeRunJob extends Job{
 	private IFile file;
 	private MessageConsole console;
 	private MessageConsoleStream errorStream;
+	private List<SystemProperty> properties;
 
-	public PerfCakeRunJob(String name, IFile file, MessageConsole console) {
+	/**
+	 * 
+	 * @param name
+	 * @param file
+	 * @param console
+	 * @param sysProperties
+	 */
+	public PerfCakeRunJob(String name, IFile file, MessageConsole console, List<SystemProperty> sysProperties) {
 		super(name);
 		if (file == null){
 			log.warn("File with scenario is null.");
@@ -41,9 +51,10 @@ final public class PerfCakeRunJob extends Job{
 		if (console == null){
 			log.warn("Console for scenario run  output is null.");
 			throw new IllegalArgumentException("Console for scenario run output is null."); 
-			} 
+		} 
 		this.file = file;
 		this.console = console;
+		this.properties = sysProperties;
 		errorStream = console.newMessageStream();
 	}
 
@@ -129,10 +140,18 @@ final public class PerfCakeRunJob extends Job{
 		@Override
 		public void run() {
 			try {
+				for (SystemProperty p : properties){
+					System.setProperty(p.getName(), p.getValue());
+				}
 				manager.runScenario(scenarioURL);
 			} catch (ScenarioException e) {
 				log.error("Cannot run scenario", e);
 				errorStream.print("Cannot run scenario. See error log for more details.");
+			} finally{
+				//unset properties
+				for (SystemProperty p : properties){
+					System.clearProperty(p.getName());
+				}
 			}
 		}
 	}
