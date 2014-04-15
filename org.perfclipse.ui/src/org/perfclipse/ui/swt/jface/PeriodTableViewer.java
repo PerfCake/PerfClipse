@@ -27,9 +27,6 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.PeriodModel;
-import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.EditPeriodType;
-import org.perfclipse.ui.gef.commands.EditPeriodValue;
 
 /**
  * @author Jakub Knetl
@@ -74,26 +71,6 @@ public class PeriodTableViewer extends AbstractCommandTableViewer {
 			 
 		 });
 		 
-		 StringComboCellEditor comboEditor = 
-				 new StringComboCellEditor(getTable(), Utils.getPeriodTypes());
-		 typeColumn.setEditingSupport(
-				 new AbstractCommandEditingSupport(this, getCommands(), comboEditor) {
-			
-			@Override
-			protected Object getValue(Object element) {
-				PeriodModel period = (PeriodModel) element;
-				//TODO : check if correct value is selected
-				return period.getPeriod().getType();
-			}
-			
-			@Override
-			protected Command getCommand(Object element, Object value) {
-				PeriodModel period = (PeriodModel) element;
-
-				return new EditPeriodType(period, String.valueOf(value));
-			}
-		});
-		 
 		 valueColumn = new TableViewerColumn(this, SWT.NONE);
 		 valueColumn.getColumn().setText("Period value");
 		 valueColumn.getColumn().setAlignment(SWT.CENTER);
@@ -107,27 +84,6 @@ public class PeriodTableViewer extends AbstractCommandTableViewer {
 			 
 		 });
 		 
-		 valueColumn.setEditingSupport(
-				 new AbstractCommandEditingSupport(this, getCommands()){
-			
-			@Override
-			protected Object getValue(Object element) {
-				PeriodModel period = (PeriodModel) element;
-				return period.getPeriod().getValue();
-			}
-			
-			@Override
-			protected Command getCommand(Object element, Object value) {
-				PeriodModel period = (PeriodModel) element;
-				try{
-					Integer.parseInt(String.valueOf(value));
-				} catch (NumberFormatException e){
-					return null;
-				}
-				
-				return new EditPeriodValue(period, String.valueOf(value));
-			}
-		});
 	}
 
 	@Override

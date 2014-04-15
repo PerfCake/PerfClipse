@@ -28,8 +28,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfclipse.model.MessageModel;
-import org.perfclipse.ui.gef.commands.EditMessageMultiplicityCommand;
-import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
 
 /**
  * @author Jakub Knetl
@@ -76,22 +74,6 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 			}
 			
 		});
-
-		uri.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands()) {
-			
-			@Override
-			protected Object getValue(Object element) {
-				MessageModel message = (MessageModel) element;
-
-				return message.getMessage().getUri();
-			}
-
-			@Override
-			protected Command getCommand(Object element, Object value) {
-				MessageModel message = (MessageModel) element;
-				return new EditMessageUriCommand(message, String.valueOf(value));
-			}
-		});
 		
 		multiplicity = new TableViewerColumn(this, SWT.NONE);
 		multiplicity.getColumn().setText("Mulitplicity");
@@ -106,26 +88,6 @@ public class MessagesTableViewer extends AbstractCommandTableViewer {
 			
 		});
 		
-		multiplicity.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands()) {
-			
-			@Override
-			protected Object getValue(Object element) {
-				MessageModel message = (MessageModel) element;
-				return message.getMessage().getMultiplicity();
-			}
-			
-			@Override
-			protected Command getCommand(Object element, Object value) {
-				MessageModel message = (MessageModel) element;
-				try {
-					String newValue = String.valueOf(value);
-					return new EditMessageMultiplicityCommand(message, newValue);
-				} catch (NumberFormatException e){
-					//TODO: show user warning
-					return null;
-				}
-			}
-		});
 		
 		validatorRef = new TableViewerColumn(this, SWT.NONE);
 		validatorRef.getColumn().setText("Attached validators");

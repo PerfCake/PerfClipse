@@ -19,7 +19,6 @@
 
 package org.perfclipse.ui.swt.jface;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
@@ -30,7 +29,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.ReporterModel;
 import org.perfclipse.ui.gef.commands.EditReporterEnabledCommand;
-import org.perfclipse.ui.gef.commands.EditReporterTypeCommand;
 
 /**
  * @author Jakub Knetl
@@ -98,33 +96,6 @@ public class ReporterTableViewer extends AbstractCommandTableViewer {
 				return reporter.getReporter().getClazz();
 			}
 			
-		});
-		
-
-		final StringComboCellEditor editor = new StringComboCellEditor(getTable(), getPerfCakeComponents().getReporterNames());
-
-		
-		classColumn.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands(), editor) {
-			
-			@Override
-			protected Object getValue(Object element) {
-				ReporterModel reporter = (ReporterModel) element;
-				Collection<String> input =   editor.getViewerInputCollection();
-				for (String c : input){
-					if (reporter.getReporter().getClazz().equals(c)){
-						return c;
-					}
-				}
-				
-				return element;
-			}
-			
-			@Override
-			protected Command getCommand(Object element, Object value) {
-				ReporterModel reporter = (ReporterModel) element;
-				String clazz = (String) value;
-				return new EditReporterTypeCommand(reporter, clazz);
-			}
 		});
 		
 	}

@@ -27,8 +27,6 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.ValidatorModel;
-import org.perfclipse.ui.gef.commands.EditValidatorIdCommand;
-import org.perfclipse.ui.gef.commands.EditValidatorTypeCommand;
 
 /**
  * @author Jakub Knetl
@@ -73,22 +71,6 @@ public class ValidatorTableViewer extends AbstractCommandTableViewer {
 			
 		});
 		
-		idColumn.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands()) {
-			
-			@Override
-			protected Object getValue(Object element) {
-				ValidatorModel validator = (ValidatorModel) element;
-				
-				return validator.getValidator().getId();
-			}
-			
-			@Override
-			protected Command getCommand(Object element, Object value) {
-				ValidatorModel validator = (ValidatorModel) element;
-				return new EditValidatorIdCommand(validator, String.valueOf(value));
-			}
-		});
-		
 		clazzColumn = new TableViewerColumn(this, SWT.NONE);
 		clazzColumn.getColumn().setText("Type");
 		clazzColumn.setLabelProvider(new ColumnLabelProvider(){
@@ -97,27 +79,6 @@ public class ValidatorTableViewer extends AbstractCommandTableViewer {
 			public String getText(Object element) {
 				ValidatorModel validator = (ValidatorModel) element;
 				return validator.getValidator().getClazz();
-			}
-
-		});
-		
-		StringComboCellEditor comboEditor = 
-				new StringComboCellEditor(getTable(), getPerfCakeComponents().getValidatorNames());
-		
-		clazzColumn.setEditingSupport(
-				new AbstractCommandEditingSupport(this, getCommands(), comboEditor) {
-			
-			@Override
-			protected Object getValue(Object element) {
-				//TODO: check if correct value is set
-				ValidatorModel validator = (ValidatorModel) element;
-				return validator.getValidator().getClazz();
-			}
-			
-			@Override
-			protected Command getCommand(Object element, Object value) {
-				ValidatorModel validator = (ValidatorModel) element;
-				return new EditValidatorTypeCommand(validator, String.valueOf(value));
 			}
 
 		});

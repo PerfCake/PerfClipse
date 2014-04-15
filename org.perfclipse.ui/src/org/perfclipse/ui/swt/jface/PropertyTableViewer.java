@@ -60,7 +60,6 @@ public class PropertyTableViewer extends AbstractCommandTableViewer {
 	protected void initColumns() {
 		keyColumn = new TableViewerColumn(this, SWT.NONE);
 		keyColumn.getColumn().setText("Property name");
-		keyColumn.setEditingSupport(new PropertyNameEditingSupport(this, getCommands()));
 		keyColumn.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override
@@ -72,7 +71,6 @@ public class PropertyTableViewer extends AbstractCommandTableViewer {
 		});
 		valueColumn = new TableViewerColumn(this, SWT.NONE);
 		valueColumn.getColumn().setText("Property value");
-		valueColumn.setEditingSupport(new PropertyValueEditingSupport(this, getCommands()));
 		valueColumn.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override

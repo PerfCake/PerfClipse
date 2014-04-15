@@ -19,7 +19,6 @@
 
 package org.perfclipse.ui.swt.jface;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.gef.commands.Command;
@@ -30,7 +29,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.DestinationModel;
 import org.perfclipse.ui.gef.commands.EditDestinationEnabledCommand;
-import org.perfclipse.ui.gef.commands.EditDestinationTypeCommand;
 
 /**
  * @author Jakub Knetl
@@ -109,34 +107,6 @@ public class DestinationTableViewer extends AbstractCommandTableViewer {
 			
 		});
 		
-		
-		final StringComboCellEditor editor = 
-				new StringComboCellEditor(getTable(),
-						getPerfCakeComponents().getDestinationNames());
-
-		
-		clazzColumn.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands(), editor) {
-			
-			@Override
-			protected Object getValue(Object element) {
-				DestinationModel destination = (DestinationModel) element;
-				Collection<String> input =   editor.getViewerInputCollection();
-				for (String c : input){
-					if (destination.getDestination().getClazz().equals(c)){
-						return c;
-					}
-				}
-				
-				return element;
-			}
-			
-			@Override
-			protected Command getCommand(Object element, Object value) {
-				DestinationModel destination = (DestinationModel) element;
-				String clazz = (String) value;
-				return new EditDestinationTypeCommand(destination, clazz);
-			}
-		});
 	}
 	
 	@Override

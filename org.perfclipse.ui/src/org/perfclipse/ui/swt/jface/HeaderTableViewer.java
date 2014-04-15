@@ -27,8 +27,6 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.model.HeaderModel;
-import org.perfclipse.ui.gef.commands.EditHeaderNameCommand;
-import org.perfclipse.ui.gef.commands.EditHeaderValueCommand;
 
 /**
  * @author Jakub Knetl
@@ -61,20 +59,6 @@ public class HeaderTableViewer extends AbstractCommandTableViewer {
 	protected void initColumns() {
 		keyColumn = new TableViewerColumn(this, SWT.NONE);
 		keyColumn.getColumn().setText("Header name");
-		keyColumn.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands()) {
-			
-			@Override
-			protected Object getValue(Object element) {
-				HeaderModel header = (HeaderModel) element;
-				return header.getHeader().getName();
-			}
-			
-			@Override
-			protected Command getCommand(Object element, Object value) {
-				HeaderModel header = (HeaderModel) element;
-				return new EditHeaderNameCommand(header, String.valueOf(value));
-			}
-		});
 		keyColumn.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override
@@ -86,20 +70,6 @@ public class HeaderTableViewer extends AbstractCommandTableViewer {
 		});
 		valueColumn = new TableViewerColumn(this, SWT.NONE);
 		valueColumn.getColumn().setText("Header value");
-		valueColumn.setEditingSupport(new AbstractCommandEditingSupport(this, getCommands()) {
-			
-			@Override
-			protected Object getValue(Object element) {
-				HeaderModel header = (HeaderModel) element;
-				return header.getHeader().getValue();
-			}
-			
-			@Override
-			protected Command getCommand(Object element, Object value) {
-				HeaderModel header = (HeaderModel) element;
-				return new EditHeaderValueCommand(header, String.valueOf(value));
-			}
-		});
 		valueColumn.setLabelProvider(new ColumnLabelProvider(){
 
 			@Override
