@@ -23,7 +23,7 @@ import org.perfcake.model.Scenario;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.ui.Utils;
 
-public class AddMessageCommand extends MessageCommand {
+public class AddMessageCommand extends ResourceCommand {
 
 	private Scenario.Messages.Message newMessage;
 	private MessagesModel messages;

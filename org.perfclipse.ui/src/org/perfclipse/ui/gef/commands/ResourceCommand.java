@@ -5,29 +5,29 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * Abstract message command.
+ * Abstract command with resource sync.
  * 
  * @author Jakub Knetl
  *
  */
-public abstract class MessageCommand extends Command {
+public abstract class ResourceCommand extends Command {
 
 	protected boolean syncResource;
 	protected IProject project;
 	protected Shell shell;
 
-	public MessageCommand(String label) {
+	public ResourceCommand(String label) {
 		super(label);
 		syncResource = false;
 	}
 
 	/**
-	 * Sets flags that message should be kept in sync with Messages directory
+	 * Sets flags that resource should be kept in sync 
 	 * in the given project
 	 * @param project
 	 * @param shell
 	 */
-	public void setsyncMessage(IProject project, Shell shell){
+	public void setSyncResource(IProject project, Shell shell){
 		if (project == null)
 			throw new IllegalArgumentException("project cannot be null");
 		if (shell == null)
@@ -40,9 +40,9 @@ public abstract class MessageCommand extends Command {
 	
 	/**
 	 * Sets flag that command execution should not care about
-	 * resource syncing.
+	 * resource sync.
 	 */
-	public void setUnSyncMessage(){
+	public void setUnSyncResource(){
 		syncResource = false;
 		this.project = null;
 		this.shell = null;

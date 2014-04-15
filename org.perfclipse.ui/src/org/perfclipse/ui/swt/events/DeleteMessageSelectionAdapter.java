@@ -66,9 +66,6 @@ public class DeleteMessageSelectionAdapter extends
 		if (message != null && messages != null){
 			DeleteMessageCommand c = new DeleteMessageCommand(messages, message);
 
-			if (deleteResource)
-				c.setsyncMessage(scenarioFile.getProject(), shell);
-
 			return c;
 		}
 		// if command was not executed since the wizard does not use commands then

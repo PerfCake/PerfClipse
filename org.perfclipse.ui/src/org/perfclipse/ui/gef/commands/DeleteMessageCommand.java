@@ -19,16 +19,15 @@
 
 package org.perfclipse.ui.gef.commands;
 
+import org.eclipse.gef.commands.Command;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
-import org.perfclipse.ui.Utils;
 
-public class DeleteMessageCommand extends MessageCommand {
+public class DeleteMessageCommand extends Command {
 
 	private MessagesModel messages;
 	private MessageModel message;
 	private int index;
-	private byte[] resourceContents;
 	
 
 	public DeleteMessageCommand(MessagesModel messages,
@@ -37,27 +36,16 @@ public class DeleteMessageCommand extends MessageCommand {
 		super("Delete message");
 		this.messages = messages;
 		this.message = message;
-		syncResource = false;
-		resourceContents = new byte[0];
 	}
 
 	@Override
 	public void execute() {
 		index = messages.getMessages().getMessage().indexOf(message.getMessage());
-		if (syncResource){
-			resourceContents = Utils.deleteMessage(message.getMessage().getUri(),
-					project, shell);
-			if (resourceContents == null)
-				resourceContents = new byte[0];
-		}
 		messages.removeMessage(message.getMessage());
 	}
 
 	@Override
 	public void undo() {
-		if (syncResource)
-			Utils.createMessage(message.getMessage().getUri(), resourceContents,
-					project, shell);
 		messages.addMessage(index, message.getMessage());
 	}
 

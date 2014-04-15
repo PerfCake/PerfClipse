@@ -19,18 +19,13 @@
 
 package org.perfclipse.ui.actions;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.DeleteAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.FileEditorInput;
-import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
 import org.perfclipse.ui.gef.commands.DeleteValidatorCommand;
 
 /**
@@ -55,7 +50,7 @@ public class PerfClipseDeleteAction extends DeleteAction {
 	 */
 	@Override
 	public void run() {
-		Command c = modifyDeleteCommand();
+		Command c = (CompoundCommand) createDeleteCommand(getSelectedObjects());
 		if (calculateShowDialog()){
 			if (showDialog()){
 				execute(c);
@@ -64,32 +59,6 @@ public class PerfClipseDeleteAction extends DeleteAction {
 			execute(c);
 		}
 
-	}
-
-	/**
-	 * Creates delete command and asks user for every local message if it should be kept
-	 * in sync with messages resources.
-	 * @return Command to be executed
-	 */
-	private Command modifyDeleteCommand() {
-
-		CompoundCommand command = (CompoundCommand) createDeleteCommand(getSelectedObjects());
-		if (command != null){
-			for (Object c : command.getCommands()){
-				Command cmd = (Command) c;
-				if (c instanceof DeleteMessageCommand){
-					DeleteMessageCommand deleteCommand = (DeleteMessageCommand) cmd ;
-					Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-					IEditorInput input = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput();
-					if (input instanceof FileEditorInput){
-						IProject project = ((FileEditorInput) input).getFile().getProject();
-						if (Utils.calculateDeleteMessage(deleteCommand.getMessage().getMessage().getUri(), project, shell))
-							deleteCommand.setsyncMessage(project, shell);
-					}
-				}
-			}
-		}
-		return command;
 	}
 
 	/**

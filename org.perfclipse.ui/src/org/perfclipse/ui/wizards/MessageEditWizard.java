@@ -22,12 +22,8 @@ package org.perfclipse.ui.wizards;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ValidatorModel;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.EditMessageMultiplicityCommand;
 import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
 import org.perfclipse.ui.wizards.pages.MessagePage;
@@ -62,19 +58,11 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 	}
 	@Override
 	public boolean performFinish() {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		IProject project = scenarioFile.getProject();
 
 		if (message.getMessage().getUri() == null
 				|| !message.getMessage().getUri().equals(messagePage.getUri())){
 
-			boolean moveResource = Utils.calculateMoveMessage(message.getMessage().getUri(),
-					messagePage.getUri(), project, shell);
 			EditMessageUriCommand editCommand = new EditMessageUriCommand(message, messagePage.getUri());
-			if (project != null){
-				if (moveResource)
-					editCommand.setsyncMessage(project, shell);
-			}
 			getCommand().add(editCommand);
 		}
 		

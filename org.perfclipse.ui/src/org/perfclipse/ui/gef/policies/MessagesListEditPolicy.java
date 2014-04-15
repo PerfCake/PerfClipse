@@ -62,7 +62,7 @@ public class MessagesListEditPolicy extends AbstractListEditPolicy {
 
 			AddMessageCommand c = new AddMessageCommand(message, model);
 			if (project != null && Utils.calculateSyncAddMessage(pathToMessage, project, shell)){
-				c.setsyncMessage(project, shell);
+				c.setSyncResource(project, shell);
 			}
 
 			return c;
