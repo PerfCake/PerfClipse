@@ -33,6 +33,7 @@ import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.AddHeaderCommand;
 import org.perfclipse.ui.gef.commands.AddValidatorRefCommand;
 import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
+import org.perfclipse.ui.gef.commands.DeleteValidatorRefCommand;
 import org.perfclipse.ui.wizards.HeaderAddWizard;
 import org.perfclipse.ui.wizards.MessageEditWizard;
 import org.perfclipse.ui.wizards.ValidatorAttachWizard;
@@ -50,7 +51,19 @@ public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
 	@Override
 	protected Command createDeleteCommand(GroupRequest deleteRequest) {
-		return new DeleteMessageCommand(messages, message);
+		DeleteMessageCommand deleteMessage = new DeleteMessageCommand(messages, message);
+		CompoundCommand command = new CompoundCommand(deleteMessage.getLabel());
+		
+		if (message.getMessage().getValidatorRef() != null){
+			for (ValidatorRef ref : message.getMessage().getValidatorRef()){
+				Command c = new DeleteValidatorRefCommand(message, ref);
+				command.add(c);
+			}
+		}
+		
+		command.add(deleteMessage);
+		
+		return command;
 	}
 
 	@Override

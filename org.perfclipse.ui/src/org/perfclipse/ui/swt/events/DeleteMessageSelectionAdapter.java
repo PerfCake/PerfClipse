@@ -23,10 +23,13 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.TableViewer;
+import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.MessagesModel;
 import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
+import org.perfclipse.ui.gef.commands.DeleteValidatorRefCommand;
 
 /**
  * @author Jakub Knetl
@@ -53,9 +56,19 @@ public class DeleteMessageSelectionAdapter extends
 	@Override
 	protected Command getCommand() {
 		if (message != null && messages != null){
-			DeleteMessageCommand c = new DeleteMessageCommand(messages, message);
-
-			return c;
+			DeleteMessageCommand deleteMessage = new DeleteMessageCommand(messages, message);
+			CompoundCommand command = new CompoundCommand(deleteMessage.getLabel());
+			
+			if (message.getMessage().getValidatorRef() != null){
+				for (ValidatorRef ref : message.getMessage().getValidatorRef()){
+					Command c = new DeleteValidatorRefCommand(message, ref);
+					command.add(c);
+				}
+			}
+			
+			command.add(deleteMessage);
+			
+			return command;
 		}
 		return null;
 	}
