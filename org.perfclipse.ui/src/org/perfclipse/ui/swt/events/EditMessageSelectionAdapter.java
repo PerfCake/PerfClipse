@@ -59,7 +59,7 @@ public class EditMessageSelectionAdapter extends
 
 	@Override
 	protected AbstractPerfCakeEditWizard createWizard(IStructuredSelection selection) {
-		MessageEditWizard wizard = new MessageEditWizard((MessageModel) selection.getFirstElement(), scenarioFile);
+		MessageEditWizard wizard = new MessageEditWizard((MessageModel) selection.getFirstElement());
 		wizard.setValidators(validators);
 		return wizard;
 	}

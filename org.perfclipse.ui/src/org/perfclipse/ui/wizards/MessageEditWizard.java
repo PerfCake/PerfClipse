@@ -21,7 +21,6 @@ package org.perfclipse.ui.wizards;
 
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
 import org.perfclipse.model.MessageModel;
 import org.perfclipse.model.ValidatorModel;
 import org.perfclipse.ui.gef.commands.EditMessageMultiplicityCommand;
@@ -41,21 +40,15 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 	//List of validators which will be created invoked by Add message wizard.
 	private List<ValidatorModel> validators;
 	
-	//Project of the current scenario.
-	private IFile scenarioFile;
-	
 	/**
-	 * @param commandLabel
+	 * 
 	 * @param message
-	 * @param properties
-	 * @param headers
-	 * @param refs
 	 */
-	public MessageEditWizard(MessageModel message, IFile scenarioFile) {
+	public MessageEditWizard(MessageModel message) {
 		super("Edit Message");
 		this.message = message;
-		this.scenarioFile = scenarioFile;
 	}
+	
 	@Override
 	public boolean performFinish() {
 

@@ -33,7 +33,6 @@ import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.commands.AddHeaderCommand;
 import org.perfclipse.ui.gef.commands.AddValidatorRefCommand;
 import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
-import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 import org.perfclipse.ui.wizards.HeaderAddWizard;
 import org.perfclipse.ui.wizards.MessageEditWizard;
 import org.perfclipse.ui.wizards.ValidatorAttachWizard;
@@ -57,8 +56,7 @@ public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createPropertiesCommand(Request request) {
 	
-		PerfCakeEditPartFactory factory = (PerfCakeEditPartFactory) getHost().getViewer().getEditPartFactory();
-		MessageEditWizard wizard = new MessageEditWizard(message, factory.getScenarioFile());
+		MessageEditWizard wizard = new MessageEditWizard(message);
 		if (Utils.showWizardDialog(wizard) == Window.OK){
 			CompoundCommand command = wizard.getCommand();
 			if (!command.isEmpty()){
