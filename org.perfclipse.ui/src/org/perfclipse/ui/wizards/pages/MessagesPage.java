@@ -112,10 +112,12 @@ public class MessagesPage extends AbstractPerfCakePage {
 		addMessageAdapter.setValidators(validators);
 		messagesViewerControls.getAddButton().addSelectionListener(addMessageAdapter); 
 
-		editMessageAdapter = new EditMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, scenarioFile);
+		editMessageAdapter = new EditMessageSelectionAdapter(getEditingSupportCommands(),
+				messagesViewer);
 		editMessageAdapter.setValidators(validators);
 		messagesViewerControls.getEditButton().addSelectionListener(editMessageAdapter);
-		deleteMessageAdapter = new DeleteMessageSelectionAdapter(getEditingSupportCommands(), messagesViewer, messagesModel, scenarioFile); 
+		deleteMessageAdapter = new DeleteMessageSelectionAdapter(getEditingSupportCommands(),
+				messagesViewer, messagesModel, scenarioFile); 
 		messagesViewerControls.getDeleteButton().addSelectionListener(deleteMessageAdapter);
 		setControl(container);
 		super.createControl(parent);
@@ -155,8 +157,6 @@ public class MessagesPage extends AbstractPerfCakePage {
 		this.scenarioFile = scenarioFile;
 		//pass scenariofile to selection adapters
 		addMessageAdapter.setScenarioFile(scenarioFile);
-		editMessageAdapter.setScenarioFile(scenarioFile);
-		deleteMessageAdapter.setScenarioFile(scenarioFile);
 	}
 	
 	

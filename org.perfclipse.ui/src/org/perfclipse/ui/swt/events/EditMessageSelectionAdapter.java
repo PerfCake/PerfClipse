@@ -21,7 +21,6 @@ package org.perfclipse.ui.swt.events;
 
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -42,18 +41,13 @@ public class EditMessageSelectionAdapter extends
 	private List<ValidatorModel> validators;
 	
 	
-	//Project of the current scenario.
-	private IFile scenarioFile;
-	
 	/**
 	 * 
 	 * @param commands
 	 * @param viewer
-	 * @param scenarioFile
 	 */
-	public EditMessageSelectionAdapter(List<Command> commands, TableViewer viewer, IFile scenarioFile) {
+	public EditMessageSelectionAdapter(List<Command> commands, TableViewer viewer) {
 		super(commands, viewer);
-		this.scenarioFile = scenarioFile;
 	}
 
 
@@ -72,17 +66,4 @@ public class EditMessageSelectionAdapter extends
 	public void setValidators(List<ValidatorModel> validators) {
 		this.validators = validators;
 	}
-
-
-	public IFile getScenarioFile() {
-		return scenarioFile;
-	}
-
-
-	public void setScenarioFile(IFile scenarioFile) {
-		this.scenarioFile = scenarioFile;
-	}
-
-	
-
 }
