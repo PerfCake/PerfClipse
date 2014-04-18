@@ -74,14 +74,15 @@
                         </goals>
                     </execution>
                 </executions>
-                <!--
                 <configuration>
+                    <skip>true</skip>
+                    <!--
                     <keystore>path-to-keystore</keystore>
                     <alias>alias of the certificate</alias>
                     <storepass>keystore password</storepass>
                     <keypass>key password</keypass>
+                    -->
                 </configuration>
-                -->
             </plugin>
 
 
