@@ -25,6 +25,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.compiler.source>1.7</tycho.compiler.source>
 		<tycho.compiler.target>1.7</tycho.compiler.target>
+        <!-- override jarsigner skip default value,
+             if user wants to sign package then he,
+             will have to use -Djarsinger.skip=true
+         -->
+        <jarsigner.skip>true</jarsigner.skip>
 	</properties>
 
 	<repositories>
@@ -75,7 +80,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <skip>true</skip>
+                    <skip>${jarsigner.skip}</skip>
                     <!--
                     <keystore>path-to-keystore</keystore>
                     <alias>alias of the certificate</alias>
