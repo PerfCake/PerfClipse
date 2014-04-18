@@ -34,8 +34,8 @@ import org.perfclipse.core.commands.AddMessageCommand;
 import org.perfclipse.core.commands.MoveMessageCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.MessagesModel;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
+import org.perfclipse.wizards.WizardUtils;
 
 public class MessagesListEditPolicy extends AbstractListEditPolicy {
 
@@ -61,7 +61,7 @@ public class MessagesListEditPolicy extends AbstractListEditPolicy {
 			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 
 			AddMessageCommand c = new AddMessageCommand(message, model);
-			if (project != null && Utils.calculateSyncAddMessage(pathToMessage, project, shell)){
+			if (project != null && WizardUtils.calculateSyncAddMessage(pathToMessage, project, shell)){
 				c.setSyncResource(project);
 			}
 

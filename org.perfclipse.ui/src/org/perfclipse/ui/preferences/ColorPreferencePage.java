@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.perfclipse.ui.Activator;
-import org.perfclipse.ui.swt.jface.KeyColorSelector;
+import org.perfclipse.ui.swt.KeyColorSelector;
 
 /**
  * Preference page for setting color of PerfCake components.

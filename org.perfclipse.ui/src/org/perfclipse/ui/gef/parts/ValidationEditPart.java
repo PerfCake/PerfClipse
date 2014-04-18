@@ -36,13 +36,13 @@ import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.core.model.ValidatorModel;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.ValidationEditPolicy;
 import org.perfclipse.ui.gef.policies.ValidatorListEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
-import org.perfclipse.ui.wizards.ValidationEditWizard;
+import org.perfclipse.wizards.ValidationEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
@@ -101,7 +101,7 @@ public class ValidationEditPart extends AbstractPerfCakeSectionEditPart implemen
 	public void performRequest(Request req) {
 		if (req.getType() == RequestConstants.REQ_OPEN){
 			ValidationEditWizard wizard = new ValidationEditWizard(getValidationModel());
-			if (Utils.showWizardDialog(wizard) == Window.OK){
+			if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 				if (!wizard.getCommand().isEmpty())
 					getViewer().getEditDomain().getCommandStack().execute(wizard.getCommand());
 			}

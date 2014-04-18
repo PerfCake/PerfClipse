@@ -25,9 +25,9 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
 import org.perfclipse.core.commands.AddReporterCommand;
 import org.perfclipse.core.model.ReportingModel;
-import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.wizards.ReporterAddWizard;
-import org.perfclipse.ui.wizards.ReportingEditWizard;
+import org.perfclipse.wizards.ReporterAddWizard;
+import org.perfclipse.wizards.ReportingEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 /**
  * @author Jakub Knetl
@@ -45,7 +45,7 @@ public class ReportingEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createPropertiesCommand(Request request) {
 		ReportingEditWizard wizard = new ReportingEditWizard(reporting);
-		if (Utils.showWizardDialog(wizard) == Window.OK){
+		if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 			CompoundCommand command = wizard.getCommand();
 			if (!command.isEmpty()){
 				return command;
@@ -58,7 +58,7 @@ public class ReportingEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createAddReporterCommand(Request request) {
 		ReporterAddWizard wizard = new ReporterAddWizard();
-		if (Utils.showWizardDialog(wizard) != Window.OK)
+		if (WizardUtils.showWizardDialog(wizard) != Window.OK)
 			return null;
 		
 		return new AddReporterCommand(wizard.getReporter(), reporting);

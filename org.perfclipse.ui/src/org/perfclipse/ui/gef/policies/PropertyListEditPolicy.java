@@ -32,7 +32,7 @@ import org.perfclipse.core.commands.AddPropertyCommand;
 import org.perfclipse.core.commands.MovePropertyCommand;
 import org.perfclipse.core.model.IPropertyContainer;
 import org.perfclipse.core.model.PropertyModel;
-import org.perfclipse.ui.wizards.PropertyAddWizard;
+import org.perfclipse.wizards.PropertyAddWizard;
 
 /**
  * @author Jakub Knetl

@@ -46,7 +46,6 @@ import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.core.model.ValidatorRefModel;
 import org.perfclipse.ui.Activator;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.IAnchorFigure;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
@@ -55,7 +54,8 @@ import org.perfclipse.ui.gef.policies.ValidatorEditPolicy;
 import org.perfclipse.ui.gef.policies.ValidatorGraphicalNodeEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.ValidatorDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
-import org.perfclipse.ui.wizards.ValidatorEditWizard;
+import org.perfclipse.wizards.ValidatorEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 public class ValidatorEditPart extends AbstractPerfCakeNodeEditPart implements
 PropertyChangeListener, NodeEditPart {
@@ -105,7 +105,7 @@ PropertyChangeListener, NodeEditPart {
 		if (request.getType() == RequestConstants.REQ_OPEN)
 		{
 			ValidatorEditWizard wizard = new ValidatorEditWizard(getValidatorModel(), parseMessages(), parseValidators());
-			if (Utils.showWizardDialog(wizard) == Window.OK){
+			if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 				if (! wizard.getCommand().isEmpty()){
 					getViewer().getEditDomain().getCommandStack().execute(wizard.getCommand());
 				}

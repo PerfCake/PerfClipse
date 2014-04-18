@@ -29,9 +29,9 @@ import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.core.commands.AddValidatorCommand;
 import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.core.model.ValidatorModel;
-import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.wizards.ValidationEditWizard;
-import org.perfclipse.ui.wizards.ValidatorAddWizard;
+import org.perfclipse.wizards.ValidationEditWizard;
+import org.perfclipse.wizards.ValidatorAddWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 /**
  * @author Jakub Knetl
@@ -52,7 +52,7 @@ public class ValidationEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createPropertiesCommand(Request request) {
 		ValidationEditWizard wizard = new ValidationEditWizard(validation);
-		if (Utils.showWizardDialog(wizard) == Window.OK){
+		if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 			if (!wizard.getCommand().isEmpty())
 				return wizard.getCommand();
 		}
@@ -66,7 +66,7 @@ public class ValidationEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 			validators.add((ValidatorModel) validation.getMapper().getModelContainer(v));
 		}
 		ValidatorAddWizard wizard = new ValidatorAddWizard(validators);
-		if (Utils.showWizardDialog(wizard) != Window.OK)
+		if (WizardUtils.showWizardDialog(wizard) != Window.OK)
 			return null;
 		
 		return new AddValidatorCommand(wizard.getValidator(), validation);

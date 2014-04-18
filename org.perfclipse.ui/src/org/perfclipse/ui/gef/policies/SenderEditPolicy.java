@@ -24,8 +24,8 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
 import org.perfclipse.core.model.SenderModel;
-import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.wizards.SenderEditWizard;
+import org.perfclipse.wizards.SenderEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 /**
  * @author Jakub Knetl
@@ -43,7 +43,7 @@ public class SenderEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createPropertiesCommand(Request request) {
 		SenderEditWizard wizard = new SenderEditWizard(sender);
-		if (Utils.showWizardDialog(wizard) == Window.OK){
+		if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 			CompoundCommand command = wizard.getCommand();
 			if (!command.isEmpty()){
 				return command;

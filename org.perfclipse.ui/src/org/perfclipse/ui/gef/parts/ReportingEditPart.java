@@ -38,13 +38,13 @@ import org.perfclipse.core.model.MessagesModel;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ReporterModel;
 import org.perfclipse.core.model.ReportingModel;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.ReporterListEditPolicy;
 import org.perfclipse.ui.gef.policies.ReportingEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
-import org.perfclipse.ui.wizards.ReportingEditWizard;
+import org.perfclipse.wizards.ReportingEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener{
 
@@ -112,7 +112,7 @@ public class ReportingEditPart extends AbstractPerfCakeSectionEditPart implement
 	public void performRequest(Request req) {
 		if (req.getType() == RequestConstants.REQ_OPEN){
 			ReportingEditWizard wizard = new ReportingEditWizard(getReportingModel());
-			if (Utils.showWizardDialog(wizard) == Window.OK){
+			if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 				CompoundCommand command = wizard.getCommand();
 				if (!command.isEmpty()){
 					getViewer().getEditDomain().getCommandStack().execute(command);

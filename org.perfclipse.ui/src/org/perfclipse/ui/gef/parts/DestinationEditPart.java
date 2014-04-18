@@ -39,14 +39,14 @@ import org.perfclipse.core.logging.Logger;
 import org.perfclipse.core.model.DestinationModel;
 import org.perfclipse.core.model.ReporterModel;
 import org.perfclipse.ui.Activator;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.DestinationFigure;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.DestionationEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.DestinationDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
-import org.perfclipse.ui.wizards.DestinationEditWizard;
+import org.perfclipse.wizards.DestinationEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 public class DestinationEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
 
@@ -113,7 +113,7 @@ public class DestinationEditPart extends AbstractPerfCakeNodeEditPart implements
 			else{
 				//do edit
 				DestinationEditWizard wizard = new DestinationEditWizard(getDestinationModel());
-				if (Utils.showWizardDialog(wizard) == Window.OK){
+				if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 					if (!wizard.getCommand().isEmpty())
 						command = wizard.getCommand();
 				}

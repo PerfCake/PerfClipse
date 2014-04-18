@@ -29,9 +29,9 @@ import org.perfclipse.core.commands.DeleteDestinationCommand;
 import org.perfclipse.core.commands.EditDestinationEnabledCommand;
 import org.perfclipse.core.model.DestinationModel;
 import org.perfclipse.core.model.ReporterModel;
-import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.wizards.DestinationEditWizard;
-import org.perfclipse.ui.wizards.PeriodAddWizard;
+import org.perfclipse.wizards.DestinationEditWizard;
+import org.perfclipse.wizards.PeriodAddWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 /**
  * @author Jakub Knetl
@@ -57,7 +57,7 @@ public class DestionationEditPolicy extends AbstractPerfCakeComponentEditPolicy 
 	@Override
 	protected Command createPropertiesCommand(Request request) {
 		DestinationEditWizard wizard = new DestinationEditWizard(destination);
-		if (Utils.showWizardDialog(wizard) == Window.OK){
+		if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 			CompoundCommand command = wizard.getCommand();
 			if (!command.isEmpty()){
 				return command;
@@ -69,7 +69,7 @@ public class DestionationEditPolicy extends AbstractPerfCakeComponentEditPolicy 
 	@Override
 	protected Command createAddPeriodCommand(Request request) {
 		PeriodAddWizard wizard = new PeriodAddWizard();
-		if (Utils.showWizardDialog(wizard) != Window.OK)
+		if (WizardUtils.showWizardDialog(wizard) != Window.OK)
 			return null;
 		
 		return new AddPeriodCommand(destination, wizard.getPeriod());

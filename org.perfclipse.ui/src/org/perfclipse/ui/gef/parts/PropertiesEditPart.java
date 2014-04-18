@@ -17,13 +17,13 @@ import org.perfcake.model.Property;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.PropertiesModel;
 import org.perfclipse.core.model.PropertyModel;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.PropertiesEditPolicy;
 import org.perfclipse.ui.gef.policies.PropertyListEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
-import org.perfclipse.ui.wizards.PropertiesEditWizard;
+import org.perfclipse.wizards.PropertiesEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
@@ -66,7 +66,7 @@ public class PropertiesEditPart extends AbstractPerfCakeSectionEditPart implemen
 		if (request.getType() == RequestConstants.REQ_OPEN)
 		{
 			PropertiesEditWizard wizard = new PropertiesEditWizard(getPropertiesModel());
-			if (Utils.showWizardDialog(wizard) == Window.OK){
+			if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 				if (!wizard.getCommand().isEmpty()){
 					getViewer().getEditDomain().getCommandStack().execute(wizard.getCommand());
 				}

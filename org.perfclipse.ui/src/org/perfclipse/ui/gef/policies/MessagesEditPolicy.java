@@ -25,10 +25,10 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
 import org.perfclipse.core.commands.AddMessageCommand;
 import org.perfclipse.core.model.MessagesModel;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
-import org.perfclipse.ui.wizards.MessageAddWizard;
-import org.perfclipse.ui.wizards.MessagesEditWizard;
+import org.perfclipse.wizards.MessageAddWizard;
+import org.perfclipse.wizards.MessagesEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 /**
  * @author Jakub Knetl
@@ -50,7 +50,7 @@ public class MessagesEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	protected Command createPropertiesCommand(Request request) {
 		PerfCakeEditPartFactory factory = (PerfCakeEditPartFactory) getHost().getViewer().getEditPartFactory();
 		MessagesEditWizard wizard = new MessagesEditWizard(messages, factory.getScenarioFile());
-		if (Utils.showWizardDialog(wizard) == Window.OK){
+		if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 			CompoundCommand command = wizard.getCommand();
 		
 			if (!command.isEmpty()){
@@ -66,7 +66,7 @@ public class MessagesEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	protected Command createAddMessageCommand(Request request) {
 		PerfCakeEditPartFactory factory = (PerfCakeEditPartFactory) getHost().getViewer().getEditPartFactory();
 		MessageAddWizard wizard = new MessageAddWizard(factory.getScenarioFile());
-		if (Utils.showWizardDialog(wizard) != Window.OK)
+		if (WizardUtils.showWizardDialog(wizard) != Window.OK)
 			return null;
 		
 		return new AddMessageCommand(wizard.getMessage(), messages); 

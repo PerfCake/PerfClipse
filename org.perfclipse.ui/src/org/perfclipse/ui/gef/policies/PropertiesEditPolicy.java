@@ -23,8 +23,8 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
 import org.perfclipse.core.model.PropertiesModel;
-import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.wizards.PropertiesEditWizard;
+import org.perfclipse.wizards.PropertiesEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 /**
  * @author Jakub Knetl
@@ -45,7 +45,7 @@ public class PropertiesEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createPropertiesCommand(Request request) {
 		PropertiesEditWizard wizard = new PropertiesEditWizard(properties);
-		if (Utils.showWizardDialog(wizard) == Window.OK){
+		if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 			if (!wizard.getCommand().isEmpty()){
 				return wizard.getCommand();
 			}

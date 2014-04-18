@@ -41,7 +41,6 @@ import org.perfclipse.core.model.MessagesModel;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.core.model.ValidatorRefModel;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.IAnchorFigure;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
@@ -50,7 +49,8 @@ import org.perfclipse.ui.gef.policies.MessageEditPolicy;
 import org.perfclipse.ui.gef.policies.MessageGraphicalNodeEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.MessageDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
-import org.perfclipse.ui.wizards.MessageEditWizard;
+import org.perfclipse.wizards.MessageEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 public class MessageEditPart extends AbstractPerfCakeNodeEditPart 
 implements PropertyChangeListener, NodeEditPart{
@@ -92,7 +92,7 @@ implements PropertyChangeListener, NodeEditPart{
 		if (request.getType() == RequestConstants.REQ_OPEN)
 		{
 			MessageEditWizard wizard = new MessageEditWizard(getMessageModel());
-			if (Utils.showWizardDialog(wizard) == Window.OK){
+			if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 				CompoundCommand command = wizard.getCommand();
 				if (!command.isEmpty()){
 					getViewer().getEditDomain().getCommandStack().execute(command);

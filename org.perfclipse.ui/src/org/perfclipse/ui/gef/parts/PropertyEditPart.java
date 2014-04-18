@@ -11,14 +11,14 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Color;
 import org.perfclipse.core.model.IPropertyContainer;
 import org.perfclipse.core.model.PropertyModel;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.LabeledRoundedRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.PropertyEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.RenamePropertyDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
-import org.perfclipse.ui.wizards.PropertyEditWizard;
+import org.perfclipse.wizards.PropertyEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
 
@@ -74,7 +74,7 @@ public class PropertyEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 		if (request.getType() == RequestConstants.REQ_OPEN)
 		{
 			PropertyEditWizard wizard = new PropertyEditWizard(getPropertyModel());
-			if (Utils.showWizardDialog(wizard) == Window.OK){
+			if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 				if (!wizard.getCommand().isEmpty())
 					getViewer().getEditDomain().getCommandStack().execute(wizard.getCommand());
 			}

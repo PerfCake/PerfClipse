@@ -37,7 +37,6 @@ import org.perfclipse.core.logging.Logger;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.SenderModel;
 import org.perfclipse.ui.Activator;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
@@ -45,7 +44,8 @@ import org.perfclipse.ui.gef.policies.PropertyListEditPolicy;
 import org.perfclipse.ui.gef.policies.SenderEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.SenderDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
-import org.perfclipse.ui.wizards.SenderEditWizard;
+import org.perfclipse.wizards.SenderEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
@@ -91,7 +91,7 @@ public class SenderEditPart extends AbstractPerfCakeSectionEditPart implements P
 	public void performRequest(Request req) {
 		if (req.getType() == RequestConstants.REQ_OPEN){
 			SenderEditWizard wizard = new SenderEditWizard(getSenderModel());
-			if (Utils.showWizardDialog(wizard) == Window.OK){
+			if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 				CompoundCommand command = wizard.getCommand();
 				if (!command.isEmpty()){
 					getViewer().getEditDomain().getCommandStack().execute(command);

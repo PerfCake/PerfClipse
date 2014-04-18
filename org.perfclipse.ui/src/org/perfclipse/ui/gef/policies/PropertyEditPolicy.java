@@ -26,8 +26,8 @@ import org.eclipse.jface.window.Window;
 import org.perfclipse.core.commands.DeletePropertyCommand;
 import org.perfclipse.core.model.IPropertyContainer;
 import org.perfclipse.core.model.PropertyModel;
-import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.wizards.PropertyEditWizard;
+import org.perfclipse.wizards.PropertyEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 /**
  * @author Jakub Knetl
@@ -53,7 +53,7 @@ public class PropertyEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createPropertiesCommand(Request request) {
 		PropertyEditWizard wizard = new PropertyEditWizard(property);
-		if (Utils.showWizardDialog(wizard) == Window.OK){
+		if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 			if (!wizard.getCommand().isEmpty())
 				return wizard.getCommand();
 		}

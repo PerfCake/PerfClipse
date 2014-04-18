@@ -27,9 +27,9 @@ import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Property;
 import org.perfclipse.core.commands.AddPropertyCommand;
 import org.perfclipse.core.model.IPropertyContainer;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.actions.PerfClipseActionConstants;
-import org.perfclipse.ui.wizards.PropertyAddWizard;
+import org.perfclipse.wizards.PropertyAddWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 /**
  * Component edit policy which supports custom PerfClipse requests in addition to
@@ -177,7 +177,7 @@ public class AbstractPerfCakeComponentEditPolicy extends ComponentEditPolicy {
 		Object model = getHost().getModel();
 		if (model instanceof IPropertyContainer){
 			PropertyAddWizard wizard = new PropertyAddWizard();
-			if (Utils.showWizardDialog(wizard) != Window.OK)
+			if (WizardUtils.showWizardDialog(wizard) != Window.OK)
 				return null;
 			
 			Property p = new ObjectFactory().createProperty();

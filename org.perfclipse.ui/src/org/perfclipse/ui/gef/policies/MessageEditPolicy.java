@@ -33,10 +33,10 @@ import org.perfclipse.core.commands.DeleteMessageCommand;
 import org.perfclipse.core.commands.DeleteValidatorRefCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.MessagesModel;
-import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.wizards.HeaderAddWizard;
-import org.perfclipse.ui.wizards.MessageEditWizard;
-import org.perfclipse.ui.wizards.ValidatorAttachWizard;
+import org.perfclipse.wizards.HeaderAddWizard;
+import org.perfclipse.wizards.MessageEditWizard;
+import org.perfclipse.wizards.ValidatorAttachWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 
@@ -70,7 +70,7 @@ public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	protected Command createPropertiesCommand(Request request) {
 	
 		MessageEditWizard wizard = new MessageEditWizard(message);
-		if (Utils.showWizardDialog(wizard) == Window.OK){
+		if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 			CompoundCommand command = wizard.getCommand();
 			if (!command.isEmpty()){
 				return command;
@@ -83,7 +83,7 @@ public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	protected Command createAddHeaderCommand(Request request) {
 		HeaderAddWizard wizard = new HeaderAddWizard();
 		
-		if (Utils.showWizardDialog(wizard) != Window.OK)
+		if (WizardUtils.showWizardDialog(wizard) != Window.OK)
 			return null;
 		
 		Header h = new ObjectFactory().createHeader();
@@ -98,7 +98,7 @@ public class MessageEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 		if (messages.getMapper().getValidation() == null)
 			return null;
 		ValidatorAttachWizard wizard = new ValidatorAttachWizard(messages.getMapper().getValidation());
-		if (Utils.showWizardDialog(wizard) != Window.OK)
+		if (WizardUtils.showWizardDialog(wizard) != Window.OK)
 			return null;
 		if (wizard.getValidatorRef() == null && wizard.getValidatorRef().isEmpty())
 			return null;

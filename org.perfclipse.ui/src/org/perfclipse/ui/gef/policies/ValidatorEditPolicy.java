@@ -36,9 +36,9 @@ import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.core.model.ValidatorModel;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.parts.ValidatorEditPart;
-import org.perfclipse.ui.wizards.ValidatorEditWizard;
+import org.perfclipse.wizards.ValidatorEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 /**
  * @author Jakub Knetl
@@ -94,7 +94,7 @@ public class ValidatorEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 		List<MessageModel> messages = ((ValidatorEditPart) getHost()).parseMessages();
 		List<ValidatorModel> validators = ((ValidatorEditPart) getHost()).parseValidators();
 		ValidatorEditWizard wizard = new ValidatorEditWizard(validator, messages, validators);
-		if (Utils.showWizardDialog(wizard) == Window.OK){
+		if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 			if (! wizard.getCommand().isEmpty()){
 				return wizard.getCommand();
 			}

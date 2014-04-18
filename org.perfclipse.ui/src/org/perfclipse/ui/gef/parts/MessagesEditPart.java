@@ -37,13 +37,13 @@ import org.perfcake.model.Scenario.Messages.Message;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.MessagesModel;
 import org.perfclipse.core.model.ModelMapper;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.TwoPartRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.gef.policies.MessagesEditPolicy;
 import org.perfclipse.ui.gef.policies.MessagesListEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
-import org.perfclipse.ui.wizards.MessagesEditWizard;
+import org.perfclipse.wizards.MessagesEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements PropertyChangeListener {
 
@@ -89,7 +89,7 @@ public class MessagesEditPart extends AbstractPerfCakeSectionEditPart implements
 		{
 			PerfCakeEditPartFactory factory = (PerfCakeEditPartFactory) getViewer().getEditPartFactory();
 			MessagesEditWizard wizard = new MessagesEditWizard(getMessagesModel(), factory.getScenarioFile());
-			if (Utils.showWizardDialog(wizard) == Window.OK){
+			if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 				CompoundCommand command = wizard.getCommand();
 			
 				if (!command.isEmpty()){

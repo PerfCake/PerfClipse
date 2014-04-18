@@ -28,9 +28,9 @@ import org.perfclipse.core.commands.DeleteReporterCommand;
 import org.perfclipse.core.commands.EditReporterEnabledCommand;
 import org.perfclipse.core.model.ReporterModel;
 import org.perfclipse.core.model.ReportingModel;
-import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.wizards.DestinationAddWizard;
-import org.perfclipse.ui.wizards.ReporterEditWizard;
+import org.perfclipse.wizards.DestinationAddWizard;
+import org.perfclipse.wizards.ReporterEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 /**
  * @author Jakub Knetl
@@ -56,7 +56,7 @@ public class ReporterEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createPropertiesCommand(Request request) {
 		ReporterEditWizard wizard = new ReporterEditWizard(reporter);
-		if (Utils.showWizardDialog(wizard) == Window.OK){
+		if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 			if (!wizard.getCommand().isEmpty())
 				return wizard.getCommand();
 		}
@@ -66,7 +66,7 @@ public class ReporterEditPolicy extends AbstractPerfCakeComponentEditPolicy {
 	@Override
 	protected Command createAddDestinationCommand(Request request) {
 		DestinationAddWizard wizard = new DestinationAddWizard();
-		if (Utils.showWizardDialog(wizard) != Window.OK)
+		if (WizardUtils.showWizardDialog(wizard) != Window.OK)
 			return null;
 		
 		return new AddDestinationCommand(wizard.getDestination(), reporter);

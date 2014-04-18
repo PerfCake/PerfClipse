@@ -9,7 +9,7 @@
       </category>
       <wizard
             category="org.perfclipse.ui.wizards.category.perfcake"
-            class="org.perfclipse.ui.wizards.PerfcakeProjectWizard"
+            class="org.perfclipse.wizards.PerfcakeProjectWizard"
             icon="icons/perfcake.ico"
             id="org.perfclipse.ui.wizards.perfcakeproject"
             name="PerfCake project"
@@ -17,7 +17,7 @@
       </wizard>
       <wizard
             category="org.perfclipse.ui.wizards.category.perfcake"
-            class="org.perfclipse.ui.wizards.ScenarioWizard"
+            class="org.perfclipse.wizards.ScenarioWizard"
             icon="icons/perfcake.ico"
             id="org.perfclipse.ui.wizards.scenario"
             name="PerfCake scenario">

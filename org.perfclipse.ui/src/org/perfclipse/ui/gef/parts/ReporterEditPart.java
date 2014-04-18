@@ -45,7 +45,6 @@ import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ReporterModel;
 import org.perfclipse.core.model.ReportingModel;
 import org.perfclipse.ui.Activator;
-import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 import org.perfclipse.ui.gef.figures.ReporterRectangle;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
@@ -53,7 +52,8 @@ import org.perfclipse.ui.gef.policies.DestinationListEditPolicy;
 import org.perfclipse.ui.gef.policies.ReporterEditPolicy;
 import org.perfclipse.ui.gef.policies.directedit.RenameReporterDirectEditPolicy;
 import org.perfclipse.ui.preferences.PreferencesConstants;
-import org.perfclipse.ui.wizards.ReporterEditWizard;
+import org.perfclipse.wizards.ReporterEditWizard;
+import org.perfclipse.wizards.WizardUtils;
 
 public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {
 	
@@ -114,7 +114,7 @@ public class ReporterEditPart extends AbstractPerfCakeNodeEditPart implements Pr
 			else{
 				//do edit
 				ReporterEditWizard wizard = new ReporterEditWizard(getReporterModel());
-				if (Utils.showWizardDialog(wizard) == Window.OK){
+				if (WizardUtils.showWizardDialog(wizard) == Window.OK){
 					if (!wizard.getCommand().isEmpty())
 						command = wizard.getCommand();
 				}
