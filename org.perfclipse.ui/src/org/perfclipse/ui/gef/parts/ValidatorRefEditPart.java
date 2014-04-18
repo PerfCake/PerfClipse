@@ -30,9 +30,9 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.swt.SWT;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
-import org.perfclipse.model.ValidatorRefModel;
+import org.perfclipse.core.model.MessageModel;
+import org.perfclipse.core.model.MessagesModel;
+import org.perfclipse.core.model.ValidatorRefModel;
 import org.perfclipse.ui.gef.policies.ValidatorRefEditPolicy;
 
 /**

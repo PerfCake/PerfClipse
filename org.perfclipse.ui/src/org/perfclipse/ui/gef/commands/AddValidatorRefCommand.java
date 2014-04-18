@@ -21,7 +21,7 @@ package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
-import org.perfclipse.model.MessageModel;
+import org.perfclipse.core.model.MessageModel;
 
 /**
  * @author Jakub Knetl

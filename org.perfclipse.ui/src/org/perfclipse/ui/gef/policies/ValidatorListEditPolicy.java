@@ -8,8 +8,8 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Scenario.Validation.Validator;
-import org.perfclipse.model.ValidationModel;
-import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.core.model.ValidationModel;
+import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.ui.gef.commands.AddValidatorCommand;
 import org.perfclipse.ui.gef.commands.MoveValidatorCommand;
 

@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
-import org.perfclipse.model.PropertyModel;
+import org.perfclipse.core.model.PropertyModel;
 import org.perfclipse.ui.gef.commands.EditPropertyNameCommand;
 
 /**

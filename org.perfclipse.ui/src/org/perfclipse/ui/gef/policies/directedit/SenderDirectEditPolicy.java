@@ -21,7 +21,7 @@ package org.perfclipse.ui.gef.policies.directedit;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.DirectEditRequest;
-import org.perfclipse.model.SenderModel;
+import org.perfclipse.core.model.SenderModel;
 import org.perfclipse.ui.gef.commands.EditSenderTypeCommand;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 

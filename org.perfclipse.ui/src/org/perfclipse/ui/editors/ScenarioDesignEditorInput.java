@@ -26,10 +26,10 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
-import org.perfclipse.logging.Logger;
-import org.perfclipse.model.ScenarioModel;
-import org.perfclipse.scenario.ScenarioException;
-import org.perfclipse.scenario.ScenarioManager;
+import org.perfclipse.core.logging.Logger;
+import org.perfclipse.core.model.ScenarioModel;
+import org.perfclipse.core.scenario.ScenarioException;
+import org.perfclipse.core.scenario.ScenarioManager;
 import org.perfclipse.ui.Activator;
 
 public class ScenarioDesignEditorInput extends FileEditorInput {

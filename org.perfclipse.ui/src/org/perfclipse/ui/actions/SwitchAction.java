@@ -25,7 +25,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
-import org.perfclipse.model.IEnableable;
+import org.perfclipse.core.model.IEnableable;
 import org.perfclipse.ui.gef.policies.AbstractPerfCakeComponentEditPolicy;
 
 /**

@@ -27,8 +27,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.TableItem;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
-import org.perfclipse.model.ValidationModel;
-import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.core.model.ValidationModel;
+import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.ui.wizards.pages.AttachValidatorPage;
 
 /**

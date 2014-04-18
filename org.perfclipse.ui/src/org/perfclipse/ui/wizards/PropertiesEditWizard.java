@@ -19,7 +19,7 @@
 
 package org.perfclipse.ui.wizards;
 
-import org.perfclipse.model.PropertiesModel;
+import org.perfclipse.core.model.PropertiesModel;
 import org.perfclipse.ui.wizards.pages.PropertiesPage;
 
 /**

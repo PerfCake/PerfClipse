@@ -35,7 +35,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
-import org.perfclipse.logging.Logger;
+import org.perfclipse.core.logging.Logger;
 import org.perfclipse.ui.Activator;
 
 public class ScenarioMultiPageEditor extends MultiPageEditorPart implements IResourceChangeListener{

@@ -20,7 +20,7 @@
 package org.perfclipse.ui.wizards;
 
 import org.eclipse.core.resources.IFile;
-import org.perfclipse.model.MessagesModel;
+import org.perfclipse.core.model.MessagesModel;
 import org.perfclipse.ui.wizards.pages.MessagesPage;
 
 /**

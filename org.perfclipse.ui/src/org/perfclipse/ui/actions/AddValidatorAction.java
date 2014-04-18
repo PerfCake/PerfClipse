@@ -21,7 +21,7 @@ package org.perfclipse.ui.actions;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IWorkbenchPart;
-import org.perfclipse.model.ValidationModel;
+import org.perfclipse.core.model.ValidationModel;
 
 /**
  * Add validator action.

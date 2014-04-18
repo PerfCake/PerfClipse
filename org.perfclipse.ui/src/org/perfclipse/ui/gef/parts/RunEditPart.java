@@ -24,7 +24,7 @@ import java.beans.PropertyChangeListener;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
-import org.perfclipse.model.RunModel;
+import org.perfclipse.core.model.RunModel;
 import org.perfclipse.ui.gef.figures.EditableLabel;
 
 public class RunEditPart extends AbstractPerfCakeNodeEditPart implements PropertyChangeListener {

@@ -26,9 +26,9 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.TableViewer;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.ValidationModel;
-import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.core.model.MessageModel;
+import org.perfclipse.core.model.ValidationModel;
+import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.ui.gef.commands.DeleteValidatorCommand;
 import org.perfclipse.ui.gef.commands.DeleteValidatorRefCommand;
 

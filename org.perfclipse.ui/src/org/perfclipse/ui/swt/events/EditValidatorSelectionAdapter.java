@@ -26,8 +26,8 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.TableItem;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.core.model.MessageModel;
+import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
 import org.perfclipse.ui.wizards.ValidatorEditWizard;
 

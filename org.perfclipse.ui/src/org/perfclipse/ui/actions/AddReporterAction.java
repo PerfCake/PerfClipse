@@ -21,7 +21,7 @@ package org.perfclipse.ui.actions;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IWorkbenchPart;
-import org.perfclipse.model.ReportingModel;
+import org.perfclipse.core.model.ReportingModel;
 
 /**
  * Add reporter action

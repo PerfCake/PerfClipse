@@ -23,10 +23,10 @@ import java.util.List;
 
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfcake.model.Scenario.Validation.Validator;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.ModelMapper;
-import org.perfclipse.model.ValidatorModel;
-import org.perfclipse.model.ValidatorRefModel;
+import org.perfclipse.core.model.MessageModel;
+import org.perfclipse.core.model.ModelMapper;
+import org.perfclipse.core.model.ValidatorModel;
+import org.perfclipse.core.model.ValidatorRefModel;
 import org.perfclipse.ui.gef.commands.EditValidatorIdCommand;
 import org.perfclipse.ui.gef.commands.EditValidatorRefCommand;
 import org.perfclipse.ui.gef.commands.EditValidatorTypeCommand;

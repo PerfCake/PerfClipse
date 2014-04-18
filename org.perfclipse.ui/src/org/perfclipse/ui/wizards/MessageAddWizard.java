@@ -28,10 +28,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Messages.Message;
-import org.perfclipse.model.HeaderModel;
-import org.perfclipse.model.PropertyModel;
-import org.perfclipse.model.ValidatorModel;
-import org.perfclipse.model.ValidatorRefModel;
+import org.perfclipse.core.model.HeaderModel;
+import org.perfclipse.core.model.PropertyModel;
+import org.perfclipse.core.model.ValidatorModel;
+import org.perfclipse.core.model.ValidatorRefModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.wizards.pages.MessagePage;
 

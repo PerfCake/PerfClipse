@@ -30,7 +30,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.perfclipse.logging.Logger;
+import org.perfclipse.core.logging.Logger;
 import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.PerfClipseConstants;
 import org.perfclipse.ui.wizards.pages.PerfcakeProjectFirstPage;

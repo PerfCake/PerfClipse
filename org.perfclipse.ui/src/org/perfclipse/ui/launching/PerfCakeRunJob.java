@@ -18,9 +18,9 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.perfcake.PerfCakeConst;
-import org.perfclipse.logging.Logger;
-import org.perfclipse.scenario.ScenarioException;
-import org.perfclipse.scenario.ScenarioManager;
+import org.perfclipse.core.logging.Logger;
+import org.perfclipse.core.scenario.ScenarioException;
+import org.perfclipse.core.scenario.ScenarioManager;
 import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.launching.PerfCakeLaunchDeleagate.SystemProperty;
 

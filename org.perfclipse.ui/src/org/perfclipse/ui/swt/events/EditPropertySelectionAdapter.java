@@ -24,7 +24,7 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.perfclipse.model.PropertyModel;
+import org.perfclipse.core.model.PropertyModel;
 import org.perfclipse.ui.wizards.AbstractPerfCakeEditWizard;
 import org.perfclipse.ui.wizards.PropertyEditWizard;
 

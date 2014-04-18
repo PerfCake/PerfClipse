@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Validation.Validator;
-import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.ui.wizards.pages.ValidatorPage;
 
 /**

@@ -22,7 +22,7 @@ package org.perfclipse.ui.gef.policies.directedit;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.DirectEditRequest;
-import org.perfclipse.model.PropertyModel;
+import org.perfclipse.core.model.PropertyModel;
 import org.perfclipse.ui.gef.commands.EditPropertyNameCommand;
 import org.perfclipse.ui.gef.commands.EditPropertyValueCommand;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;

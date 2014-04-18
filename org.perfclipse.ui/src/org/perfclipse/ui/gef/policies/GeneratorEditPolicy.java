@@ -23,7 +23,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.window.Window;
-import org.perfclipse.model.GeneratorModel;
+import org.perfclipse.core.model.GeneratorModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.wizards.GeneratorEditWizard;
 

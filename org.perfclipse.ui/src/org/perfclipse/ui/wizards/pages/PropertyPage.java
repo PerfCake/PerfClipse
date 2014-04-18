@@ -25,7 +25,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.perfclipse.model.PropertyModel;
+import org.perfclipse.core.model.PropertyModel;
 
 /**
  * @author Jakub Knetl

@@ -21,7 +21,7 @@ package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
 import org.perfcake.model.Scenario.Reporting.Reporter;
-import org.perfclipse.model.ReportingModel;
+import org.perfclipse.core.model.ReportingModel;
 
 public class AddReporterCommand extends Command {
 

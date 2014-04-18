@@ -21,7 +21,7 @@ package org.perfclipse.ui.actions;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IWorkbenchPart;
-import org.perfclipse.model.IPropertyContainer;
+import org.perfclipse.core.model.IPropertyContainer;
 
 /**
  * Add property to selected EditPart which can have properties.

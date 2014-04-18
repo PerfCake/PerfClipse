@@ -28,7 +28,7 @@ import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.perfclipse.logging.Logger;
+import org.perfclipse.core.logging.Logger;
 import org.perfclipse.ui.Activator;
 
 public class ClassDirectEditManager extends DirectEditManager {

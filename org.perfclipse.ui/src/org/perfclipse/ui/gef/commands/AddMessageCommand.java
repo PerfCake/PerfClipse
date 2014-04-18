@@ -20,7 +20,7 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.perfcake.model.Scenario;
-import org.perfclipse.model.MessagesModel;
+import org.perfclipse.core.model.MessagesModel;
 import org.perfclipse.ui.Utils;
 
 public class AddMessageCommand extends ResourceCommand {

@@ -4,8 +4,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
-import org.perfclipse.model.DestinationModel;
-import org.perfclipse.model.ReporterModel;
+import org.perfclipse.core.model.DestinationModel;
+import org.perfclipse.core.model.ReporterModel;
 import org.perfclipse.ui.gef.commands.AddDestinationCommand;
 import org.perfclipse.ui.gef.commands.MoveDestinationCommand;
 

@@ -20,7 +20,7 @@
 package org.perfclipse.ui.wizards;
 
 import org.perfcake.model.Scenario.Reporting.Reporter;
-import org.perfclipse.model.ReporterModel;
+import org.perfclipse.core.model.ReporterModel;
 import org.perfclipse.ui.gef.commands.EditReporterEnabledCommand;
 import org.perfclipse.ui.gef.commands.EditReporterTypeCommand;
 import org.perfclipse.ui.wizards.pages.ReporterPage;

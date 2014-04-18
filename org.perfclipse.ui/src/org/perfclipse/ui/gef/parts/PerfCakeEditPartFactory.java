@@ -24,20 +24,20 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.ui.part.FileEditorInput;
-import org.perfclipse.model.DestinationModel;
-import org.perfclipse.model.GeneratorModel;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
-import org.perfclipse.model.PropertiesModel;
-import org.perfclipse.model.PropertyModel;
-import org.perfclipse.model.ReporterModel;
-import org.perfclipse.model.ReportingModel;
-import org.perfclipse.model.RunModel;
-import org.perfclipse.model.ScenarioModel;
-import org.perfclipse.model.SenderModel;
-import org.perfclipse.model.ValidationModel;
-import org.perfclipse.model.ValidatorModel;
-import org.perfclipse.model.ValidatorRefModel;
+import org.perfclipse.core.model.DestinationModel;
+import org.perfclipse.core.model.GeneratorModel;
+import org.perfclipse.core.model.MessageModel;
+import org.perfclipse.core.model.MessagesModel;
+import org.perfclipse.core.model.PropertiesModel;
+import org.perfclipse.core.model.PropertyModel;
+import org.perfclipse.core.model.ReporterModel;
+import org.perfclipse.core.model.ReportingModel;
+import org.perfclipse.core.model.RunModel;
+import org.perfclipse.core.model.ScenarioModel;
+import org.perfclipse.core.model.SenderModel;
+import org.perfclipse.core.model.ValidationModel;
+import org.perfclipse.core.model.ValidatorModel;
+import org.perfclipse.core.model.ValidatorRefModel;
 
 public class PerfCakeEditPartFactory implements EditPartFactory {
 

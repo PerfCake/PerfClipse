@@ -4,8 +4,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.perfcake.model.Scenario.Reporting.Reporter;
-import org.perfclipse.model.ReporterModel;
-import org.perfclipse.model.ReportingModel;
+import org.perfclipse.core.model.ReporterModel;
+import org.perfclipse.core.model.ReportingModel;
 import org.perfclipse.ui.gef.commands.AddReporterCommand;
 import org.perfclipse.ui.gef.commands.MoveReporterCommand;
 

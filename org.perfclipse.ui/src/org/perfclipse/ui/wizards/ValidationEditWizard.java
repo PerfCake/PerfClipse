@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.perfcake.model.Scenario.Messages.Message;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
-import org.perfclipse.model.ValidationModel;
+import org.perfclipse.core.model.MessageModel;
+import org.perfclipse.core.model.MessagesModel;
+import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.ui.wizards.pages.ValidationPage;
 
 /**

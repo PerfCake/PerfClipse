@@ -26,7 +26,7 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.perfclipse.model.PropertyModel;
+import org.perfclipse.core.model.PropertyModel;
 
 /**
  * @author Jakub Knetl

@@ -19,7 +19,7 @@
 
 package org.perfclipse.ui.wizards;
 
-import org.perfclipse.model.ReportingModel;
+import org.perfclipse.core.model.ReportingModel;
 import org.perfclipse.ui.wizards.pages.ReportingPage;
 
 /**

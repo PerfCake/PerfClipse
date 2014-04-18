@@ -24,8 +24,8 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
-import org.perfclipse.model.ValidationModel;
-import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.core.model.ValidationModel;
+import org.perfclipse.core.model.ValidatorModel;
 
 /**
  * @author Jakub Knetl

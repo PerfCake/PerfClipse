@@ -22,7 +22,7 @@ package org.perfclipse.ui.gef.policies;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
-import org.perfclipse.model.PropertiesModel;
+import org.perfclipse.core.model.PropertiesModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.wizards.PropertiesEditWizard;
 

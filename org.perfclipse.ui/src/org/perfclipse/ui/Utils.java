@@ -44,7 +44,7 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.perfcake.common.PeriodType;
-import org.perfclipse.logging.Logger;
+import org.perfclipse.core.logging.Logger;
 
 public class Utils {
 

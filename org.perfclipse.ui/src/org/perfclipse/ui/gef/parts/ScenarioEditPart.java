@@ -30,12 +30,12 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.perfclipse.model.MessagesModel;
-import org.perfclipse.model.ModelMapper;
-import org.perfclipse.model.PropertiesModel;
-import org.perfclipse.model.ReportingModel;
-import org.perfclipse.model.ScenarioModel;
-import org.perfclipse.model.ValidationModel;
+import org.perfclipse.core.model.MessagesModel;
+import org.perfclipse.core.model.ModelMapper;
+import org.perfclipse.core.model.PropertiesModel;
+import org.perfclipse.core.model.ReportingModel;
+import org.perfclipse.core.model.ScenarioModel;
+import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 import org.perfclipse.ui.preferences.PreferencesConstants;
 

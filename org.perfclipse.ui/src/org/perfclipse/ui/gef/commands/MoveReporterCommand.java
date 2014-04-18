@@ -20,8 +20,8 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.ReporterModel;
-import org.perfclipse.model.ReportingModel;
+import org.perfclipse.core.model.ReporterModel;
+import org.perfclipse.core.model.ReportingModel;
 
 /**
  * @author Jakub Knetl

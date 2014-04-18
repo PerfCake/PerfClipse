@@ -20,7 +20,7 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.GeneratorModel;
+import org.perfclipse.core.model.GeneratorModel;
 
 /**
  * @author Jakub Knetl

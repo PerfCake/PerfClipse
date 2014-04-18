@@ -60,7 +60,7 @@ import org.eclipse.ui.console.IConsoleConstants;
 import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.part.FileEditorInput;
-import org.perfclipse.logging.Logger;
+import org.perfclipse.core.logging.Logger;
 import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.PerfClipseConstants;
 import org.perfclipse.ui.Utils;

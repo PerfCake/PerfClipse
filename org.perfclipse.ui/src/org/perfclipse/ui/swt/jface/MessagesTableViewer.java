@@ -27,7 +27,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
-import org.perfclipse.model.MessageModel;
+import org.perfclipse.core.model.MessageModel;
 
 /**
  * @author Jakub Knetl

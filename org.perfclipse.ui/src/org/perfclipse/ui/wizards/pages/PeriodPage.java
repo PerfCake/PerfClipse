@@ -26,7 +26,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.perfclipse.model.PeriodModel;
+import org.perfclipse.core.model.PeriodModel;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.jface.StringComboViewer;

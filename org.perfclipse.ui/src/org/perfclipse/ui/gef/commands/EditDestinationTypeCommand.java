@@ -20,7 +20,7 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.DestinationModel;
+import org.perfclipse.core.model.DestinationModel;
 
 /**
  * @author Jakub Knetl

@@ -45,7 +45,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
-import org.perfclipse.logging.Logger;
+import org.perfclipse.core.logging.Logger;
 import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.PerfClipseConstants;
 

@@ -20,8 +20,8 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.IPropertyContainer;
-import org.perfclipse.model.PropertyModel;
+import org.perfclipse.core.model.IPropertyContainer;
+import org.perfclipse.core.model.PropertyModel;
 
 /**
  * @author Jakub Knetl

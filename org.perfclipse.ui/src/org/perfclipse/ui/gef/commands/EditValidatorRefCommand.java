@@ -20,7 +20,7 @@
 package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfclipse.model.ValidatorRefModel;
+import org.perfclipse.core.model.ValidatorRefModel;
 
 /**
  * @author Jakub Knetl

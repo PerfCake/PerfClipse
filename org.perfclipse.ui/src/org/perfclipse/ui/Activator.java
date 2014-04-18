@@ -22,9 +22,9 @@ package org.perfclipse.ui;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-import org.perfclipse.logging.Logger;
-import org.perfclipse.reflect.PerfCakeComponents;
-import org.perfclipse.reflect.PerfClipseScannerException;
+import org.perfclipse.core.logging.Logger;
+import org.perfclipse.core.reflect.PerfCakeComponents;
+import org.perfclipse.core.reflect.PerfClipseScannerException;
 import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 
 /**

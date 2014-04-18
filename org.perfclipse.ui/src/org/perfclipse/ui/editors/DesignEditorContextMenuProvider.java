@@ -27,14 +27,14 @@ import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
-import org.perfclipse.model.DestinationModel;
-import org.perfclipse.model.IEnableable;
-import org.perfclipse.model.IPropertyContainer;
-import org.perfclipse.model.MessageModel;
-import org.perfclipse.model.MessagesModel;
-import org.perfclipse.model.ReporterModel;
-import org.perfclipse.model.ReportingModel;
-import org.perfclipse.model.ValidationModel;
+import org.perfclipse.core.model.DestinationModel;
+import org.perfclipse.core.model.IEnableable;
+import org.perfclipse.core.model.IPropertyContainer;
+import org.perfclipse.core.model.MessageModel;
+import org.perfclipse.core.model.MessagesModel;
+import org.perfclipse.core.model.ReporterModel;
+import org.perfclipse.core.model.ReportingModel;
+import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.ui.actions.PerfClipseActionConstants;
 
 /**

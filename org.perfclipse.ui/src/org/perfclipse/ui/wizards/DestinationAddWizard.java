@@ -22,8 +22,8 @@ package org.perfclipse.ui.wizards;
 import org.eclipse.swt.widgets.TableItem;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
-import org.perfclipse.model.PeriodModel;
-import org.perfclipse.model.PropertyModel;
+import org.perfclipse.core.model.PeriodModel;
+import org.perfclipse.core.model.PropertyModel;
 import org.perfclipse.ui.wizards.pages.DestinationPage;
 
 /**

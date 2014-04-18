@@ -11,9 +11,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
-import org.perfclipse.logging.Logger;
-import org.perfclipse.reflect.PerfCakeComponents;
-import org.perfclipse.reflect.PerfClipseScannerException;
+import org.perfclipse.core.logging.Logger;
+import org.perfclipse.core.reflect.PerfCakeComponents;
+import org.perfclipse.core.reflect.PerfClipseScannerException;
 import org.perfclipse.ui.Activator;
 
 public abstract class AbstractCommandTableViewer extends TableViewer {

@@ -29,7 +29,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.perfclipse.model.ValidatorModel;
+import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.ui.swt.ComboUtils;
 import org.perfclipse.ui.swt.jface.StringComboViewer;
 

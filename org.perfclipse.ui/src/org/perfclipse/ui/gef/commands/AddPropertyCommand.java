@@ -21,7 +21,7 @@ package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
 import org.perfcake.model.Property;
-import org.perfclipse.model.IPropertyContainer;
+import org.perfclipse.core.model.IPropertyContainer;
 
 /**
  * @author Jakub Knetl

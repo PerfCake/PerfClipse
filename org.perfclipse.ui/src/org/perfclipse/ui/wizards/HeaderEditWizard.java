@@ -20,7 +20,7 @@
 package org.perfclipse.ui.wizards;
 
 import org.perfcake.model.Header;
-import org.perfclipse.model.HeaderModel;
+import org.perfclipse.core.model.HeaderModel;
 import org.perfclipse.ui.gef.commands.EditHeaderNameCommand;
 import org.perfclipse.ui.gef.commands.EditHeaderValueCommand;
 import org.perfclipse.ui.wizards.pages.HeaderPage;

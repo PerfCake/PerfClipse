@@ -28,9 +28,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.perfcake.model.Scenario.Validation;
 import org.perfcake.model.Scenario.Validation.Validator;
-import org.perfclipse.model.ModelMapper;
-import org.perfclipse.model.ValidatorModel;
-import org.perfclipse.model.ValidatorRefModel;
+import org.perfclipse.core.model.ModelMapper;
+import org.perfclipse.core.model.ValidatorModel;
+import org.perfclipse.core.model.ValidatorRefModel;
 
 /**
  * @author Jakub Knetl

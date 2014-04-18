@@ -20,7 +20,7 @@
 package org.perfclipse.ui.wizards;
 
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination.Period;
-import org.perfclipse.model.PeriodModel;
+import org.perfclipse.core.model.PeriodModel;
 import org.perfclipse.ui.gef.commands.EditPeriodType;
 import org.perfclipse.ui.gef.commands.EditPeriodValue;
 import org.perfclipse.ui.wizards.pages.PeriodPage;

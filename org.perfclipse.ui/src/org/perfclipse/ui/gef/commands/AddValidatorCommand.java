@@ -21,7 +21,7 @@ package org.perfclipse.ui.gef.commands;
 
 import org.eclipse.gef.commands.Command;
 import org.perfcake.model.Scenario.Validation.Validator;
-import org.perfclipse.model.ValidationModel;
+import org.perfclipse.core.model.ValidationModel;
 
 public class AddValidatorCommand extends Command {
 
