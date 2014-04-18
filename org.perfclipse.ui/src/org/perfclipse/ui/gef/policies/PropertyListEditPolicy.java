@@ -28,10 +28,10 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
+import org.perfclipse.core.commands.AddPropertyCommand;
+import org.perfclipse.core.commands.MovePropertyCommand;
 import org.perfclipse.core.model.IPropertyContainer;
 import org.perfclipse.core.model.PropertyModel;
-import org.perfclipse.ui.gef.commands.AddPropertyCommand;
-import org.perfclipse.ui.gef.commands.MovePropertyCommand;
 import org.perfclipse.ui.wizards.PropertyAddWizard;
 
 /**

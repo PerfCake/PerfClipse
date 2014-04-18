@@ -22,8 +22,8 @@ package org.perfclipse.ui.gef.policies.directedit;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.DirectEditRequest;
+import org.perfclipse.core.commands.EditMessageUriCommand;
 import org.perfclipse.core.model.MessageModel;
-import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 
 public class MessageDirectEditPolicy extends LabelDirectEditPolicy {

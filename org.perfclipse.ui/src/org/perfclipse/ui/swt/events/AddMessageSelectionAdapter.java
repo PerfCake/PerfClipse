@@ -27,13 +27,13 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
 import org.perfcake.model.Scenario;
+import org.perfclipse.core.commands.AddMessageCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.MessagesModel;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ScenarioModel;
 import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.AddMessageCommand;
 import org.perfclipse.ui.wizards.MessageAddWizard;
 
 /**

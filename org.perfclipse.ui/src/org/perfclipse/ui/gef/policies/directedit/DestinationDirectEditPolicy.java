@@ -22,8 +22,8 @@ package org.perfclipse.ui.gef.policies.directedit;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.DirectEditRequest;
+import org.perfclipse.core.commands.EditDestinationTypeCommand;
 import org.perfclipse.core.model.DestinationModel;
-import org.perfclipse.ui.gef.commands.EditDestinationTypeCommand;
 import org.perfclipse.ui.gef.figures.ILabeledFigure;
 
 /**

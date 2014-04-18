@@ -20,13 +20,13 @@
 package org.perfclipse.ui.wizards;
 
 import org.perfcake.model.Scenario.Generator;
+import org.perfclipse.core.commands.EditGeneratorThreadsCommand;
+import org.perfclipse.core.commands.EditGeneratorTypeCommand;
+import org.perfclipse.core.commands.EditRunTypeCommand;
+import org.perfclipse.core.commands.EditRunValue;
 import org.perfclipse.core.model.GeneratorModel;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.RunModel;
-import org.perfclipse.ui.gef.commands.EditGeneratorThreadsCommand;
-import org.perfclipse.ui.gef.commands.EditGeneratorTypeCommand;
-import org.perfclipse.ui.gef.commands.EditRunTypeCommand;
-import org.perfclipse.ui.gef.commands.EditRunValue;
 import org.perfclipse.ui.wizards.pages.GeneratorPage;
 
 /**

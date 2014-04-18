@@ -26,7 +26,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-import org.perfclipse.ui.gef.commands.DeleteValidatorCommand;
+import org.perfclipse.core.commands.DeleteValidatorCommand;
 
 /**
  * Delete action which understands PerfClipse commands and show confirmation dialog

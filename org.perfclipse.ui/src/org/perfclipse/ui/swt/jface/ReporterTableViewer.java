@@ -27,8 +27,8 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.perfclipse.core.commands.EditReporterEnabledCommand;
 import org.perfclipse.core.model.ReporterModel;
-import org.perfclipse.ui.gef.commands.EditReporterEnabledCommand;
 
 /**
  * @author Jakub Knetl

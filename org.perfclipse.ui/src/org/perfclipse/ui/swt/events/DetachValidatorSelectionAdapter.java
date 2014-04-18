@@ -23,9 +23,9 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
+import org.perfclipse.core.commands.DeleteValidatorRefCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.ValidatorRefModel;
-import org.perfclipse.ui.gef.commands.DeleteValidatorRefCommand;
 
 /**
  * @author Jakub Knetl

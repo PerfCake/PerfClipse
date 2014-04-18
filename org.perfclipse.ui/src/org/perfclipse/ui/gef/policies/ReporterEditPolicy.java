@@ -23,12 +23,12 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.window.Window;
+import org.perfclipse.core.commands.AddDestinationCommand;
+import org.perfclipse.core.commands.DeleteReporterCommand;
+import org.perfclipse.core.commands.EditReporterEnabledCommand;
 import org.perfclipse.core.model.ReporterModel;
 import org.perfclipse.core.model.ReportingModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.AddDestinationCommand;
-import org.perfclipse.ui.gef.commands.DeleteReporterCommand;
-import org.perfclipse.ui.gef.commands.EditReporterEnabledCommand;
 import org.perfclipse.ui.wizards.DestinationAddWizard;
 import org.perfclipse.ui.wizards.ReporterEditWizard;
 

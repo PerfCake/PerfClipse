@@ -23,9 +23,9 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
+import org.perfclipse.core.commands.DeleteReporterCommand;
 import org.perfclipse.core.model.ReporterModel;
 import org.perfclipse.core.model.ReportingModel;
-import org.perfclipse.ui.gef.commands.DeleteReporterCommand;
 
 /**
  * @author Jakub Knetl

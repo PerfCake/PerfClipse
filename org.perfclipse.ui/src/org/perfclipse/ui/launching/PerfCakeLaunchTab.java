@@ -47,7 +47,7 @@ import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.perfclipse.core.logging.Logger;
 import org.perfclipse.ui.Activator;
-import org.perfclipse.ui.PerfClipseConstants;
+import org.perfclipse.core.PerfClipseConstants;
 
 public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 	

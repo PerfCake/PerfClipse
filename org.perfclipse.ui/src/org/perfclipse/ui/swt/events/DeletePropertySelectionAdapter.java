@@ -23,9 +23,9 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
+import org.perfclipse.core.commands.DeletePropertyCommand;
 import org.perfclipse.core.model.IPropertyContainer;
 import org.perfclipse.core.model.PropertyModel;
-import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
 
 /**
  * Selection Adapter which handles delete in PropertyViewer

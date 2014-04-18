@@ -32,7 +32,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.perfclipse.core.logging.Logger;
 import org.perfclipse.ui.Activator;
-import org.perfclipse.ui.PerfClipseConstants;
+import org.perfclipse.core.PerfClipseConstants;
 import org.perfclipse.ui.wizards.pages.PerfcakeProjectFirstPage;
 
 public class PerfcakeProjectWizard extends Wizard implements INewWizard {

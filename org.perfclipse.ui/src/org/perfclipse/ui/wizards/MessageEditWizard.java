@@ -21,10 +21,10 @@ package org.perfclipse.ui.wizards;
 
 import java.util.List;
 
+import org.perfclipse.core.commands.EditMessageMultiplicityCommand;
+import org.perfclipse.core.commands.EditMessageUriCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.ValidatorModel;
-import org.perfclipse.ui.gef.commands.EditMessageMultiplicityCommand;
-import org.perfclipse.ui.gef.commands.EditMessageUriCommand;
 import org.perfclipse.ui.wizards.pages.MessagePage;
 
 /**

@@ -23,9 +23,9 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
+import org.perfclipse.core.commands.DeleteHeaderCommand;
 import org.perfclipse.core.model.HeaderModel;
 import org.perfclipse.core.model.MessageModel;
-import org.perfclipse.ui.gef.commands.DeleteHeaderCommand;
 
 /**
  * @author Jakub Knetl

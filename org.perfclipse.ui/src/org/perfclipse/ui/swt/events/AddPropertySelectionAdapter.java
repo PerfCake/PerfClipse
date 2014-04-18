@@ -30,10 +30,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario;
+import org.perfclipse.core.commands.AddPropertyCommand;
 import org.perfclipse.core.model.IPropertyContainer;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ScenarioModel;
-import org.perfclipse.ui.gef.commands.AddPropertyCommand;
 import org.perfclipse.ui.wizards.PropertyAddWizard;
 
 /**

@@ -30,11 +30,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Messages.Message;
+import org.perfclipse.core.commands.AddMessageCommand;
+import org.perfclipse.core.commands.MoveMessageCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.MessagesModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.AddMessageCommand;
-import org.perfclipse.ui.gef.commands.MoveMessageCommand;
 import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
 
 public class MessagesListEditPolicy extends AbstractListEditPolicy {
@@ -62,7 +62,7 @@ public class MessagesListEditPolicy extends AbstractListEditPolicy {
 
 			AddMessageCommand c = new AddMessageCommand(message, model);
 			if (project != null && Utils.calculateSyncAddMessage(pathToMessage, project, shell)){
-				c.setSyncResource(project, shell);
+				c.setSyncResource(project);
 			}
 
 			return c;

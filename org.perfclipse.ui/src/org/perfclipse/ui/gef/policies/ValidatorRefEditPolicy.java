@@ -21,9 +21,9 @@ package org.perfclipse.ui.gef.policies;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
+import org.perfclipse.core.commands.DeleteValidatorRefCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.ValidatorRefModel;
-import org.perfclipse.ui.gef.commands.DeleteValidatorRefCommand;
 
 /**
  * @author Jakub Knetl

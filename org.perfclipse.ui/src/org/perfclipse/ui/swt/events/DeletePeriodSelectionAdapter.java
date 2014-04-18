@@ -23,9 +23,9 @@ import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.TableViewer;
+import org.perfclipse.core.commands.DeletePeriodCommand;
 import org.perfclipse.core.model.DestinationModel;
 import org.perfclipse.core.model.PeriodModel;
-import org.perfclipse.ui.gef.commands.DeletePeriodCommand;
 
 /**
  * @author Jakub Knetl

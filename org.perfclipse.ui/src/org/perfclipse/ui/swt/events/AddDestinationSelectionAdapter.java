@@ -26,12 +26,12 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
 import org.perfcake.model.Scenario;
+import org.perfclipse.core.commands.AddDestinationCommand;
 import org.perfclipse.core.model.DestinationModel;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ReporterModel;
 import org.perfclipse.core.model.ScenarioModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.AddDestinationCommand;
 import org.perfclipse.ui.wizards.DestinationAddWizard;
 
 /**

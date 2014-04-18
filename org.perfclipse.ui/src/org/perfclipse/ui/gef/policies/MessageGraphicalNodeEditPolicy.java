@@ -23,10 +23,10 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
+import org.perfclipse.core.commands.AddValidatorRefCommand;
+import org.perfclipse.core.commands.RelocateValidatorRefCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.ValidatorRefModel;
-import org.perfclipse.ui.gef.commands.AddValidatorRefCommand;
-import org.perfclipse.ui.gef.commands.RelocateValidatorRefCommand;
 import org.perfclipse.ui.gef.parts.MessageEditPart;
 import org.perfclipse.ui.gef.parts.ValidatorRefEditPart;
 

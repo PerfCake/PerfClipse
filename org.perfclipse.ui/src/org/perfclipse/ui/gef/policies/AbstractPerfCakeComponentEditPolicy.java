@@ -25,10 +25,10 @@ import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.jface.window.Window;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Property;
+import org.perfclipse.core.commands.AddPropertyCommand;
 import org.perfclipse.core.model.IPropertyContainer;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.actions.PerfClipseActionConstants;
-import org.perfclipse.ui.gef.commands.AddPropertyCommand;
 import org.perfclipse.ui.wizards.PropertyAddWizard;
 
 /**

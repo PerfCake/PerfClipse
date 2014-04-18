@@ -19,8 +19,8 @@
 
 package org.perfclipse.ui.wizards;
 
+import org.perfclipse.core.commands.EditSenderTypeCommand;
 import org.perfclipse.core.model.SenderModel;
-import org.perfclipse.ui.gef.commands.EditSenderTypeCommand;
 import org.perfclipse.ui.wizards.pages.SenderPage;
 
 /**

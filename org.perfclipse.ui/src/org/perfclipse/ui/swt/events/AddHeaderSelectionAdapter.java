@@ -30,10 +30,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Header;
 import org.perfcake.model.Scenario;
+import org.perfclipse.core.commands.AddHeaderCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ScenarioModel;
-import org.perfclipse.ui.gef.commands.AddHeaderCommand;
 import org.perfclipse.ui.wizards.HeaderAddWizard;
 
 /**

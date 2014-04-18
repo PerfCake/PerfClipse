@@ -4,10 +4,10 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.perfcake.model.Scenario.Reporting.Reporter;
+import org.perfclipse.core.commands.AddReporterCommand;
+import org.perfclipse.core.commands.MoveReporterCommand;
 import org.perfclipse.core.model.ReporterModel;
 import org.perfclipse.core.model.ReportingModel;
-import org.perfclipse.ui.gef.commands.AddReporterCommand;
-import org.perfclipse.ui.gef.commands.MoveReporterCommand;
 
 public class ReporterListEditPolicy extends AbstractListEditPolicy {
 

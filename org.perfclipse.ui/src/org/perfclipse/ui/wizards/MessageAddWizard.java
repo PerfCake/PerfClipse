@@ -23,15 +23,19 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Messages.Message;
+import org.perfclipse.core.ResourceUtils;
+import org.perfclipse.core.logging.Logger;
 import org.perfclipse.core.model.HeaderModel;
 import org.perfclipse.core.model.PropertyModel;
 import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.core.model.ValidatorRefModel;
+import org.perfclipse.ui.Activator;
 import org.perfclipse.ui.Utils;
 import org.perfclipse.ui.wizards.pages.MessagePage;
 
@@ -45,6 +49,8 @@ import org.perfclipse.ui.wizards.pages.MessagePage;
  *
  */
 public class MessageAddWizard extends AbstractPerfCakeAddWizard {
+	
+	static Logger log = Activator.getDefault().getLogger();
 
 	private MessagePage messagePage;
 	private Message message;
@@ -94,7 +100,11 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 		IProject project = scenarioFile.getProject();
 		if (project != null){
 			if (Utils.calculateSyncAddMessage(message.getUri(), project, shell))
-				Utils.createMessage(message.getUri(), new byte[0], project, shell);
+				try {
+					ResourceUtils.createMessage(message.getUri(), new byte[0], project);
+				} catch (CoreException e) {
+					log.warn("Cannot create file representing message", e);
+				}
 		}
 		return true;
 	}

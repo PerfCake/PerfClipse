@@ -26,10 +26,10 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.TableViewer;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
+import org.perfclipse.core.commands.DeleteMessageCommand;
+import org.perfclipse.core.commands.DeleteValidatorRefCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.MessagesModel;
-import org.perfclipse.ui.gef.commands.DeleteMessageCommand;
-import org.perfclipse.ui.gef.commands.DeleteValidatorRefCommand;
 
 /**
  * @author Jakub Knetl

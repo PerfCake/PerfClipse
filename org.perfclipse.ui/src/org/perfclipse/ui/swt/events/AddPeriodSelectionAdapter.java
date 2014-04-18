@@ -26,12 +26,12 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
 import org.perfcake.model.Scenario;
+import org.perfclipse.core.commands.AddPeriodCommand;
 import org.perfclipse.core.model.DestinationModel;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.PeriodModel;
 import org.perfclipse.core.model.ScenarioModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.AddPeriodCommand;
 import org.perfclipse.ui.wizards.PeriodAddWizard;
 
 /**

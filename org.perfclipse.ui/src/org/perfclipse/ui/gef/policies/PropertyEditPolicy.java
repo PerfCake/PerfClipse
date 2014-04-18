@@ -23,10 +23,10 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.window.Window;
+import org.perfclipse.core.commands.DeletePropertyCommand;
 import org.perfclipse.core.model.IPropertyContainer;
 import org.perfclipse.core.model.PropertyModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.DeletePropertyCommand;
 import org.perfclipse.ui.wizards.PropertyEditWizard;
 
 /**

@@ -4,7 +4,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
-import org.perfclipse.ui.PerfClipseConstants;
+import org.perfclipse.core.PerfClipseConstants;
 
 public class ScenarioNewFilePage extends WizardNewFileCreationPage {
 

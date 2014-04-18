@@ -29,6 +29,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
 import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
+import org.perfclipse.core.commands.AddValidatorRefCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ScenarioModel;
@@ -36,7 +37,6 @@ import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.core.model.ValidatorRefModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.AddValidatorRefCommand;
 import org.perfclipse.ui.wizards.ValidatorAttachWizard;
 
 /**

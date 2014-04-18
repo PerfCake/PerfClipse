@@ -20,9 +20,9 @@
 package org.perfclipse.ui.wizards;
 
 import org.perfcake.model.Scenario.Reporting.Reporter.Destination;
+import org.perfclipse.core.commands.EditDestinationEnabledCommand;
+import org.perfclipse.core.commands.EditDestinationTypeCommand;
 import org.perfclipse.core.model.DestinationModel;
-import org.perfclipse.ui.gef.commands.EditDestinationEnabledCommand;
-import org.perfclipse.ui.gef.commands.EditDestinationTypeCommand;
 import org.perfclipse.ui.wizards.pages.DestinationPage;
 
 /**

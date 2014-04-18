@@ -26,10 +26,10 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
 import org.perfcake.model.Scenario.Validation.Validator;
+import org.perfclipse.core.commands.AddValidatorCommand;
 import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.AddValidatorCommand;
 import org.perfclipse.ui.wizards.ValidationEditWizard;
 import org.perfclipse.ui.wizards.ValidatorAddWizard;
 

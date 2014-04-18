@@ -30,13 +30,13 @@ import org.eclipse.jface.window.Window;
 import org.perfcake.model.Scenario.Messages;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
+import org.perfclipse.core.commands.DeleteValidatorCommand;
+import org.perfclipse.core.commands.DeleteValidatorRefCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.DeleteValidatorCommand;
-import org.perfclipse.ui.gef.commands.DeleteValidatorRefCommand;
 import org.perfclipse.ui.gef.parts.ValidatorEditPart;
 import org.perfclipse.ui.wizards.ValidatorEditWizard;
 

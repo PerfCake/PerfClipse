@@ -28,12 +28,12 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.TableItem;
 import org.perfcake.model.Scenario;
+import org.perfclipse.core.commands.AddValidatorCommand;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ScenarioModel;
 import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.ui.Utils;
-import org.perfclipse.ui.gef.commands.AddValidatorCommand;
 import org.perfclipse.ui.wizards.ValidatorAddWizard;
 
 /**
