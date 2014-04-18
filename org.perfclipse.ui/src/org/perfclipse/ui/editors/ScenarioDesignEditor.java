@@ -53,20 +53,21 @@ import org.perfclipse.core.logging.Logger;
 import org.perfclipse.core.model.ScenarioModel;
 import org.perfclipse.core.scenario.ScenarioException;
 import org.perfclipse.core.scenario.ScenarioManager;
+import org.perfclipse.gef.GEFActivator;
+import org.perfclipse.gef.actions.AddDestinationAction;
+import org.perfclipse.gef.actions.AddHeaderAction;
+import org.perfclipse.gef.actions.AddMessageAction;
+import org.perfclipse.gef.actions.AddPeriodAction;
+import org.perfclipse.gef.actions.AddPropertyAction;
+import org.perfclipse.gef.actions.AddReporterAction;
+import org.perfclipse.gef.actions.AddValidatorAction;
+import org.perfclipse.gef.actions.AttachValidatorAction;
+import org.perfclipse.gef.actions.EditDialogAction;
+import org.perfclipse.gef.actions.PerfClipseDeleteAction;
+import org.perfclipse.gef.actions.SwitchAction;
+import org.perfclipse.gef.parts.PerfCakeEditPartFactory;
+import org.perfclipse.gef.parts.ScenarioEditPart;
 import org.perfclipse.ui.Activator;
-import org.perfclipse.ui.actions.AddDestinationAction;
-import org.perfclipse.ui.actions.AddHeaderAction;
-import org.perfclipse.ui.actions.AddMessageAction;
-import org.perfclipse.ui.actions.AddPeriodAction;
-import org.perfclipse.ui.actions.AddPropertyAction;
-import org.perfclipse.ui.actions.AddReporterAction;
-import org.perfclipse.ui.actions.AddValidatorAction;
-import org.perfclipse.ui.actions.AttachValidatorAction;
-import org.perfclipse.ui.actions.EditDialogAction;
-import org.perfclipse.ui.actions.PerfClipseDeleteAction;
-import org.perfclipse.ui.actions.SwitchAction;
-import org.perfclipse.ui.gef.parts.PerfCakeEditPartFactory;
-import org.perfclipse.ui.gef.parts.ScenarioEditPart;
 
 public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 	
@@ -86,7 +87,7 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 		super();
 		setEditDomain(new DefaultEditDomain(this));
 		this.parent = parent;
-		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(preferencesChangeListener);
+		GEFActivator.getDefault().getPreferenceStore().addPropertyChangeListener(preferencesChangeListener);
 	}
 	
 	@Override
@@ -243,7 +244,7 @@ public class ScenarioDesignEditor extends GraphicalEditorWithPalette {
 
 	@Override
 	public void dispose() {
-		Activator.getDefault().getPreferenceStore().removePropertyChangeListener(preferencesChangeListener);
+		GEFActivator.getDefault().getPreferenceStore().removePropertyChangeListener(preferencesChangeListener);
 		super.dispose();
 	}
 	

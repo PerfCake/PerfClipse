@@ -22,6 +22,7 @@ package org.perfclipse.gef;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.perfclipse.core.logging.Logger;
+import org.perfclipse.gef.layout.colors.ColorUtils;
 
 /**
  * @author Jakub Knetl
@@ -34,7 +35,7 @@ public class GEFActivator extends AbstractUIPlugin {
 	/**
 	 * ColorUtils instance. Used for disposing colors.
 	 */
-//	private ColorUtils colorUtils;
+	private ColorUtils colorUtils;
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.perfclipse.gef"; //$NON-NLS-1$
@@ -58,7 +59,7 @@ public class GEFActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		logger.info("PerfClipse UI bundle has been running");
-//		colorUtils = ColorUtils.getInstance();
+		colorUtils = ColorUtils.getInstance();
 	}
 
 	/*
@@ -67,7 +68,7 @@ public class GEFActivator extends AbstractUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
-//		colorUtils.dispose();
+		colorUtils.dispose();
 		logger.info("Colors were successfully disposed.");
 		super.stop(context);
 	}

@@ -35,7 +35,7 @@ import org.perfclipse.core.model.MessagesModel;
 import org.perfclipse.core.model.ReporterModel;
 import org.perfclipse.core.model.ReportingModel;
 import org.perfclipse.core.model.ValidationModel;
-import org.perfclipse.ui.actions.PerfClipseActionConstants;
+import org.perfclipse.gef.actions.PerfClipseActionConstants;
 
 /**
  * @author Jakub Knetl

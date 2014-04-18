@@ -25,7 +25,6 @@ import org.osgi.framework.BundleContext;
 import org.perfclipse.core.logging.Logger;
 import org.perfclipse.core.reflect.PerfCakeComponents;
 import org.perfclipse.core.reflect.PerfClipseScannerException;
-import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -33,11 +32,6 @@ import org.perfclipse.ui.gef.layout.colors.ColorUtils;
 public class Activator extends AbstractUIPlugin {
 	
 	private Logger logger;
-
-	/**
-	 * ColorUtils instance. Used for disposing colors.
-	 */
-	private ColorUtils colorUtils;
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.perfclipse.ui"; //$NON-NLS-1$
@@ -68,7 +62,6 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		logger.info("PerfClipse UI bundle has been running");
-		colorUtils = ColorUtils.getInstance();
 	}
 
 	/*
@@ -77,7 +70,6 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
-		colorUtils.dispose();
 		logger.info("Colors were successfully disposed.");
 		super.stop(context);
 	}

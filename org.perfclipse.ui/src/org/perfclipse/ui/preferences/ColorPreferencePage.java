@@ -37,7 +37,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.perfclipse.ui.Activator;
+import org.perfclipse.gef.GEFActivator;
+import org.perfclipse.gef.PreferencesConstants;
 import org.perfclipse.ui.swt.KeyColorSelector;
 
 /**
@@ -58,7 +59,7 @@ public class ColorPreferencePage extends PreferencePage implements
 	private List<KeyColorSelector> colorSelectors;
 	
 	public ColorPreferencePage(){
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+		setPreferenceStore(GEFActivator.getDefault().getPreferenceStore());
 		setDescription("Set PerfCake components colors");
 		colorSelectors = new ArrayList<>();
 	}
