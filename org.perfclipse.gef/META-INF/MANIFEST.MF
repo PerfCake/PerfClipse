@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: PerfClipse GEF bundle
+Bundle-SymbolicName: org.perfclipse.gef
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.perfclipse.gef.GEFActivator
+Require-Bundle: org.eclipse.core.runtime,
+ org.perfclipse.core;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.ui.plugin

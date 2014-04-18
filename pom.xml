@@ -15,6 +15,7 @@
 	<modules>
 		<module>org.perfclipse.core</module>
 		<module>org.perfclipse.test</module>
+		<module>org.perfclipse.gef</module>
 		<module>org.perfclipse.ui</module>
 		<module>org.perfclipse.feature</module>
 		<module>org.perfclipse.update</module>
