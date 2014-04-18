@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Core
+Bundle-Name: PerfClipse core bundle
 Bundle-SymbolicName: org.perfclipse.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.perfclipse.core.Activator

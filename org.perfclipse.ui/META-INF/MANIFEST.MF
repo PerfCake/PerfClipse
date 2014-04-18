@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Perfclipse UI
+Bundle-Name: PerfClipse UI bundle
 Bundle-SymbolicName: org.perfclipse.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.perfclipse.ui.Activator
