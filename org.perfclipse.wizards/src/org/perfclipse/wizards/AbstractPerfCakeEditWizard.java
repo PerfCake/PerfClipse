@@ -35,9 +35,9 @@ import org.eclipse.jface.wizard.Wizard;
 public abstract class AbstractPerfCakeEditWizard extends Wizard {
 
 	/**
-	 * List of commands which wizard pages creates
+	 * List of commands which nested wizard pages creates
 	 */
-	private List<Command> editingSupportCommands;
+	private List<Command> nestedCommands;
 	private CompoundCommand command;
 
 	/**
@@ -47,7 +47,7 @@ public abstract class AbstractPerfCakeEditWizard extends Wizard {
 	public AbstractPerfCakeEditWizard(String title) {
 		super();
 		setWindowTitle(title);
-		editingSupportCommands = new ArrayList<>();
+		nestedCommands = new ArrayList<>();
 		command = new CompoundCommand(title);
 	}
 	
@@ -56,7 +56,7 @@ public abstract class AbstractPerfCakeEditWizard extends Wizard {
 	 */
 	@Override
 	public boolean performCancel() {
-		undoEditingSupportCommands();
+		undoNestedCommands();
 		return super.performCancel();
 	}
 	
@@ -68,9 +68,9 @@ public abstract class AbstractPerfCakeEditWizard extends Wizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		undoEditingSupportCommands();
+		undoNestedCommands();
 
-		for (Command c : editingSupportCommands){
+		for (Command c : nestedCommands){
 			command.add(c);
 		}
 
@@ -81,16 +81,16 @@ public abstract class AbstractPerfCakeEditWizard extends Wizard {
 	 * Add commond to list of editing support commands.
 	 * @param command
 	 */
-	public void addEditingSupportCommand(Command command){
-		editingSupportCommands.add(command);
+	public void addNestedCommand(Command command){
+		nestedCommands.add(command);
 	}
 	
 	/**
 	 * Iterates through command list in reverse order and undo every command.
 	 */
-	protected void undoEditingSupportCommands(){
+	protected void undoNestedCommands(){
 		ListIterator<Command> it = 
-				editingSupportCommands.listIterator(editingSupportCommands.size());
+				nestedCommands.listIterator(nestedCommands.size());
 		while (it.hasPrevious()){
 			it.previous().undo();
 		}
@@ -100,7 +100,7 @@ public abstract class AbstractPerfCakeEditWizard extends Wizard {
 		return command;
 	}
 
-	public List<Command> getEditingSupportCommands() {
-		return editingSupportCommands;
+	public List<Command> getNestedCommands() {
+		return nestedCommands;
 	}
 }

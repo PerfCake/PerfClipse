@@ -127,16 +127,16 @@ public class ReporterPage extends AbstractPerfCakePage {
 		data.horizontalSpan = 2;
 		enabledButton.setLayoutData(data);
 		
-		destinationViewer = new DestinationTableViewer(container, getEditingSupportCommands());
+		destinationViewer = new DestinationTableViewer(container, getNestedCommands());
 		data = WizardUtils.getTableViewerGridData();
 		data.horizontalSpan = 2;
 		destinationViewer.getTable().setLayoutData(data);
 		
 		destinationControl = new TableViewerControl(container, true, SWT.NONE);
 		destinationControl.getAddButton().addSelectionListener(
-				new AddDestinationSelectionAdapter(getEditingSupportCommands(), destinationViewer, reporter));
+				new AddDestinationSelectionAdapter(getNestedCommands(), destinationViewer, reporter));
 		destinationControl.getEditButton().addSelectionListener(
-				new AbstractEditCommandSelectionAdapter(getEditingSupportCommands(), destinationViewer) {
+				new AbstractEditCommandSelectionAdapter(getNestedCommands(), destinationViewer) {
 			
 			@Override
 			protected AbstractPerfCakeEditWizard createWizard(
@@ -145,22 +145,22 @@ public class ReporterPage extends AbstractPerfCakePage {
 			}
 		});
 		destinationControl.getDeleteButton().addSelectionListener(
-				new DeleteDestinationSelectionAdapter(getEditingSupportCommands(), destinationViewer, reporter));
+				new DeleteDestinationSelectionAdapter(getNestedCommands(), destinationViewer, reporter));
 		
-		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
+		propertyViewer = new PropertyTableViewer(container, getNestedCommands());
 		data = WizardUtils.getTableViewerGridData();
 		data.horizontalSpan = 2;
 		propertyViewer.getTable().setLayoutData(data);
 		
 		propertyControl = new TableViewerControl(container, true, SWT.NONE);
 		propertyControl.getAddButton().addSelectionListener(
-				new AddPropertySelectionAdapter(getEditingSupportCommands(),
+				new AddPropertySelectionAdapter(getNestedCommands(),
 						propertyViewer, reporter));
 		propertyControl.getDeleteButton().addSelectionListener(
-				new DeletePropertySelectionAdapter(getEditingSupportCommands(),
+				new DeletePropertySelectionAdapter(getNestedCommands(),
 						propertyViewer, reporter));
 		propertyControl.getEditButton().addSelectionListener(
-				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
+				new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer));
 		
 		setControl(container);
 		super.createControl(parent);

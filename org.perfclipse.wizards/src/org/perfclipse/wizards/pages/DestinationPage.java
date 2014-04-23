@@ -130,16 +130,16 @@ public class DestinationPage extends AbstractPerfCakePage {
 		data.horizontalSpan = 2;
 		enabledButton.setLayoutData(data);
 		
-		periodViewer = new PeriodTableViewer(container, getEditingSupportCommands());
+		periodViewer = new PeriodTableViewer(container, getNestedCommands());
 		data = WizardUtils.getTableViewerGridData();
 		data.horizontalSpan = 2;
 		periodViewer.getTable().setLayoutData(data);
 		
 		periodControl = new TableViewerControl(container, true, SWT.NONE);
 		periodControl.getAddButton().addSelectionListener(
-				new AddPeriodSelectionAdapter(getEditingSupportCommands(), periodViewer, destination));
+				new AddPeriodSelectionAdapter(getNestedCommands(), periodViewer, destination));
 
-		periodControl.getEditButton().addSelectionListener(new AbstractEditCommandSelectionAdapter(getEditingSupportCommands(), periodViewer) {
+		periodControl.getEditButton().addSelectionListener(new AbstractEditCommandSelectionAdapter(getNestedCommands(), periodViewer) {
 			
 			@Override
 			protected AbstractPerfCakeEditWizard createWizard(
@@ -147,19 +147,19 @@ public class DestinationPage extends AbstractPerfCakePage {
 				return new PeriodEditWizard((PeriodModel) selection.getFirstElement());
 			}
 		});
-		periodControl.getDeleteButton().addSelectionListener(new DeletePeriodSelectionAdapter(getEditingSupportCommands(), periodViewer, destination));
+		periodControl.getDeleteButton().addSelectionListener(new DeletePeriodSelectionAdapter(getNestedCommands(), periodViewer, destination));
 			
 		
-		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
+		propertyViewer = new PropertyTableViewer(container, getNestedCommands());
 		data = WizardUtils.getTableViewerGridData();
 		data.horizontalSpan = 2;
 		propertyViewer.getTable().setLayoutData(data);
 		
 		
 		propertyControl = new TableViewerControl(container, true, SWT.NONE);
-		propertyControl.getAddButton().addSelectionListener(new AddPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer, destination));
-		propertyControl.getEditButton().addSelectionListener(new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
-		propertyControl.getEditButton().addSelectionListener(new DeletePropertySelectionAdapter(getEditingSupportCommands(), propertyViewer, destination));
+		propertyControl.getAddButton().addSelectionListener(new AddPropertySelectionAdapter(getNestedCommands(), propertyViewer, destination));
+		propertyControl.getEditButton().addSelectionListener(new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer));
+		propertyControl.getEditButton().addSelectionListener(new DeletePropertySelectionAdapter(getNestedCommands(), propertyViewer, destination));
 		
 		setControl(container);
 		super.createControl(parent);

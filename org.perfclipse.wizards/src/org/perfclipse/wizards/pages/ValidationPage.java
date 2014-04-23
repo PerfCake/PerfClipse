@@ -100,17 +100,17 @@ public class ValidationPage extends AbstractPerfCakePage {
 		container.setLayout(layout);
 		GridData data;
 		
-		validatorViewer = new ValidatorTableViewer(container, getEditingSupportCommands());
+		validatorViewer = new ValidatorTableViewer(container, getNestedCommands());
 		data = WizardUtils.getTableViewerGridData();
 		validatorViewer.getTable().setLayoutData(data);
 		
 		validatorControl = new TableViewerControl(container, true, SWT.NONE);
 		validatorControl.getAddButton().addSelectionListener(
-				new AddValidatorSelectionAdapater(getEditingSupportCommands(), validatorViewer, validation));
-		editValidatorAdapter = new EditValidatorSelectionAdapter(getEditingSupportCommands(), validatorViewer);
+				new AddValidatorSelectionAdapater(getNestedCommands(), validatorViewer, validation));
+		editValidatorAdapter = new EditValidatorSelectionAdapter(getNestedCommands(), validatorViewer);
 		validatorControl.getEditButton().addSelectionListener(editValidatorAdapter);
 
-		deleteValidatorAdapter = new DeleteValidatorSelectionAdapter(getEditingSupportCommands(), validatorViewer, validation);
+		deleteValidatorAdapter = new DeleteValidatorSelectionAdapter(getNestedCommands(), validatorViewer, validation);
 		validatorControl.getDeleteButton().addSelectionListener(deleteValidatorAdapter);
 
 		//set messages in adapters

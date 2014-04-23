@@ -122,15 +122,15 @@ public abstract class AbstractPerfCakePage extends WizardPage {
 	 */
 	
 	/**
-	 * @return list of {@link AbstractPerfCakeEditWizard} editing support commands
+	 * @return list of {@link AbstractPerfCakeEditWizard} nested commands
 	 * or null if wizard is not instanceof AbstractPerfCakeEditWizard
 	 * 
-	 * @See {@link AbstractPerfCakeEditWizard#editingSupportCommands}
+	 * @See {@link AbstractPerfCakeEditWizard#nestedCommands}
 	 */
-	protected List<Command> getEditingSupportCommands(){
+	protected List<Command> getNestedCommands(){
 		if (getWizard() instanceof AbstractPerfCakeEditWizard){
 			AbstractPerfCakeEditWizard wizard = (AbstractPerfCakeEditWizard) getWizard();
-			return wizard.getEditingSupportCommands();
+			return wizard.getNestedCommands();
 		}
 		
 		return null;

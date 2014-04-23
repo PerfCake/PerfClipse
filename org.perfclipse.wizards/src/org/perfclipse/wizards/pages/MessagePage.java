@@ -149,7 +149,7 @@ public class MessagePage extends AbstractPerfCakePage {
 		data.horizontalSpan = 2;
 		multiplicitySpinner.setLayoutData(data);
 
-		headerViewer = new HeaderTableViewer(container, getEditingSupportCommands());
+		headerViewer = new HeaderTableViewer(container, getNestedCommands());
 		headerViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
 		data = WizardUtils.getTableViewerGridData();
 		data.horizontalSpan = 2;
@@ -157,12 +157,12 @@ public class MessagePage extends AbstractPerfCakePage {
 		
 		headerControl = new TableViewerControl(container, true, SWT.NONE);
 		headerControl.getAddButton().addSelectionListener(
-				new AddHeaderSelectionAdapter(getEditingSupportCommands(),
+				new AddHeaderSelectionAdapter(getNestedCommands(),
 						headerViewer, message));
 		headerControl.getDeleteButton().addSelectionListener(
-				new DeleteHeaderSelectionAdapter(getEditingSupportCommands(),
+				new DeleteHeaderSelectionAdapter(getNestedCommands(),
 						headerViewer, message));
-		headerControl.getEditButton().addSelectionListener(new AbstractEditCommandSelectionAdapter(getEditingSupportCommands(), headerViewer) {
+		headerControl.getEditButton().addSelectionListener(new AbstractEditCommandSelectionAdapter(getNestedCommands(), headerViewer) {
 			
 			@Override
 			protected AbstractPerfCakeEditWizard createWizard(
@@ -171,7 +171,7 @@ public class MessagePage extends AbstractPerfCakePage {
 			}
 		});
 		
-		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
+		propertyViewer = new PropertyTableViewer(container, getNestedCommands());
 		propertyViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
 		data = WizardUtils.getTableViewerGridData();
 		data.horizontalSpan = 2;
@@ -179,15 +179,15 @@ public class MessagePage extends AbstractPerfCakePage {
 		
 		propertyControl = new TableViewerControl(container, true, SWT.NONE);
 		propertyControl.getAddButton().addSelectionListener(
-				new AddPropertySelectionAdapter(getEditingSupportCommands(),
+				new AddPropertySelectionAdapter(getNestedCommands(),
 						propertyViewer, message));
 		propertyControl.getDeleteButton().addSelectionListener(
-				new DeletePropertySelectionAdapter(getEditingSupportCommands(),
+				new DeletePropertySelectionAdapter(getNestedCommands(),
 						propertyViewer, message));
 		propertyControl.getEditButton().addSelectionListener(
-				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
+				new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer));
 		
-		refViewer = new ValidatorRefTableViewer(container, getEditingSupportCommands());
+		refViewer = new ValidatorRefTableViewer(container, getNestedCommands());
 		if (validators != null){
 			refViewer.setAlternativeValidators(validators);
 		}
@@ -199,13 +199,13 @@ public class MessagePage extends AbstractPerfCakePage {
 		//TODO: figure out ValidatorRef control
 		refControl = new TableViewerControl(container, false, SWT.NONE);
 		refControl.getAddButton().setText("Attach");
-		AttachValidatorSelectionAdapter attachAdapter = new AttachValidatorSelectionAdapter(getEditingSupportCommands(),
+		AttachValidatorSelectionAdapter attachAdapter = new AttachValidatorSelectionAdapter(getNestedCommands(),
 				refViewer, message);
 		attachAdapter.setValidators(validators);
 		refControl.getAddButton().addSelectionListener(attachAdapter);
 		refControl.getDeleteButton().setText("Detach");
 		refControl.getDeleteButton().addSelectionListener(
-				new DetachValidatorSelectionAdapter(getEditingSupportCommands(),
+				new DetachValidatorSelectionAdapter(getNestedCommands(),
 						refViewer, message));
 		
 		setControl(container);

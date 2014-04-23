@@ -99,7 +99,7 @@ public class MessagesPage extends AbstractPerfCakePage {
 		container.setLayout(layout);
 		GridData data;
 		
-		messagesViewer = new MessagesTableViewer(container, getEditingSupportCommands());
+		messagesViewer = new MessagesTableViewer(container, getNestedCommands());
 
 		messagesViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
 		data = WizardUtils.getTableViewerGridData();
@@ -107,16 +107,16 @@ public class MessagesPage extends AbstractPerfCakePage {
 		messagesViewer.getTable().setLayoutData(data);
 
 		messagesViewerControls = new TableViewerControl(container, true, SWT.NONE);
-		addMessageAdapter = new AddMessageSelectionAdapter(getEditingSupportCommands(),
+		addMessageAdapter = new AddMessageSelectionAdapter(getNestedCommands(),
 				messagesViewer, messagesModel, scenarioFile);
 		addMessageAdapter.setValidators(validators);
 		messagesViewerControls.getAddButton().addSelectionListener(addMessageAdapter); 
 
-		editMessageAdapter = new EditMessageSelectionAdapter(getEditingSupportCommands(),
+		editMessageAdapter = new EditMessageSelectionAdapter(getNestedCommands(),
 				messagesViewer);
 		editMessageAdapter.setValidators(validators);
 		messagesViewerControls.getEditButton().addSelectionListener(editMessageAdapter);
-		deleteMessageAdapter = new DeleteMessageSelectionAdapter(getEditingSupportCommands(),
+		deleteMessageAdapter = new DeleteMessageSelectionAdapter(getNestedCommands(),
 				messagesViewer, messagesModel, scenarioFile); 
 		messagesViewerControls.getDeleteButton().addSelectionListener(deleteMessageAdapter);
 		setControl(container);

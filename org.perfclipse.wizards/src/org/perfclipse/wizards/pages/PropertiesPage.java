@@ -88,19 +88,19 @@ public class PropertiesPage extends AbstractPerfCakePage {
 		container.setLayout(layout);
 		GridData data;
 		
-		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
+		propertyViewer = new PropertyTableViewer(container, getNestedCommands());
 		data = WizardUtils.getTableViewerGridData();
 		propertyViewer.getTable().setLayoutData(data);
 		
 		propertyControl = new TableViewerControl(container, true, SWT.NONE);
 		propertyControl.getAddButton().addSelectionListener(
-				new AddPropertySelectionAdapter(getEditingSupportCommands(),
+				new AddPropertySelectionAdapter(getNestedCommands(),
 						propertyViewer, properties));
 		propertyControl.getDeleteButton().addSelectionListener(
-				new DeletePropertySelectionAdapter(getEditingSupportCommands(),
+				new DeletePropertySelectionAdapter(getNestedCommands(),
 						propertyViewer, properties));
 		propertyControl.getEditButton().addSelectionListener(
-				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
+				new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer));
 		
 		setControl(container);
 		setPageComplete(true);

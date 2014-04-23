@@ -105,7 +105,7 @@ public class SenderPage extends AbstractPerfCakePage {
 		senderComboGridData.horizontalSpan = 2;
 		senderTypeViewer.getControl().setLayoutData(senderComboGridData);
 		
-		propertyViewer = new PropertyTableViewer(container, getEditingSupportCommands());
+		propertyViewer = new PropertyTableViewer(container, getNestedCommands());
 		
 		propertyViewerControls = new TableViewerControl(container, true, SWT.NONE);
 		GridData tableControlsData = new GridData();
@@ -113,11 +113,11 @@ public class SenderPage extends AbstractPerfCakePage {
 		propertyViewerControls.setLayoutData(tableControlsData);
 
 		propertyViewerControls.getAddButton().addSelectionListener(
-				new AddPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer, sender));
+				new AddPropertySelectionAdapter(getNestedCommands(), propertyViewer, sender));
 		propertyViewerControls.getDeleteButton().addSelectionListener(
-				new DeletePropertySelectionAdapter(getEditingSupportCommands(), propertyViewer, sender));
+				new DeletePropertySelectionAdapter(getNestedCommands(), propertyViewer, sender));
 		propertyViewerControls.getEditButton().addSelectionListener(
-				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertyViewer));
+				new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer));
 		
 		final Table propertyTable = propertyViewer.getTable();
 		GridData propertyTableData = WizardUtils.getTableViewerGridData();

@@ -159,7 +159,7 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		threadsText.setLayoutData(threadsSpinnerGridData);
 		
 
-		propertiesViewer = new PropertyTableViewer(container, getEditingSupportCommands());
+		propertiesViewer = new PropertyTableViewer(container, getNestedCommands());
 		
 		propertiesControls = new TableViewerControl(container, true, SWT.NONE);
 		GridData tableControlsData = new GridData();
@@ -167,12 +167,12 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		propertiesControls.setLayoutData(tableControlsData);
 
 		propertiesControls.getAddButton().addSelectionListener(
-				new AddPropertySelectionAdapter(getEditingSupportCommands(), propertiesViewer, generator));
+				new AddPropertySelectionAdapter(getNestedCommands(), propertiesViewer, generator));
 
 		propertiesControls.getEditButton().addSelectionListener(
-				new EditPropertySelectionAdapter(getEditingSupportCommands(), propertiesViewer));
+				new EditPropertySelectionAdapter(getNestedCommands(), propertiesViewer));
 		propertiesControls.getDeleteButton().addSelectionListener(
-				new DeletePropertySelectionAdapter(getEditingSupportCommands(), propertiesViewer, generator));
+				new DeletePropertySelectionAdapter(getNestedCommands(), propertiesViewer, generator));
 
 		final Table propertiesTable = propertiesViewer.getTable();
 		GridData tableData = WizardUtils.getTableViewerGridData();
