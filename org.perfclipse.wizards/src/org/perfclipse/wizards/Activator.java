@@ -30,6 +30,7 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		logger = new Logger(getLog(), PLUGIN_ID);
 		
 	}
 
