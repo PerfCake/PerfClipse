@@ -26,10 +26,14 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
@@ -76,6 +80,8 @@ public class GeneratorPage extends AbstractPerfCakePage {
 	
 	private GeneratorModel generator;
 	private List<PropertyModel> properties;
+
+	private EditPropertySelectionAdapter editPropertyAdapter;
 	
 
 	public GeneratorPage(){
@@ -161,6 +167,22 @@ public class GeneratorPage extends AbstractPerfCakePage {
 
 		propertiesViewer = new PropertyTableViewer(container, getNestedCommands());
 		
+		propertiesViewer.getTable().addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				SelectionEvent selEvent = new SelectionEvent(new Event());
+				//TODO: copy data from MouseEvent to selection event
+				
+				/*
+				 * Current implementation of widgetSelected method does not use
+				 * the argument so it could basically be null, but it should be 
+				 * fixed.
+				 */
+				editPropertyAdapter.widgetSelected(selEvent);
+			}
+			
+		});
 		propertiesControls = new TableViewerControl(container, true, SWT.NONE);
 		GridData tableControlsData = new GridData();
 		tableControlsData.verticalAlignment = SWT.BEGINNING;
@@ -169,8 +191,8 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		propertiesControls.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(getNestedCommands(), propertiesViewer, generator));
 
-		propertiesControls.getEditButton().addSelectionListener(
-				new EditPropertySelectionAdapter(getNestedCommands(), propertiesViewer));
+		editPropertyAdapter = new EditPropertySelectionAdapter(getNestedCommands(), propertiesViewer);
+		propertiesControls.getEditButton().addSelectionListener(editPropertyAdapter);
 		propertiesControls.getDeleteButton().addSelectionListener(
 				new DeletePropertySelectionAdapter(getNestedCommands(), propertiesViewer, generator));
 
