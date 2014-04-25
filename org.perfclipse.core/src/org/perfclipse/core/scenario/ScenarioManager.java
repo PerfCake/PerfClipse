@@ -77,7 +77,6 @@ public class ScenarioManager {
 		}
 
 		try {
-			log.info("Trying to execute scenario");
 			scenario.init();
 			scenario.run();
 		} catch (PerfCakeException e) {
