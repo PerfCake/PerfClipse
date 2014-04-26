@@ -118,18 +118,26 @@ public class ScenarioManager {
 		return new ScenarioModel(model);
 	}
 	
+	/**
+	 * The createXML method converts scenario model into XML representation 
+	 * according to PerfCake XML Schema and writes output to output stream out
+	 * @param model model to be converted
+	 * @param out OutputStream to which xml will be written
+	 * @throws ScenarioException
+	 */
 	public void createXML(org.perfcake.model.Scenario model, OutputStream out) throws ScenarioException{
 		try {
-			JAXBContext context;
-			context = JAXBContext.newInstance(org.perfcake.model.Scenario.class);
+			JAXBContext context = JAXBContext.newInstance(org.perfcake.model.Scenario.class);
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			
+			//obtain url to schema definition, which is located somewhere in PerfCakeBundle
 			URL schemaUrl = SchemaScanner.getSchema();
 			Schema schema = schemaFactory.newSchema(schemaUrl);
 			Marshaller marshaller = context.createMarshaller();
 			marshaller.setSchema(schema);
 
 			//add line breaks and indentation into output
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, new Boolean(true));
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			marshaller.marshal(model, out);
 		} catch (JAXBException e) {
 			log.error("JAXB error", e);
