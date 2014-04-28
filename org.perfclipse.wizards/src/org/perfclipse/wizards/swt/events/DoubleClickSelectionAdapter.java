@@ -34,8 +34,11 @@ import org.eclipse.swt.widgets.Event;
 public class DoubleClickSelectionAdapter extends MouseAdapter {
 
 	private SelectionAdapter adapter;
+
 	/**
-	 * 
+	 * Creates new instance of {@link DoubleClickSelectionAdapter} which will 
+	 * use selection adapter to handle double click.
+	 * @param adapter adapter which will be invoked on doubleClick
 	 */
 	public DoubleClickSelectionAdapter(SelectionAdapter adapter) {
 		if (adapter == null){
@@ -44,21 +47,32 @@ public class DoubleClickSelectionAdapter extends MouseAdapter {
 		this.adapter = adapter;
 	}
 
+	/**
+	 * Converts {@link MouseEvent} to {@link SelectionEvent} and calls 
+	 * {@link SelectionAdapter#widgetSelected(SelectionEvent)} on adapter.
+	 */
 	@Override
 	public void mouseDoubleClick(MouseEvent e) {
 		SelectionEvent selEvent = new SelectionEvent(mouseEventCopy(e));
 
-		/*
-		 * Current implementation of widgetSelected method does not use
-		 * the argument so it could basically be null, but it should be 
-		 * fixed.
-		 */
-		//TODO: copy data from MouseEvent to selection event
 		adapter.widgetSelected(selEvent);
 	}
 	
+	/**
+	 * Copies necessary data from mouse event into event.
+	 * 
+	 * TODO:
+	 * Current implementation of widgetSelected method does not use
+	 * the argument so it could basically be null, but it should be 
+	 * fixed.
+	 * 
+	 * @param mouseEvent event from which data will be copied
+	 * @return event event object representing mouse event
+	 */
 	private Event mouseEventCopy(MouseEvent mouseEvent){
 		Event event = new Event();
+		//TODO: copy ALL data from MouseEvent to selection event
+		event.widget = mouseEvent.widget;
 		
 		return event;
 	}
