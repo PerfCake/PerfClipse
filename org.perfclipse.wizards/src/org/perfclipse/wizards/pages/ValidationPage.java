@@ -35,6 +35,7 @@ import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.wizards.WizardUtils;
 import org.perfclipse.wizards.swt.events.AddValidatorSelectionAdapater;
 import org.perfclipse.wizards.swt.events.DeleteValidatorSelectionAdapter;
+import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
 import org.perfclipse.wizards.swt.events.EditValidatorSelectionAdapter;
 import org.perfclipse.wizards.swt.jface.ValidatorTableViewer;
 import org.perfclipse.wizards.swt.widgets.TableViewerControl;
@@ -108,6 +109,7 @@ public class ValidationPage extends AbstractPerfCakePage {
 		validatorControl.getAddButton().addSelectionListener(
 				new AddValidatorSelectionAdapater(getNestedCommands(), validatorViewer, validation));
 		editValidatorAdapter = new EditValidatorSelectionAdapter(getNestedCommands(), validatorViewer);
+		validatorViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editValidatorAdapter));
 		validatorControl.getEditButton().addSelectionListener(editValidatorAdapter);
 
 		deleteValidatorAdapter = new DeleteValidatorSelectionAdapter(getNestedCommands(), validatorViewer, validation);

@@ -39,6 +39,7 @@ import org.perfclipse.wizards.WizardUtils;
 import org.perfclipse.wizards.swt.ComboUtils;
 import org.perfclipse.wizards.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
 import org.perfclipse.wizards.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.wizards.swt.jface.PropertyTableViewer;
 import org.perfclipse.wizards.swt.jface.StringComboViewer;
@@ -112,12 +113,13 @@ public class SenderPage extends AbstractPerfCakePage {
 		tableControlsData.verticalAlignment = SWT.BEGINNING;
 		propertyViewerControls.setLayoutData(tableControlsData);
 
+		EditPropertySelectionAdapter editPropertyAdapter = new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer);
+		propertyViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editPropertyAdapter));
 		propertyViewerControls.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(getNestedCommands(), propertyViewer, sender));
 		propertyViewerControls.getDeleteButton().addSelectionListener(
 				new DeletePropertySelectionAdapter(getNestedCommands(), propertyViewer, sender));
-		propertyViewerControls.getEditButton().addSelectionListener(
-				new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer));
+		propertyViewerControls.getEditButton().addSelectionListener(editPropertyAdapter);
 		
 		final Table propertyTable = propertyViewer.getTable();
 		GridData propertyTableData = WizardUtils.getTableViewerGridData();

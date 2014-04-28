@@ -39,11 +39,13 @@ import org.perfclipse.wizards.AbstractPerfCakeEditWizard;
 import org.perfclipse.wizards.PeriodEditWizard;
 import org.perfclipse.wizards.WizardUtils;
 import org.perfclipse.wizards.swt.ComboUtils;
+import org.perfclipse.wizards.swt.events.AbstractCommandSelectionAdapter;
 import org.perfclipse.wizards.swt.events.AbstractEditCommandSelectionAdapter;
 import org.perfclipse.wizards.swt.events.AddPeriodSelectionAdapter;
 import org.perfclipse.wizards.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePeriodSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
 import org.perfclipse.wizards.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.wizards.swt.jface.PeriodTableViewer;
 import org.perfclipse.wizards.swt.jface.PropertyTableViewer;
@@ -134,19 +136,25 @@ public class DestinationPage extends AbstractPerfCakePage {
 		data = WizardUtils.getTableViewerGridData();
 		data.horizontalSpan = 2;
 		periodViewer.getTable().setLayoutData(data);
-		
-		periodControl = new TableViewerControl(container, true, SWT.NONE);
-		periodControl.getAddButton().addSelectionListener(
-				new AddPeriodSelectionAdapter(getNestedCommands(), periodViewer, destination));
 
-		periodControl.getEditButton().addSelectionListener(new AbstractEditCommandSelectionAdapter(getNestedCommands(), periodViewer) {
+		AbstractCommandSelectionAdapter editPeriodSelectionAdapter = 
+				new AbstractEditCommandSelectionAdapter(getNestedCommands(), periodViewer) {
 			
 			@Override
 			protected AbstractPerfCakeEditWizard createWizard(
 					IStructuredSelection selection) {
 				return new PeriodEditWizard((PeriodModel) selection.getFirstElement());
 			}
-		});
+		};
+
+		periodViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editPeriodSelectionAdapter));
+		
+		periodControl = new TableViewerControl(container, true, SWT.NONE);
+		periodControl.getAddButton().addSelectionListener(
+				new AddPeriodSelectionAdapter(getNestedCommands(), periodViewer, destination));
+
+
+		periodControl.getEditButton().addSelectionListener(editPeriodSelectionAdapter);
 		periodControl.getDeleteButton().addSelectionListener(new DeletePeriodSelectionAdapter(getNestedCommands(), periodViewer, destination));
 			
 		
@@ -155,10 +163,11 @@ public class DestinationPage extends AbstractPerfCakePage {
 		data.horizontalSpan = 2;
 		propertyViewer.getTable().setLayoutData(data);
 		
-		
+		EditPropertySelectionAdapter editPropertyAdapter = new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer);
+		propertyViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editPropertyAdapter));
 		propertyControl = new TableViewerControl(container, true, SWT.NONE);
 		propertyControl.getAddButton().addSelectionListener(new AddPropertySelectionAdapter(getNestedCommands(), propertyViewer, destination));
-		propertyControl.getEditButton().addSelectionListener(new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer));
+		propertyControl.getEditButton().addSelectionListener(editPropertyAdapter);
 		propertyControl.getEditButton().addSelectionListener(new DeletePropertySelectionAdapter(getNestedCommands(), propertyViewer, destination));
 		
 		setControl(container);

@@ -44,6 +44,7 @@ import org.perfclipse.wizards.swt.events.AddDestinationSelectionAdapter;
 import org.perfclipse.wizards.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeleteDestinationSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
 import org.perfclipse.wizards.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.wizards.swt.jface.DestinationTableViewer;
 import org.perfclipse.wizards.swt.jface.PropertyTableViewer;
@@ -132,18 +133,22 @@ public class ReporterPage extends AbstractPerfCakePage {
 		data.horizontalSpan = 2;
 		destinationViewer.getTable().setLayoutData(data);
 		
-		destinationControl = new TableViewerControl(container, true, SWT.NONE);
-		destinationControl.getAddButton().addSelectionListener(
-				new AddDestinationSelectionAdapter(getNestedCommands(), destinationViewer, reporter));
-		destinationControl.getEditButton().addSelectionListener(
+		AbstractEditCommandSelectionAdapter editDestinationSelectionAdapter =
 				new AbstractEditCommandSelectionAdapter(getNestedCommands(), destinationViewer) {
-			
+
 			@Override
 			protected AbstractPerfCakeEditWizard createWizard(
 					IStructuredSelection selection) {
 				return new DestinationEditWizard((DestinationModel) selection.getFirstElement());
 			}
-		});
+		};
+
+		destinationViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editDestinationSelectionAdapter));
+
+		destinationControl = new TableViewerControl(container, true, SWT.NONE);
+		destinationControl.getAddButton().addSelectionListener(
+				new AddDestinationSelectionAdapter(getNestedCommands(), destinationViewer, reporter));
+		destinationControl.getEditButton().addSelectionListener(editDestinationSelectionAdapter);
 		destinationControl.getDeleteButton().addSelectionListener(
 				new DeleteDestinationSelectionAdapter(getNestedCommands(), destinationViewer, reporter));
 		
@@ -152,6 +157,8 @@ public class ReporterPage extends AbstractPerfCakePage {
 		data.horizontalSpan = 2;
 		propertyViewer.getTable().setLayoutData(data);
 		
+		EditPropertySelectionAdapter editPropertyAdapter = new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer);
+		propertyViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editPropertyAdapter));
 		propertyControl = new TableViewerControl(container, true, SWT.NONE);
 		propertyControl.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(getNestedCommands(),
@@ -159,8 +166,7 @@ public class ReporterPage extends AbstractPerfCakePage {
 		propertyControl.getDeleteButton().addSelectionListener(
 				new DeletePropertySelectionAdapter(getNestedCommands(),
 						propertyViewer, reporter));
-		propertyControl.getEditButton().addSelectionListener(
-				new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer));
+		propertyControl.getEditButton().addSelectionListener(editPropertyAdapter);
 		
 		setControl(container);
 		super.createControl(parent);

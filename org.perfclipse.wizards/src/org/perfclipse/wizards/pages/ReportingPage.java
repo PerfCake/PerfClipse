@@ -43,6 +43,7 @@ import org.perfclipse.wizards.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.AddReporterSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeleteReporterSelectionAdapter;
+import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
 import org.perfclipse.wizards.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.wizards.swt.jface.PropertyTableViewer;
 import org.perfclipse.wizards.swt.jface.ReporterTableViewer;
@@ -109,10 +110,7 @@ public class ReportingPage extends AbstractPerfCakePage {
 		GridData data;
 		
 		reporterViewer = new ReporterTableViewer(container, getNestedCommands());
-		reporterViewerControl = new TableViewerControl(container, true, SWT.NONE);
-		reporterViewerControl.getAddButton().addSelectionListener(
-				new AddReporterSelectionAdapter(getNestedCommands(), reporterViewer, reporting));
-		reporterViewerControl.getEditButton().addSelectionListener(
+		AbstractEditCommandSelectionAdapter editReporterAdapter = 
 				new AbstractEditCommandSelectionAdapter(getNestedCommands(), reporterViewer) {
 			
 			@Override
@@ -120,7 +118,14 @@ public class ReportingPage extends AbstractPerfCakePage {
 					IStructuredSelection selection) {
 				return new ReporterEditWizard((ReporterModel) selection.getFirstElement());
 			}
-		});
+		};
+		
+		reporterViewer.getTable().addMouseListener(new  DoubleClickSelectionAdapter(editReporterAdapter));
+				
+		reporterViewerControl = new TableViewerControl(container, true, SWT.NONE);
+		reporterViewerControl.getAddButton().addSelectionListener(
+				new AddReporterSelectionAdapter(getNestedCommands(), reporterViewer, reporting));
+		reporterViewerControl.getEditButton().addSelectionListener(editReporterAdapter);
 		reporterViewerControl.getDeleteButton().addSelectionListener(
 				new DeleteReporterSelectionAdapter(getNestedCommands(), reporterViewer, reporting));
 		final Table reporterTable = reporterViewer.getTable();
@@ -133,6 +138,8 @@ public class ReportingPage extends AbstractPerfCakePage {
 		data = WizardUtils.getTableViewerGridData();
 		propertyViewer.getTable().setLayoutData(data);
 		
+		EditPropertySelectionAdapter editPropertyAdapter = new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer);
+		propertyViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editPropertyAdapter));
 		propertyControl = new TableViewerControl(container, true, SWT.NONE);
 		propertyControl.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(getNestedCommands(),
@@ -140,8 +147,7 @@ public class ReportingPage extends AbstractPerfCakePage {
 		propertyControl.getDeleteButton().addSelectionListener(
 				new DeletePropertySelectionAdapter(getNestedCommands(),
 						propertyViewer, reporting));
-		propertyControl.getEditButton().addSelectionListener(
-				new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer));
+		propertyControl.getEditButton().addSelectionListener(editPropertyAdapter);
 		
 		setControl(container);
 		super.createControl(parent);

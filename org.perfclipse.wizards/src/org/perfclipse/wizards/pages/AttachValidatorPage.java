@@ -23,6 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.core.model.ValidatorModel;
@@ -56,6 +58,17 @@ public class AttachValidatorPage extends ValidationPage {
 		setDescription("Select validator to attach");
 		setPageComplete(false);
 		getValidatorViewer().addSelectionChangedListener(new UpdateSelectionChangeListener(this));
+		getValidatorViewer().getTable().addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				if (isPageComplete() && getWizard().canFinish()){
+//					getWizard().performFinish();
+				}
+				super.mouseDoubleClick(e);
+			}
+			
+		});
 	}
 	
 

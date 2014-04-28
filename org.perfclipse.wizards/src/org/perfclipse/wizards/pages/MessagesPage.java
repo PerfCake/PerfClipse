@@ -36,6 +36,7 @@ import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.wizards.WizardUtils;
 import org.perfclipse.wizards.swt.events.AddMessageSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeleteMessageSelectionAdapter;
+import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
 import org.perfclipse.wizards.swt.events.EditMessageSelectionAdapter;
 import org.perfclipse.wizards.swt.jface.MessagesTableViewer;
 import org.perfclipse.wizards.swt.widgets.TableViewerControl;
@@ -114,6 +115,7 @@ public class MessagesPage extends AbstractPerfCakePage {
 
 		editMessageAdapter = new EditMessageSelectionAdapter(getNestedCommands(),
 				messagesViewer);
+		messagesViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editMessageAdapter));
 		editMessageAdapter.setValidators(validators);
 		messagesViewerControls.getEditButton().addSelectionListener(editMessageAdapter);
 		deleteMessageAdapter = new DeleteMessageSelectionAdapter(getNestedCommands(),

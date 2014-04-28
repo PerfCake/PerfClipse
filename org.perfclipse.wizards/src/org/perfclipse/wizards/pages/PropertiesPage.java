@@ -33,6 +33,7 @@ import org.perfclipse.core.model.PropertyModel;
 import org.perfclipse.wizards.WizardUtils;
 import org.perfclipse.wizards.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
 import org.perfclipse.wizards.swt.events.EditPropertySelectionAdapter;
 import org.perfclipse.wizards.swt.jface.PropertyTableViewer;
 import org.perfclipse.wizards.swt.widgets.TableViewerControl;
@@ -92,6 +93,8 @@ public class PropertiesPage extends AbstractPerfCakePage {
 		data = WizardUtils.getTableViewerGridData();
 		propertyViewer.getTable().setLayoutData(data);
 		
+		EditPropertySelectionAdapter editPropertyAdapter = new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer);
+		propertyViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editPropertyAdapter));
 		propertyControl = new TableViewerControl(container, true, SWT.NONE);
 		propertyControl.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(getNestedCommands(),
@@ -99,8 +102,7 @@ public class PropertiesPage extends AbstractPerfCakePage {
 		propertyControl.getDeleteButton().addSelectionListener(
 				new DeletePropertySelectionAdapter(getNestedCommands(),
 						propertyViewer, properties));
-		propertyControl.getEditButton().addSelectionListener(
-				new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer));
+		propertyControl.getEditButton().addSelectionListener(editPropertyAdapter);
 		
 		setControl(container);
 		setPageComplete(true);
