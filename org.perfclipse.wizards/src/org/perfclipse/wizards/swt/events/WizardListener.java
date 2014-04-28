@@ -17,13 +17,18 @@
  * limitations under the License.
  */
 
-package org.perfclipse.wizards;
-
+package org.perfclipse.wizards.swt.events;
 
 /**
+ * General listener mechanism for wizards.
  * @author Jakub Knetl
  *
  */
-public abstract class AbstractPerfCakeAddWizard extends AbstractPerfCakeWizard {
+public interface WizardListener {
+
+	/**
+	 * General action which is performed when listener is notified.
+	 */
+	public void performAction();
 
 }

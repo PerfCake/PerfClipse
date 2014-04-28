@@ -25,14 +25,13 @@ import java.util.ListIterator;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.wizard.Wizard;
 
 /**
  * Implementation of Wizard which has API for managing Eclipse GEF commands 
  * 
  * @author Jakub Knetl
  */
-public abstract class AbstractPerfCakeEditWizard extends Wizard {
+public abstract class AbstractPerfCakeEditWizard extends AbstractPerfCakeWizard {
 
 	/**
 	 * List of commands which nested wizard pages creates

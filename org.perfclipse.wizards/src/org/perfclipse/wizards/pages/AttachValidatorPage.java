@@ -28,6 +28,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.core.model.ValidatorModel;
+import org.perfclipse.wizards.AbstractPerfCakeWizard;
 
 /**
  * @author Jakub Knetl
@@ -58,12 +59,19 @@ public class AttachValidatorPage extends ValidationPage {
 		setDescription("Select validator to attach");
 		setPageComplete(false);
 		getValidatorViewer().addSelectionChangedListener(new UpdateSelectionChangeListener(this));
+		
+		//TODO: since this page extends validation page, the double click listener from
+		// validation page must be removed, since it means edit
+		
 		getValidatorViewer().getTable().addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				if (isPageComplete() && getWizard().canFinish()){
-//					getWizard().performFinish();
+					getWizard().performFinish();
+					if (getWizard() instanceof AbstractPerfCakeWizard){
+						((AbstractPerfCakeWizard) getWizard()).notifyWizardListeners();
+					}
 				}
 				super.mouseDoubleClick(e);
 			}

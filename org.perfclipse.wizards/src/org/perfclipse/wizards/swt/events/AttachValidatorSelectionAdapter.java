@@ -26,7 +26,10 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
 import org.perfclipse.core.commands.AddValidatorRefCommand;
@@ -37,7 +40,6 @@ import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.core.model.ValidatorRefModel;
 import org.perfclipse.wizards.ValidatorAttachWizard;
-import org.perfclipse.wizards.WizardUtils;
 
 /**
  * @author Jakub Knetl
@@ -73,8 +75,19 @@ public class AttachValidatorSelectionAdapter extends
 		ValidationModel validation = mapper.getValidation();
 
 		wizard = new ValidatorAttachWizard(validation);
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		final WizardDialog dialog = new WizardDialog(shell, wizard);
+		
+		wizard.addWizardListener(new WizardListener() {
+			
+			@Override
+			public void performAction() {
+				dialog.close();
+			}
+		});
+
 		wizard.setValidators(validators);
-		if (WizardUtils.showWizardDialog(wizard) != Window.OK)
+		if (dialog.open() != Window.OK)
 			return;
 		
 		//Execute wizard command (since validator must exist at the time when
