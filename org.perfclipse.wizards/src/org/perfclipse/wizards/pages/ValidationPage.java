@@ -57,6 +57,7 @@ public class ValidationPage extends AbstractPerfCakePage {
 	private List<MessageModel> messages;
 	private DeleteValidatorSelectionAdapter deleteValidatorAdapter;
 	private EditValidatorSelectionAdapter editValidatorAdapter;
+	protected DoubleClickSelectionAdapter doubleClickValidatorAdapter;
 	
 	public ValidationPage(){
 		this(VALIDATION_PAGE_NAME, false);
@@ -109,7 +110,8 @@ public class ValidationPage extends AbstractPerfCakePage {
 		validatorControl.getAddButton().addSelectionListener(
 				new AddValidatorSelectionAdapater(getNestedCommands(), validatorViewer, validation));
 		editValidatorAdapter = new EditValidatorSelectionAdapter(getNestedCommands(), validatorViewer);
-		validatorViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editValidatorAdapter));
+		doubleClickValidatorAdapter = new DoubleClickSelectionAdapter(editValidatorAdapter);
+		validatorViewer.getTable().addMouseListener(doubleClickValidatorAdapter);
 		validatorControl.getEditButton().addSelectionListener(editValidatorAdapter);
 
 		deleteValidatorAdapter = new DeleteValidatorSelectionAdapter(getNestedCommands(), validatorViewer, validation);

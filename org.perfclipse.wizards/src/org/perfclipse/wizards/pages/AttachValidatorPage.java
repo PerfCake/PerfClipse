@@ -60,9 +60,9 @@ public class AttachValidatorPage extends ValidationPage {
 		setPageComplete(false);
 		getValidatorViewer().addSelectionChangedListener(new UpdateSelectionChangeListener(this));
 		
-		//TODO: since this page extends validation page, the double click listener from
-		// validation page must be removed, since it means edit
-		
+		//remove double click listener which was added in superclass ValidationPage
+		getValidatorViewer().getTable().removeMouseListener(doubleClickValidatorAdapter);
+
 		getValidatorViewer().getTable().addMouseListener(new MouseAdapter() {
 
 			@Override
