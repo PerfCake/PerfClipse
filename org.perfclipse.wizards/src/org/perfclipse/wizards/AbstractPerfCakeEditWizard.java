@@ -68,6 +68,7 @@ public abstract class AbstractPerfCakeEditWizard extends Wizard {
 	 */
 	@Override
 	public boolean performFinish() {
+		undoNestedCommands();
 
 		for (Command c : nestedCommands){
 			command.add(c);
