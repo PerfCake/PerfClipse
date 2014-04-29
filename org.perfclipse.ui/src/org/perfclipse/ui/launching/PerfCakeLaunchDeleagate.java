@@ -168,6 +168,8 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 		String projectName = configuration.getAttribute(PerfCakeLaunchConstants.PROJECT, "");
 		String filePath = configuration.getAttribute(PerfCakeLaunchConstants.SCENARIO_FILE, "");
 		
+		if ("".equals(projectName) || "".equals(filePath))
+			return null;
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 		return project.getFile(filePath);
 	}

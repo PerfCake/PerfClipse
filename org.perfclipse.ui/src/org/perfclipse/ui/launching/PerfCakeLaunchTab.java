@@ -290,7 +290,7 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 		properties = new ArrayList<>();
 		configuration.setAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES_NAMES, new ArrayList<String>());
 		configuration.setAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES_VALUES, new ArrayList<String>());
-		propertyViewer.setInput(properties);
+		//propertyViewer.setInput(properties);
 
 	}
 
