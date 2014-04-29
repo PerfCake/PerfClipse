@@ -72,7 +72,7 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 	public boolean performFinish() {
 		
 		message = new ObjectFactory().createScenarioMessagesMessage();
-		message.setMultiplicity(String.valueOf(messagePage.getMultiplicity()));
+		message.setMultiplicity(messagePage.getMultiplicity());
 		message.setUri(messagePage.getUri());
 		for (TableItem i : messagePage.getPropertyViewer().getTable().getItems()){
 			if (i.getData() instanceof PropertyModel){

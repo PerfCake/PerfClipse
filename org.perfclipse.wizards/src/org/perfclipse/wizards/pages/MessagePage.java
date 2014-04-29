@@ -28,7 +28,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.perfcake.model.Header;
 import org.perfcake.model.Property;
@@ -74,7 +73,7 @@ public class MessagePage extends AbstractPerfCakePage {
 	private Label uriLabel;
 	private Text uriText;
 	private Label multiplicityLabel;
-	private Spinner multiplicitySpinner;
+	private Text multiplicityText;
 
 	private Composite container;
 	private HeaderTableViewer headerViewer;
@@ -143,12 +142,10 @@ public class MessagePage extends AbstractPerfCakePage {
 		multiplicityLabel = new Label(container, SWT.NONE);
 		multiplicityLabel.setText("Multiplicity");
 		
-		multiplicitySpinner = new Spinner(container, SWT.NONE);
-		multiplicitySpinner.setMinimum(0);
-		multiplicitySpinner.setMaximum(Integer.MAX_VALUE);
+		multiplicityText = new Text(container, SWT.NONE);
 		data = new GridData(SWT.FILL, SWT.BEGINNING, false, false);
 		data.horizontalSpan = 2;
-		multiplicitySpinner.setLayoutData(data);
+		multiplicityText.setLayoutData(data);
 
 		headerViewer = new HeaderTableViewer(container, getNestedCommands());
 		headerViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
@@ -238,10 +235,9 @@ public class MessagePage extends AbstractPerfCakePage {
 			uriText.setText(message.getMessage().getUri());
 		}
 		if (message.getMessage().getMultiplicity() != null){
-			multiplicitySpinner.setSelection(
-					Integer.valueOf(message.getMessage().getMultiplicity()));
+			multiplicityText.setText(message.getMessage().getMultiplicity());
 		} else{
-			multiplicitySpinner.setSelection(1);
+			multiplicityText.setText("1");
 		}
 		if (properties != null)
 			propertyViewer.setInput(properties);
@@ -254,7 +250,7 @@ public class MessagePage extends AbstractPerfCakePage {
 
 	@Override
 	protected void fillDefaultValues() {
-		multiplicitySpinner.setSelection(1);
+		multiplicityText.setText("1");
 		super.fillDefaultValues();
 	}
 	
@@ -262,8 +258,8 @@ public class MessagePage extends AbstractPerfCakePage {
 		return uriText.getText();
 	}
 	
-	public int getMultiplicity(){
-		return multiplicitySpinner.getSelection();
+	public String getMultiplicity(){
+		return multiplicityText.getText();
 	}
 
 	public PropertyTableViewer getPropertyViewer() {
