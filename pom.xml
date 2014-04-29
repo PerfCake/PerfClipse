@@ -89,6 +89,13 @@
                     <storepass>keystore password</storepass>
                     <keypass>key password</keypass>
                     -->
+                    
+                    <archiveDirectory>${project.build.directory}/repository</archiveDirectory>
+                    <includes>
+                        <include>features/*.jar</include>
+                        <!-- potentially only sign specific plugins -->
+                        <include>plugins/*.jar</include>
+                    </includes>
                 </configuration>
             </plugin>
 

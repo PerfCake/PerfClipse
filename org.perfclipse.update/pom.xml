@@ -21,6 +21,13 @@
                 <configuration>
                     <includeAllDependencies>true</includeAllDependencies>
                 </configuration>
+<!--                 <executions> -->
+<!--                     <execution> -->
+<!--                         <id>default-assemble-repository</id> -->
+<!--                          execute the assemble step in prepare-package -->
+<!--                          <phase>prepare-package</phase> -->
+<!--                     </execution> -->
+<!--                 </executions> -->
             </plugin>
         </plugins>
     </build>
