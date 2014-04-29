@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.perfclipse.core.model.PropertyModel;
+import org.perfclipse.wizards.PropertyAddWizard;
 
 /**
  * @author Jakub Knetl
@@ -94,6 +95,9 @@ public class PropertyPage extends AbstractPerfCakePage {
 		valueText.setLayoutData(data);
 		valueText.addModifyListener(new UpdateModifyListener(this));
 		
+		//update values according to stored values in the wizard
+		if (getWizard() instanceof PropertyAddWizard)
+			((PropertyAddWizard) getWizard()).updateValues();
 		setControl(container);
 		super.createControl(parent);
 	}

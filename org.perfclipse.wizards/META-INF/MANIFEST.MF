@@ -12,4 +12,7 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.gef.commands
-Export-Package: org.perfclipse.wizards
+Export-Package: org.perfclipse.wizards,
+ org.perfclipse.wizards.swt.events,
+ org.perfclipse.wizards.swt.jface,
+ org.perfclipse.wizards.swt.widgets

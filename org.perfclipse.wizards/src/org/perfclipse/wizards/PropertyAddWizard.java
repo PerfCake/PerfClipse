@@ -66,5 +66,28 @@ public class PropertyAddWizard extends AbstractPerfCakeAddWizard {
 	public String getValue() {
 		return value;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
+	/**
+	 * Updates values of property name and property Text in PropertyPage
+	 */
+	public void updateValues(){
+		if (propertyPage == null)
+			return;
+		if (name != null){
+			propertyPage.getNameText().setText(name);
+		}
+		if (value != null){
+			propertyPage.getValueText().setText(value);
+		}
+	}
+	
 	
 }
