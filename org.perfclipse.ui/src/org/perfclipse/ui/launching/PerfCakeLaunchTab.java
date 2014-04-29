@@ -57,6 +57,7 @@ import org.perfclipse.core.PerfClipseConstants;
 import org.perfclipse.core.logging.Logger;
 import org.perfclipse.ui.Activator;
 import org.perfclipse.wizards.PropertyAddWizard;
+import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
 import org.perfclipse.wizards.swt.widgets.TableViewerControl;
 
 public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
@@ -228,7 +229,7 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 			
 		});
 		
-		propertyControl.getEditButton().addSelectionListener(new SelectionAdapter() {
+		SelectionAdapter editPropertyAdapter = new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -254,7 +255,10 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 				}
 			}
 			
-		});
+		};
+		
+		propertyViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editPropertyAdapter));
+		propertyControl.getEditButton().addSelectionListener(editPropertyAdapter);
 
 		propertyControl.getDeleteButton().addSelectionListener(new SelectionAdapter() {
 
