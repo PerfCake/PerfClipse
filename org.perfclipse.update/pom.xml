@@ -24,10 +24,45 @@
 <!--                 <executions> -->
 <!--                     <execution> -->
 <!--                         <id>default-assemble-repository</id> -->
-<!--                          execute the assemble step in prepare-package -->
 <!--                          <phase>prepare-package</phase> -->
 <!--                     </execution> -->
 <!--                 </executions> -->
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jarsigner-plugin</artifactId>
+                <version>1.3.2</version>
+                <executions>
+                    <execution>
+                        <id>sign</id>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>${jarsigner.skip}</skip>
+                    <!--
+                    <keystore>path-to-keystore</keystore>
+                    <alias>alias of the certificate</alias>
+                    <storepass>keystore password</storepass>
+                    <keypass>key password</keypass>
+                    -->
+                    
+                    <archiveDirectory>${project.build.directory}/repository</archiveDirectory>
+                    <includes>
+                        <include>features/*.jar</include>
+                        <include>plugins/org.perfcake*.jar</include>
+                        <include>plugins/org.perfclipse*.jar</include>
+                        <include>plugins/org.apache.commons.math*.jar</include>
+                        <include>plugins/javax.websocket-api*.jar</include>
+                        <include>plugins/log4j*.jar</include>
+                        <include>plugins/org.testng*.jar</include>
+                    </includes>
+                    <excludes>
+                        <exclude>plugins/org.eclipse*.jar</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
