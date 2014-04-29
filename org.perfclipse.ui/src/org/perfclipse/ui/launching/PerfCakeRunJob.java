@@ -22,7 +22,6 @@ import org.perfclipse.core.logging.Logger;
 import org.perfclipse.core.scenario.ScenarioException;
 import org.perfclipse.core.scenario.ScenarioManager;
 import org.perfclipse.ui.Activator;
-import org.perfclipse.ui.launching.PerfCakeLaunchDeleagate.SystemProperty;
 
 final public class PerfCakeRunJob extends Job{
 	

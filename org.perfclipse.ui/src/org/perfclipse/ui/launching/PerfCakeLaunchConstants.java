@@ -25,6 +25,7 @@ public class PerfCakeLaunchConstants {
 	public static  final String PROJECT = "project";
 	public static final String SCENARIO_FILE = "scenario file";
 	public static final String PERFCAKE_RUN_JOB_FAMILY = "org.perfclipse.ui.launching.PerfCakeRunJob";
-	public static final String PERFCAKE_SYSTEM_PROPERTIES = "perfcake properties";
+	public static final String PERFCAKE_SYSTEM_PROPERTIES_NAMES = "perfcake properties names";
+	public static final String PERFCAKE_SYSTEM_PROPERTIES_VALUES = "perfcake properties values";
 
 }

@@ -20,6 +20,10 @@
 package org.perfclipse.ui.launching;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -30,10 +34,14 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -45,9 +53,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.perfclipse.core.PerfClipseConstants;
 import org.perfclipse.core.logging.Logger;
 import org.perfclipse.ui.Activator;
-import org.perfclipse.core.PerfClipseConstants;
+import org.perfclipse.wizards.PropertyAddWizard;
+import org.perfclipse.wizards.swt.widgets.TableViewerControl;
 
 public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 	
@@ -55,19 +65,23 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 	
 	static final Logger log = Activator.getDefault().getLogger();
 
-	Composite container;
-	GridLayout layout;
+	private Composite container;
+	private GridLayout layout;
 
-	Label projectLabel; 
-	Text projectText;
-	Button projectBrowseButton;
+	private Label projectLabel; 
+	private Text projectText;
+	private Button projectBrowseButton;
 	
-	Label scenarioLabel;
-	Text scenarioText;
-	Button scenarioBrowseButton;
+	private Label scenarioLabel;
+	private Text scenarioText;
+	private Button scenarioBrowseButton;
 	
-	Label propertyLabel;
-	Text propertyText;
+	private Label propertyLabel;
+	private TableViewer propertyViewer;
+	private TableViewerControl propertyControl;
+	
+	private List<SystemProperty> properties;
+
 
 	@Override
 	public void createControl(final Composite parent) {
@@ -148,19 +162,119 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 		propertyLabel = new Label(container, SWT.NONE);
 		propertyLabel.setText("PerfCake system properties: ");
 		
-		propertyText = new Text(container, SWT.MULTI);
-		propertyText.addModifyListener(new ModifyListener() {
-			
-			@Override
-			public void modifyText(ModifyEvent e) {
-				updateLaunchConfigurationDialog();
-				
-			}
-		});
-		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-		data.horizontalSpan = 2;
-		propertyText.setLayoutData(data);
+		propertyViewer = new TableViewer(container);
+		propertyViewer.setContentProvider(ArrayContentProvider.getInstance());
+		propertyViewer.setInput(properties);
+		
+		TableViewerColumn nameColumn = new TableViewerColumn(propertyViewer, SWT.NONE);
+		nameColumn.getColumn().setWidth(200);
+		nameColumn.getColumn().setText("Property name");
+		nameColumn.setLabelProvider(new ColumnLabelProvider(){
 
+			@Override
+			public String getText(Object element) {
+				if (element instanceof SystemProperty)
+					return ((SystemProperty) element).getName();
+				return super.getText(element);
+			}
+			
+		});
+
+		
+		TableViewerColumn valueColumn = new TableViewerColumn(propertyViewer, SWT.NONE);
+		valueColumn.getColumn().setWidth(200);
+		valueColumn.getColumn().setText("Property value");
+		valueColumn.setLabelProvider(new ColumnLabelProvider(){
+
+			@Override
+			public String getText(Object element) {
+				if (element instanceof SystemProperty)
+					return ((SystemProperty) element).getValue();
+				return super.getText(element);
+			}
+			
+		});
+		//TODO: add listener which is ivoked when input changed
+//		propertyText.addModifyListener(new ModifyListener() {
+//			
+//			@Override
+//			public void modifyText(ModifyEvent e) {
+//				updateLaunchConfigurationDialog();
+//				
+//			}
+//		});
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+		propertyViewer.getTable().setLayoutData(data);
+		
+		propertyControl = new TableViewerControl(container, true, SWT.NONE);
+		propertyControl.getAddButton().addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				PropertyAddWizard wizard = new PropertyAddWizard();
+				
+				WizardDialog dialog = new WizardDialog(getShell(), wizard);
+				
+				if (dialog.open() == Window.OK){
+					SystemProperty property = new SystemProperty();
+					property.setName(wizard.getName());
+					property.setValue(wizard.getValue());
+					
+					properties.add(property);
+					propertyViewer.add(property);
+					updateLaunchConfigurationDialog();
+				}
+			}
+			
+		});
+		
+		propertyControl.getEditButton().addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				PropertyAddWizard wizard = new PropertyAddWizard();
+				IStructuredSelection sel = (IStructuredSelection) propertyViewer.getSelection();
+				if (sel.size() != 1)
+					return;
+				
+				SystemProperty property = (SystemProperty) sel.getFirstElement();
+				
+				wizard.setName(property.getName());
+				wizard.setValue(property.getValue());
+				wizard.updateValues();
+
+				WizardDialog dialog = new WizardDialog(getShell(), wizard);
+				
+				if (dialog.open() == Window.OK){
+					property.setName(wizard.getName());
+					property.setValue(wizard.getValue());
+					
+					propertyViewer.refresh(property);
+					updateLaunchConfigurationDialog();
+				}
+			}
+			
+		});
+
+		propertyControl.getDeleteButton().addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IStructuredSelection sel = (IStructuredSelection) propertyViewer.getSelection();
+				if (sel.size() <= 0)
+					return;
+				
+				for (Object selected : sel.toList()){
+
+					SystemProperty property = (SystemProperty) selected;
+				
+					properties.remove(property);
+					propertyViewer.remove(property);
+				}
+				updateLaunchConfigurationDialog();
+			}
+			
+		});
 		
 		setControl(container);
 	}
@@ -169,7 +283,10 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(PerfCakeLaunchConstants.PROJECT,	"");
 		configuration.setAttribute(PerfCakeLaunchConstants.SCENARIO_FILE, "");
-		configuration.setAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES, "");
+		properties = new ArrayList<>();
+		configuration.setAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES_NAMES, new ArrayList<String>());
+		configuration.setAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES_VALUES, new ArrayList<String>());
+		propertyViewer.setInput(properties);
 
 	}
 
@@ -177,13 +294,29 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		projectText.setText("");
 		scenarioText.setText("");
-		propertyText.setText("");
+		propertyViewer.setInput(Collections.EMPTY_LIST);
 		
 		
 		try{
 			projectText.setText(configuration.getAttribute(PerfCakeLaunchConstants.PROJECT, ""));
 			scenarioText.setText(configuration.getAttribute(PerfCakeLaunchConstants.SCENARIO_FILE, ""));
-			propertyText.setText(configuration.getAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES, ""));
+			List<String> propertyNames =
+					configuration.getAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES_NAMES, new ArrayList<String>());
+			List<String> propertyValues =
+					configuration.getAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES_VALUES, new ArrayList<String>());
+			
+			if (propertyNames.size() != propertyValues.size()){
+				throw new IllegalArgumentException("The list of the propties names and values have not same size");
+			}
+			
+			properties = new ArrayList<>(propertyNames.size());
+			for (int i = 0; i < propertyNames.size(); i++){
+				SystemProperty p = new SystemProperty();
+				p.setName(propertyNames.get(i));
+				p.setValue(propertyValues.get(i));
+				properties.add(p);
+			}
+			propertyViewer.setInput(properties);
 
 		} catch (CoreException e){
 			log.error("Cannot obtain attributes from launch configuration", e);
@@ -196,7 +329,17 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(PerfCakeLaunchConstants.PROJECT, projectText.getText());
 		configuration.setAttribute(PerfCakeLaunchConstants.SCENARIO_FILE, scenarioText.getText());
-		configuration.setAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES, propertyText.getText());
+
+		List<String> propertyNames = new ArrayList<>(properties.size());
+		List<String> propertyValues = new ArrayList<>(properties.size());
+		
+		for (SystemProperty p : properties){
+			propertyNames.add(p.getName());
+			propertyValues.add(p.getValue());
+		}
+
+		configuration.setAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES_NAMES, propertyNames);
+		configuration.setAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES_VALUES, propertyValues);
 	}
 	
 	 @Override
