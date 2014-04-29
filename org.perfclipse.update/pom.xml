@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <relativePath>../pom.xml</relativePath>
@@ -21,12 +19,12 @@
                 <configuration>
                     <includeAllDependencies>true</includeAllDependencies>
                 </configuration>
-<!--                 <executions> -->
-<!--                     <execution> -->
-<!--                         <id>default-assemble-repository</id> -->
-<!--                          <phase>prepare-package</phase> -->
-<!--                     </execution> -->
-<!--                 </executions> -->
+                <!--                 <executions> -->
+                <!--                     <execution> -->
+                <!--                         <id>default-assemble-repository</id> -->
+                <!--                          <phase>prepare-package</phase> -->
+                <!--                     </execution> -->
+                <!--                 </executions> -->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -48,7 +46,6 @@
                     <storepass>keystore password</storepass>
                     <keypass>key password</keypass>
                     -->
-                    
                     <archiveDirectory>${project.build.directory}/repository</archiveDirectory>
                     <includes>
                         <include>features/*.jar</include>
