@@ -38,6 +38,7 @@ import org.perfclipse.core.reflect.PerfCakeComponents;
 import org.perfclipse.wizards.WizardUtils;
 import org.perfclipse.wizards.swt.ComboUtils;
 import org.perfclipse.wizards.swt.events.AddPropertySelectionAdapter;
+import org.perfclipse.wizards.swt.events.DelKeyPressedSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
 import org.perfclipse.wizards.swt.events.EditPropertySelectionAdapter;
@@ -117,8 +118,10 @@ public class SenderPage extends AbstractPerfCakePage {
 		propertyViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editPropertyAdapter));
 		propertyViewerControls.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(getNestedCommands(), propertyViewer, sender));
-		propertyViewerControls.getDeleteButton().addSelectionListener(
-				new DeletePropertySelectionAdapter(getNestedCommands(), propertyViewer, sender));
+		DeletePropertySelectionAdapter deletePropertyAdapter =
+				new DeletePropertySelectionAdapter(getNestedCommands(), propertyViewer, sender);
+		propertyViewer.getTable().addKeyListener(new DelKeyPressedSelectionAdapter(deletePropertyAdapter));
+		propertyViewerControls.getDeleteButton().addSelectionListener(deletePropertyAdapter);
 		propertyViewerControls.getEditButton().addSelectionListener(editPropertyAdapter);
 		
 		final Table propertyTable = propertyViewer.getTable();

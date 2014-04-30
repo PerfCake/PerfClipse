@@ -43,6 +43,7 @@ import org.perfclipse.wizards.swt.events.AbstractCommandSelectionAdapter;
 import org.perfclipse.wizards.swt.events.AbstractEditCommandSelectionAdapter;
 import org.perfclipse.wizards.swt.events.AddPeriodSelectionAdapter;
 import org.perfclipse.wizards.swt.events.AddPropertySelectionAdapter;
+import org.perfclipse.wizards.swt.events.DelKeyPressedSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePeriodSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
@@ -155,7 +156,9 @@ public class DestinationPage extends AbstractPerfCakePage {
 
 
 		periodControl.getEditButton().addSelectionListener(editPeriodSelectionAdapter);
-		periodControl.getDeleteButton().addSelectionListener(new DeletePeriodSelectionAdapter(getNestedCommands(), periodViewer, destination));
+		DeletePeriodSelectionAdapter deletePeriodAdapter = new DeletePeriodSelectionAdapter(getNestedCommands(), periodViewer, destination);
+		periodViewer.getTable().addKeyListener(new DelKeyPressedSelectionAdapter(deletePeriodAdapter));
+		periodControl.getDeleteButton().addSelectionListener(deletePeriodAdapter);
 			
 		
 		propertyViewer = new PropertyTableViewer(container, getNestedCommands());
@@ -168,7 +171,9 @@ public class DestinationPage extends AbstractPerfCakePage {
 		propertyControl = new TableViewerControl(container, true, SWT.NONE);
 		propertyControl.getAddButton().addSelectionListener(new AddPropertySelectionAdapter(getNestedCommands(), propertyViewer, destination));
 		propertyControl.getEditButton().addSelectionListener(editPropertyAdapter);
-		propertyControl.getEditButton().addSelectionListener(new DeletePropertySelectionAdapter(getNestedCommands(), propertyViewer, destination));
+		DeletePropertySelectionAdapter deletePropertyAdapter = new DeletePropertySelectionAdapter(getNestedCommands(), propertyViewer, destination);
+		propertyViewer.getTable().addKeyListener(new DelKeyPressedSelectionAdapter(deletePropertyAdapter));
+		propertyControl.getDeleteButton().addSelectionListener(deletePropertyAdapter);
 		
 		setControl(container);
 		super.createControl(parent);

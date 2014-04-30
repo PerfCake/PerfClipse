@@ -32,6 +32,7 @@ import org.perfclipse.core.model.PropertiesModel;
 import org.perfclipse.core.model.PropertyModel;
 import org.perfclipse.wizards.WizardUtils;
 import org.perfclipse.wizards.swt.events.AddPropertySelectionAdapter;
+import org.perfclipse.wizards.swt.events.DelKeyPressedSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
 import org.perfclipse.wizards.swt.events.EditPropertySelectionAdapter;
@@ -99,9 +100,10 @@ public class PropertiesPage extends AbstractPerfCakePage {
 		propertyControl.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(getNestedCommands(),
 						propertyViewer, properties));
-		propertyControl.getDeleteButton().addSelectionListener(
-				new DeletePropertySelectionAdapter(getNestedCommands(),
-						propertyViewer, properties));
+		DeletePropertySelectionAdapter deletePropertyAdapter = 
+				new DeletePropertySelectionAdapter(getNestedCommands(), propertyViewer, properties);
+		propertyViewer.getTable().addKeyListener(new DelKeyPressedSelectionAdapter(deletePropertyAdapter));
+		propertyControl.getDeleteButton().addSelectionListener(deletePropertyAdapter);
 		propertyControl.getEditButton().addSelectionListener(editPropertyAdapter);
 		
 		setControl(container);

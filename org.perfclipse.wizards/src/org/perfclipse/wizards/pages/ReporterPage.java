@@ -42,6 +42,7 @@ import org.perfclipse.wizards.swt.ComboUtils;
 import org.perfclipse.wizards.swt.events.AbstractEditCommandSelectionAdapter;
 import org.perfclipse.wizards.swt.events.AddDestinationSelectionAdapter;
 import org.perfclipse.wizards.swt.events.AddPropertySelectionAdapter;
+import org.perfclipse.wizards.swt.events.DelKeyPressedSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeleteDestinationSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
@@ -149,8 +150,10 @@ public class ReporterPage extends AbstractPerfCakePage {
 		destinationControl.getAddButton().addSelectionListener(
 				new AddDestinationSelectionAdapter(getNestedCommands(), destinationViewer, reporter));
 		destinationControl.getEditButton().addSelectionListener(editDestinationSelectionAdapter);
-		destinationControl.getDeleteButton().addSelectionListener(
-				new DeleteDestinationSelectionAdapter(getNestedCommands(), destinationViewer, reporter));
+		DeleteDestinationSelectionAdapter deleteDestinationAdapter = 
+				new DeleteDestinationSelectionAdapter(getNestedCommands(), destinationViewer, reporter);
+		destinationViewer.getTable().addKeyListener(new DelKeyPressedSelectionAdapter(deleteDestinationAdapter));
+		destinationControl.getDeleteButton().addSelectionListener(deleteDestinationAdapter);
 		
 		propertyViewer = new PropertyTableViewer(container, getNestedCommands());
 		data = WizardUtils.getTableViewerGridData();
@@ -163,9 +166,10 @@ public class ReporterPage extends AbstractPerfCakePage {
 		propertyControl.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(getNestedCommands(),
 						propertyViewer, reporter));
-		propertyControl.getDeleteButton().addSelectionListener(
-				new DeletePropertySelectionAdapter(getNestedCommands(),
-						propertyViewer, reporter));
+		DeletePropertySelectionAdapter deletePropertyAdapter = 
+				new DeletePropertySelectionAdapter(getNestedCommands(), propertyViewer, reporter);
+		propertyViewer.getTable().addKeyListener(new DelKeyPressedSelectionAdapter(deletePropertyAdapter));
+		propertyControl.getDeleteButton().addSelectionListener(deletePropertyAdapter);
 		propertyControl.getEditButton().addSelectionListener(editPropertyAdapter);
 		
 		setControl(container);

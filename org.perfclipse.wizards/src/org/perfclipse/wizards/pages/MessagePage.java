@@ -45,6 +45,7 @@ import org.perfclipse.wizards.swt.events.AbstractEditCommandSelectionAdapter;
 import org.perfclipse.wizards.swt.events.AddHeaderSelectionAdapter;
 import org.perfclipse.wizards.swt.events.AddPropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.AttachValidatorSelectionAdapter;
+import org.perfclipse.wizards.swt.events.DelKeyPressedSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeleteHeaderSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.DetachValidatorSelectionAdapter;
@@ -167,9 +168,11 @@ public class MessagePage extends AbstractPerfCakePage {
 		headerControl.getAddButton().addSelectionListener(
 				new AddHeaderSelectionAdapter(getNestedCommands(),
 						headerViewer, message));
-		headerControl.getDeleteButton().addSelectionListener(
-				new DeleteHeaderSelectionAdapter(getNestedCommands(),
-						headerViewer, message));
+		DeleteHeaderSelectionAdapter deleteHeaderAdapter = 
+				new DeleteHeaderSelectionAdapter(getNestedCommands(), headerViewer, message);
+		headerViewer.getTable().addKeyListener(new DelKeyPressedSelectionAdapter(deleteHeaderAdapter));
+		headerControl.getDeleteButton().addSelectionListener(deleteHeaderAdapter);
+
 
 		headerControl.getEditButton().addSelectionListener(editHeaderAdapter);
 		
@@ -186,9 +189,11 @@ public class MessagePage extends AbstractPerfCakePage {
 		propertyControl.getAddButton().addSelectionListener(
 				new AddPropertySelectionAdapter(getNestedCommands(),
 						propertyViewer, message));
-		propertyControl.getDeleteButton().addSelectionListener(
-				new DeletePropertySelectionAdapter(getNestedCommands(),
-						propertyViewer, message));
+		DeletePropertySelectionAdapter deletePropertyAdapter = 
+				new DeletePropertySelectionAdapter(getNestedCommands(), propertyViewer, message);
+		propertyViewer.getTable().addKeyListener(new DelKeyPressedSelectionAdapter(deletePropertyAdapter));
+		propertyControl.getDeleteButton().addSelectionListener(deletePropertyAdapter);
+				
 		propertyControl.getEditButton().addSelectionListener(editPropertyAdapter);
 		
 		refViewer = new ValidatorRefTableViewer(container, getNestedCommands());
@@ -208,9 +213,10 @@ public class MessagePage extends AbstractPerfCakePage {
 		attachAdapter.setValidators(validators);
 		refControl.getAddButton().addSelectionListener(attachAdapter);
 		refControl.getDeleteButton().setText("Detach");
-		refControl.getDeleteButton().addSelectionListener(
-				new DetachValidatorSelectionAdapter(getNestedCommands(),
-						refViewer, message));
+		DetachValidatorSelectionAdapter detachAdapter = 
+				new DetachValidatorSelectionAdapter(getNestedCommands(), refViewer, message);
+		refViewer.getTable().addKeyListener(new DelKeyPressedSelectionAdapter(detachAdapter));
+		refControl.getDeleteButton().addSelectionListener(detachAdapter);
 		
 		setControl(container);
 		super.createControl(parent);

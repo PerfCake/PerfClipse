@@ -26,6 +26,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -43,6 +45,7 @@ import org.perfclipse.wizards.Activator;
 import org.perfclipse.wizards.WizardUtils;
 import org.perfclipse.wizards.swt.ComboUtils;
 import org.perfclipse.wizards.swt.events.AddPropertySelectionAdapter;
+import org.perfclipse.wizards.swt.events.DelKeyPressedSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeletePropertySelectionAdapter;
 import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
 import org.perfclipse.wizards.swt.events.EditPropertySelectionAdapter;
@@ -163,6 +166,22 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		
 
 		propertiesViewer = new PropertyTableViewer(container, getNestedCommands());
+		propertiesViewer.getTable().addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.keyCode == SWT.DEL){
+					
+				}
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		editPropertyAdapter = new EditPropertySelectionAdapter(getNestedCommands(), propertiesViewer);
 
@@ -176,8 +195,9 @@ public class GeneratorPage extends AbstractPerfCakePage {
 				new AddPropertySelectionAdapter(getNestedCommands(), propertiesViewer, generator));
 
 		propertiesControls.getEditButton().addSelectionListener(editPropertyAdapter);
-		propertiesControls.getDeleteButton().addSelectionListener(
-				new DeletePropertySelectionAdapter(getNestedCommands(), propertiesViewer, generator));
+		DeletePropertySelectionAdapter deletePropertyAdapter = new DeletePropertySelectionAdapter(getNestedCommands(), propertiesViewer, generator);
+		propertiesViewer.getTable().addKeyListener(new DelKeyPressedSelectionAdapter(deletePropertyAdapter));
+		propertiesControls.getDeleteButton().addSelectionListener(deletePropertyAdapter);
 
 		final Table propertiesTable = propertiesViewer.getTable();
 		GridData tableData = WizardUtils.getTableViewerGridData();

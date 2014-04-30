@@ -35,6 +35,7 @@ import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.wizards.WizardUtils;
 import org.perfclipse.wizards.swt.events.AddMessageSelectionAdapter;
+import org.perfclipse.wizards.swt.events.DelKeyPressedSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DeleteMessageSelectionAdapter;
 import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
 import org.perfclipse.wizards.swt.events.EditMessageSelectionAdapter;
@@ -120,6 +121,7 @@ public class MessagesPage extends AbstractPerfCakePage {
 		messagesViewerControls.getEditButton().addSelectionListener(editMessageAdapter);
 		deleteMessageAdapter = new DeleteMessageSelectionAdapter(getNestedCommands(),
 				messagesViewer, messagesModel, scenarioFile); 
+		messagesViewer.getTable().addKeyListener(new DelKeyPressedSelectionAdapter(deleteMessageAdapter));
 		messagesViewerControls.getDeleteButton().addSelectionListener(deleteMessageAdapter);
 		setControl(container);
 		super.createControl(parent);
