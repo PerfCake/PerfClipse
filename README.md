@@ -9,12 +9,13 @@ Steps to build plugin update site
 ```sh
 $ mvn (clean) p2:site
 ```
-2. (a)  Build unsigned PerfClipse plugin - under the $PERFCLIPSE_DIR directory run:
+2. ⋅⋅ 
+⋅⋅*  Build unsigned PerfClipse plugin - under the $PERFCLIPSE_DIR directory run:⋅⋅
 ```sh
 $ mvn (clean) package
-```
-* Update site can be found under $PERFCLIPSE_DIR/org.perfclipse.update/target/repository directory.
-3. (b) Build signed PerfClipse plugin using jarsigner - under the $PERFCLIPSE_DIR directory run:
+```⋅⋅
+⋅⋅* Build signed PerfClipse plugin using jarsigner - under the $PERFCLIPSE_DIR directory run:⋅⋅
 ```sh
 $ mvn (clean) package -Djarsigner.skip=false -Djarsigner.keystore=<paht-to-keystore> -Djarsigner.storepass=<keystore-password>  -Djarsigner.alias=<certifacete-alias> -Djarsigner.keypass=<key-password>
 ```
+* Update site can be found under $PERFCLIPSE_DIR/org.perfclipse.update/target/repository directory.
