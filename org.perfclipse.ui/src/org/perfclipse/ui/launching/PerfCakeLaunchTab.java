@@ -164,6 +164,8 @@ public class PerfCakeLaunchTab extends AbstractLaunchConfigurationTab {
 		propertyLabel.setText("PerfCake system properties: ");
 		
 		propertyViewer = new TableViewer(container);
+		propertyViewer.getTable().setHeaderVisible(true);
+		propertyViewer.getTable().setLinesVisible(true);
 		propertyViewer.setContentProvider(ArrayContentProvider.getInstance());
 		propertyViewer.setInput(properties);
 		
