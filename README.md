@@ -14,6 +14,7 @@ $ mvn (clean) p2:site
 $ mvn (clean) package
 ```
 * Update site can be found under $PERFCLIPSE_DIR/org.perfclipse.update/target/repository directory.
-
 3. (b) Build signed PerfClipse plugin using jarsigner - under the $PERFCLIPSE_DIR directory run:
+```sh
 $ mvn (clean) package -Djarsigner.skip=false -Djarsigner.keystore=<paht-to-keystore> -Djarsigner.storepass=<keystore-password>  -Djarsigner.alias=<certifacete-alias> -Djarsigner.keypass=<key-password>
+```
