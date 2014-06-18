@@ -18,3 +18,13 @@ $ mvn (clean) package
 $ mvn (clean) package -Djarsigner.skip=false -Djarsigner.keystore=<paht-to-keystore> -Djarsigner.storepass=<keystore-password>  -Djarsigner.alias=<certifacete-alias> -Djarsigner.keypass=<key-password>
 ```
 * Update site can be found under $PERFCLIPSE_DIR/org.perfclipse.update/target/repository directory.
+
+Versioning
+----------
+
+This repository does not use any special workflow and everything is commited directly to master for now.
+
+Bug reporting
+-------------
+
+Please report bugs directly to the issues in this repository.
