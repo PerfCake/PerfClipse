@@ -22,7 +22,6 @@ package org.perfclipse.core.reflect;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
@@ -55,7 +54,7 @@ public class ComponentScanner {
 	//TODO : remove duplicate information about type (both T and componentType)
 	public <T> Set<Class<? extends T>> scanForComponent(String packageName, Class<T> componentType) throws PerfClipseScannerException{
 		Set<Class<? extends T>> classes = new HashSet<>();
-		String packagePath = File.separator + packageName.replace(".", File.separator);
+		String packagePath = "/" + packageName.replace(".", "/");
 		
 		Bundle bundle = Platform.getBundle(this.bundle);
 		URL bundleUrl = bundle.getEntry(packagePath);
@@ -67,22 +66,17 @@ public class ComponentScanner {
 			throw new PerfClipseScannerException("Cannot obtain URL to package", e);
 		}
 		
-		try {
-			File packageDir = new File(pathUrl.toURI());
-			
-			if (packageDir.exists()){
-				String[] files = packageDir.list();
-				for (String filename : files){
-					// TODO: if directory then recursion ???
-					Class<? extends T> component = getClassOfType(packageName + "." + filename, componentType);
-					if (component != null){
-						classes.add(component);
-					}
+		File packageDir = new File(pathUrl.getFile());
+		
+		if (packageDir.exists()){
+			String[] files = packageDir.list();
+			for (String filename : files){
+				// TODO: if directory then recursion ???
+				Class<? extends T> component = getClassOfType(packageName + "." + filename, componentType);
+				if (component != null){
+					classes.add(component);
 				}
 			}
-		} catch (URISyntaxException e) {
-			log.error("Cannot open file with package URI", e);
-			throw new PerfClipseScannerException("Cannot open file with package URI", e);
 		}
 		
 		return classes;
