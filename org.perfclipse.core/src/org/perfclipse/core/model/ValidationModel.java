@@ -26,6 +26,8 @@ import org.perfcake.model.Scenario.Validation.Validator;
 public class ValidationModel extends PerfClipseModel {
 
 	public static final String PROPERTY_VALIDATORS = "validation-validators";
+	public static final String PROPERTY_ENABLED = "validation-enabled";
+	public static final String PROPERTY_FAST_FORWARD = "validation-fast-forward";
 	
 	private Validation validation;
 	private ScenarioModel scenario;
@@ -87,6 +89,18 @@ public class ValidationModel extends PerfClipseModel {
 		if (getValidation().getValidator().isEmpty()){
 			removeValidation();
 		}
+	}
+	
+	public void setEnabled(boolean enabled){
+		boolean oldEnabled = getValidation().isEnabled();
+		getValidation().setEnabled(enabled);
+		getListeners().firePropertyChange(PROPERTY_ENABLED, oldEnabled, enabled);
+	}
+	
+	public void setFastForward(boolean fastForward){
+		boolean oldFastForward = getValidation().isFastForward();
+		getValidation().setFastForward(fastForward);
+		getListeners().firePropertyChange(PROPERTY_FAST_FORWARD, oldFastForward, fastForward);
 	}
 
 }

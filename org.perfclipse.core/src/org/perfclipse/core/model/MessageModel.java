@@ -33,6 +33,7 @@ public class MessageModel extends PerfClipseModel implements IPropertyContainer 
 	public static final String PROPERTY_VALIDATOR_REFS = "message-validator-ref";
 	public static final String PROPERTY_URI = "message-uri";
 	public static final String PROPERTY_MULTIPLICITY = "message-multiplicity";
+	private static final String PROPERTY_CONTENT = "message-content";
 
 	private Message message;
 
@@ -112,6 +113,12 @@ public class MessageModel extends PerfClipseModel implements IPropertyContainer 
 		String oldMultiplicity = getMessage().getMultiplicity();
 		getMessage().setMultiplicity(multiplicity);
 		getListeners().firePropertyChange(PROPERTY_MULTIPLICITY, oldMultiplicity, multiplicity);
+	}
+	
+	public void setContent(String content){
+		String oldContent = getMessage().getContent();
+		getMessage().setContent(content);
+		getListeners().firePropertyChange(PROPERTY_CONTENT, oldContent, content);
 	}
 	
 	

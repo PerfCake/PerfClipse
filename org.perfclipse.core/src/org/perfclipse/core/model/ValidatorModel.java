@@ -19,13 +19,17 @@
 
 package org.perfclipse.core.model;
 
+import java.util.List;
+
+import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Validation.Validator;
 
-public class ValidatorModel extends PerfClipseModel{
+public class ValidatorModel extends PerfClipseModel implements IPropertyContainer{
 
 	public static final String PROPERTY_CLASS = "validator-class";
 	public static final String PROPERTY_ID = "validator-id";
 	public static final String PROPERTY_VALUE = "validator-value";
+	public static final String PROPERTY_PROPERTIES = "validator-properties";
 	
 	private Validator validator;
 	
@@ -61,10 +65,23 @@ public class ValidatorModel extends PerfClipseModel{
 		getListeners().firePropertyChange(PROPERTY_ID, oldId, id);
 	}
 	
-	public void setValue(String value){
-		String oldValue = getValidator().getValue();
-		getValidator().setValue(value);
-		getListeners().firePropertyChange(PROPERTY_VALUE, oldValue, value);
+	public void addProperty(Property Property){
+		addProperty(getValidator().getProperty().size(), Property);
+	}
+	
+	public void addProperty(int index, Property property){
+		getValidator().getProperty().add(index, property);
+		getListeners().firePropertyChange(PROPERTY_PROPERTIES, null, property);
+	}
+	
+	public void removeProperty(Property property){
+		if (getValidator().getProperty().remove(property)){
+			getListeners().firePropertyChange(PROPERTY_PROPERTIES, property, null);
+		}
+	}
+	
+	public List<Property> getProperty(){
+		return getValidator().getProperty();
 	}
 
 
