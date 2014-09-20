@@ -28,13 +28,13 @@ import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.perfcake.PerfCakeException;
-import org.perfcake.Scenario;
-import org.perfcake.ScenarioBuilder;
-import org.perfcake.parser.ScenarioParser;
+import org.perfcake.scenario.Scenario;
+import org.perfcake.scenario.ScenarioLoader;
 import org.perfclipse.core.Activator;
 import org.perfclipse.core.logging.Logger;
 import org.perfclipse.core.model.ScenarioModel;
@@ -62,12 +62,8 @@ public class ScenarioManager {
 			throw new IllegalArgumentException("URL to scenario is null.");
 		}
 
-		ScenarioModel model;
-
-		model = createModel(scenarioURL);
-
 		try {
-			scenario = new ScenarioBuilder().load(model.getScenario()).build();
+			scenario = new ScenarioLoader().load(scenarioURL.getPath());
 		} catch (PerfCakeException e) {
 			log.error("Cannot load scenario", e);
 			throw new ScenarioException("Cannot load scenario", e);
@@ -100,6 +96,13 @@ public class ScenarioManager {
 		}
 	}
 
+	/**
+	 * Creates {@link ScenarioModel} object representation of the scenario
+	 * specified in XML file at scenarioURL parameter.
+	 * @param scenarioURL - URL to scenario XML definition
+	 * @return {@link ScenarioModel} of given XML definition
+	 * @throws ScenarioException
+	 */
 	public ScenarioModel createModel(URL scenarioURL) throws ScenarioException {
 
 		org.perfcake.model.Scenario model;
@@ -110,12 +113,25 @@ public class ScenarioManager {
 		}
 
 		try {
-			model = new ScenarioParser(scenarioURL).parse();
-		} catch (PerfCakeException e) {
-			log.error("Cannot load scenario", e);
-			throw new ScenarioException("Cannot load scenario", e);
+
+			SchemaFactory schemaFactory = SchemaFactory
+					.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			URL schemaUrl = SchemaScanner.getSchema();
+			Schema schema = schemaFactory.newSchema(schemaUrl);
+
+			JAXBContext context = JAXBContext .newInstance(org.perfcake.model.Scenario.class);
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+			unmarshaller.setSchema(schema);
+			model = (org.perfcake.model.Scenario) unmarshaller.unmarshal(scenarioURL);
+			return new ScenarioModel(model);
+		} catch(JAXBException e){
+			throw new ScenarioException(e);
+		} catch (IOException e) {
+			throw new ScenarioException(e);
+		} catch (SAXException e) {
+			throw new ScenarioException(e);
 		}
-		return new ScenarioModel(model);
+		
 	}
 	
 	/**
