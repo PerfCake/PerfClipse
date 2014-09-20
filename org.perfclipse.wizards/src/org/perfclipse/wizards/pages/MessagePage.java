@@ -73,6 +73,10 @@ public class MessagePage extends AbstractPerfCakePage {
 
 	private Label uriLabel;
 	private Text uriText;
+
+	private Label contentLabel;
+	private Text contentText;
+
 	private Label multiplicityLabel;
 	private Text multiplicityText;
 
@@ -139,6 +143,7 @@ public class MessagePage extends AbstractPerfCakePage {
 		data.horizontalAlignment = SWT.FILL;
 		uriText.addModifyListener(new UpdateModifyListener(this));
 		uriText.setLayoutData(data);
+		
 
 		multiplicityLabel = new Label(container, SWT.NONE);
 		multiplicityLabel.setText("Multiplicity");
@@ -147,6 +152,15 @@ public class MessagePage extends AbstractPerfCakePage {
 		data = new GridData(SWT.FILL, SWT.BEGINNING, false, false);
 		data.horizontalSpan = 2;
 		multiplicityText.setLayoutData(data);
+		
+		contentLabel = new Label(container, SWT.NONE);
+		contentLabel.setText("Content: ");
+		contentText = new Text(container, SWT.NONE);
+		data = new GridData();
+		data.horizontalSpan = 2;
+		data.horizontalAlignment = SWT.FILL;
+		contentText.addModifyListener(new UpdateModifyListener(this));
+		contentText.setLayoutData(data);
 
 		headerViewer = new HeaderTableViewer(container, getNestedCommands());
 		headerViewer.addSelectionChangedListener(new UpdateSelectionChangeListener(this));
@@ -240,6 +254,9 @@ public class MessagePage extends AbstractPerfCakePage {
 		if (message.getMessage().getUri() != null){
 			uriText.setText(message.getMessage().getUri());
 		}
+		if (message.getMessage().getContent() != null){
+			contentText.setText(message.getMessage().getContent());
+		}
 		if (message.getMessage().getMultiplicity() != null){
 			multiplicityText.setText(message.getMessage().getMultiplicity());
 		} else{
@@ -266,6 +283,10 @@ public class MessagePage extends AbstractPerfCakePage {
 	
 	public String getMultiplicity(){
 		return multiplicityText.getText();
+	}
+	
+	public String getContent(){
+		return contentText.getText();
 	}
 
 	public PropertyTableViewer getPropertyViewer() {

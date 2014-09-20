@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.perfcake.model.Scenario.Messages.Message;
+import org.perfclipse.core.commands.EditValidationEnabledCommand;
+import org.perfclipse.core.commands.EditValidationFastForwardCommand;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.MessagesModel;
 import org.perfclipse.core.model.ValidationModel;
@@ -51,6 +53,19 @@ public class ValidationEditWizard extends AbstractPerfCakeEditWizard {
 		validationPage.setMessages(parseMessages());
 		super.addPages();
 	}
+	
+	@Override
+	public boolean performFinish() {
+		if (validation.getValidation().isEnabled() != validationPage.isEnabled()){
+			getCommand().add(new EditValidationEnabledCommand(validation, validationPage.isEnabled()));
+		}
+		if (validation.getValidation().isFastForward() != validationPage.isFastForward()){
+			getCommand().add(new EditValidationFastForwardCommand(validation, validationPage.isFastForward()));
+		}
+		return super.performFinish();
+	}
+	
+		
 	private List<MessageModel> parseMessages() {
 		MessagesModel messagesModel = validation.getMapper().getMessagesModel();
 		List<MessageModel> messages = new ArrayList<>();

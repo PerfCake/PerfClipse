@@ -26,7 +26,9 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.perfcake.model.Scenario.Validation.Validator;
 import org.perfclipse.core.model.MessageModel;
 import org.perfclipse.core.model.ModelMapper;
@@ -51,6 +53,12 @@ public class ValidationPage extends AbstractPerfCakePage {
 	private Composite container;
 	private ValidatorTableViewer validatorViewer;
 	private TableViewerControl validatorControl;
+	
+	private Label enabledLabel;
+	private Button enabledButton;
+	
+	private Label fastForwardLabel;
+	private Button fastForwardButton;
 	
 	private ValidationModel validation;
 	private List<ValidatorModel> validators;
@@ -103,6 +111,20 @@ public class ValidationPage extends AbstractPerfCakePage {
 		container.setLayout(layout);
 		GridData data;
 		
+		enabledLabel = new  Label(container, SWT.NONE);
+		enabledLabel.setText("Enabled: ");
+		enabledButton = new Button(container, SWT.CHECK);
+		data = new GridData();
+		data.horizontalAlignment = SWT.LEFT;
+		enabledButton.setLayoutData(data);
+		
+		fastForwardLabel = new  Label(container, SWT.NONE);
+		fastForwardLabel.setText("Fast forward: ");
+		fastForwardButton = new Button(container, SWT.CHECK);
+		data = new GridData();
+		data.horizontalAlignment = SWT.LEFT;
+		fastForwardButton.setLayoutData(data);
+		
 		validatorViewer = new ValidatorTableViewer(container, getNestedCommands());
 		data = WizardUtils.getTableViewerGridData();
 		validatorViewer.getTable().setLayoutData(data);
@@ -135,6 +157,10 @@ public class ValidationPage extends AbstractPerfCakePage {
 	protected void fillCurrentValues() {
 		if (validators != null)
 			validatorViewer.setInput(validators);
+		
+		enabledButton.setSelection(validation.getValidation().isEnabled());
+		fastForwardButton.setSelection(validation.getValidation().isFastForward());
+
 		super.fillCurrentValues();
 	}
 
@@ -161,6 +187,14 @@ public class ValidationPage extends AbstractPerfCakePage {
 
 	public List<MessageModel> getMessages() {
 		return messages;
+	}
+	
+	public boolean isEnabled(){
+		return enabledButton.getSelection();
+	}
+	
+	public boolean isFastForward(){
+		return fastForwardButton.getSelection();
 	}
 
 	public void setMessages(List<MessageModel> messages) {

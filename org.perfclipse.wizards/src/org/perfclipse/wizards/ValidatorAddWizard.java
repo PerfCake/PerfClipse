@@ -21,8 +21,10 @@ package org.perfclipse.wizards;
 
 import java.util.List;
 
+import org.eclipse.swt.widgets.TableItem;
 import org.perfcake.model.ObjectFactory;
 import org.perfcake.model.Scenario.Validation.Validator;
+import org.perfclipse.core.model.PropertyModel;
 import org.perfclipse.core.model.ValidatorModel;
 import org.perfclipse.wizards.pages.ValidatorPage;
 
@@ -48,7 +50,13 @@ public class ValidatorAddWizard extends AbstractPerfCakeAddWizard {
 		validator = new ObjectFactory().createScenarioValidationValidator();
 		validator.setClazz(page.getValidatorName());
 		validator.setId(page.getValidatorId());
-		validator.setValue(page.getValidatorValue());
+		
+		for (TableItem i : page.getPropertyViewer().getTable().getItems()){
+			if (i.getData() instanceof PropertyModel){
+				PropertyModel p = (PropertyModel) i.getData();
+				validator.getProperty().add(p.getProperty());
+			}
+		}
 
 		return true;
 	}

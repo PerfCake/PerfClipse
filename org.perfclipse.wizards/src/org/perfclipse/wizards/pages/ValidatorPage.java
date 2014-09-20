@@ -20,6 +20,7 @@
 package org.perfclipse.wizards.pages;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -29,9 +30,20 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.perfcake.model.Property;
+import org.perfclipse.core.model.ModelMapper;
+import org.perfclipse.core.model.PropertyModel;
 import org.perfclipse.core.model.ValidatorModel;
+import org.perfclipse.wizards.WizardUtils;
 import org.perfclipse.wizards.swt.ComboUtils;
+import org.perfclipse.wizards.swt.events.AddPropertySelectionAdapter;
+import org.perfclipse.wizards.swt.events.DelKeyPressedSelectionAdapter;
+import org.perfclipse.wizards.swt.events.DeletePropertySelectionAdapter;
+import org.perfclipse.wizards.swt.events.DoubleClickSelectionAdapter;
+import org.perfclipse.wizards.swt.events.EditPropertySelectionAdapter;
+import org.perfclipse.wizards.swt.jface.PropertyTableViewer;
 import org.perfclipse.wizards.swt.jface.StringComboViewer;
+import org.perfclipse.wizards.swt.widgets.TableViewerControl;
 
 /**
  * @author Jakub Knetl
@@ -43,15 +55,16 @@ public class ValidatorPage extends AbstractPerfCakePage {
 
 	private ValidatorModel validator;
 	private List<ValidatorModel> otherValidators;
+	private List<PropertyModel> properties;
 	
 	private Composite container;
 	private Label typeLabel;
 	private StringComboViewer typeCombo; 
 	private Label idLabel;
 	private Text idText;
-	private Label valueLabel;
-	private Text valueText;
-	
+	private PropertyTableViewer propertyViewer;
+	private TableViewerControl propertyControl;	
+
 	public ValidatorPage(List<ValidatorModel> otherValidators){
 		this(VALIDATOR_PAGE_NAME, false, otherValidators);
 	}
@@ -64,6 +77,13 @@ public class ValidatorPage extends AbstractPerfCakePage {
 	public ValidatorPage(ValidatorModel validator, List<ValidatorModel> otherValidators) {
 		this(VALIDATOR_PAGE_NAME, true, otherValidators);
 		this.validator = validator;
+		
+		ModelMapper m = validator.getMapper();
+		properties = new ArrayList<>(validator.getValidator().getProperty().size());
+		for (Property p : validator.getValidator().getProperty()){
+			properties.add((PropertyModel) m.getModelContainer(p));
+		}
+		
 	}
 
 
@@ -105,12 +125,24 @@ public class ValidatorPage extends AbstractPerfCakePage {
 		idText.setLayoutData(data);
 		idText.addModifyListener(new UpdateModifyListener(this));
 		
-		valueLabel = new Label(container, SWT.NONE);
-		valueLabel.setText("Value: ");
-		valueText = new  Text(container, SWT.MULTI);
-		data = new GridData(SWT.FILL, SWT.FILL, true, true);
-		valueText.setLayoutData(data);
-		valueText.addModifyListener(new UpdateModifyListener(this));
+		
+		propertyViewer = new PropertyTableViewer(container, getNestedCommands());
+		data = WizardUtils.getTableViewerGridData();
+		data.horizontalSpan = 2;
+		propertyViewer.getTable().setLayoutData(data);
+		
+		EditPropertySelectionAdapter editPropertyAdapter = new EditPropertySelectionAdapter(getNestedCommands(), propertyViewer);
+		propertyViewer.getTable().addMouseListener(new DoubleClickSelectionAdapter(editPropertyAdapter));
+		propertyControl = new TableViewerControl(container, true, SWT.NONE);
+		propertyControl.getAddButton().addSelectionListener(
+				new AddPropertySelectionAdapter(getNestedCommands(),
+						propertyViewer, validator));
+		DeletePropertySelectionAdapter deletePropertyAdapter = 
+				new DeletePropertySelectionAdapter(getNestedCommands(), propertyViewer, validator);
+		propertyViewer.getTable().addKeyListener(new DelKeyPressedSelectionAdapter(deletePropertyAdapter));
+		propertyControl.getDeleteButton().addSelectionListener(deletePropertyAdapter);
+		propertyControl.getEditButton().addSelectionListener(editPropertyAdapter);
+		
 		
 		setControl(container);
 		super.createControl(parent);
@@ -122,8 +154,6 @@ public class ValidatorPage extends AbstractPerfCakePage {
 			ComboUtils.select(typeCombo, validator.getValidator().getClazz());
 		if (validator.getValidator().getId() != null)
 			idText.setText(validator.getValidator().getId());
-		if (validator.getValidator().getValue() != null)
-			valueText.setText(validator.getValidator().getValue());
 		super.fillCurrentValues();
 	}
 
@@ -181,12 +211,12 @@ public class ValidatorPage extends AbstractPerfCakePage {
 		return (String) sel.getFirstElement();
 	}
 	
-	public String getValidatorId(){
-		return idText.getText();
+	public PropertyTableViewer getPropertyViewer(){
+		return propertyViewer;
 	}
 	
-	public String getValidatorValue(){
-		return valueText.getText();
+	public String getValidatorId(){
+		return idText.getText();
 	}
 	
 }

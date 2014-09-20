@@ -21,6 +21,7 @@ package org.perfclipse.wizards;
 
 import java.util.List;
 
+import org.perfclipse.core.commands.EditMessageContentCommand;
 import org.perfclipse.core.commands.EditMessageMultiplicityCommand;
 import org.perfclipse.core.commands.EditMessageUriCommand;
 import org.perfclipse.core.model.MessageModel;
@@ -56,6 +57,13 @@ public class MessageEditWizard extends AbstractPerfCakeEditWizard {
 				|| !message.getMessage().getUri().equals(messagePage.getUri())){
 
 			EditMessageUriCommand editCommand = new EditMessageUriCommand(message, messagePage.getUri());
+			getCommand().add(editCommand);
+		}
+		
+		if (message.getMessage().getContent() == null
+				|| !message.getMessage().getContent().equals(messagePage.getContent())){
+
+			EditMessageContentCommand editCommand = new EditMessageContentCommand(message, messagePage.getContent());
 			getCommand().add(editCommand);
 		}
 		

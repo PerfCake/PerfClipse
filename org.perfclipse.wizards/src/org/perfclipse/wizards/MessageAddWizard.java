@@ -74,6 +74,7 @@ public class MessageAddWizard extends AbstractPerfCakeAddWizard {
 		message = new ObjectFactory().createScenarioMessagesMessage();
 		message.setMultiplicity(messagePage.getMultiplicity());
 		message.setUri(messagePage.getUri());
+		message.setContent(message.getContent());
 		for (TableItem i : messagePage.getPropertyViewer().getTable().getItems()){
 			if (i.getData() instanceof PropertyModel){
 				PropertyModel p = (PropertyModel) i.getData();
