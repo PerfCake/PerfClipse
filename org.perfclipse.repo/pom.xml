@@ -31,7 +31,8 @@
                                 	<instructions>
 
 <!-- 										<Bundle-Version>${perfcake.bundle.version}</Bundle-Version> -->
-										<Import-Package>!org.drools.* , *</Import-Package>
+										<Import-Package>!org.drools.* , !org.kie.*, *</Import-Package>
+<!-- 										<Import-Package>*</Import-Package> -->
                                 	</instructions>
                                 </artifact>
 		
@@ -41,6 +42,7 @@
                                 <artifact><id>org.jvnet.sorcerer:sorcerer-javac:0.8</id></artifact>
                                 <artifact><id>com.google.protobuf:protobuf-java:2.5.0</id></artifact>
                                 <artifact><id>javax.xml:jaxp-api:1.4</id></artifact>
+                                <artifact><id>javax.xml:jaxb-api:2.1</id></artifact>
                                 <artifact><id>javax.websocket:javax.websocket-api:1.0</id></artifact>
                             </artifacts>
                         </configuration>
