@@ -107,7 +107,7 @@ public class ValidationPage extends AbstractPerfCakePage {
 		setDescription("Manage validators.");
 		container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		container.setLayout(layout);
 		GridData data;
 		
@@ -116,6 +116,7 @@ public class ValidationPage extends AbstractPerfCakePage {
 		enabledButton = new Button(container, SWT.CHECK);
 		data = new GridData();
 		data.horizontalAlignment = SWT.LEFT;
+		data.horizontalSpan = 2;
 		enabledButton.setLayoutData(data);
 		
 		fastForwardLabel = new  Label(container, SWT.NONE);
@@ -123,10 +124,12 @@ public class ValidationPage extends AbstractPerfCakePage {
 		fastForwardButton = new Button(container, SWT.CHECK);
 		data = new GridData();
 		data.horizontalAlignment = SWT.LEFT;
+		data.horizontalSpan = 2;
 		fastForwardButton.setLayoutData(data);
 		
 		validatorViewer = new ValidatorTableViewer(container, getNestedCommands());
 		data = WizardUtils.getTableViewerGridData();
+		data.horizontalSpan = 2;
 		validatorViewer.getTable().setLayoutData(data);
 		
 		validatorControl = new TableViewerControl(container, true, SWT.NONE);

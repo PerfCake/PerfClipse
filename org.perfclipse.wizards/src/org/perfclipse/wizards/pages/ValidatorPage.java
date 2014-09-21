@@ -154,6 +154,9 @@ public class ValidatorPage extends AbstractPerfCakePage {
 			ComboUtils.select(typeCombo, validator.getValidator().getClazz());
 		if (validator.getValidator().getId() != null)
 			idText.setText(validator.getValidator().getId());
+		if (properties != null){
+			propertyViewer.setInput(properties);
+		}
 		super.fillCurrentValues();
 	}
 
