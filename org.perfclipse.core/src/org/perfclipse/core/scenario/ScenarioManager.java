@@ -32,6 +32,8 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.apache.commons.io.FilenameUtils;
+import org.perfcake.PerfCakeConst;
 import org.perfcake.PerfCakeException;
 import org.perfcake.scenario.Scenario;
 import org.perfcake.scenario.ScenarioLoader;
@@ -63,7 +65,17 @@ public class ScenarioManager {
 		}
 
 		try {
-			scenario = new ScenarioLoader().load(scenarioURL.getPath());
+			String path = scenarioURL.getPath();
+			String scenarioDir = FilenameUtils.getFullPath(path);
+			String scenarioName = FilenameUtils.getName(FilenameUtils.removeExtension(path));
+
+			//remove last slash in the path (PerfCake will append one slash)
+			if (scenarioDir.lastIndexOf("/") == (scenarioDir.length() - 1))
+				scenarioDir = scenarioDir.substring(0, scenarioDir.length() - 1);
+			
+			//Use system properties to specify folder with scenario
+			System.setProperty(PerfCakeConst.SCENARIOS_DIR_PROPERTY, scenarioDir);
+			scenario = new ScenarioLoader().load(scenarioName);
 		} catch (PerfCakeException e) {
 			log.error("Cannot load scenario", e);
 			throw new ScenarioException("Cannot load scenario", e);
