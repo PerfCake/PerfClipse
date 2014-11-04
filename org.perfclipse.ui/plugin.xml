@@ -1,143 +1,68 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         point="org.eclipse.ui.newWizards">
-      <category
-            id="org.perfclipse.ui.wizards.category.perfcake"
-            name="PerfCake">
+   <extension point="org.eclipse.ui.newWizards">
+      <category id="org.perfclipse.ui.wizards.category.perfcake" name="PerfCake">
       </category>
-      <wizard
-            category="org.perfclipse.ui.wizards.category.perfcake"
-            class="org.perfclipse.wizards.PerfcakeProjectWizard"
-            icon="icons/perfcake.ico"
-            id="org.perfclipse.ui.wizards.perfcakeproject"
-            name="PerfCake project"
-            project="true">
+      <wizard category="org.perfclipse.ui.wizards.category.perfcake" class="org.perfclipse.wizards.PerfcakeProjectWizard" icon="icons/perfcake.ico" id="org.perfclipse.ui.wizards.perfcakeproject" name="PerfCake project" project="true">
       </wizard>
-      <wizard
-            category="org.perfclipse.ui.wizards.category.perfcake"
-            class="org.perfclipse.wizards.ScenarioWizard"
-            icon="icons/perfcake.ico"
-            id="org.perfclipse.ui.wizards.scenario"
-            name="PerfCake scenario">
+      <wizard category="org.perfclipse.ui.wizards.category.perfcake" class="org.perfclipse.wizards.ScenarioWizard" icon="icons/perfcake.ico" id="org.perfclipse.ui.wizards.scenario" name="PerfCake scenario">
       </wizard>
    </extension>
-   <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            class="org.perfclipse.ui.editors.ScenarioMultiPageEditor"
-            contributorClass="org.perfclipse.ui.editors.DesignEditorActionBarContributor"
-            default="false"
-            extensions="xml"
-            icon="icons/perfcake.ico"
-            id="org.perfclipse.ui.editors.scenario"
-            name="Scenario editor">
-         <contentTypeBinding
-               contentTypeId="org.perfclipse.ui.contenttype.scenario">
+   <extension point="org.eclipse.ui.editors">
+      <editor class="org.perfclipse.ui.editors.ScenarioMultiPageEditor" contributorClass="org.perfclipse.ui.editors.DesignEditorActionBarContributor" default="false" extensions="xml" icon="icons/perfcake.ico" id="org.perfclipse.ui.editors.scenario" name="Scenario editor">
+         <contentTypeBinding contentTypeId="org.perfclipse.ui.contenttype.scenario">
          </contentTypeBinding>
       </editor>
    </extension>
-   <extension
-         id="org.perfclipse.ui.contenttype"
-         point="org.eclipse.core.contenttype.contentTypes">
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            file-extensions="xml"
-            id="org.perfclipse.ui.contenttype.scenario"
-            name="PerfCake scenario file"
-            priority="high">
-         <describer
-               class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
-            <parameter
-                  name="element"
-                  value="scenario">
+   <extension id="org.perfclipse.ui.contenttype" point="org.eclipse.core.contenttype.contentTypes">
+      <content-type base-type="org.eclipse.core.runtime.xml" file-extensions="xml" id="org.perfclipse.ui.contenttype.scenario" name="PerfCake scenario file" priority="high">
+         <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
+            <parameter name="element" value="scenario">
             </parameter>
          </describer>
       </content-type>
    </extension>
-   <extension
-         point="org.eclipse.debug.core.launchConfigurationTypes">
-      <launchConfigurationType
-            delegate="org.perfclipse.ui.launching.PerfCakeLaunchDeleagate"
-            id="org.perfclipse.ui.launching.perfcaketype"
-            modes="run"
-            name="PerfCake scenario">
+   <extension point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType delegate="org.perfclipse.ui.launching.PerfCakeLaunchDeleagate" id="org.perfclipse.ui.launching.perfcaketype" modes="run" name="PerfCake scenario">
       </launchConfigurationType>
    </extension>
-   <extension
-         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
-      <launchConfigurationTypeImage
-            configTypeID="org.perfclipse.ui.launching.perfcaketype"
-            icon="icons/perfcake.ico"
-            id="org.perfclipse.ui.launching.images.perfcake">
+   <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage configTypeID="org.perfclipse.ui.launching.perfcaketype" icon="icons/perfcake.ico" id="org.perfclipse.ui.launching.images.perfcake">
       </launchConfigurationTypeImage>
    </extension>
-   <extension
-         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
-      <launchConfigurationTabGroup
-            class="org.perfclipse.ui.launching.PerfCakeLaunchConfigurationTabGroups"
-            id="org.perfclipse.ui.launching.tabgroup.perfcake"
-            type="org.perfclipse.ui.launching.perfcaketype">
+   <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup class="org.perfclipse.ui.launching.PerfCakeLaunchConfigurationTabGroups" id="org.perfclipse.ui.launching.tabgroup.perfcake" type="org.perfclipse.ui.launching.perfcaketype">
       </launchConfigurationTabGroup>
    </extension>
-   <extension
-         point="org.eclipse.debug.ui.launchShortcuts">
-      <shortcut
-            class="org.perfclipse.ui.launching.PerfCakeLaunchDeleagate"
-            id="org.perfclipse.ui.launching.shortcut"
-            label="PerfCake Scenario"
-            modes="run">
-                    <contextualLaunch>
-           <enablement>
-             <with variable="selection">
-               <count value="1"/>
-               <iterate>
-                   <test property="org.eclipse.debug.ui.matchesPattern" value="*.xml"/>
-               </iterate>
-             </with>
-           </enablement>
-  		 </contextualLaunch>
-       </shortcut>
+   <extension point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut class="org.perfclipse.ui.launching.PerfCakeLaunchDeleagate" id="org.perfclipse.ui.launching.shortcut" label="PerfCake Scenario" modes="run">
+         <contextualLaunch>
+            <enablement>
+               <with variable="selection">
+                  <count value="1"/>
+                  <iterate>
+                     <test property="org.eclipse.debug.ui.matchesPattern" value="*.xml"/>
+                  </iterate>
+               </with>
+            </enablement>
+         </contextualLaunch>
+      </shortcut>
    </extension>
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            category="org.perfclipse.ui.preferences.perfclipse"
-            class="org.perfclipse.ui.preferences.ColorPreferencePage"
-            id="org.perfclipse.ui.preferences.colors"
-            name="Colors">
+   <extension point="org.eclipse.ui.preferencePages">
+      <page category="org.perfclipse.ui.preferences.perfclipse" class="org.perfclipse.ui.preferences.ColorPreferencePage" id="org.perfclipse.ui.preferences.colors" name="Colors">
       </page>
-      <page
-            class="org.perfclipse.ui.preferences.PerfClipsePreferencePage"
-            id="org.perfclipse.ui.preferences.perfclipse"
-            name="PerfClipse">
+      <page class="org.perfclipse.ui.preferences.PerfClipsePreferencePage" id="org.perfclipse.ui.preferences.perfclipse" name="PerfClipse">
       </page>
    </extension>
-   <extension
-         id="org.perfclipse.ui"
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:org.eclipse.ui.console.ConsoleView">
-         <command
-               commandId="org.perfclipse.ui.execution.terminate"
-               icon="platform:/plugin/org.eclipse.debug.ui/icons/full/elcl16/terminate_co.gif"
-               label="Terminate"
-               mnemonic="Terminate"
-               style="push"
-               tooltip="Terminate PerfCake scenario execution">
+   <extension id="org.perfclipse.ui" point="org.eclipse.ui.menus">
+      <menuContribution allPopups="false" locationURI="toolbar:org.eclipse.ui.console.ConsoleView">
+         <command commandId="org.perfclipse.ui.execution.terminate" icon="platform:/plugin/org.eclipse.debug.ui/icons/full/elcl16/terminate_co.gif" label="Terminate" mnemonic="Terminate" style="push" tooltip="Terminate PerfCake scenario execution">
          </command>
       </menuContribution>
    </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="org.perfclipse.ui.handlers.TerminateHandler"
-            description="Terminate PerfCake scenario execution"
-            id="org.perfclipse.ui.execution.terminate"
-            name="Terminate">
+   <extension point="org.eclipse.ui.commands">
+      <command defaultHandler="org.perfclipse.ui.handlers.TerminateHandler" description="Terminate PerfCake scenario execution" id="org.perfclipse.ui.execution.terminate" name="Terminate">
       </command>
    </extension>
-
 </plugin>

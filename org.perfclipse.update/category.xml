@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.perfclipse.feature_1.0.0.qualifier.jar" id="org.perfclipse.feature" version="1.0.0.qualifier">
+   <feature url="features/org.perfclipse.feature_3.3.0.qualifier.jar" id="org.perfclipse.feature" version="3.3.0.qualifier">
       <category name="org.perfcake"/>
    </feature>
    <category-def name="org.perfcake" label="PerfCake tools">
