@@ -2,7 +2,7 @@
 <feature
       id="org.perfclipse.feature"
       label="PerfClipse"
-      version="3.3.0.qualifier">
+      version="4.0.0.qualifier">
 
    <description url="http://www.example.com/description">
       Brings support for editing and running PerfCake scenarios into Eclipse.
