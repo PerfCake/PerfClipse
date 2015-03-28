@@ -12,7 +12,7 @@
    <properties>
       <timestamp>${maven.build.timestamp}</timestamp>
       <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-      <perfcake.version>3.3</perfcake.version>
+      <perfcake.version>4.0</perfcake.version>
       <perfcake.bundle.version>${perfcake.version}.0.${timestamp}</perfcake.bundle.version>
    </properties>
    <build>
@@ -30,9 +30,21 @@
                            <id>org.perfcake:perfcake:${perfcake.version}</id>
                            <instructions>
                               <Bundle-Version>${perfcake.bundle.version}</Bundle-Version>
-                              <Import-Package>!org.drools.*, !org.kie.*, !org.apache.commons.beanutils, *</Import-Package>
+                              <Import-Package>
+                              	!org.drools.*, !org.kie.*, !org.apache.commons.beanutils,
+                              	!com.sun.management, !sun.management,
+                                *
+                              </Import-Package>
                               <Require-Bundle>org.apache.commons.beanutils</Require-Bundle>
                            </instructions>
+                           <!--  JConsole dependecy must be excluded because p2-maven-plugin tries to build
+                           		 bundle in the directory where artifact resides. Unfortunatelly jconsole.jar
+                           		  is in the $JAVA_HOME (at least on linux) so only root can create files here
+                           		   => only root can build artifact. -->
+                           		   <!--  TODO: somehow pack jconsole into PerfClipse -->
+                           <excludes>
+                             <exclude> :jconsole:: </exclude>
+                           </excludes>
                         </artifact>
                         <!-- Drools dependencies (with scope provided, so they are not fetched) -->
                         <artifact>

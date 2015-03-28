@@ -241,8 +241,8 @@ public class PerfCakeLaunchDeleagate implements ILaunchConfigurationDelegate, IL
 		List<String> propertyNames;
 		List<String> propertyValues;
 		try {
-			propertyNames = configuration.getAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES_NAMES, new ArrayList<SystemProperty>());
-			propertyValues = configuration.getAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES_VALUES, new ArrayList<SystemProperty>());
+			propertyNames = configuration.getAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES_NAMES, new ArrayList<String>());
+			propertyValues = configuration.getAttribute(PerfCakeLaunchConstants.PERFCAKE_SYSTEM_PROPERTIES_VALUES, new ArrayList<String>());
 			if (propertyNames.size() != propertyValues.size())
 				throw new IllegalArgumentException("Properties names and values size are not same");
 			for (int i = 0; i < propertyNames.size(); i++){
