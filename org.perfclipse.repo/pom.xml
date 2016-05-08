@@ -24,31 +24,26 @@
                      <artifacts>
                         <artifact>
                            <id>org.perfcake:perfcake:${perfcake.version}</id>
+                           <transitive>true</transitive>
+                           <excludes>
+                               <!--Drools will be fetched from JBDS update site-->
+                               <exclude>org.drools*:*:</exclude>
+                               <exclude>org.kie*:*:</exclude>
+                               <!--Following dependencies are fetched from ORBIT-->
+                               <!--<exclude>org.apache.logging*::</exclude>-->
+                               <exclude>org.apache.camel*::</exclude>
+                               <exclude>org.apache.activemq**::</exclude>
+                               <exclude>commons-*:commons-*:</exclude>
+                               <exclude>org.slf4j*::</exclude>
+                           </excludes>
                            <instructions>
-                              <Bundle-Version>${perfcake.bundle.version}</Bundle-Version>
-                              <Import-Package>!org.drools.*, !org.kie.*, !org.apache.commons.beanutils, *</Import-Package>
-                              <Require-Bundle>org.apache.commons.beanutils</Require-Bundle>
+                               <Bundle-Version>${perfcake.bundle.version}</Bundle-Version>
+                               <!--This is evil (kie wouldn't be required by PerfCake which may cause ClassNotFound exception at runtime)-->
+                               <!--TODO(jknetl): fix that by embedding kie into bundle or not exclude kie from import packages-->
+                               <Import-Package>!org.kie.*, *</Import-Package>
+                               <Export-Package>*</Export-Package>
                            </instructions>
-                        </artifact>
-                        <!-- Drools dependencies (with scope provided, so they are not fetched) -->
-                        <artifact>
-                           <id>org.apache.servicemix.bundles:org.apache.servicemix.bundles.jaxb-xjc:2.2.6_1</id>
-                        </artifact>
-                        <artifact>
-                           <id>org.jvnet.sorcerer:sorcerer-javac:0.8</id>
-                        </artifact>
-                        <artifact>
-                           <id>com.google.protobuf:protobuf-java:2.5.0</id>
-                        </artifact>
-                        <artifact>
-                           <id>javax.xml:jaxp-api:1.4</id>
-                        </artifact>
-                        <artifact>
-                           <id>javax.xml:jaxb-api:2.1</id>
-                        </artifact>
-                        <artifact>
-                           <id>javax.websocket:javax.websocket-api:1.0</id>
-                        </artifact>
+                       </artifact>
                      </artifacts>
                   </configuration>
                </execution>
