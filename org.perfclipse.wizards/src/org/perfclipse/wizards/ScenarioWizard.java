@@ -95,11 +95,11 @@ public class ScenarioWizard extends Wizard implements INewWizard {
 
 		//Generator section
 		Scenario.Generator generator = factory.createScenarioGenerator();
-		Scenario.Generator.Run run = factory.createScenarioGeneratorRun();
+		Scenario.Run run = factory.createScenarioRun();
 		run.setType(generatorPage.getRunType());
 		run.setValue(String.valueOf(generatorPage.getRunValue()));
 		generator.setClazz(generatorPage.getGeneratorName());
-		generator.setRun(run);
+		scenario.setRun(run);
 		generator.setThreads(String.valueOf(generatorPage.getThreads()));
 		for (TableItem i : generatorPage.getPropertiesViewer().getTable().getItems()){
 			if (i.getData() instanceof PropertyModel){

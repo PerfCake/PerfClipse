@@ -37,13 +37,11 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 
 	private GeneratorPage generatorPage;
 	private GeneratorModel generator;
-	private RunModel run;
 
 	public GeneratorEditWizard(GeneratorModel generator) {
 		super("Edit Generator");
 		ModelMapper mapper = generator.getMapper();
 		this.generator = generator;
-		this.run = (RunModel) mapper.getModelContainer(generator.getGenerator().getRun());
 	}
 
 	@Override
@@ -55,15 +53,6 @@ public class GeneratorEditWizard extends AbstractPerfCakeEditWizard {
 				!(gen.getClazz().equals(generatorPage.getGeneratorName()))){
 			getCommand().add(new EditGeneratorTypeCommand(generator, generatorPage.getGeneratorName()));
 		}
-		if (gen.getRun().getType() == null ||
-				!(gen.getRun().getType().equals(generatorPage.getRunType()))){
-			getCommand().add(new EditRunTypeCommand(run, generatorPage.getRunType()));
-		}
-		if (gen.getRun().getValue() == null ||
-				!(gen.getRun().getValue().equals(generatorPage.getRunValue()))){
-			getCommand().add(new EditRunValue(run, generatorPage.getRunValue()));
-		}
-		
 		if (gen.getThreads() == null ||
 				!(gen.getThreads().equals(generatorPage.getThreads()))){
 			getCommand().add(new EditGeneratorThreadsCommand(generator, generatorPage.getThreads()));

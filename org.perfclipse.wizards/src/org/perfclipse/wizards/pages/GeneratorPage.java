@@ -243,11 +243,6 @@ public class GeneratorPage extends AbstractPerfCakePage {
 		if (generator.getGenerator().getClazz() != null)
 			ComboUtils.select(generatorTypeViewer, generator.getGenerator().getClazz());
 		
-		if (generator.getGenerator().getRun() != null)
-			ComboUtils.select(runTypeCombo, generator.getGenerator().getRun().getType());
-
-		if (generator.getGenerator().getRun().getValue() != null)
-			runValueText.setText(generator.getGenerator().getRun().getValue());
 		if (generator.getGenerator().getThreads() != null)
 			threadsText.setText(generator.getGenerator().getThreads());
 

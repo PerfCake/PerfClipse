@@ -114,10 +114,6 @@ public class GeneratorEditPart extends AbstractPerfCakeSectionEditPart implement
 	@Override
 	protected List<Object> getModelChildren(){
 		List<Object> modelChildren = new ArrayList<>();
-		ModelMapper mapper = getGeneratorModel().getMapper();
-		if (getGeneratorModel().getGenerator().getRun() != null)
-			modelChildren.add(mapper.getModelContainer(getGeneratorModel().getGenerator().getRun()));
-
 		return modelChildren;
 	}
 

@@ -34,6 +34,7 @@ import org.perfclipse.core.model.MessagesModel;
 import org.perfclipse.core.model.ModelMapper;
 import org.perfclipse.core.model.PropertiesModel;
 import org.perfclipse.core.model.ReportingModel;
+import org.perfclipse.core.model.RunModel;
 import org.perfclipse.core.model.ScenarioModel;
 import org.perfclipse.core.model.ValidationModel;
 import org.perfclipse.gef.PreferencesConstants;
@@ -97,6 +98,12 @@ public class ScenarioEditPart extends AbstractPerfCakeEditPart {
 			modelChildren.add(validation);
 		} else {
 			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getValidation()));
+		}
+		if (getScenarioModel().getScenario().getRun() == null){
+			RunModel run = new RunModel(getScenarioModel().getScenario().getRun(), mapper);
+			modelChildren.add(run);
+		} else{
+			modelChildren.add(mapper.getModelContainer(getScenarioModel().getScenario().getRun()));
 		}
 		
 		if (getScenarioModel().getScenario().getProperties() == null){
