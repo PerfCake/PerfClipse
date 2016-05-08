@@ -19,7 +19,7 @@
 
 package org.perfclipse.core.model;
 
-import org.perfcake.model.Scenario.Generator.Run;
+import org.perfcake.model.Scenario.Run;
 
 public class RunModel extends PerfClipseModel {
 	public static final String PROPERTY_TYPE = "run-type";

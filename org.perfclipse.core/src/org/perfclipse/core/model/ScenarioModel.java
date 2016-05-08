@@ -29,6 +29,7 @@ public class ScenarioModel extends PerfClipseModel {
 	public static final String PROPERTY_PROPERTIES = "scenario-properties";
 	public static final String PROPERTY_REPORTING = "scenario-reporting";
 	public static final String PROPERTY_VALIDATION = "scenario-validation";
+	public static final String PROPERTY_RUN = "scenario-run";
 	
 	
 	private Scenario scenario;
@@ -64,6 +65,12 @@ public class ScenarioModel extends PerfClipseModel {
 		Scenario.Generator oldGenerator = getScenario().getGenerator();
 		getScenario().setGenerator(generator);
 		getListeners().firePropertyChange(PROPERTY_GENERATOR, oldGenerator, generator);
+	}
+	
+	public void setRun(Scenario.Run run){
+		Scenario.Run oldRun = getScenario().getRun();
+		getScenario().setRun(run);
+		getListeners().firePropertyChange(PROPERTY_RUN, oldRun, run);
 	}
 	
 	public void setReporting(Scenario.Reporting reporting){

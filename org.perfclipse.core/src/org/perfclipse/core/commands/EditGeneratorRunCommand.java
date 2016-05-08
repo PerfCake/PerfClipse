@@ -20,8 +20,8 @@
 package org.perfclipse.core.commands;
 
 import org.eclipse.gef.commands.Command;
-import org.perfcake.model.Scenario.Generator.Run;
-import org.perfclipse.core.model.GeneratorModel;
+import org.perfcake.model.Scenario.Run;
+import org.perfclipse.core.model.ScenarioModel;
 
 /**
  * @author Jakub Knetl
@@ -29,24 +29,24 @@ import org.perfclipse.core.model.GeneratorModel;
  */
 public class EditGeneratorRunCommand extends Command {
 
-	private GeneratorModel generator;
+	private ScenarioModel scenario;
 	private Run run;
 	private Run oldRun;
 
-	public EditGeneratorRunCommand(GeneratorModel generator, Run run) {
-		super("Edit generator run");
-		this.generator = generator;
+	public EditGeneratorRunCommand(ScenarioModel scenario, Run run) {
+		super("Edit scenario run");
+		this.scenario = scenario;
 		this.run = run;
-		this.oldRun = generator.getGenerator().getRun();
+		this.oldRun = scenario.getScenario().getRun();
 	}
 
 	@Override
 	public void execute() {
-		generator.setRun(run);
+		scenario.setRun(run);
 	}
 
 	@Override
 	public void undo() {
-		generator.setRun(oldRun);
+		scenario.setRun(oldRun);
 	}
 }

@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario.Generator;
-import org.perfcake.model.Scenario.Generator.Run;
 
 public class GeneratorModel extends PerfClipseModel implements IPropertyContainer{
 	
@@ -65,12 +64,6 @@ public class GeneratorModel extends PerfClipseModel implements IPropertyContaine
 		getListeners().firePropertyChange(PROPERTY_CLASS, oldValue, value);
 	}
 
-	public void setRun(Run value) {
-		Run oldValue = getGenerator().getRun();
-		getGenerator().setRun(value);
-		getListeners().firePropertyChange(PROPERTY_RUN, oldValue, value);
-	}
-	
 	public void addProperty(Property newProperty){
 		addProperty(getGenerator().getProperty().size(), newProperty);
 	}

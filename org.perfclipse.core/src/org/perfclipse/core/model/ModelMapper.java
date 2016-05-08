@@ -26,7 +26,7 @@ import org.perfcake.model.Header;
 import org.perfcake.model.Property;
 import org.perfcake.model.Scenario;
 import org.perfcake.model.Scenario.Generator;
-import org.perfcake.model.Scenario.Generator.Run;
+import org.perfcake.model.Scenario.Run;
 import org.perfcake.model.Scenario.Messages;
 import org.perfcake.model.Scenario.Messages.Message;
 import org.perfcake.model.Scenario.Messages.Message.ValidatorRef;
