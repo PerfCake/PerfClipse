@@ -51,7 +51,7 @@ public class PerfCakeComponents {
 	
 	
 	private PerfCakeComponents() throws PerfClipseScannerException {
-		ComponentScanner scanner = new ComponentScanner(PerfClipseConstants.PERFCAKE_BUNDLE);
+		ComponentScanner scanner = new ComponentScanner();
 		senders = scanner.scanForComponent(PerfClipseConstants.PERFCAKE_SENDER_PACKAGE, AbstractSender.class);
 		generators = scanner.scanForComponent(PerfClipseConstants.PERFCAKE_GENERATOR_PACKAGE, AbstractMessageGenerator.class);
 		reporters = scanner.scanForComponent(PerfClipseConstants.PERFCAKE_REPORTER_PACKAGE, Reporter.class);

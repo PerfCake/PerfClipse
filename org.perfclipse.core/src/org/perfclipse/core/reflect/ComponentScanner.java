@@ -19,76 +19,80 @@
 
 package org.perfclipse.core.reflect;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Modifier;
-import java.net.URL;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
 import org.perfclipse.core.Activator;
 import org.perfclipse.core.logging.Logger;
 
+import java.io.IOException;
+import java.lang.reflect.Modifier;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+
 /**
- * ComponentScanner class is able to parse  bundle installed in eclipse
- * and find implementation of components (e. g. for PerfCake bundle it finds
- * Senders, Generators, ...)
- * 
+ *
+ * Component scanners scans PerfCake for usable components in the scenario.
+ *
  * @author Jakub Knetl
  */
 public class ComponentScanner {
-	
+
 	final static Logger log = Activator.getDefault().getLogger();
-	private String bundle;
-	
-	
-	public ComponentScanner(String bundle){
-		this.bundle = bundle;
-	}
-	
 
-
-	//TODO : remove duplicate information about type (both T and componentType)
-	public <T> Set<Class<? extends T>> scanForComponent(String packageName, Class<T> componentType) throws PerfClipseScannerException{
+	public <T> Set<Class<? extends T>> scanForComponent(String packageName, Class<T> componentType) throws PerfClipseScannerException {
 		Set<Class<? extends T>> classes = new HashSet<>();
 		String packagePath = "/" + packageName.replace(".", "/");
-		
-		Bundle bundle = Platform.getBundle(this.bundle);
-		URL bundleUrl = bundle.getEntry(packagePath);
-		URL pathUrl = null;
+
 		try {
-			pathUrl = FileLocator.toFileURL(bundleUrl);
-		} catch (IOException e) {
-			log.error("Cannot obtain URL to package", e);
-			throw new PerfClipseScannerException("Cannot obtain URL to package", e);
-		}
-		
-		File packageDir = new File(pathUrl.getFile());
-		
-		if (packageDir.exists()){
-			String[] files = packageDir.list();
-			for (String filename : files){
-				// TODO: if directory then recursion ???
-				Class<? extends T> component = getClassOfType(packageName + "." + filename, componentType);
-				if (component != null){
-					classes.add(component);
+			try (JarFile perfcakeJar = ReflectUtils.getPerfcakeLibrary()) {
+
+				Enumeration<JarEntry> entries = perfcakeJar.entries();
+				while (entries.hasMoreElements()) {
+					JarEntry entry = entries.nextElement();
+					if (entry.getName().startsWith(packagePath) && entry.getName().endsWith(".class")) {
+						String className = getClassName(entry.getName());
+						Class<? extends T> component = getClassOfType(packageName + "." + className, componentType);
+						if (component != null) {
+							classes.add(component);
+						}
+					}
 				}
 			}
+		} catch (IOException e) {
+			log.warn("Cannot inspect perfcake jar for components", e);
 		}
-		
 		return classes;
 	}
-	
-	private <T> Class<? extends T> getClassOfType(String path, Class<T> type) throws PerfClipseScannerException{
-		if (path.endsWith(".class")){
+
+	/**
+	 * Parses class name out of String with full path and suffix inside of jar. Example:
+	 *
+	 * <p>
+	 *	/org/mypackage/MyObject.class will be parsed to MyObject
+	 * </p>
+	 * @param name path inside of jar to the class
+	 * @return Class name or null if the class cannot be parsed
+	 */
+	private String getClassName(String name) {
+		int lastSlash = name.lastIndexOf('/');
+		int firstDot = name.indexOf('.');
+
+		String className = null;
+		if (lastSlash < firstDot){
+			className = name.substring(lastSlash + 1, firstDot);
+		}
+
+		return className;
+	}
+
+	private <T> Class<? extends T> getClassOfType(String path, Class<T> type) throws PerfClipseScannerException {
+		if (path.endsWith(".class")) {
 			//trim .class extension
-			path= path.substring(0, path.length() - 6);
+			path = path.substring(0, path.length() - 6);
 			Class<?> clazz = getClassFromPackage(path);
 			//if class is subclass of componentType
-			if (type.isAssignableFrom(clazz)){
+			if (type.isAssignableFrom(clazz)) {
 				// if class is not abstract
 				Class<? extends T> component = clazz.asSubclass(type);
 				if (!Modifier.isAbstract(clazz.getModifiers()))
@@ -96,15 +100,15 @@ public class ComponentScanner {
 			}
 		}
 		return null;
-		
+
 	}
-	
-	private Class<?> getClassFromPackage(String path) throws PerfClipseScannerException{
+
+	private Class<?> getClassFromPackage(String path) throws PerfClipseScannerException {
 		try {
 			Class<?> clazz = Class.forName(path);
 			return clazz;
 		} catch (ClassNotFoundException e) {
-			log.error("Cannot obtain class file for given file", e );
+			log.error("Cannot obtain class file for given file", e);
 			throw new PerfClipseScannerException("Cannot obtain class file for given file", e);
 		}
 	}

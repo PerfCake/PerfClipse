@@ -20,12 +20,11 @@
 package org.perfclipse.core;
 
 /**
- * @author kuba
+ * @author jknetl
  *
  */
 public class PerfClipseConstants {
 
-	public static final String PERFCAKE_BUNDLE = "org.perfcake";
 	public static final String PERFCAKE_XML_SCHEMA_PATH = "schemas/perfcake-scenario-6.0.xsd";
 	public static final String PERFCAKE_SENDER_PACKAGE = "org.perfcake.message.sender";
 	public static final String PERFCAKE_GENERATOR_PACKAGE = "org.perfcake.message.generator";
@@ -36,4 +35,5 @@ public class PerfClipseConstants {
 	public static final String SCENARIO_DIR_NAME = "scenarios";
 	public static final String MESSAGE_DIR_NAME = "messages";
 	public static final String PERFCLIPSE_STDOUT_CONSOLE = "Perfclipse standard output:";
+	public static final String PERFCKAGE_LIB_PATH = "/lib/perfcake-6.2.jar";
 }

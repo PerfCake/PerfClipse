@@ -1,19 +1,19 @@
 package org.perfclipse.core.reflect;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.osgi.framework.Bundle;
+import org.perfclipse.core.Activator;
+import org.perfclipse.core.PerfClipseConstants;
+
 import java.io.IOException;
 import java.net.URL;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
-import org.perfclipse.core.PerfClipseConstants;
 
 public class SchemaScanner {
 
 	public static URL getSchema() throws IOException{
-		Bundle bundle = Platform.getBundle(PerfClipseConstants.PERFCAKE_BUNDLE);
-		URL schemaURL = bundle.getEntry(PerfClipseConstants.PERFCAKE_XML_SCHEMA_PATH);
-		
-		return FileLocator.toFileURL(schemaURL);
+		Bundle bundle = Activator.getDefault().getBundle();
+		URL schemaUrl = bundle.getResource(PerfClipseConstants.PERFCAKE_XML_SCHEMA_PATH);
+		URL schemaFileUrl = FileLocator.toFileURL(schemaUrl);
+		return schemaFileUrl;
 	}
 }
