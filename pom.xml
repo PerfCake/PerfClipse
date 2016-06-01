@@ -17,7 +17,6 @@
       <module>org.perfclipse.ui</module>
       <module>org.perfclipse.feature</module>
       <module>org.perfclipse.update</module>
-      <module>org.perfclipse.log4j</module>
       <module>org.perfclipse.wizards</module>
    </modules>
    <properties>

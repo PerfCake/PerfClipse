@@ -1,14 +1,5 @@
 package org.perfclipse.ui.launching;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-
-import org.apache.log4j.Appender;
-import org.apache.log4j.ConsoleAppender;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -23,10 +14,17 @@ import org.perfclipse.core.scenario.ScenarioException;
 import org.perfclipse.core.scenario.ScenarioManager;
 import org.perfclipse.ui.Activator;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+
 final public class PerfCakeRunJob extends Job{
-	
+
 	static final Logger log = Activator.getDefault().getLogger();
-	
+
 
 	private static final long CHECK_INTERVAL = 500;
 	private IFile file;
@@ -35,7 +33,7 @@ final public class PerfCakeRunJob extends Job{
 	private List<SystemProperty> properties;
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param file
 	 * @param console
@@ -49,21 +47,21 @@ final public class PerfCakeRunJob extends Job{
 		}
 		if (console == null){
 			log.warn("Console for scenario run  output is null.");
-			throw new IllegalArgumentException("Console for scenario run output is null."); 
-		} 
+			throw new IllegalArgumentException("Console for scenario run output is null.");
+		}
 		this.file = file;
 		this.console = console;
 		this.properties = sysProperties;
 		errorStream = console.newMessageStream();
 	}
 
-	
+
 	@Override
 	public boolean belongsTo(Object family) {
 		if (PerfCakeLaunchConstants.PERFCAKE_RUN_JOB_FAMILY.equals(family)){
-			return true;	
+			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -75,21 +73,8 @@ final public class PerfCakeRunJob extends Job{
 		OutputStream out = console.newOutputStream();
 		PrintStream standardOut = System.out;
 		System.setOut(new PrintStream(out));
-		
-		//Add appender for Log4j to eclipse console
-		org.apache.log4j.Logger rootLogger = org.apache.log4j.Logger.getRootLogger();
 
-		Appender appender = rootLogger.getAppender("CONSOLE");
-		if (appender instanceof ConsoleAppender){
-			ConsoleAppender consoleAppender = (ConsoleAppender) rootLogger.getAppender("CONSOLE");
-			consoleAppender.activateOptions();
-		} else{
-			log.warn("Cannot obtain PerfCake console logger. Output will not be redirected to Eclipse console");
-		}
-		
-
-
-		//set message and scenario paths for PerfCake 
+		//set message and scenario paths for PerfCake
 		IFolder messageDir = file.getProject().getFolder("messages");
 		IFolder scenarioDir = file.getProject().getFolder("scenarios");
 		System.setProperty(PerfCakeConst.MESSAGES_DIR_PROPERTY, messageDir.getRawLocation().toString());
@@ -124,12 +109,12 @@ final public class PerfCakeRunJob extends Job{
 		}
 		return Status.OK_STATUS;
 	}
-	
+
 	final class PerfCakeRun implements Runnable{
 
 		private ScenarioManager manager;
 		private URL scenarioURL;
-		
+
 		public PerfCakeRun(ScenarioManager manager, URL scenarioURL) {
 			super();
 			this.manager = manager;

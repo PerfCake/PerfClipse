@@ -20,4 +20,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gef;bundle-version="3.9.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
-Import-Package: org.apache.log4j
+Import-Package: org.eclipse.core.resources
