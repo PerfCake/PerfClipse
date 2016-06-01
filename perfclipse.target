@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target name="Target platform for PerfClipse" sequenceNumber="13">
+<locations>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.wst.xml_ui.feature.feature.group" version="3.7.2.v201511240257"/>
+<unit id="org.eclipse.gef.sdk.feature.group" version="3.10.1.201508170204"/>
+<repository location="http://download.eclipse.org/releases/mars/"/>
+</location>
+</locations>
+<environment>
+<os>linux</os>
+<ws>gtk</ws>
+<arch>x86_64</arch>
+<nl>en_US</nl>
+</environment>
+<launcherArgs>
+<vmArgs>-Dosgi.requiredJavaVersion=1.7 -XX:MaxPermSize=256m -Xms512m -Xmx2048m</vmArgs>
+</launcherArgs>
+</target>
