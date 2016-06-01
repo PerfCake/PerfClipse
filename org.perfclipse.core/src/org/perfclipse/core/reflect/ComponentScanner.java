@@ -1,6 +1,6 @@
 /*
  * PerfClispe
- * 
+ *
  *
  * Copyright (c) 2014 Jakub Knetl
  *
@@ -42,20 +42,18 @@ public class ComponentScanner {
 
 	public <T> Set<Class<? extends T>> scanForComponent(String packageName, Class<T> componentType) throws PerfClipseScannerException {
 		Set<Class<? extends T>> classes = new HashSet<>();
-		String packagePath = "/" + packageName.replace(".", "/");
+		String packagePath = packageName.replace(".", "/");
 
-		try {
-			try (JarFile perfcakeJar = ReflectUtils.getPerfcakeLibrary()) {
+		try (JarFile perfcakeJar = ReflectUtils.getPerfcakeLibrary()) {
 
-				Enumeration<JarEntry> entries = perfcakeJar.entries();
-				while (entries.hasMoreElements()) {
-					JarEntry entry = entries.nextElement();
-					if (entry.getName().startsWith(packagePath) && entry.getName().endsWith(".class")) {
-						String className = getClassName(entry.getName());
-						Class<? extends T> component = getClassOfType(packageName + "." + className, componentType);
-						if (component != null) {
-							classes.add(component);
-						}
+			Enumeration<JarEntry> entries = perfcakeJar.entries();
+			while (entries.hasMoreElements()) {
+				JarEntry entry = entries.nextElement();
+				if (entry.getName().startsWith(packagePath) && entry.getName().endsWith(".class")) {
+					String className = pathToFullyQualifiedName(entry.getName());
+					Class<? extends T> component = getClassOfType(className, componentType);
+					if (component != null) {
+						classes.add(component);
 					}
 				}
 			}
@@ -69,35 +67,35 @@ public class ComponentScanner {
 	 * Parses class name out of String with full path and suffix inside of jar. Example:
 	 *
 	 * <p>
-	 *	/org/mypackage/MyObject.class will be parsed to MyObject
+	 *	/org/mypackage/MyObject.class will be parsed to org.mypackage.MyObject
 	 * </p>
 	 * @param name path inside of jar to the class
-	 * @return Class name or null if the class cannot be parsed
+	 * @return fully qualified class name or null if the class cannot be parsed
 	 */
-	private String getClassName(String name) {
-		int lastSlash = name.lastIndexOf('/');
-		int firstDot = name.indexOf('.');
-
-		String className = null;
-		if (lastSlash < firstDot){
-			className = name.substring(lastSlash + 1, firstDot);
+	private String pathToFullyQualifiedName(String name) {
+		//remove leading slash
+		if (name.length() > 0 && '/' == name.charAt(0)) {
+			name = name.substring(1);
 		}
+		//remove .class extenstion
+		int firstDot = name.indexOf('.');
+		if (firstDot > 0){
+			name = name.substring(0, firstDot);
+		}
+
+		String className = name.replace("/", ".");
 
 		return className;
 	}
 
 	private <T> Class<? extends T> getClassOfType(String path, Class<T> type) throws PerfClipseScannerException {
-		if (path.endsWith(".class")) {
-			//trim .class extension
-			path = path.substring(0, path.length() - 6);
-			Class<?> clazz = getClassFromPackage(path);
-			//if class is subclass of componentType
-			if (type.isAssignableFrom(clazz)) {
-				// if class is not abstract
-				Class<? extends T> component = clazz.asSubclass(type);
-				if (!Modifier.isAbstract(clazz.getModifiers()))
-					return component;
-			}
+		Class<?> clazz = getClassFromPackage(path);
+		//if class is subclass of componentType
+		if (type.isAssignableFrom(clazz)) {
+			// if class is not abstract
+			Class<? extends T> component = clazz.asSubclass(type);
+			if (!Modifier.isAbstract(clazz.getModifiers()))
+				return component;
 		}
 		return null;
 
